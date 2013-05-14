@@ -1,7 +1,7 @@
 package org.kie.examples.cdi.basic
 
 import java.util.List
-import org.kie.examples.cdi.model.TestFactDeclaredInJar
+import org.drools.jboss.integration.model.TestFactDeclaredInJar
 
 global List resultList
 
@@ -21,4 +21,5 @@ when
     matchedFact: TestFactDeclaredInJar()
 then
     resultList.add(matchedFact);
+    insert(new TestFactDeclaredInDrl());
 end

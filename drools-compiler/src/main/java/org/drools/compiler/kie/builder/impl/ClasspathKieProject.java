@@ -20,6 +20,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Enumeration;
@@ -254,6 +255,10 @@ public class ClasspathKieProject extends AbstractKieProject {
                 urlPath = urlPath.substring( 0,
                                              urlPath.indexOf( '!' ) );
             }
+        } else if ( "vfs".equals( urlType ) ) {
+            urlPath = getPathForVFS(url);
+            urlPath = urlPath.substring( 0,
+                                         urlPath.length() - ("/" + KieModuleModelImpl.KMODULE_JAR_PATH).length() );
         } else {
             urlPath = urlPath.substring( 0,
                                          urlPath.length() - ("/" + KieModuleModelImpl.KMODULE_JAR_PATH).length() );
@@ -276,6 +281,22 @@ public class ClasspathKieProject extends AbstractKieProject {
         log.debug( "KieModule URL type=" + urlType + " url=" + urlPath );
 
         return urlPath;
+    }
+
+    private static String getPathForVFS(URL url) {
+        Method m = null;
+        try {
+            m = Class.forName("org.jboss.vfs.VirtualFile").getMethod("getPhysicalFile");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            Object content = url.openConnection().getContent();
+            File f = (File)m.invoke(content);
+            return f.getPath();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public InternalKieModule getKieModuleForKBase(String kBaseName) {

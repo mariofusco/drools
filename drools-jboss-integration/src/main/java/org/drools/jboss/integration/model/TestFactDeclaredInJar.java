@@ -1,4 +1,4 @@
-package org.kie.examples.cdi.model;
+package org.drools.jboss.integration.model;
 
 /**
  * Dummy fact used for testing usage of facts declared as a java class and
