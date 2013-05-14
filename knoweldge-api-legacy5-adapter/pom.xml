@@ -9,7 +9,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>knowledge-api</artifactId>
+  <artifactId>knowledge-api-legacy5-adapter</artifactId>
 
   <name>Knowledge API Legacy5 Adapter</name>
   <description>The adaption layer between the old drools-api to the new kie implementations</description>

@@ -1,0 +1,24 @@
+package org.kie.examples.cdi.basic
+
+import java.util.List
+import org.kie.examples.cdi.model.TestFactDeclaredInJar
+
+global List resultList
+
+declare TestFactDeclaredInDrl
+    name: String
+end
+
+rule "Rule testing DRL fact"
+when
+    matchedFact: TestFactDeclaredInDrl()
+then
+    resultList.add(matchedFact);
+end
+
+rule "Rule testing jar fact"
+when
+    matchedFact: TestFactDeclaredInJar()
+then
+    resultList.add(matchedFact);
+end

@@ -61,6 +61,7 @@
     <module>drools-examples-cdi</module>
     <module>drools-workbench-models</module>
     <module>knoweldge-api-legacy5-adapter</module>
+    <module>drools-jboss-integration</module>
   </modules>
 
   <profiles>
