@@ -36,11 +36,13 @@
 
     <dependency>
       <groupId>org.drools</groupId>
-      <artifactId>drools-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.drools</groupId>
       <artifactId>drools-compiler</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
@@ -69,6 +71,9 @@
   <profiles>
     <profile>
       <id>arquillian-weld-ee-embedded</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <dependencies>
         <dependency>
           <groupId>org.jboss.spec</groupId>
@@ -100,9 +105,6 @@
 
     <profile>
       <id>arquillian-jbossas-managed</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
       <dependencies>
         <dependency>
           <groupId>org.jboss.spec</groupId>
@@ -121,6 +123,48 @@
           <groupId>org.jboss.arquillian.protocol</groupId>
           <artifactId>arquillian-protocol-servlet</artifactId>
           <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <profile>
+      <id>arquillian-glassfish-embedded</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.arquillian.container</groupId>
+          <artifactId>arquillian-glassfish-embedded-3.1</artifactId>
+          <version>1.0.0.CR3</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.glassfish.main.extras</groupId>
+          <artifactId>glassfish-embedded-all</artifactId>
+          <version>3.1.2</version>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <profile>
+      <id>arquillian-glassfish-managed</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.jboss.arquillian.container</groupId>
+          <artifactId>arquillian-glassfish-managed-3.1</artifactId>
+          <version>1.0.0.CR3</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.glassfish.main.extras</groupId>
+          <artifactId>glassfish-embedded-all</artifactId>
+          <version>3.1.2</version>
+          <scope>provided</scope>
+        </dependency>
+        <dependency>
+          <groupId>javax</groupId>
+          <artifactId>javaee-api</artifactId>
+          <version>6.0</version>
+          <scope>provided</scope>
         </dependency>
       </dependencies>
     </profile>
