@@ -692,7 +692,8 @@ public class StatefulKnowledgeSessionImpl extends AbstractRuntime
                                                                          null , initialFactHandle, defaultEntryPoint.getEntryPoint(),
                                                                          context );
 
-        otc.getConcreteObjectTypeNode().assertObject(this.initialFactHandle, pctx, this );
+        otc.getConcreteObjectTypeNode().assertObject(this.initialFactHandle, pctx, this);
+        pctx.setFullyPropagated();
     }
 
     private void initManagementBeans() {
@@ -847,7 +848,7 @@ public class StatefulKnowledgeSessionImpl extends AbstractRuntime
         List<PathMemory> pmems =  lmem.getSegmentMemory().getPathMemories();
         for ( int i = 0, length = pmems.size(); i < length; i++ ) {
             PathMemory rm = pmems.get( i );
-            RuleAgendaItem evaluator = agenda.createRuleAgendaItem(Integer.MAX_VALUE, rm, (TerminalNode) rm.getNetworkNode());
+            RuleAgendaItem evaluator = agenda.createRuleAgendaItem(Integer.MAX_VALUE, rm, (TerminalNode) rm.getNetworkNode(), null);
             evaluator.getRuleExecutor().setDirty(true);
             evaluator.getRuleExecutor().evaluateNetworkAndFire(this, null, 0, -1);
         }
@@ -876,7 +877,7 @@ public class StatefulKnowledgeSessionImpl extends AbstractRuntime
             for ( int i = 0, length = pmems.size(); i < length; i++ ) {
                 PathMemory rm = pmems.get( i );
 
-                RuleAgendaItem evaluator = agenda.createRuleAgendaItem(Integer.MAX_VALUE, rm, (TerminalNode) rm.getNetworkNode());
+                RuleAgendaItem evaluator = agenda.createRuleAgendaItem(Integer.MAX_VALUE, rm, (TerminalNode) rm.getNetworkNode(), pCtx);
                 evaluator.getRuleExecutor().setDirty(true);
                 evaluator.getRuleExecutor().evaluateNetworkAndFire(this, null, 0, -1);
             }
@@ -1771,6 +1772,8 @@ public class StatefulKnowledgeSessionImpl extends AbstractRuntime
                 this.node.retractObject(factHandle,
                                         context,
                                         workingMemory);
+
+                context.setFullyPropagated();
 
                 context.evaluateActionQueue(workingMemory);
                 // if no activations for this expired event

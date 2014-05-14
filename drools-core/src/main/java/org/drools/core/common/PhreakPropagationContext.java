@@ -16,7 +16,6 @@
 
 package org.drools.core.common;
 
-import org.kie.api.runtime.rule.FactHandle;
 import org.drools.core.base.ClassObjectType;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.definitions.rule.impl.RuleImpl;
@@ -28,6 +27,7 @@ import org.drools.core.rule.TypeDeclaration;
 import org.drools.core.spi.ObjectType;
 import org.drools.core.spi.PropagationContext;
 import org.drools.core.util.BitMaskUtil;
+import org.kie.api.runtime.rule.FactHandle;
 
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -65,6 +65,8 @@ public class PhreakPropagationContext
     private Class<?>                        modifiedClass;
 
     private ObjectType                      objectType;
+
+    private volatile boolean                fullyPropagated = false;
 
     // this field is only set for propagations happening during
     // the deserialization of a session
@@ -369,6 +371,14 @@ public class PhreakPropagationContext
         return this.readerContext;
     }
 
+    public boolean isFullyPropagated() {
+        return fullyPropagated;
+    }
+
+    public synchronized void setFullyPropagated() {
+        this.fullyPropagated = true;
+        this.notifyAll();
+    }
 
     public static String intEnumToString(PropagationContext pctx) {
         String pctxType = null;

@@ -304,7 +304,7 @@ public class AddRemoveRule {
              newPmem.getSegmentMemories()[sm.getPos()] = sm;
              sm.getPathMemories().add( newPmem );
 
-             sm.notifyRuleLinkSegment(wm);
+             sm.notifyRuleLinkSegment(wm, null);
          }
      }
 
@@ -313,7 +313,7 @@ public class AddRemoveRule {
          if ( p == 0 ) {
              // only handle for the first PathMemory, all others are shared and duplicate until this point
              sm.getPathMemories().remove(removedPmem);
-             sm.notifyRuleLinkSegment(wm);
+             sm.notifyRuleLinkSegment(wm, null);
          }
      }
 
@@ -333,8 +333,8 @@ public class AddRemoveRule {
              sm.getPathMemories().add( newPmem );
              splitSmem.getPathMemories().add( newPmem );
 
-             sm.notifyRuleLinkSegment(wm);
-             splitSmem.notifyRuleLinkSegment(wm);
+             sm.notifyRuleLinkSegment(wm, null);
+             splitSmem.notifyRuleLinkSegment(wm, null);
 
              initNewSegment(splitStartLeftTupleSource, wm, sm);
          } else {
@@ -389,7 +389,7 @@ public class AddRemoveRule {
              sm1.getPathMemories().remove(removedPmem);
              sm1.remove( removedPmem.getSegmentMemories()[sm1.getPos()+1]);
 
-             sm1.notifyRuleLinkSegment(wm);
+             sm1.notifyRuleLinkSegment(wm, null);
          } else {
              pmem.getSegmentMemories()[sm1.getPos()] = sm1;
          }
@@ -399,7 +399,7 @@ public class AddRemoveRule {
          if ( sm.getPos() == i ) {
              // segment has not yet had it's pos and bitmasks updated
              correctSegmentMemoryAfterSplitOnAdd(sm);
-             sm.notifyRuleLinkSegment(wm);
+             sm.notifyRuleLinkSegment(wm, null);
          }
          pmem.getSegmentMemories()[sm.getPos()] = sm;
      }
@@ -408,7 +408,7 @@ public class AddRemoveRule {
          if ( sm.getPos() == i ) {
              // segment has not yet had it's pos and bitmasks updated
              correctSegmentMemoryAfterSplitOnRemove(sm);
-             sm.notifyRuleLinkSegment(wm);
+             sm.notifyRuleLinkSegment(wm, null);
          }
          pmem.getSegmentMemories()[sm.getPos()] = sm;
      }

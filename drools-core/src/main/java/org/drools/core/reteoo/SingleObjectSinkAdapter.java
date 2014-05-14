@@ -79,11 +79,11 @@ public class SingleObjectSinkAdapter extends AbstractObjectSinkAdapter {
         sink.byPassModifyToBetaNode( factHandle, modifyPreviousTuples, context, workingMemory );
     }
     
-    public void  doLinkRiaNode(InternalWorkingMemory wm) {
-        staticDoLinkRiaNode( sink, wm );
+    public void  doLinkRiaNode(InternalWorkingMemory wm, PropagationContext pctx) {
+        staticDoLinkRiaNode( sink, wm, pctx );
     }
     
-    public static void staticDoLinkRiaNode(ObjectSink sink, InternalWorkingMemory wm) {
+    public static void staticDoLinkRiaNode(ObjectSink sink, InternalWorkingMemory wm, PropagationContext pctx) {
         BetaMemory bm;
         if ( sink.getType() == NodeTypeEnums.AccumulateNode ) {
             AccumulateNode accnode = ( AccumulateNode ) sink;
@@ -97,18 +97,18 @@ public class SingleObjectSinkAdapter extends AbstractObjectSinkAdapter {
         }
 
         if ( bm.getRightTupleMemory().size() == 0 && bm.getStagedRightTuples().isEmpty() ) {
-            bm.linkNode( wm );
+            bm.linkNode( wm, pctx );
         } else if (  bm.getStagedRightTuples().isEmpty() ) {
-            bm.setNodeDirty(wm);
+            bm.setNodeDirty(wm, pctx);
         }
 
     }
     
-    public void  doUnlinkRiaNode( InternalWorkingMemory wm) {
-        staticDoUnlinkRiaNode( sink, wm );
+    public void  doUnlinkRiaNode( InternalWorkingMemory wm, PropagationContext pctx) {
+        staticDoUnlinkRiaNode( sink, wm, pctx );
     }   
     
-    public static void staticDoUnlinkRiaNode(ObjectSink sink,  InternalWorkingMemory wm) {
+    public static void staticDoUnlinkRiaNode(ObjectSink sink, InternalWorkingMemory wm, PropagationContext pctx) {
         BetaMemory bm;
         if ( sink.getType() == NodeTypeEnums.AccumulateNode ) {
             AccumulateNode accnode = ( AccumulateNode ) sink;
@@ -120,7 +120,7 @@ public class SingleObjectSinkAdapter extends AbstractObjectSinkAdapter {
         } else {
             throw new RuntimeException( "Should not be possible to have link into a node of type" + sink);
         }        
-        bm.unlinkNode( wm );
+        bm.unlinkNode( wm, pctx );
     }
 
     public BaseNode getMatchingNode(BaseNode candidate) {

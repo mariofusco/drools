@@ -16,11 +16,6 @@
 
 package org.drools.core.rule;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-
 import org.drools.core.common.EventFactHandle;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.common.InternalWorkingMemory;
@@ -28,6 +23,11 @@ import org.drools.core.common.PropagationContextFactory;
 import org.drools.core.reteoo.ObjectTypeNode;
 import org.drools.core.reteoo.WindowNode.WindowMemory;
 import org.drools.core.spi.PropagationContext;
+
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
  * A length window behavior implementation
@@ -110,6 +110,7 @@ public class SlidingLengthWindow
             final PropagationContext expiresPctx = pctxFactory.createPropagationContext(pctx.getPropagationNumber(), PropagationContext.EXPIRATION,
                                                                                         null, null, previous);
             ObjectTypeNode.doRetractObject( previous, expiresPctx, workingMemory);
+            expiresPctx.setFullyPropagated();
             expiresPctx.evaluateActionQueue( workingMemory );
         }
         window.handles[window.pos] = (EventFactHandle) handle;

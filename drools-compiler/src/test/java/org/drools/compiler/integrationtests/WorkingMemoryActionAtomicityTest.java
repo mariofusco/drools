@@ -3,7 +3,6 @@ package org.drools.compiler.integrationtests;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.api.event.rule.AfterMatchFiredEvent;
 import org.kie.api.event.rule.DefaultAgendaEventListener;
@@ -23,16 +22,12 @@ import java.util.Map;
 
 import static org.junit.Assert.fail;
 
-@Ignore
-public class WorkingMemoryActionsSerializationTest {
+public class WorkingMemoryActionAtomicityTest {
     private static final List<String> RULES = Arrays.asList("enableRecording", "saveRecord", "processEvent", "ignoreEvent"); //rules expected to be executed
     private StatefulKnowledgeSession ksession;
     private KnowledgeBase kbase;
 
     private final Map<String, Integer> ruleCalls = new HashMap<String, Integer>();
-
-    //private final String accessor = "getEventName()";
-    private final String accessor = "eventName";
 
     private final String drl =
                "package apackage\n" +
@@ -62,7 +57,7 @@ public class WorkingMemoryActionsSerializationTest {
                "rule \"ignoreEvent\"\n" +
                "  salience 40\n" +
                "when\n" +
-               "  $discardCardEvent2 : AnEvent(" + accessor + " == \"discardCardIrr\") from entry-point \"game stream\"\n" +
+               "  $discardCardEvent2 : AnEvent(eventName == \"discardCardIrr\") from entry-point \"game stream\"\n" +
                "then\n" +
                "  retract($discardCardEvent2);\n" +
                "  //This rule is intended to remove the event and ignore it\n" +
@@ -71,7 +66,7 @@ public class WorkingMemoryActionsSerializationTest {
                "\n" +
                "rule \"processEvent\"\n" +
                "when\n" +
-               "  $discardCardEvent : AnEvent(" + accessor + " == \"discardCard\") from entry-point \"game stream\"\n" +
+               "  $discardCardEvent : AnEvent(eventName == \"discardCard\") from entry-point \"game stream\"\n" +
                "then\n" +
                "  retract($discardCardEvent);\n" +
                "  //side effects go here\n" +

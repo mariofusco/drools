@@ -16,6 +16,24 @@
 
 package org.drools.core.reteoo;
 
+import org.drools.core.RuleBaseConfiguration;
+import org.drools.core.common.BetaConstraints;
+import org.drools.core.common.InternalFactHandle;
+import org.drools.core.common.InternalWorkingMemory;
+import org.drools.core.common.Memory;
+import org.drools.core.common.WorkingMemoryAction;
+import org.drools.core.marshalling.impl.PersisterHelper;
+import org.drools.core.marshalling.impl.ProtobufInputMarshaller;
+import org.drools.core.marshalling.impl.ProtobufInputMarshaller.TupleKey;
+import org.drools.core.marshalling.impl.ProtobufMessages;
+import org.drools.core.marshalling.impl.ProtobufMessages.FactHandle;
+import org.drools.core.reteoo.builder.BuildContext;
+import org.drools.core.rule.Accumulate;
+import org.drools.core.rule.ContextEntry;
+import org.drools.core.spi.AlphaNodeFieldConstraint;
+import org.drools.core.spi.PropagationContext;
+import org.drools.core.util.AbstractBaseLinkedListNode;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -23,26 +41,6 @@ import java.io.ObjectOutput;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Map;
-
-import org.drools.core.RuleBaseConfiguration;
-import org.drools.core.common.BetaConstraints;
-import org.drools.core.common.InternalFactHandle;
-import org.drools.core.common.InternalWorkingMemory;
-import org.drools.core.common.Memory;
-import org.drools.core.common.WorkingMemoryAction;
-import org.drools.core.marshalling.impl.ProtobufInputMarshaller.TupleKey;
-import org.drools.core.marshalling.impl.ProtobufMessages.FactHandle;
-import org.drools.core.util.AbstractBaseLinkedListNode;
-import org.drools.core.marshalling.impl.PersisterHelper;
-import org.drools.core.marshalling.impl.ProtobufInputMarshaller;
-import org.drools.core.marshalling.impl.ProtobufMessages;
-import org.drools.core.reteoo.builder.BuildContext;
-import org.drools.core.rule.Accumulate;
-import org.drools.core.rule.ContextEntry;
-import org.drools.core.spi.AlphaNodeFieldConstraint;
-import org.drools.core.spi.PropagationContext;
-
-import static org.drools.core.util.BitMaskUtil.intersect;
 
 /**
  * AccumulateNode
@@ -345,7 +343,7 @@ public class AccumulateNode extends BetaNode {
 
         BetaMemory bm = memory.getBetaMemory();
         rightTuple.setPropagationContext( pctx );
-        doDeleteRightTuple( rightTuple, workingMemory, bm );
+        doDeleteRightTuple( rightTuple, workingMemory, bm, pctx );
     }
 
     @Override

@@ -72,7 +72,9 @@ public class RetePropagationContext
 
     private ObjectType                      objectType;
 
-    // this field is only set for propagations happening during 
+    private volatile boolean                fullyPropagated = false;
+
+    // this field is only set for propagations happening during
     // the deserialization of a session
     private transient MarshallerReaderContext readerContext;
 
@@ -424,6 +426,13 @@ public class RetePropagationContext
         return this.readerContext;
     }
 
+    public boolean isFullyPropagated() {
+        return fullyPropagated;
+    }
+
+    public void setFullyPropagated() {
+        this.fullyPropagated = true;
+    }
 
     public static String intEnumToString(PropagationContext pctx) {
         String pctxType = null;

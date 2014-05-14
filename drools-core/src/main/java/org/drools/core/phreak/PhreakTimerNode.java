@@ -1,16 +1,11 @@
 package org.drools.core.phreak;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.common.LeftTupleSets;
 import org.drools.core.common.LeftTupleSetsImpl;
 import org.drools.core.common.NetworkNode;
+import org.drools.core.common.PropagationContextFactory;
 import org.drools.core.common.TimedRuleExecution;
-import org.kie.api.runtime.conf.TimedRuleExecutionFilter;
 import org.drools.core.marshalling.impl.MarshallerReaderContext;
 import org.drools.core.marshalling.impl.MarshallerWriteContext;
 import org.drools.core.marshalling.impl.PersisterHelper;
@@ -41,10 +36,16 @@ import org.drools.core.util.LinkedList;
 import org.drools.core.util.index.LeftTupleList;
 import org.kie.api.definition.rule.Rule;
 import org.kie.api.runtime.Calendars;
+import org.kie.api.runtime.conf.TimedRuleExecutionFilter;
 import org.kie.api.runtime.rule.PropagationContext;
 import org.kie.internal.concurrent.ExecutorProviderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 
 public class PhreakTimerNode {
     private static final Logger log = LoggerFactory.getLogger( PhreakTimerNode.class );
@@ -180,7 +181,7 @@ public class PhreakTimerNode {
                         // a expire clashes with insert or update, allow it to propagate once, will handle the expire the second time around
                         doPropagateChildLeftTuple( sink, trgLeftTuples, stagedLeftTuples, leftTuple, tm );
                         tm.getDeleteLeftTuples().add( leftTuple );
-                        pmem.doLinkRule( wm ); // make sure it's dirty, so it'll evaluate again
+                        pmem.doLinkRule( wm, pctx ); // make sure it's dirty, so it'll evaluate again
                         if ( log.isTraceEnabled() ) {
                             log.trace( "Timer Postponed Delete {}", leftTuple );
                         }
@@ -407,8 +408,15 @@ public class PhreakTimerNode {
 
             timerJobCtx.getTimerNodeMemory().setNodeDirtyWithoutNotify();
 
+            PropagationContextFactory pctxFactory = timerJobCtx.getWorkingMemory().getKnowledgeBase().getConfiguration().getComponentFactory().getPropagationContextFactory();
+
+            // if the fact is still in the working memory (since it may have been previously retracted already
+            final org.drools.core.spi.PropagationContext context = pctxFactory.createPropagationContext(timerJobCtx.getWorkingMemory().getNextPropagationIdCounter(),
+                                                                                                        PropagationContext.INSERTION,
+                                                                                                        null, null, null);
+
             for (final PathMemory pmem : timerJobCtx.getPathMemories()) {
-                pmem.doLinkRule( timerJobCtx.getWorkingMemory() );
+                pmem.doLinkRule( timerJobCtx.getWorkingMemory(), context );
 
                 pmem.queueRuleAgendaItem(timerJobCtx.getWorkingMemory());
                 final TimedRuleExecutionFilter filter = timerJobCtx.getWorkingMemory().getSessionConfiguration().getTimedRuleExecutionFilter();
@@ -426,6 +434,8 @@ public class PhreakTimerNode {
                     });
                 }
             }
+
+            context.setFullyPropagated();
         }
     }
 

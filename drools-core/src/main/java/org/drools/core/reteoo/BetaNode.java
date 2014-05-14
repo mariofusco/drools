@@ -16,19 +16,6 @@
 
 package org.drools.core.reteoo;
 
-import static org.drools.core.reteoo.PropertySpecificUtil.calculateNegativeMask;
-import static org.drools.core.reteoo.PropertySpecificUtil.calculatePositiveMask;
-import static org.drools.core.reteoo.PropertySpecificUtil.getSettableProperties;
-import static org.drools.core.reteoo.PropertySpecificUtil.isPropertyReactive;
-import static org.drools.core.util.BitMaskUtil.intersect;
-import static org.drools.core.util.ClassUtils.areNullSafeEquals;
-
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.drools.core.RuleBaseConfiguration;
 import org.drools.core.base.ClassObjectType;
 import org.drools.core.common.BetaConstraints;
@@ -62,6 +49,16 @@ import org.drools.core.util.FastIterator;
 import org.drools.core.util.index.IndexUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.drools.core.reteoo.PropertySpecificUtil.*;
+import static org.drools.core.util.BitMaskUtil.intersect;
+import static org.drools.core.util.ClassUtils.areNullSafeEquals;
 
 public abstract class BetaNode extends LeftTupleSource
         implements
@@ -305,9 +302,9 @@ public abstract class BetaNode extends LeftTupleSource
             log.trace("BetaNode insert={} stagedInsertWasEmpty={}",  memory.getStagedRightTuples().insertSize(), stagedInsertWasEmpty );
         }
         if ( memory.getAndIncCounter() == 0 ) {
-            memory.linkNode(wm);
+            memory.linkNode( wm, pctx );
         } else if ( stagedInsertWasEmpty ) {
-            memory.setNodeDirty( wm );
+            memory.setNodeDirty( wm, pctx );
         }
 
         if( pctx.getReaderContext() != null ) {
@@ -329,7 +326,7 @@ public abstract class BetaNode extends LeftTupleSource
             // we skipped this node, due to alpha hashing, so retract now
             rightTuple.setPropagationContext( context );
             BetaMemory bm  = getBetaMemory( (BetaNode) rightTuple.getRightTupleSink(), wm );
-            (( BetaNode ) rightTuple.getRightTupleSink()).doDeleteRightTuple( rightTuple, wm, bm );
+            (( BetaNode ) rightTuple.getRightTupleSink()).doDeleteRightTuple( rightTuple, wm, bm, context );
             rightTuple = modifyPreviousTuples.peekRightTuple();
         }
 
@@ -342,7 +339,7 @@ public abstract class BetaNode extends LeftTupleSource
 
                 BetaMemory bm = getBetaMemory( this, wm );
                 rightTuple.setPropagationContext( context );
-                doUpdateRightTuple(rightTuple, wm, bm);
+                doUpdateRightTuple(rightTuple, wm, bm, context);
             }
         } else {
             if ( intersect( context.getModificationMask(), getRightInferredMask() ) ) {
@@ -356,15 +353,16 @@ public abstract class BetaNode extends LeftTupleSource
 
     public void doDeleteRightTuple(final RightTuple rightTuple,
                                    final InternalWorkingMemory wm,
-                                   final BetaMemory memory) {
+                                   final BetaMemory memory,
+                                   final PropagationContext pctx) {
         RightTupleSets stagedRightTuples = memory.getStagedRightTuples();
 
         boolean stagedDeleteWasEmpty = false;
         if ( isStreamMode() ) {
             stagedDeleteWasEmpty = memory.getSegmentMemory().getTupleQueue().isEmpty();
-            PropagationContext pctx = rightTuple.getPropagationContext();
-            int propagationType = pctx.getType() == PropagationContext.MODIFICATION ? PropagationContext.DELETION : pctx.getType();
-            memory.getSegmentMemory().getTupleQueue().add(new RightTupleEntry(rightTuple, pctx, memory, propagationType));
+            PropagationContext rightPctx = rightTuple.getPropagationContext();
+            int propagationType = rightPctx.getType() == PropagationContext.MODIFICATION ? PropagationContext.DELETION : rightPctx.getType();
+            memory.getSegmentMemory().getTupleQueue().add(new RightTupleEntry(rightTuple, rightPctx, memory, propagationType));
             if ( log.isTraceEnabled() ) {
                 log.trace( "JoinNode delete queue={} size={} pctx={} lt={}", System.identityHashCode( memory.getSegmentMemory().getTupleQueue() ), memory.getSegmentMemory().getTupleQueue().size(), PhreakPropagationContext.intEnumToString(rightTuple.getPropagationContext()), rightTuple );
             }
@@ -373,30 +371,31 @@ public abstract class BetaNode extends LeftTupleSource
         }
 
         if ( memory.getAndDecCounter() == 1 ) {
-            memory.unlinkNode( wm );
+            memory.unlinkNode( wm, pctx );
         } else if ( stagedDeleteWasEmpty ) {
             // nothing staged before, notify rule, so it can evaluate network
-            memory.setNodeDirty( wm );
+            memory.setNodeDirty( wm, pctx );
         };
     }
 
-    public void doUpdateRightTuple(final RightTuple rightTuple,
+    public void doUpdateRightTuple( final RightTuple rightTuple,
                                     final InternalWorkingMemory wm,
-                                    final BetaMemory memory) {
+                                    final BetaMemory memory,
+                                    final PropagationContext pctx ) {
         RightTupleSets stagedRightTuples = memory.getStagedRightTuples();
 
 
         boolean stagedUpdateWasEmpty = false;
         if ( streamMode ) {
             stagedUpdateWasEmpty = memory.getSegmentMemory().getTupleQueue().isEmpty();
-            PropagationContext pctx = rightTuple.getPropagationContext();
-            memory.getSegmentMemory().getTupleQueue().add(new RightTupleEntry(rightTuple, pctx, memory, pctx.getType()));
+            PropagationContext rightPctx = rightTuple.getPropagationContext();
+            memory.getSegmentMemory().getTupleQueue().add(new RightTupleEntry(rightTuple, rightPctx, memory, rightPctx.getType()));
         } else {
             stagedUpdateWasEmpty = stagedRightTuples.addUpdate( rightTuple );
         }
 
         if ( stagedUpdateWasEmpty  ) {
-            memory.setNodeDirty( wm );
+            memory.setNodeDirty( wm, pctx );
         }
     }
 

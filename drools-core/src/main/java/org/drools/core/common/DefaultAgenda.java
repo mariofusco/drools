@@ -16,18 +16,6 @@
 
 package org.drools.core.common;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.drools.core.RuleBaseConfiguration;
 import org.drools.core.WorkingMemory;
 import org.drools.core.impl.InternalKnowledgeBase;
@@ -43,10 +31,10 @@ import org.drools.core.reteoo.TerminalNode;
 import org.drools.core.rule.Declaration;
 import org.drools.core.rule.EntryPointId;
 import org.drools.core.spi.Activation;
-import org.drools.core.spi.InternalActivationGroup;
 import org.drools.core.spi.AgendaGroup;
 import org.drools.core.spi.ConsequenceException;
 import org.drools.core.spi.ConsequenceExceptionHandler;
+import org.drools.core.spi.InternalActivationGroup;
 import org.drools.core.spi.KnowledgeHelper;
 import org.drools.core.spi.PropagationContext;
 import org.drools.core.spi.RuleFlowGroup;
@@ -59,6 +47,18 @@ import org.kie.api.runtime.rule.AgendaFilter;
 import org.kie.api.runtime.rule.Match;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Rule-firing Agenda.
@@ -191,15 +191,16 @@ public class DefaultAgenda
 
     public RuleAgendaItem createRuleAgendaItem(final int salience,
                                                final PathMemory rs,
-                                               final TerminalNode rtn ) {
+                                               final TerminalNode rtn,
+                                               final PropagationContext pctx ) {
         String agendaGroupName = rtn.getRule().getAgendaGroup();
         String ruleFlowGroupName = rtn.getRule().getRuleFlowGroup();
 
         RuleAgendaItem lazyAgendaItem;
         if ( !StringUtils.isEmpty(ruleFlowGroupName) ) {
-            lazyAgendaItem = new RuleAgendaItem( activationCounter++, null, salience, null, rs, rtn, isDeclarativeAgenda(), (InternalAgendaGroup) getAgendaGroup( ruleFlowGroupName ));
+            lazyAgendaItem = new RuleAgendaItem( activationCounter++, null, salience, pctx, rs, rtn, isDeclarativeAgenda(), (InternalAgendaGroup) getAgendaGroup( ruleFlowGroupName ));
         }  else {
-            lazyAgendaItem = new RuleAgendaItem( activationCounter++, null, salience, null, rs, rtn, isDeclarativeAgenda(), (InternalAgendaGroup) getRuleFlowGroup( agendaGroupName ));
+            lazyAgendaItem = new RuleAgendaItem( activationCounter++, null, salience, pctx, rs, rtn, isDeclarativeAgenda(), (InternalAgendaGroup) getRuleFlowGroup( agendaGroupName ));
         }
 
         return lazyAgendaItem;
@@ -903,9 +904,21 @@ public class DefaultAgenda
      * @throws ConsequenceException
      *             If an error occurs while firing an agenda item.
      */
+
     public int fireNextItem(final AgendaFilter filter,
                             int fireCount,
                             int fireLimit) throws ConsequenceException {
+        return fireNextItem(filter, fireCount, fireLimit, false);
+    }
+
+    private int fireNextItemUntilHalt(AgendaFilter filter) {
+        return fireNextItem(filter, 0, -1, true);
+    }
+
+    private int fireNextItem(final AgendaFilter filter,
+                             int fireCount,
+                             int fireLimit,
+                             boolean fireUntilHalt) throws ConsequenceException {
         boolean tryagain;
         int localFireCount = 0;
         try {
@@ -925,6 +938,21 @@ public class DefaultAgenda
                     }
 
                     if (item != null) {
+                        if (fireUntilHalt) {
+                            PropagationContext pctx = item.getPropagationContext();
+                            synchronized (pctx) {
+                                if (!pctx.isFullyPropagated()) {
+                                    try {
+                                        pctx.wait();
+                                    } catch (InterruptedException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    tryagain = true;
+                                    continue;
+                                }
+                            }
+                        }
+
                         localFireCount = item.getRuleExecutor().evaluateNetworkAndFire(this.workingMemory, filter,
                                                                                        fireCount, fireLimit);
                         if ( localFireCount == 0 ) {
@@ -1150,7 +1178,7 @@ public class DefaultAgenda
                     log.trace("Starting fireUntilHalt");
                 }
                 while ( continueFiring( -1 ) ) {
-                    boolean fired = fireNextItem( agendaFilter, 0, -1 ) > 0 ||
+                    boolean fired = fireNextItemUntilHalt(agendaFilter) > 0 ||
                                     !((StatefulKnowledgeSessionImpl) this.workingMemory).getActionQueue().isEmpty();
                     this.workingMemory.executeQueuedActions();
                     if ( !fired ) {

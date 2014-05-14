@@ -252,6 +252,7 @@ public class EntryPointNode extends ObjectSource
                                          context,
                                          workingMemory );
         }
+        context.setFullyPropagated();
     }
     
     public void modifyObject(final InternalFactHandle handle,
@@ -309,6 +310,7 @@ public class EntryPointNode extends ObjectSource
             }
         }
         modifyPreviousTuples.retractTuples( pctx, wm );
+        pctx.setFullyPropagated();
     }
 
     public void doDeleteObject(PropagationContext pctx, InternalWorkingMemory wm, LeftTuple leftTuple) {
@@ -372,6 +374,7 @@ public class EntryPointNode extends ObjectSource
 
         if ( cachedNodes == null ) {
             // it is  possible that there are no ObjectTypeNodes for an  object being retracted
+            context.setFullyPropagated();
             return;
         }
 
@@ -380,6 +383,7 @@ public class EntryPointNode extends ObjectSource
                                           context,
                                           workingMemory );
         }
+        context.setFullyPropagated();
     }
 
     /**

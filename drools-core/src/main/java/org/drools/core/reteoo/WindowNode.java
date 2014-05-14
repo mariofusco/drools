@@ -206,6 +206,7 @@ public class WindowNode extends ObjectSource
 
         InternalFactHandle clonedFh = ( InternalFactHandle ) rightTuple.getObject();
         ObjectTypeNode.doRetractObject(clonedFh, pctx, wm);
+        pctx.setFullyPropagated();
     }
 
     @Override
@@ -244,6 +245,7 @@ public class WindowNode extends ObjectSource
                 modifyPreviousTuples.retractTuples(context, workingMemory);
             } else {
                 ObjectTypeNode.doRetractObject(cloneFactHandle, context, workingMemory);
+                context.setFullyPropagated();
             }
         } finally {
             memory.gate.unlock();

@@ -2,6 +2,7 @@ package org.drools.core.reteoo;
 
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.common.TupleEntryQueue;
+import org.drools.core.spi.PropagationContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +30,14 @@ public class RiaPathMemory extends PathMemory {
         return this.riaNode;
     }
     
-    
-    public void doLinkRule(InternalWorkingMemory wm) {
-        riaNode.getSinkPropagator().doLinkRiaNode( wm );
+    @Override
+    public void doLinkRule(InternalWorkingMemory wm, PropagationContext pctx) {
+        riaNode.getSinkPropagator().doLinkRiaNode( wm, pctx );
     }
-        
-    public void doUnlinkRule(InternalWorkingMemory wm) {
-        riaNode.getSinkPropagator().doUnlinkRiaNode( wm );
+
+    @Override
+    public void doUnlinkRule(InternalWorkingMemory wm, PropagationContext pctx) {
+        riaNode.getSinkPropagator().doUnlinkRiaNode( wm, pctx );
     }
     
     public short getNodeType() {

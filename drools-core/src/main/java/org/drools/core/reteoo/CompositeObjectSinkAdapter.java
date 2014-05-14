@@ -584,20 +584,20 @@ public class CompositeObjectSinkAdapter extends AbstractObjectSinkAdapter {
         return sinks;
     }
     
-    public void doLinkRiaNode(InternalWorkingMemory wm) {
+    public void doLinkRiaNode(InternalWorkingMemory wm, PropagationContext pctx) {
         if ( this.otherSinks != null ) {
             // this is only used for ria nodes when exists are shared, we know there is no indexing for those
             for ( ObjectSinkNode sink = this.otherSinks.getFirst(); sink != null; sink = sink.getNextObjectSinkNode() ) {
-                SingleObjectSinkAdapter.staticDoLinkRiaNode( sink, wm );
+                SingleObjectSinkAdapter.staticDoLinkRiaNode( sink, wm, pctx );
             }
         }
     }
 
-    public void doUnlinkRiaNode(InternalWorkingMemory wm) {
+    public void doUnlinkRiaNode(InternalWorkingMemory wm, PropagationContext pctx) {
         if ( this.otherSinks != null ) {
             // this is only used for ria nodes when exists are shared, we know there is no indexing for those
             for ( ObjectSinkNode sink = this.otherSinks.getFirst(); sink != null; sink = sink.getNextObjectSinkNode() ) {
-                SingleObjectSinkAdapter.staticDoUnlinkRiaNode( sink, wm );
+                SingleObjectSinkAdapter.staticDoUnlinkRiaNode( sink, wm, pctx );
             }
         }
     }     

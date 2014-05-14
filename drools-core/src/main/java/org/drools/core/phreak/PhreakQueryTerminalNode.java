@@ -58,7 +58,7 @@ public class PhreakQueryTerminalNode {
             DroolsQuery dquery = (DroolsQuery) rootEntry.getLastHandle().getObject();
             dquery.setQuery(qtnNode.getQuery());
             if (dquery.getStackEntry() != null) {
-                checkAndTriggerQueryReevaluation(wm, stack, rootEntry, dquery);
+                checkAndTriggerQueryReevaluation(wm, stack, rootEntry, dquery, pCtx);
             }
 
             // Add results to the adapter
@@ -93,7 +93,7 @@ public class PhreakQueryTerminalNode {
             DroolsQuery dquery = (DroolsQuery) rootEntry.getLastHandle().getObject();
             dquery.setQuery(qtnNode.getQuery());
             if (dquery.getStackEntry() != null) {
-                checkAndTriggerQueryReevaluation(wm, stack, rootEntry, dquery);
+                checkAndTriggerQueryReevaluation(wm, stack, rootEntry, dquery, pCtx);
             }
 
             // Add results to the adapter
@@ -130,7 +130,7 @@ public class PhreakQueryTerminalNode {
             dquery.setQuery(qtnNode.getQuery());
 
             if (dquery.getStackEntry() != null) {
-                checkAndTriggerQueryReevaluation(wm, stack, rootEntry, dquery);
+                checkAndTriggerQueryReevaluation(wm, stack, rootEntry, dquery, pCtx);
             }
 
             // Add results to the adapter
@@ -145,7 +145,11 @@ public class PhreakQueryTerminalNode {
     }
 
 
-    public static void checkAndTriggerQueryReevaluation(InternalWorkingMemory wm, LinkedList<StackEntry> stack, LeftTuple rootEntry, DroolsQuery dquery) {
+    public static void checkAndTriggerQueryReevaluation(InternalWorkingMemory wm,
+                                                        LinkedList<StackEntry> stack,
+                                                        LeftTuple rootEntry,
+                                                        DroolsQuery dquery,
+                                                        PropagationContext pCtx) {
         StackEntry stackEntry = dquery.getStackEntry();
         if (!isAdded(stack, stackEntry)) {
             // Ignore unless stackEntry is not added to stack
@@ -164,7 +168,7 @@ public class PhreakQueryTerminalNode {
                     // reactivity comes form within the query, so need to notify parent rules to evaluate the results
                     for (int i = 0, length = pmems.size(); i < length; i++) {
                         PathMemory pmem = pmems.get(i);
-                        pmem.doLinkRule(wm); // method already ignores is rule is activated and on agenda
+                        pmem.doLinkRule(wm, pCtx); // method already ignores is rule is activated and on agenda
                     }
                 }
             }

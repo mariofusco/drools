@@ -16,10 +16,6 @@
 
 package org.drools.core.reteoo;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-
 import org.drools.core.common.BetaConstraints;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.common.InternalWorkingMemory;
@@ -28,7 +24,9 @@ import org.drools.core.phreak.RightTupleEntry;
 import org.drools.core.reteoo.builder.BuildContext;
 import org.drools.core.spi.PropagationContext;
 
-import static org.drools.core.util.BitMaskUtil.intersect;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 public class NotNode extends BetaNode {
     private static final long serialVersionUID = 510l;
@@ -162,10 +160,10 @@ public class NotNode extends BetaNode {
 
         if (  memory.getAndIncCounter() == 0 && isEmptyBetaConstraints()  ) {
             // NotNodes can only be unlinked, if they have no variable constraints
-            memory.linkNode( wm );
+            memory.linkNode( wm, pctx );
         } else if ( stagedInsertWasEmpty ) {
             // nothing staged before, notify rule, so it can evaluate network
-            memory.setNodeDirty(wm);
+            memory.setNodeDirty(wm, pctx);
         }
     }
 
@@ -186,10 +184,10 @@ public class NotNode extends BetaNode {
 
         if (  memory.getAndDecCounter() == 1 && isEmptyBetaConstraints()  ) {
             // NotNodes can only be unlinked, if they have no variable constraints
-            memory.linkNode( workingMemory );
+            memory.linkNode( workingMemory, pctx );
         }  else if ( stagedDeleteWasEmpty ) {
             // nothing staged before, notify rule, so it can evaluate network
-            memory.setNodeDirty(workingMemory);
+            memory.setNodeDirty(workingMemory, pctx);
         }
     }
 

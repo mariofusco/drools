@@ -16,17 +16,6 @@
 
 package org.drools.core.reteoo;
 
-import static org.drools.core.reteoo.PropertySpecificUtil.calculatePositiveMask;
-import static org.drools.core.reteoo.PropertySpecificUtil.getSettableProperties;
-import static org.drools.core.reteoo.PropertySpecificUtil.isPropertyReactive;
-import static org.drools.core.util.BitMaskUtil.intersect;
-
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.Deque;
-import java.util.Map;
-
 import org.drools.core.RuleBaseConfiguration;
 import org.drools.core.base.ClassObjectType;
 import org.drools.core.common.BaseNode;
@@ -54,6 +43,15 @@ import org.drools.core.util.AbstractBaseLinkedListNode;
 import org.kie.api.definition.rule.Rule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.Deque;
+import java.util.Map;
+
+import static org.drools.core.reteoo.PropertySpecificUtil.*;
+import static org.drools.core.util.BitMaskUtil.intersect;
 
 /**
  * All asserting Facts must propagated into the right <code>ObjectSink</code> side of a BetaNode, if this is the first Pattern
@@ -244,7 +242,7 @@ public class LeftInputAdapterNode extends LeftTupleSource
             // if there is no left mempry, then there is no linking or notification
             if ( linkOrNotify ) {
                 // link and notify
-                lm.linkNode( wm );
+                lm.linkNode( wm, context );
             } else {
                 // link without notify, when driven by a query, as we don't want it, placed on the agenda
                 lm.linkNodeWithoutRuleNotify();
@@ -277,7 +275,7 @@ public class LeftInputAdapterNode extends LeftTupleSource
         }
         if ( stagedInsertWasEmpty && linkOrNotify  ) {
             // staged is empty, so notify rule, to force re-evaluation.
-            lm.setNodeDirty(wm);
+            lm.setNodeDirty(wm, pctx);
         }
     }
 
@@ -315,7 +313,7 @@ public class LeftInputAdapterNode extends LeftTupleSource
 
         if ( lm.getAndDecreaseCounter() == 1 ) {
             if ( linkOrNotify ) {
-                lm.unlinkNode( wm );
+                lm.unlinkNode( wm, context );
             } else {
                 lm.unlinkNodeWithoutRuleNotify();
             }
@@ -341,7 +339,7 @@ public class LeftInputAdapterNode extends LeftTupleSource
 
         if (  stagedDeleteWasEmpty && linkOrNotify ) {
             // staged is empty, so notify rule, to force re-evaluation
-            lm.setNodeDirty(wm);
+            lm.setNodeDirty(wm, pctx);
         }
     }
 
@@ -397,7 +395,7 @@ public class LeftInputAdapterNode extends LeftTupleSource
 
                 if ( stagedUpdateWasEmpty  && linkOrNotify ) {
                     // staged is empty, so notify rule, to force re-evaluation
-                    lm.setNodeDirty(wm);
+                    lm.setNodeDirty(wm, pctx);
                 }
             }
         }
@@ -631,12 +629,12 @@ public class LeftInputAdapterNode extends LeftTupleSource
             segmentMemory.linkNodeWithoutRuleNotify(nodePosMaskBit);
         }
 
-        public void linkNode(InternalWorkingMemory wm) {
-            segmentMemory.linkNode(nodePosMaskBit, wm);
+        public void linkNode(InternalWorkingMemory wm, PropagationContext pctx) {
+            segmentMemory.linkNode(nodePosMaskBit, wm, pctx);
         }
 
-        public void unlinkNode(InternalWorkingMemory wm) {
-            segmentMemory.unlinkNode(nodePosMaskBit, wm);
+        public void unlinkNode(InternalWorkingMemory wm, PropagationContext pctx) {
+            segmentMemory.unlinkNode(nodePosMaskBit, wm, pctx);
         }
 
         public void unlinkNodeWithoutRuleNotify() {
@@ -647,8 +645,8 @@ public class LeftInputAdapterNode extends LeftTupleSource
             return NodeTypeEnums.LeftInputAdapterNode;
         }
 
-        public void setNodeDirty(InternalWorkingMemory wm) {
-            segmentMemory.notifyRuleLinkSegment(wm, nodePosMaskBit);
+        public void setNodeDirty(InternalWorkingMemory wm, PropagationContext pctx) {
+            segmentMemory.notifyRuleLinkSegment(wm, nodePosMaskBit, pctx);
         }
     }
 

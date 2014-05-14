@@ -20,14 +20,9 @@ import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.common.Memory;
 import org.drools.core.common.RightTupleSets;
 import org.drools.core.common.SynchronizedRightTupleSets;
-import org.drools.core.phreak.TupleEntry;
 import org.drools.core.rule.ContextEntry;
+import org.drools.core.spi.PropagationContext;
 import org.drools.core.util.AbstractBaseLinkedListNode;
-
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Queue;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BetaMemory extends AbstractBaseLinkedListNode<Memory>
         implements
@@ -90,12 +85,12 @@ public class BetaMemory extends AbstractBaseLinkedListNode<Memory>
         return context;
     }
 
-    public void linkNode(InternalWorkingMemory wm) {
-        segmentMemory.linkNode(nodePosMaskBit, wm);
+    public void linkNode(InternalWorkingMemory wm, PropagationContext pctx) {
+        segmentMemory.linkNode(nodePosMaskBit, wm, pctx);
     }
 
-    public void unlinkNode(InternalWorkingMemory wm) {
-        segmentMemory.unlinkNode(nodePosMaskBit, wm);
+    public void unlinkNode(InternalWorkingMemory wm, PropagationContext pctx) {
+        segmentMemory.unlinkNode(nodePosMaskBit, wm, pctx);
     }
 
     public short getNodeType() {
@@ -134,8 +129,8 @@ public class BetaMemory extends AbstractBaseLinkedListNode<Memory>
         return counter--;
     }
 
-    public void setNodeDirty(InternalWorkingMemory wm) {
-        segmentMemory.notifyRuleLinkSegment(wm, nodePosMaskBit);
+    public void setNodeDirty(InternalWorkingMemory wm, PropagationContext pctx) {
+        segmentMemory.notifyRuleLinkSegment(wm, nodePosMaskBit, pctx);
     }
 
     public void setNodeDirtyWithoutNotify() {

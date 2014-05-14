@@ -500,7 +500,7 @@ public class NodeSegmentUnlinkingTest {
         n3.assertObject( f1, context, ksession );
                 
         // this doesn't unlink on the assertObject, as the node's memory must be processed. So use the helper method the main network evaluator uses.
-        PhreakNotNode.unlinkNotNodeOnRightInsert( (NotNode) n3, bm, ksession );
+        PhreakNotNode.unlinkNotNodeOnRightInsert( (NotNode) n3, bm, ksession, null );
         assertFalse( bm.getSegmentMemory().isSegmentLinked() );                
 
         n3.retractRightTuple( f1.getFirstRightTuple(), context, ksession );

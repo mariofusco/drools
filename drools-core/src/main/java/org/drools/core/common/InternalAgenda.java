@@ -276,9 +276,10 @@ public interface InternalAgenda
      */
     ActivationsFilter getActivationsFilter();
 
-    RuleAgendaItem createRuleAgendaItem(final int salience,
-                                               final PathMemory rs,
-                                               final TerminalNode rtn );
+    RuleAgendaItem createRuleAgendaItem(int salience,
+                                        PathMemory rs,
+                                        TerminalNode rtn,
+                                        PropagationContext pctx);
 
     RuleAgendaItem peekNextRule();
 

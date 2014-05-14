@@ -11,6 +11,7 @@ import org.drools.core.common.TupleEntryQueue;
 import org.drools.core.common.TupleEntryQueueImpl;
 import org.drools.core.definitions.rule.impl.RuleImpl;
 import org.drools.core.phreak.RuleAgendaItem;
+import org.drools.core.spi.PropagationContext;
 import org.drools.core.util.AbstractBaseLinkedListNode;
 import org.drools.core.util.AtomicBitwiseLong;
 import org.slf4j.Logger;
@@ -74,7 +75,8 @@ public class PathMemory extends AbstractBaseLinkedListNode<Memory>
     }
 
     public void linkSegment(long mask,
-                            InternalWorkingMemory wm) {
+                            InternalWorkingMemory wm,
+                            PropagationContext pctx) {
         linkedSegmentMask.getAndBitwiseOr( mask );
         if (log.isTraceEnabled()) {
             if (NodeTypeEnums.isTerminalNode(getNetworkNode())) {
@@ -85,11 +87,11 @@ public class PathMemory extends AbstractBaseLinkedListNode<Memory>
             }
         }
         if (isRuleLinked()) {
-            doLinkRule(wm);
+            doLinkRule(wm, pctx);
         }
     }
 
-    public synchronized void doLinkRule(InternalWorkingMemory wm) {
+    public synchronized void doLinkRule(InternalWorkingMemory wm, PropagationContext pctx) {
         TerminalNode rtn = (TerminalNode) getNetworkNode();
         if (log.isTraceEnabled()) {
             log.trace("    LinkRule name={}", rtn.getRule().getName());
@@ -98,13 +100,15 @@ public class PathMemory extends AbstractBaseLinkedListNode<Memory>
             int salience = ( rtn.getRule().getSalience() instanceof MVELSalienceExpression)
                            ? 0
                            : rtn.getRule().getSalience().getValue(null, rtn.getRule(), wm);
-            agendaItem = ((InternalAgenda) wm.getAgenda()).createRuleAgendaItem(salience, this, rtn);
+            agendaItem = ((InternalAgenda) wm.getAgenda()).createRuleAgendaItem(salience, this, rtn, pctx);
+        } else {
+            agendaItem.setPropagationContext(pctx);
         }
 
         queueRuleAgendaItem(wm);
     }
 
-    public synchronized void doUnlinkRule(InternalWorkingMemory wm) {
+    public synchronized void doUnlinkRule(InternalWorkingMemory wm, PropagationContext pctx) {
         TerminalNode rtn = (TerminalNode) getNetworkNode();
         if (log.isTraceEnabled()) {
             log.trace("    UnlinkRule name={}", rtn.getRule().getName());
@@ -113,7 +117,9 @@ public class PathMemory extends AbstractBaseLinkedListNode<Memory>
             int salience = ( rtn.getRule().getSalience() instanceof MVELSalienceExpression)
                            ? 0
                            : rtn.getRule().getSalience().getValue(null, rtn.getRule(), wm);
-            agendaItem = ((InternalAgenda) wm.getAgenda()).createRuleAgendaItem(salience, this, rtn);
+            agendaItem = ((InternalAgenda) wm.getAgenda()).createRuleAgendaItem(salience, this, rtn, pctx);
+        } else {
+            agendaItem.setPropagationContext(pctx);
         }
 
         queueRuleAgendaItem(wm);
@@ -146,14 +152,15 @@ public class PathMemory extends AbstractBaseLinkedListNode<Memory>
     }
 
     public void unlinkedSegment(long mask,
-                                InternalWorkingMemory wm) {
+                                InternalWorkingMemory wm,
+                                PropagationContext pctx) {
         boolean linkedRule =  isRuleLinked();
         linkedSegmentMask.getAndBitwiseXor( mask );
         if (log.isTraceEnabled()) {
             log.trace("  UnlinkSegment smask={} rmask={} name={}", mask, linkedSegmentMask, this);
         }
         if (linkedRule && !isRuleLinked()) {
-            doUnlinkRule(wm);
+            doUnlinkRule(wm, pctx);
         }
     }
 

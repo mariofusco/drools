@@ -16,15 +16,15 @@
 
 package org.drools.core.reteoo;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-
 import org.drools.core.common.BaseNode;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.common.RuleBasePartitionId;
 import org.drools.core.spi.PropagationContext;
+
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 public class EmptyObjectSinkAdapter extends AbstractObjectSinkAdapter {
 
@@ -101,12 +101,12 @@ public class EmptyObjectSinkAdapter extends AbstractObjectSinkAdapter {
         return obj instanceof EmptyObjectSinkAdapter;
     }
 
-    public void doLinkRiaNode(InternalWorkingMemory wm) {
+    public void doLinkRiaNode(InternalWorkingMemory wm, PropagationContext context) {
         // TODO Auto-generated method stub
         
     }
 
-    public void doUnlinkRiaNode(InternalWorkingMemory wm) {
+    public void doUnlinkRiaNode(InternalWorkingMemory wm, PropagationContext pctx) {
         // TODO Auto-generated method stub
         
     }

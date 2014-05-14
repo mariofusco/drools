@@ -16,10 +16,6 @@
 
 package org.drools.core.spi;
 
-import java.io.Externalizable;
-import java.util.LinkedList;
-
-import org.kie.api.runtime.rule.FactHandle;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.common.WorkingMemoryAction;
 import org.drools.core.definitions.rule.impl.RuleImpl;
@@ -27,6 +23,10 @@ import org.drools.core.marshalling.impl.MarshallerReaderContext;
 import org.drools.core.reteoo.LeftTuple;
 import org.drools.core.reteoo.TerminalNode;
 import org.drools.core.rule.EntryPointId;
+import org.kie.api.runtime.rule.FactHandle;
+
+import java.io.Externalizable;
+import java.util.LinkedList;
 
 public interface PropagationContext
     extends
@@ -86,4 +86,7 @@ public interface PropagationContext
     void cleanReaderContext();
 
     void setEntryPoint(EntryPointId entryPoint);
+
+    boolean isFullyPropagated();
+    void setFullyPropagated();
 }

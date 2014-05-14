@@ -16,13 +16,13 @@
 
 package org.drools.core.reteoo;
 
-import java.io.Externalizable;
-
 import org.drools.core.common.BaseNode;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.common.RuleBasePartitionId;
 import org.drools.core.spi.PropagationContext;
+
+import java.io.Externalizable;
 
 public interface ObjectSinkPropagator
     extends
@@ -50,8 +50,10 @@ public interface ObjectSinkPropagator
                                         final PropagationContext context,
                                         final InternalWorkingMemory workingMemory);
     
-    public void doLinkRiaNode(InternalWorkingMemory wm);
+    public void doLinkRiaNode(InternalWorkingMemory wm,
+                              PropagationContext context);
 
-    public void doUnlinkRiaNode(InternalWorkingMemory wm);
+    public void doUnlinkRiaNode(InternalWorkingMemory wm,
+                                PropagationContext context);
 
 }

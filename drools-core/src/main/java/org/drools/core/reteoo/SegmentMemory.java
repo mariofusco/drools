@@ -6,11 +6,12 @@ import org.drools.core.common.LeftTupleSetsImpl;
 import org.drools.core.common.Memory;
 import org.drools.core.common.MemoryFactory;
 import org.drools.core.common.NetworkNode;
-import org.drools.core.common.TupleEntryQueue;
 import org.drools.core.common.SynchronizedLeftTupleSets;
+import org.drools.core.common.TupleEntryQueue;
 import org.drools.core.phreak.SegmentUtilities;
 import org.drools.core.reteoo.QueryElementNode.QueryElementNodeMemory;
 import org.drools.core.reteoo.TimerNode.TimerNodeMemory;
+import org.drools.core.spi.PropagationContext;
 import org.drools.core.util.AtomicBitwiseLong;
 import org.drools.core.util.LinkedList;
 import org.drools.core.util.LinkedListNode;
@@ -134,14 +135,15 @@ public class SegmentMemory extends LinkedList<SegmentMemory>
     }
 
     public void linkNode(long mask,
-                         InternalWorkingMemory wm) {
+                         InternalWorkingMemory wm,
+                         PropagationContext pctx) {
         linkedNodeMask.getAndBitwiseOr( mask );
         //dirtyNodeMask = dirtyNodeMask | mask;
         if (log.isTraceEnabled()) {
             log.trace("LinkNode notify=true nmask={} smask={} spos={} rules={}", mask, linkedNodeMask, pos, getRuleNames());
         }
 
-        notifyRuleLinkSegment(wm);
+        notifyRuleLinkSegment(wm, pctx);
     }
 
     public void linkNodeWithoutRuleNotify(long mask) {
@@ -159,28 +161,29 @@ public class SegmentMemory extends LinkedList<SegmentMemory>
         }
     }
 
-    public void notifyRuleLinkSegment(InternalWorkingMemory wm, long mask) {
+    public void notifyRuleLinkSegment(InternalWorkingMemory wm, long mask, PropagationContext pctx) {
         dirtyNodeMask.getAndBitwiseOr( mask );
         //dirtyNodeMask = dirtyNodeMask | mask;
         if (isSegmentLinked()) {
             for (int i = 0, length = pathMemories.size(); i < length; i++) {
                 // do not use foreach, don't want Iterator object creation
-                pathMemories.get(i).linkSegment(segmentPosMaskBit, wm);
+                pathMemories.get(i).linkSegment(segmentPosMaskBit, wm, pctx);
             }
         }
     }
 
-    public void notifyRuleLinkSegment(InternalWorkingMemory wm) {
+    public void notifyRuleLinkSegment(InternalWorkingMemory wm, PropagationContext pctx) {
         if (isSegmentLinked()) {
             for (int i = 0, length = pathMemories.size(); i < length; i++) {
                 // do not use foreach, don't want Iterator object creation
-                pathMemories.get(i).linkSegment(segmentPosMaskBit, wm);
+                pathMemories.get(i).linkSegment(segmentPosMaskBit, wm, pctx);
             }
         }
     }
 
     public void unlinkNode(long mask,
-                           InternalWorkingMemory wm) {
+                           InternalWorkingMemory wm,
+                           PropagationContext pctx) {
         boolean linked = isSegmentLinked();
         // some node unlinking does not unlink the segment, such as nodes after a Branch CE
         linkedNodeMask.getAndBitwiseXor(mask);
@@ -196,14 +199,15 @@ public class SegmentMemory extends LinkedList<SegmentMemory>
             for (int i = 0, length = pathMemories.size(); i < length; i++) {
                 // do not use foreach, don't want Iterator object creation
                 pathMemories.get(i).unlinkedSegment(segmentPosMaskBit,
-                                                    wm);
+                                                    wm,
+                                                    pctx);
             }
         } else {
             // if not unlinked, then we still need to notify if the rule is linked
             for (int i = 0, length = pathMemories.size(); i < length; i++) {
                 // do not use foreach, don't want Iterator object creation
                 if (pathMemories.get(i).isRuleLinked() ){
-                    pathMemories.get(i).doLinkRule(wm);
+                    pathMemories.get(i).doLinkRule(wm, pctx);
                 }
             }
         }

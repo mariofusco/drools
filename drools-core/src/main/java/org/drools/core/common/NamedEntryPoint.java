@@ -16,18 +16,6 @@
 
 package org.drools.core.common;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Set;
-import java.util.concurrent.locks.ReentrantLock;
-
-import org.kie.api.runtime.rule.FactHandle;
 import org.drools.core.RuleBaseConfiguration.AssertBehaviour;
 import org.drools.core.WorkingMemoryEntryPoint;
 import org.drools.core.base.ClassObjectType;
@@ -36,9 +24,6 @@ import org.drools.core.factmodel.traits.TraitProxy;
 import org.drools.core.factmodel.traits.TraitableBean;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.StatefulKnowledgeSessionImpl;
-import org.drools.core.util.Iterator;
-import org.drools.core.util.ObjectHashSet;
-import org.drools.core.util.ObjectHashSet.ObjectEntry;
 import org.drools.core.impl.StatefulKnowledgeSessionImpl.ObjectStoreWrapper;
 import org.drools.core.reteoo.EntryPointNode;
 import org.drools.core.reteoo.ObjectTypeConf;
@@ -50,8 +35,23 @@ import org.drools.core.spi.Activation;
 import org.drools.core.spi.FactHandleFactory;
 import org.drools.core.spi.ObjectType;
 import org.drools.core.spi.PropagationContext;
+import org.drools.core.util.Iterator;
+import org.drools.core.util.ObjectHashSet;
+import org.drools.core.util.ObjectHashSet.ObjectEntry;
+import org.kie.api.runtime.rule.FactHandle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Set;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class NamedEntryPoint
     implements
@@ -368,7 +368,7 @@ public class NamedEntryPoint
                                           propagationContext,
                                           typeConf,
                                           this.wm );
-        
+
         propagationContext.evaluateActionQueue( this.wm );
 
         this.wm.getRuleRuntimeEventSupport().fireObjectInserted(propagationContext,
@@ -381,7 +381,7 @@ public class NamedEntryPoint
         if ( rule == null ) {
             // This is not needed for internal WM actions as the firing rule will unstage
             ((InternalAgenda)this.wm.getAgenda()).unstageActivations();
-        }        
+        }
     }
 
     public void update(final FactHandle factHandle,
@@ -512,7 +512,7 @@ public class NamedEntryPoint
                                               propagationContext,
                                               typeConf,
                                               this.wm );
-            
+
             propagationContext.evaluateActionQueue( this.wm );
 
             this.wm.getRuleRuntimeEventSupport().fireObjectUpdated(propagationContext,

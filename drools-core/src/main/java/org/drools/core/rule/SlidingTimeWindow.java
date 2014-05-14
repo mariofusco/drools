@@ -16,12 +16,6 @@
 
 package org.drools.core.rule;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.PriorityQueue;
-
 import org.drools.core.common.EventFactHandle;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.common.InternalKnowledgeRuntime;
@@ -46,6 +40,12 @@ import org.drools.core.time.JobContext;
 import org.drools.core.time.JobHandle;
 import org.drools.core.time.TimerService;
 import org.drools.core.time.impl.PointInTimeTrigger;
+
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.PriorityQueue;
 
 public class SlidingTimeWindow
     implements
@@ -191,6 +191,7 @@ public class SlidingTimeWindow
                     final PropagationContext expiresPctx = pctxFactory.createPropagationContext(workingMemory.getNextPropagationIdCounter(), PropagationContext.EXPIRATION,
                                                                                                 null, null, handle);
                     ObjectTypeNode.doRetractObject(handle, expiresPctx, workingMemory);
+                    expiresPctx.setFullyPropagated();
                     expiresPctx.evaluateActionQueue( workingMemory );
                 }
                 queue.expiringHandle = null;

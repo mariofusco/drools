@@ -438,7 +438,7 @@ public class SegmentUtilities {
                 smem.setTupleQueue( pmem.getTupleQueue() );
                 if (smem.isSegmentLinked()) {
                     // not's can cause segments to be linked, and the rules need to be notified for evaluation
-                    smem.notifyRuleLinkSegment(wm);
+                    smem.notifyRuleLinkSegment(wm, null);
                 }
                 checkEagerSegmentCreation(((TerminalNode) sink).getLeftTupleSource(), wm, nodeTypesInSegment);
             }

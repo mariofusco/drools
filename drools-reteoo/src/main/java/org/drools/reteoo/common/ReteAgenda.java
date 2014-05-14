@@ -206,15 +206,16 @@ public class ReteAgenda
 
     public RuleAgendaItem createRuleAgendaItem(final int salience,
                                                final PathMemory rs,
-                                               final TerminalNode rtn) {
+                                               final TerminalNode rtn,
+                                               final PropagationContext pctx) {
         String agendaGroupName = rtn.getRule().getAgendaGroup();
         String ruleFlowGroupName = rtn.getRule().getRuleFlowGroup();
 
         RuleAgendaItem lazyAgendaItem;
         if (!StringUtils.isEmpty(ruleFlowGroupName)) {
-            lazyAgendaItem = new RuleAgendaItem(activationCounter++, null, salience, null, rs, rtn, isDeclarativeAgenda(), (InternalAgendaGroup) getAgendaGroup(ruleFlowGroupName));
+            lazyAgendaItem = new RuleAgendaItem(activationCounter++, null, salience, pctx, rs, rtn, isDeclarativeAgenda(), (InternalAgendaGroup) getAgendaGroup(ruleFlowGroupName));
         } else {
-            lazyAgendaItem = new RuleAgendaItem(activationCounter++, null, salience, null, rs, rtn, isDeclarativeAgenda(), (InternalAgendaGroup) getRuleFlowGroup( agendaGroupName ));
+            lazyAgendaItem = new RuleAgendaItem(activationCounter++, null, salience, pctx, rs, rtn, isDeclarativeAgenda(), (InternalAgendaGroup) getRuleFlowGroup( agendaGroupName ));
         }
 
         return lazyAgendaItem;
