@@ -208,12 +208,9 @@ public class EventFactHandle extends DefaultFactHandle implements Comparable<Eve
         clone.setActivationsCount( getActivationsCount() );
         clone.setOtnCount( getOtnCount() );
         clone.setExpired( isExpired() );
-        clone.setEntryPoint( getEntryPoint() );
+        clone.entryPoint = entryPoint;
         clone.setEqualityKey( getEqualityKey() );
-        clone.setFirstLeftTuple(getLastLeftTuple());
-        clone.setLastLeftTuple(getLastLeftTuple());
-        clone.setFirstRightTuple(getFirstRightTuple());
-        clone.setLastRightTuple(getLastRightTuple());
+        clone.linkedTuples = this.linkedTuples.clone();
         clone.setObjectHashCode(getObjectHashCode());
         return clone;
     }
@@ -229,7 +226,7 @@ public class EventFactHandle extends DefaultFactHandle implements Comparable<Eve
         clone.setActivationsCount( getActivationsCount() );
         clone.setOtnCount( getOtnCount() );
         clone.setExpired( isExpired() );
-        clone.setEntryPoint( getEntryPoint() );
+        clone.entryPoint = entryPoint;
         clone.setEqualityKey( getEqualityKey() );
         clone.setObjectHashCode(getObjectHashCode());
         return clone;

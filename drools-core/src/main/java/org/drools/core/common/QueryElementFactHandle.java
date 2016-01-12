@@ -25,6 +25,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import java.util.Arrays;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 @XmlAccessorType(XmlAccessType.NONE)
 public class QueryElementFactHandle
@@ -146,6 +148,11 @@ public class QueryElementFactHandle
     public void setFirstLeftTuple(LeftTuple leftTuple) {
     }
 
+    @Override
+    public LinkedTuples detachLinkedTuples() {
+        return null;
+    }
+
     public void setLastLeftTuple(LeftTuple leftTuple) {
         throw new UnsupportedOperationException( "QueryElementFactHandle does not support this method" );
     }
@@ -251,6 +258,21 @@ public class QueryElementFactHandle
     @Override
     public boolean isExpired() {
         return false;
+    }
+
+    public void forEachRightTuple( Consumer<RightTuple> rightTupleConsumer ) { }
+
+    @Override
+    public void forEachLeftTuple( Consumer<LeftTuple> leftTupleConsumer ) { }
+
+    @Override
+    public RightTuple findFirstRightTuple( Predicate<RightTuple> rightTuplePredicate ) {
+        return null;
+    }
+
+    @Override
+    public LeftTuple findFirstLeftTuple( Predicate<LeftTuple> lefttTuplePredicate ) {
+        return null;
     }
 
 }

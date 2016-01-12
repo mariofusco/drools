@@ -22,6 +22,9 @@ import org.drools.core.reteoo.RightTuple;
 import org.drools.core.spi.Tuple;
 import org.kie.api.runtime.rule.FactHandle;
 
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
 public interface InternalFactHandle
     extends
     FactHandle, Cloneable {
@@ -68,15 +71,14 @@ public interface InternalFactHandle
 
     TraitTypeEnum getTraitType();
     
-    RightTuple getFirstRightTuple();
-    RightTuple getLastRightTuple();
-
-    LeftTuple getFirstLeftTuple();
-    LeftTuple getLastLeftTuple();
+//    RightTuple getFirstRightTuple();
+//    RightTuple getLastRightTuple();
+//
+//    LeftTuple getFirstLeftTuple();
+//    LeftTuple getLastLeftTuple();
 
     InternalWorkingMemoryEntryPoint getEntryPoint();
-    void setEntryPoint( InternalWorkingMemoryEntryPoint ep );
-    
+
     InternalFactHandle clone();
     
     String toExternalForm();
@@ -87,9 +89,9 @@ public interface InternalFactHandle
 
     void addLastLeftTuple( LeftTuple leftTuple );
 
-    void setFirstLeftTuple(LeftTuple leftTuple);
-
-    void setLastLeftTuple( LeftTuple leftTuple );
+//    void setFirstLeftTuple(LeftTuple leftTuple);
+//
+//    void setLastLeftTuple( LeftTuple leftTuple );
 
     void removeLeftTuple( LeftTuple leftTuple );
 
@@ -113,4 +115,47 @@ public interface InternalFactHandle
     <K> K as( Class<K> klass ) throws ClassCastException;
 
     boolean isExpired();
+
+    void forEachRightTuple(Consumer<RightTuple> rightTupleConsumer );
+    void forEachLeftTuple(Consumer<LeftTuple> leftTupleConsumer);
+
+    RightTuple findFirstRightTuple(Predicate<RightTuple> rightTuplePredicate );
+    LeftTuple findFirstLeftTuple(Predicate<LeftTuple> lefttTuplePredicate );
+
+    LeftTuple getFirstLeftTuple();
+    void setFirstLeftTuple( LeftTuple firstLeftTuple );
+
+    RightTuple getFirstRightTuple();
+
+    LinkedTuples detachLinkedTuples();
+
+    interface LinkedTuples {
+        LinkedTuples clone();
+
+        void addFirstLeftTuple( LeftTuple leftTuple );
+        void addLastLeftTuple( LeftTuple leftTuple );
+
+        void addTupleInPosition( Tuple tuple );
+
+        void removeLeftTuple( LeftTuple leftTuple );
+
+        void addFirstRightTuple( RightTuple rightTuple );
+        void addLastRightTuple( RightTuple rightTuple );
+
+        void removeRightTuple( RightTuple rightTuple );
+
+        void clearLeftTuples();
+        void clearRightTuples();
+
+        void forEachRightTuple(Consumer<RightTuple> rightTupleConsumer);
+        RightTuple findFirstRightTuple(Predicate<RightTuple> rightTuplePredicate );
+
+        void forEachLeftTuple(Consumer<LeftTuple> leftTupleConsumer);
+        LeftTuple findFirstLeftTuple(Predicate<LeftTuple> lefttTuplePredicate );
+
+        LeftTuple getFirstLeftTuple();
+        void setFirstLeftTuple( LeftTuple firstLeftTuple );
+
+        RightTuple getFirstRightTuple();
+    }
 }

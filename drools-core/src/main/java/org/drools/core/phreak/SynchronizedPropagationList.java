@@ -76,8 +76,8 @@ public class SynchronizedPropagationList implements PropagationList {
         flush( workingMemory, takeAll() );
     }
 
-    @Override public void flush(PropagationEntry currentHead)
-    {
+    @Override
+    public void flush(PropagationEntry currentHead) {
         flush( workingMemory, currentHead );
     }
 

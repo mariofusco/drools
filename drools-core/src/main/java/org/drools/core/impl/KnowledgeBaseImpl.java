@@ -106,7 +106,6 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -160,8 +159,6 @@ public class KnowledgeBaseImpl
 
     private transient Map<String, TypeDeclaration> classTypeDeclaration;
 
-    private List<RuleBasePartitionId> partitionIDs;
-
     private ClassFieldAccessorCache classFieldAccessorCache;
     /** The root Rete-OO for this <code>RuleBase</code>. */
     private transient Rete rete;
@@ -178,6 +175,7 @@ public class KnowledgeBaseImpl
     private transient SessionsCache sessionsCache;
 
     private transient Queue<Runnable> kbaseModificationsQueue = new ConcurrentLinkedQueue<Runnable>();
+
 
     private transient AtomicInteger sessionDeactivationsCounter = new AtomicInteger();
 
@@ -207,7 +205,6 @@ public class KnowledgeBaseImpl
         this.globals = new HashMap<String, Class<?>>();
 
         this.classTypeDeclaration = new HashMap<String, TypeDeclaration>();
-        this.partitionIDs = new CopyOnWriteArrayList<RuleBasePartitionId>();
 
         this.classFieldAccessorCache = new ClassFieldAccessorCache(this.rootClassLoader);
         kieComponentFactory = getConfiguration().getComponentFactory();
@@ -277,11 +274,7 @@ public class KnowledgeBaseImpl
     }
 
     public void addKnowledgePackages(Collection<KnowledgePackage> knowledgePackages) {
-        List<InternalKnowledgePackage> list = new ArrayList<InternalKnowledgePackage>();
-        for ( KnowledgePackage knowledgePackage : knowledgePackages ) {
-            list.add( (InternalKnowledgePackage) knowledgePackage );
-        }
-        addPackages(list);
+        addPackages((Collection<InternalKnowledgePackage>)(Collection<?>) knowledgePackages);
     }
 
     public Collection<KnowledgePackage> getKnowledgePackages() {
@@ -495,8 +488,6 @@ public class KnowledgeBaseImpl
         Map<String, String> globs = (Map<String, String>) droolsStream.readObject();
         populateGlobalsMap(globs);
 
-        this.partitionIDs = (List<RuleBasePartitionId>) droolsStream.readObject();
-
         this.eventSupport = (KieBaseEventSupport) droolsStream.readObject();
         this.eventSupport.setKnowledgeBase(this);
 
@@ -546,7 +537,6 @@ public class KnowledgeBaseImpl
         droolsStream.writeObject(this.processes);
         droolsStream.writeUTF(this.factHandleFactory.getClass().getName());
         droolsStream.writeObject(buildGlobalMapForSerialization());
-        droolsStream.writeObject(this.partitionIDs);
 
         this.eventSupport.removeEventListener(KieBaseEventListener.class);
         droolsStream.writeObject(this.eventSupport);
@@ -924,8 +914,7 @@ public class KnowledgeBaseImpl
 
             // add the window declarations to the kbase
             for( WindowDeclaration window : newPkg.getWindowDeclarations().values() ) {
-                addWindowDeclaration( newPkg,
-                                      window );
+                addWindowDeclaration( window );
             }
 
             // add entry points to the kbase
@@ -1009,8 +998,7 @@ public class KnowledgeBaseImpl
         }
 
         // update existing OTNs
-        updateDependentTypes( newPkg,
-                              typeDeclaration );
+        updateDependentTypes( typeDeclaration );
     }
 
     public Class<?> registerAndLoadTypeDefinition( String className, byte[] def ) throws ClassNotFoundException {
@@ -1024,8 +1012,7 @@ public class KnowledgeBaseImpl
         }
     }
 
-    protected void updateDependentTypes( InternalKnowledgePackage newPkg,
-                                         TypeDeclaration typeDeclaration ) {
+    private void updateDependentTypes( TypeDeclaration typeDeclaration ) {
         // update OTNs
         if( this.getConfiguration().getEventProcessingMode().equals( EventProcessingOption.STREAM ) ) {
             // if the expiration for the type was set, then add 1, otherwise return -1
@@ -1134,9 +1121,9 @@ public class KnowledgeBaseImpl
                              boolean override ) {
         T newValue = leftVal;
         if ( ! areNullSafeEquals( leftVal, rightVal ) ) {
-            if ( leftVal == null && rightVal != null ) {
+            if ( leftVal == null ) {
                 newValue = rightVal;
-            } else if ( leftVal != null && rightVal != null ) {
+            } else if ( rightVal != null ) {
                 if ( override ) {
                     newValue = rightVal;
                 } else {
@@ -1294,6 +1281,7 @@ public class KnowledgeBaseImpl
         context.setCurrentEntryPoint(epn.getEntryPoint());
         context.setTupleMemoryEnabled(true);
         context.setObjectTypeNodeMemoryEnabled(true);
+        context.setPartitionId(RuleBasePartitionId.MAIN_PARTITION);
 
         ObjectTypeNode otn = nodeFactory.buildObjectTypeNode(this.reteooBuilder.getIdGenerator().getNextId(),
                                                              epn,
@@ -1594,16 +1582,6 @@ public class KnowledgeBaseImpl
         }
     }
 
-    protected void addEntryPoint( final Package pkg,
-                                  final String id ) throws InvalidPatternException {
-        lock();
-        try {
-            addEntryPoint(id);
-        } finally {
-            unlock();
-        }
-    }
-
     protected void addRule(final RuleImpl rule) throws InvalidPatternException {
         // This adds the rule. ReteBuilder has a reference to the WorkingMemories and will propagate any existing facts.
         this.reteooBuilder.addRule(rule);
@@ -1614,17 +1592,7 @@ public class KnowledgeBaseImpl
         this.reteooBuilder.addEntryPoint(id);
     }
 
-    public void addWindowDeclaration( final InternalKnowledgePackage pkg,
-                                      final WindowDeclaration window ) throws InvalidPatternException {
-        lock();
-        try {
-            addWindowDeclaration( window);
-        } finally {
-            unlock();
-        }
-    }
-
-    protected void addWindowDeclaration(final WindowDeclaration window) throws InvalidPatternException {
+    private void addWindowDeclaration(final WindowDeclaration window) throws InvalidPatternException {
         // This adds the named window. ReteBuilder has a reference to the WorkingMemories and will propagate any existing facts.
         this.reteooBuilder.addNamedWindow(window);
     }
@@ -1740,7 +1708,6 @@ public class KnowledgeBaseImpl
      * event is fired, and before the function is physically removed from the package.
      *
      * This method is called with the rulebase lock held.
-     * @param functionName
      */
     protected/* abstract */void removeFunction( String functionName ) {
         // Nothing in default.
@@ -1837,17 +1804,7 @@ public class KnowledgeBaseImpl
     }
 
     public RuleBasePartitionId createNewPartitionId() {
-        RuleBasePartitionId p;
-        synchronized (this.partitionIDs) {
-            p = new RuleBasePartitionId( "P-" + this.partitionIDs.size() );
-            this.partitionIDs.add( p );
-        }
-        return p;
-    }
-
-    public List<RuleBasePartitionId> getPartitionIds() {
-        // this returns an unmodifiable CopyOnWriteArrayList, so should be safe for concurrency
-        return Collections.unmodifiableList( this.partitionIDs );
+        return RuleBasePartitionId.createPartition();
     }
 
     public FactType getFactType(String packageName,
