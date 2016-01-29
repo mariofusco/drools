@@ -43,13 +43,15 @@ import java.util.List;
 
 import static org.drools.core.reteoo.PropertySpecificUtil.*;
 
-public abstract class AbstractTerminalNode extends BaseNode implements TerminalNode, Externalizable {
+public abstract class AbstractTerminalNode extends BaseNode implements TerminalNode, PathEndNode, Externalizable {
 
     private LeftTupleSource tupleSource;
 
     private BitMask declaredMask = EmptyBitMask.get();
     private BitMask inferredMask = EmptyBitMask.get();
     private BitMask negativeMask = EmptyBitMask.get();
+
+    private LeftTupleNode[] pathNodes;
 
     public AbstractTerminalNode() { }
 
@@ -72,6 +74,10 @@ public abstract class AbstractTerminalNode extends BaseNode implements TerminalN
         out.writeObject(declaredMask);
         out.writeObject(inferredMask);
         out.writeObject(negativeMask);
+    }
+
+    public int getPositionInPath() {
+        return tupleSource.getPositionInPath() + 1;
     }
 
     public void initDeclaredMask(BuildContext context) {
@@ -278,5 +284,20 @@ public abstract class AbstractTerminalNode extends BaseNode implements TerminalN
 
     public void setLeftTupleMemoryEnabled(boolean tupleMemoryEnabled) {
         // do nothing, this can only ever be false
+    }
+
+    public static LeftTupleNode[] getPathNodes(PathEndNode endNode) {
+        LeftTupleNode[] pathNodes = new LeftTupleNode[endNode.getPositionInPath()+1];
+        for (LeftTupleNode node = endNode; node != null; node = node.getLeftTupleSource()) {
+            pathNodes[node.getPositionInPath()] = node;
+        }
+        return pathNodes;
+    }
+
+    public LeftTupleNode[] getPathNodes() {
+        if (pathNodes == null) {
+            pathNodes = getPathNodes( this );
+        }
+        return pathNodes;
     }
 }

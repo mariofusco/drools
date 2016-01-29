@@ -45,6 +45,7 @@ import java.util.Map;
 public class RightInputAdapterNode extends ObjectSource
     implements
     LeftTupleSinkNode,
+    PathEndNode,
     MemoryFactory<RightInputAdapterNode.RiaNodeMemory> {
 
     private static final long serialVersionUID = 510l;
@@ -57,6 +58,8 @@ public class RightInputAdapterNode extends ObjectSource
 
     private LeftTupleSinkNode previousTupleSinkNode;
     private LeftTupleSinkNode nextTupleSinkNode;
+
+    private LeftTupleNode[] pathNodes;
 
     public RightInputAdapterNode() {
     }
@@ -103,6 +106,10 @@ public class RightInputAdapterNode extends ObjectSource
 
     public LeftTupleSource getStartTupleSource() {
         return startTupleSource;
+    }
+
+    public int getPositionInPath() {
+        return tupleSource.getPositionInPath() + 1;
     }
 
     /**
@@ -376,4 +383,10 @@ public class RightInputAdapterNode extends ObjectSource
         throw new UnsupportedOperationException();
     }
 
+    public LeftTupleNode[] getPathNodes() {
+        if (pathNodes == null) {
+            pathNodes = AbstractTerminalNode.getPathNodes( this );
+        }
+        return pathNodes;
+    }
 }
