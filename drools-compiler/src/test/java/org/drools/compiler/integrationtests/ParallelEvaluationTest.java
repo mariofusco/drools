@@ -16,6 +16,7 @@
 
 package org.drools.compiler.integrationtests;
 
+import org.drools.core.common.DefaultAgenda;
 import org.drools.core.impl.StatefulKnowledgeSessionImpl;
 import org.junit.Test;
 import org.kie.api.KieBase;
@@ -31,6 +32,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ParallelEvaluationTest {
 
@@ -350,5 +352,31 @@ public class ParallelEvaluationTest {
         }
 
         assertEquals(10, list.size());
+    }
+
+    @Test
+    public void testDisableParallelismOnSinglePartition() {
+        String drl =
+                "rule R1 when\n" +
+                "    $i : Integer( this == 4 )" +
+                "    String( length > $i )\n" +
+                "then end \n" +
+                "rule R2 when\n" +
+                "    $i : Integer( this == 4 )" +
+                "    String( length == $i )\n" +
+                "then end \n" +
+                "rule R3 when\n" +
+                "    $i : Integer( this == 4 )" +
+                "    String( length < $i )\n" +
+                "then end \n";
+
+        KieSession ksession = new KieHelper().addContent( drl, ResourceType.DRL )
+                                             .build( MultithreadEvaluationOption.YES )
+                                             .newKieSession();
+
+        StatefulKnowledgeSessionImpl session = (StatefulKnowledgeSessionImpl) ksession;
+
+        // since there is only one partition the multithread evaluation should be disabled and run with the DefaultAgenda
+        assertTrue( session.getAgenda() instanceof DefaultAgenda );
     }
 }

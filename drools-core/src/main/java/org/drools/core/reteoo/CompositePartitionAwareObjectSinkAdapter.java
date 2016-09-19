@@ -62,18 +62,11 @@ public class CompositePartitionAwareObjectSinkAdapter implements ObjectSinkPropa
 
     @Override
     public void propagateAssertObject( InternalFactHandle factHandle, PropagationContext context, InternalWorkingMemory workingMemory ) {
-//        if (context.getType() == PropagationContext.Type.ASYNC_INSERTION) {
-//            // If this is an async insertion we are already flushing a propagation entry, so we can immediately propagate to all sinks
-//            for ( ObjectSinkPropagator partitionedPropagator : partitionedPropagators ) {
-//                partitionedPropagator.propagateAssertObject( factHandle, context, workingMemory );
-//            }
-//        } else {
-            // Enqueues this insertion on the propagation queues of each partitioned agenda
-            CompositeDefaultAgenda compositeAgenda = (CompositeDefaultAgenda) workingMemory.getAgenda();
-            for ( int i = 0; i < partitionedPropagators.length; i++ ) {
-                compositeAgenda.getPartitionedAgenda( i ).addPropagation( new Insert( partitionedPropagators[i], factHandle, context ) );
-            }
-//        }
+        // Enqueues this insertion on the propagation queues of each partitioned agenda
+        CompositeDefaultAgenda compositeAgenda = (CompositeDefaultAgenda) workingMemory.getAgenda();
+        for ( int i = 0; i < partitionedPropagators.length; i++ ) {
+            compositeAgenda.getPartitionedAgenda( i ).addPropagation( new Insert( partitionedPropagators[i], factHandle, context ) );
+        }
     }
 
     public static class Insert extends PropagationEntry.AbstractPropagationEntry {
@@ -163,4 +156,25 @@ public class CompositePartitionAwareObjectSinkAdapter implements ObjectSinkPropa
             partitionedPropagators[i] = (ObjectSinkPropagator) in.readObject();
         }
     }
+
+    public ObjectSinkPropagator asNonPartitionedSinkPropagator(int alphaNodeHashingThreshold) {
+        ObjectSinkPropagator sinkPropagator = new EmptyObjectSinkAdapter();
+        for ( int i = 0; i < partitionedPropagators.length; i++ ) {
+            for (ObjectSink sink : partitionedPropagators[i].getSinks()) {
+                sinkPropagator = sinkPropagator.addObjectSink( sink, alphaNodeHashingThreshold );
+            }
+        }
+        return sinkPropagator;
+    }
+
+    public int getUsedPartitionsCount() {
+        int partitions = 0;
+        for ( int i = 0; i < partitionedPropagators.length; i++ ) {
+            if (partitionedPropagators[i].size() > 0) {
+                partitions++;
+            }
+        }
+        return partitions;
+    }
+
 }

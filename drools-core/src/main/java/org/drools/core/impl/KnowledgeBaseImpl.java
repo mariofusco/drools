@@ -36,10 +36,12 @@ import org.drools.core.event.KieBaseEventSupport;
 import org.drools.core.factmodel.ClassDefinition;
 import org.drools.core.factmodel.traits.TraitRegistry;
 import org.drools.core.management.DroolsManagementAgent;
+import org.drools.core.reteoo.CompositePartitionAwareObjectSinkAdapter;
 import org.drools.core.reteoo.EntryPointNode;
 import org.drools.core.reteoo.KieComponentFactory;
 import org.drools.core.reteoo.LeftTupleNode;
 import org.drools.core.reteoo.LeftTupleSource;
+import org.drools.core.reteoo.ObjectSinkPropagator;
 import org.drools.core.reteoo.ObjectTypeNode;
 import org.drools.core.reteoo.Rete;
 import org.drools.core.reteoo.ReteooBuilder;
@@ -945,7 +947,36 @@ public class KnowledgeBaseImpl
                 }
             }
 
+            if (config.isMultithreadEvaluation() && !hasMultiplePartitions()) {
+                disableMultithreadEvaluationForSinglePartition();
+            }
+
             this.eventSupport.fireAfterPackageAdded( newPkg );
+        }
+    }
+
+    private boolean hasMultiplePartitions() {
+        for (EntryPointNode entryPointNode : rete.getEntryPointNodes().values()) {
+            for ( ObjectTypeNode otn : entryPointNode.getObjectTypeNodes().values() ) {
+                ObjectSinkPropagator sink = otn.getObjectSinkPropagator();
+                if (sink instanceof CompositePartitionAwareObjectSinkAdapter && ( (CompositePartitionAwareObjectSinkAdapter) sink ).getUsedPartitionsCount() > 1) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void disableMultithreadEvaluationForSinglePartition() {
+        config.enforceSingleThreadEvaluation();
+        for (EntryPointNode entryPointNode : rete.getEntryPointNodes().values()) {
+            for (ObjectTypeNode otn : entryPointNode.getObjectTypeNodes().values()) {
+                ObjectSinkPropagator sink = otn.getObjectSinkPropagator();
+                if (sink instanceof CompositePartitionAwareObjectSinkAdapter) {
+                    otn.setObjectSinkPropagator( ( (CompositePartitionAwareObjectSinkAdapter) sink )
+                                                         .asNonPartitionedSinkPropagator( config.getAlphaNodeHashingThreshold() ) );
+                }
+            }
         }
     }
 

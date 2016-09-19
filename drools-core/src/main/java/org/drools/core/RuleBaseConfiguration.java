@@ -723,6 +723,10 @@ public class RuleBaseConfiguration
         this.multithread = enableMultithread;
     }
 
+    public void enforceSingleThreadEvaluation() {
+        this.multithread = false;
+    }
+
     /**
      * Returns true if the partitioning of the rulebase is enabled
      * and false otherwise. Default is false.
