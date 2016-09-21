@@ -356,11 +356,7 @@ public class CompositeObjectSinkAdapter implements ObjectSinkPropagator {
                     continue;
                 }
                 // this field is hashed so set the existing hashKey and see if there is a sink for it
-                final int index = fieldIndex.getIndex();
-                final HashKey hashKey = new HashKey( index,
-                                                     object,
-                                                     fieldIndex.getFieldExtractor() );
-                final AlphaNode sink = (AlphaNode) this.hashedSinkMap.get( hashKey );
+                final AlphaNode sink = (AlphaNode) this.hashedSinkMap.get( new HashKey( fieldIndex, object ) );
                 if ( sink != null ) {
                     // go straight to the AlphaNode's propagator, as we know it's true and no need to retest
                     sink.getObjectSinkPropagator().propagateAssertObject( factHandle, context, workingMemory );
@@ -405,11 +401,7 @@ public class CompositeObjectSinkAdapter implements ObjectSinkPropagator {
                     continue;
                 }
                 // this field is hashed so set the existing hashKey and see if there is a sink for it
-                final int index = fieldIndex.getIndex();
-                final HashKey hashKey = new HashKey( index,
-                                                     object,
-                                                     fieldIndex.getFieldExtractor() );
-                final AlphaNode sink = (AlphaNode) this.hashedSinkMap.get( hashKey );
+                final AlphaNode sink = (AlphaNode) this.hashedSinkMap.get( new HashKey( fieldIndex, object ) );
                 if ( sink != null ) {
                     // go straight to the AlphaNode's propagator, as we know it's true and no need to retest
                     sink.getObjectSinkPropagator().propagateModifyObject( factHandle, modifyPreviousTuples, context, workingMemory );
@@ -454,11 +446,7 @@ public class CompositeObjectSinkAdapter implements ObjectSinkPropagator {
                     continue;
                 }
                 // this field is hashed so set the existing hashKey and see if there is a sink for it
-                final int index = fieldIndex.getIndex();
-                final HashKey hashKey = new HashKey( index,
-                                                     object,
-                                                     fieldIndex.getFieldExtractor() );
-                final AlphaNode sink = (AlphaNode) this.hashedSinkMap.get( hashKey );
+                final AlphaNode sink = (AlphaNode) this.hashedSinkMap.get( new HashKey( fieldIndex, object ) );
                 if ( sink != null ) {
                     // only alpha nodes are hashable
                     sink.getObjectSinkPropagator().byPassModifyToBetaNode( factHandle, modifyPreviousTuples, context, workingMemory );
@@ -623,20 +611,18 @@ public class CompositeObjectSinkAdapter implements ObjectSinkPropagator {
         public HashKey() {
         }
 
+        public HashKey(FieldIndex fieldIndex, Object value) {
+            this.setValue( fieldIndex.getIndex(),
+                           value,
+                           fieldIndex.getFieldExtractor() );
+        }
+
         public HashKey(final int index,
                        final FieldValue value,
                        final InternalReadAccessor extractor) {
             this.setValue( index,
                            extractor,
                            value );
-        }
-
-        public HashKey(final int index,
-                       final Object value,
-                       final InternalReadAccessor extractor) {
-            this.setValue( index,
-                           value,
-                           extractor );
         }
 
         public void readExternal(ObjectInput in) throws IOException,
@@ -672,8 +658,7 @@ public class CompositeObjectSinkAdapter implements ObjectSinkPropagator {
             this.index = index;
             final ValueType vtype = extractor.getValueType();
 
-            isNull = extractor.isNullValue( null,
-                                            value );
+            isNull = extractor.isNullValue( null, value );
 
             if ( vtype.isBoolean() ) {
                 this.type = BOOL;

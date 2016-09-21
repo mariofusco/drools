@@ -47,16 +47,13 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.util.concurrent.CompletableFuture.runAsync;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
-import static java.util.stream.Collectors.toList;
 
 public class CompositeDefaultAgenda implements Externalizable, InternalAgenda {
 
@@ -153,11 +150,17 @@ public class CompositeDefaultAgenda implements Externalizable, InternalAgenda {
     private int parallelFire( AgendaFilter agendaFilter, int fireLimit ) {
         propagationList.flush();
 
-        List<CompletableFuture<Integer>> results = IntStream.range( 1, agendas.length )
-                                                            .mapToObj( i -> supplyAsync( () -> agendas[i].internalFireAllRules( agendaFilter, fireLimit, false ), EXECUTOR ) )
-                                                            .collect( toList() );
+        CompletableFuture<Integer>[] results = new CompletableFuture[agendas.length-1];
+        for (int i = 0; i < results.length; i++) {
+            final int j = i;
+            results[j] = supplyAsync( () -> agendas[j].internalFireAllRules( agendaFilter, fireLimit, false ), EXECUTOR );
+        }
 
-        return agendas[0].internalFireAllRules( agendaFilter, fireLimit, false ) + results.stream().mapToInt( CompletableFuture::join ).sum();
+        int result = agendas[agendas.length-1].internalFireAllRules( agendaFilter, fireLimit, false );
+        for (int i = 0; i < results.length; i++) {
+            result += results[i].join();
+        }
+        return result;
     }
 
     @Override
@@ -191,13 +194,17 @@ public class CompositeDefaultAgenda implements Externalizable, InternalAgenda {
             propagationList.flush();
 
             while (isFiring()) {
-                CompletableFuture<Void> future = CompletableFuture.allOf(
-                        IntStream.range( 1, agendas.length )
-                                 .mapToObj( i -> runAsync( () -> agendas[i].internalFireUntilHalt( agendaFilter, false ), EXECUTOR ) )
-                                 .toArray( CompletableFuture[]::new ) );
-                agendas[0].internalFireUntilHalt( agendaFilter, false );
+                CompletableFuture<Void>[] futures = new CompletableFuture[agendas.length-1];
+                for (int i = 0; i < futures.length; i++) {
+                    final int j = i;
+                    futures[j] = runAsync( () -> agendas[j].internalFireUntilHalt( agendaFilter, false ), EXECUTOR );
+                }
 
-                future.join();
+                agendas[agendas.length-1].internalFireUntilHalt( agendaFilter, false );
+
+                for (int i = 0; i < futures.length; i++) {
+                    futures[i].join();
+                }
 
                 if (propagationList.isEmpty()) {
                     break;

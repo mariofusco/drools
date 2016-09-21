@@ -147,8 +147,8 @@ public class ParallelEvaluationTest {
 
     private String getRule(int i, String rhs) {
         return  "rule R" + i + " when\n" +
-                "    $i : Integer( this == " + i + " )" +
-                "    String( this == $i.toString )\n" +
+                "    $i : Integer( intValue == " + i + " )" +
+                "    String( toString == $i.toString )\n" +
                 "then\n" +
                 "    list.add($i);\n" +
                 rhs +
@@ -157,8 +157,8 @@ public class ParallelEvaluationTest {
 
     private String getNotRule(int i) {
         return  "rule Rnot" + i + " when\n" +
-                "    String( this == \"" + i + "\" )\n" +
-                "    not Integer( this == " + i + " )" +
+                "    String( toString == \"" + i + "\" )\n" +
+                "    not Integer( intValue == " + i + " )" +
                 "then\n" +
                 "    list.add(" + -i + ");\n" +
                 "end\n";
