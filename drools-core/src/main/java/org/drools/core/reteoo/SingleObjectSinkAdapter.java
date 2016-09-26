@@ -151,4 +151,7 @@ public class SingleObjectSinkAdapter implements ObjectSinkPropagator {
         return 1;
     }
 
+    public boolean isEmpty() {
+        return false;
+    }
 }

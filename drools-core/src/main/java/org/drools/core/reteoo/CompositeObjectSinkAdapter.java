@@ -105,38 +105,32 @@ public class CompositeObjectSinkAdapter implements ObjectSinkPropagator {
         this.sinks = null; // dirty it, so it'll rebuild on next get
         if ( sink.getType() ==  NodeTypeEnums.AlphaNode ) {
             final AlphaNode alphaNode = (AlphaNode) sink;
-            final AlphaNodeFieldConstraint fieldConstraint = alphaNode.getConstraint();
+            final InternalReadAccessor readAccessor = getHashableAccessor(alphaNode);
 
-            if ( fieldConstraint instanceof IndexableConstraint) {
-                final IndexableConstraint indexableConstraint = (IndexableConstraint) fieldConstraint;
+            if ( readAccessor != null ) {
+                final int index = readAccessor.getIndex();
+                final FieldIndex fieldIndex = registerFieldIndex( index, readAccessor );
 
-                if ( isHashable( indexableConstraint ) ) {
-                    final InternalReadAccessor readAccessor = indexableConstraint.getFieldExtractor();
-                    final int index = readAccessor.getIndex();
-                    final FieldIndex fieldIndex = registerFieldIndex( index,
-                                                                      readAccessor );
-
-                    //DROOLS-678 : prevent null values from being hashed as 0s
-                    final FieldValue value = indexableConstraint.getField();
-                    if ( fieldIndex.getCount() >= this.alphaNodeHashingThreshold && this.alphaNodeHashingThreshold != 0 && ! value.isNull() ) {
-                        if ( !fieldIndex.isHashed() ) {
-                            hashSinks( fieldIndex );
-                        }
-
-                        // no need to check, we know  the sink  does not exist
-                        this.hashedSinkMap.put( new HashKey( index,
-                                                             value,
-                                                             fieldIndex.getFieldExtractor() ),
-                                                alphaNode,
-                                                false );
-                    } else {
-                        if ( this.hashableSinks == null ) {
-                            this.hashableSinks = new ObjectSinkNodeList();
-                        }
-                        this.hashableSinks.add( alphaNode );
+                //DROOLS-678 : prevent null values from being hashed as 0s
+                final FieldValue value = ((IndexableConstraint)alphaNode.getConstraint()).getField();
+                if ( fieldIndex.getCount() >= this.alphaNodeHashingThreshold && this.alphaNodeHashingThreshold != 0 && ! value.isNull() ) {
+                    if ( !fieldIndex.isHashed() ) {
+                        hashSinks( fieldIndex );
                     }
-                    return this;
+
+                    // no need to check, we know  the sink  does not exist
+                    this.hashedSinkMap.put( new HashKey( index,
+                                                         value,
+                                                         fieldIndex.getFieldExtractor() ),
+                                            alphaNode,
+                                            false );
+                } else {
+                    if ( this.hashableSinks == null ) {
+                        this.hashableSinks = new ObjectSinkNodeList();
+                    }
+                    this.hashableSinks.add( alphaNode );
                 }
+                return this;
             }
         }
 
@@ -148,7 +142,18 @@ public class CompositeObjectSinkAdapter implements ObjectSinkPropagator {
         return this;
     }
 
-    private boolean isHashable( IndexableConstraint indexableConstraint ) {
+    static InternalReadAccessor getHashableAccessor(AlphaNode alphaNode) {
+        AlphaNodeFieldConstraint fieldConstraint = alphaNode.getConstraint();
+        if ( fieldConstraint instanceof IndexableConstraint ) {
+            IndexableConstraint indexableConstraint = (IndexableConstraint) fieldConstraint;
+            if ( isHashable( indexableConstraint ) ) {
+                return indexableConstraint.getFieldExtractor();
+            }
+        }
+        return null;
+    }
+
+    private static boolean isHashable( IndexableConstraint indexableConstraint ) {
         return indexableConstraint.isIndexable( NodeTypeEnums.AlphaNode) && indexableConstraint.getField() != null &&
                 indexableConstraint.getFieldExtractor().getValueType() != ValueType.OBJECT_TYPE &&
                 // our current implementation does not support hashing of deeply nested properties
@@ -584,6 +589,10 @@ public class CompositeObjectSinkAdapter implements ObjectSinkPropagator {
 
     public int size() {
         return (this.otherSinks != null ? this.otherSinks.size() : 0) + (this.hashableSinks != null ? this.hashableSinks.size() : 0) + (this.hashedSinkMap != null ? this.hashedSinkMap.size() : 0);
+    }
+
+    public boolean isEmpty() {
+        return false;
     }
 
     public static class HashKey

@@ -90,6 +90,10 @@ public class EmptyObjectSinkAdapter implements ObjectSinkPropagator {
         return 0;
     }
 
+    public boolean isEmpty() {
+        return true;
+    }
+
     public boolean equals(Object obj) {
         return obj instanceof EmptyObjectSinkAdapter;
     }

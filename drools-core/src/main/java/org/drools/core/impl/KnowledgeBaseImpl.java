@@ -947,11 +947,11 @@ public class KnowledgeBaseImpl
                 }
             }
 
-            if (config.isMultithreadEvaluation() && !hasMultiplePartitions()) {
-                disableMultithreadEvaluationForSinglePartition();
-            }
-
             this.eventSupport.fireAfterPackageAdded( newPkg );
+        }
+
+        if (config.isMultithreadEvaluation() && !hasMultiplePartitions()) {
+            disableMultithreadEvaluationForSinglePartition();
         }
     }
 

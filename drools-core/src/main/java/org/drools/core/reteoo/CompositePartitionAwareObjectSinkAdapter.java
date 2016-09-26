@@ -22,7 +22,10 @@ import org.drools.core.common.InternalFactHandle;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.common.RuleBasePartitionId;
 import org.drools.core.phreak.PropagationEntry;
+import org.drools.core.rule.IndexableConstraint;
+import org.drools.core.spi.InternalReadAccessor;
 import org.drools.core.spi.PropagationContext;
+import org.drools.core.util.ObjectHashMap;
 
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -34,15 +37,52 @@ public class CompositePartitionAwareObjectSinkAdapter implements ObjectSinkPropa
 
     private final ObjectSinkPropagator[] partitionedPropagators = new ObjectSinkPropagator[RuleBasePartitionId.PARALLEL_PARTITIONS_NUMBER];
 
+    private boolean hashed = true;
+    private CompositeObjectSinkAdapter.FieldIndex fieldIndex;
+
+    private ObjectHashMap hashedSinkMap;
+
     public CompositePartitionAwareObjectSinkAdapter() {
         Arrays.fill(partitionedPropagators, EmptyObjectSinkAdapter.getInstance());
     }
 
     @Override
     public ObjectSinkPropagator addObjectSink( ObjectSink sink, int alphaNodeHashingThreshold ) {
+        hashed &= hashSink( sink );
         int partition = sink.getPartitionId().getParallelEvaluationSlot();
         partitionedPropagators[partition] = partitionedPropagators[partition].addObjectSink( sink, alphaNodeHashingThreshold );
         return this;
+    }
+
+    private boolean hashSink( ObjectSink sink ) {
+        InternalReadAccessor readAccessor = getHashableAccessor( sink );
+        if (readAccessor != null) {
+            int index = readAccessor.getIndex();
+            if ( fieldIndex == null ) {
+                this.fieldIndex = new CompositeObjectSinkAdapter.FieldIndex( index, readAccessor );
+                this.hashedSinkMap = new ObjectHashMap();
+            }
+            if (fieldIndex.getIndex() == index) {
+                AlphaNode alpha = (AlphaNode)sink;
+                this.hashedSinkMap.put( new CompositeObjectSinkAdapter.HashKey( index,
+                                                                                ((IndexableConstraint)alpha.getConstraint()).getField(),
+                                                                                fieldIndex.getFieldExtractor() ),
+                                        alpha,
+                                        false );
+                return true;
+            }
+        }
+        this.fieldIndex = null;
+        this.hashedSinkMap = null;
+        return false;
+    }
+
+    private InternalReadAccessor getHashableAccessor(ObjectSink sink) {
+        if ( sink.getType() == NodeTypeEnums.AlphaNode ) {
+            final AlphaNode alphaNode = (AlphaNode) sink;
+            return CompositeObjectSinkAdapter.getHashableAccessor( alphaNode );
+        }
+        return null;
     }
 
     @Override
@@ -62,10 +102,20 @@ public class CompositePartitionAwareObjectSinkAdapter implements ObjectSinkPropa
 
     @Override
     public void propagateAssertObject( InternalFactHandle factHandle, PropagationContext context, InternalWorkingMemory workingMemory ) {
-        // Enqueues this insertion on the propagation queues of each partitioned agenda
         CompositeDefaultAgenda compositeAgenda = (CompositeDefaultAgenda) workingMemory.getAgenda();
-        for ( int i = 0; i < partitionedPropagators.length; i++ ) {
-            compositeAgenda.getPartitionedAgenda( i ).addPropagation( new Insert( partitionedPropagators[i], factHandle, context ) );
+        if (hashed) {
+            AlphaNode sink = (AlphaNode) this.hashedSinkMap.get( new CompositeObjectSinkAdapter.HashKey( fieldIndex, factHandle.getObject() ) );
+            if ( sink != null ) {
+                compositeAgenda.getPartitionedAgenda( sink.getPartitionId().getParallelEvaluationSlot() )
+                               .addPropagation( new HashedInsert( sink, factHandle, context ) );
+            }
+        } else {
+            // Enqueues this insertion on the propagation queues of each partitioned agenda
+            for ( int i = 0; i < partitionedPropagators.length; i++ ) {
+                if ( !partitionedPropagators[i].isEmpty() ) {
+                    compositeAgenda.getPartitionedAgenda( i ).addPropagation( new Insert( partitionedPropagators[i], factHandle, context ) );
+                }
+            }
         }
     }
 
@@ -92,6 +142,29 @@ public class CompositePartitionAwareObjectSinkAdapter implements ObjectSinkPropa
         }
     }
 
+    public static class HashedInsert extends PropagationEntry.AbstractPropagationEntry {
+
+        private final AlphaNode sink;
+        private final InternalFactHandle factHandle;
+        private final PropagationContext context;
+
+        public HashedInsert( AlphaNode sink, InternalFactHandle factHandle, PropagationContext context ) {
+            this.sink = sink;
+            this.factHandle = factHandle;
+            this.context = context;
+        }
+
+        @Override
+        public void execute( InternalWorkingMemory wm ) {
+            sink.getObjectSinkPropagator().propagateAssertObject( factHandle, context, wm );
+        }
+
+        @Override
+        public String toString() {
+            return "Hashed insert of " + factHandle.getObject();
+        }
+    }
+
     @Override
     public BaseNode getMatchingNode( BaseNode candidate ) {
         return Stream.of( partitionedPropagators )
@@ -113,6 +186,10 @@ public class CompositePartitionAwareObjectSinkAdapter implements ObjectSinkPropa
         return Stream.of( partitionedPropagators )
                      .mapToInt( ObjectSinkPropagator::size )
                      .sum();
+    }
+
+    public boolean isEmpty() {
+        return false;
     }
 
     public ObjectSinkPropagator[] getPartitionedPropagators() {

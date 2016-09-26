@@ -42,6 +42,7 @@ public interface ObjectSinkPropagator
     ObjectSink[] getSinks();
 
     int size();
+    boolean isEmpty();
 
     void propagateModifyObject(InternalFactHandle factHandle,
                                ModifyPreviousTuples modifyPreviousTuples,
