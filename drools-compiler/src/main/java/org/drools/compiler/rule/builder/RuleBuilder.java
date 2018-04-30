@@ -248,7 +248,7 @@ public class RuleBuilder {
                 case DroolsSoftKeywords.DURATION:
                 case DroolsSoftKeywords.TIMER:
                     String duration = attributeDescr.getValue();
-                    rule.setTimer( buildTimer( rule, duration, context ) );
+                    buildTimer( rule, duration, context );
                     break;
                 case "calendars":
                     buildCalendars( rule, attributeDescr.getValue(), context );
