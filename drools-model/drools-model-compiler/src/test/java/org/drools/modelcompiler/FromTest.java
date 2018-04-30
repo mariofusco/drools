@@ -125,4 +125,53 @@ public class FromTest extends BaseModelTest {
 
         Assertions.assertThat(list).containsExactlyInAnyOrder("Charles");
     }
+
+    public static String getString() {
+        return "Hello World!";
+    }
+
+    @Test
+    public void testFromExternalFunctionNoArg() {
+        final String str =
+                "import " + FromTest.class.getCanonicalName() + ";\n" +
+                "global java.util.List list\n" +
+                "\n" +
+                "rule R when\n" +
+                "  $s : String( length > 10 ) from FromTest.getString()\n" +
+                "then\n" +
+                "  System.out.println( \"received long message: \" + $s);\n" +
+                "end\n";
+
+        KieSession ksession = getKieSession( str );
+
+        ksession.fireAllRules();
+    }
+
+    public static Integer getLength(String s) {
+        return s.length();
+    }
+
+    @Test
+    public void testFromExternalFunction() {
+        final String str =
+                "import " + FromTest.class.getCanonicalName() + ";\n" +
+                "global java.util.List list\n" +
+                "\n" +
+                "rule R when\n" +
+                "  $s : String()\n" +
+                "  $i : Integer( this > 10 ) from FromTest.getLength($s)\n" +
+                "then\n" +
+                "  list.add( \"received long message: \" + $s);\n" +
+                "end\n";
+
+        KieSession ksession = getKieSession( str );
+
+        final List<String> list = new ArrayList<>();
+        ksession.setGlobal( "list", list );
+
+        ksession.insert("Hello World!");
+        ksession.fireAllRules();
+
+        Assertions.assertThat(list).containsExactlyInAnyOrder("received long message: Hello World!");
+    }
 }

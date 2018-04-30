@@ -43,7 +43,7 @@ public class LambdaDataProvider implements DataProvider {
 
     @Override
     public Declaration[] getRequiredDeclarations() {
-        return new Declaration[] { declaration };
+        return declaration == null ? new Declaration[0] : new Declaration[] { declaration };
     }
 
     @Override
@@ -53,7 +53,8 @@ public class LambdaDataProvider implements DataProvider {
 
     @Override
     public Iterator getResults( Tuple tuple, InternalWorkingMemory wm, PropagationContext ctx, Object providerContext ) {
-        Object result = declaration.getExtractor().isGlobal() ?
+        Object result = declaration == null ? null :
+                declaration.getExtractor().isGlobal() ?
                 declaration.getExtractor().getValue(wm, declaration.getIdentifier()) :
                 declaration.getValue( wm, tuple.get(declaration).getObject() );
         if (providerFunction != null) {

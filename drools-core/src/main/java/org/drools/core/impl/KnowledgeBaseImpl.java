@@ -60,6 +60,7 @@ import org.drools.core.event.KieBaseEventSupport;
 import org.drools.core.factmodel.ClassDefinition;
 import org.drools.core.factmodel.traits.TraitRegistry;
 import org.drools.core.management.DroolsManagementAgent;
+import org.drools.core.reteoo.AsyncMessagesCoordinator;
 import org.drools.core.reteoo.BetaNode;
 import org.drools.core.reteoo.CompositePartitionAwareObjectSinkAdapter;
 import org.drools.core.reteoo.EntryPointNode;
@@ -188,6 +189,8 @@ public class KnowledgeBaseImpl
     private RuleUnitRegistry ruleUnitRegistry = new RuleUnitRegistry();
 
     private SessionConfiguration sessionConfiguration;
+
+    private AsyncMessagesCoordinator messagesCoordinator = new AsyncMessagesCoordinator();
 
     public KnowledgeBaseImpl() { }
 
@@ -1797,5 +1800,9 @@ public class KnowledgeBaseImpl
 
     public boolean hasUnits() {
         return ruleUnitRegistry.hasUnits();
+    }
+
+    public AsyncMessagesCoordinator getMessagesCoordinator() {
+        return messagesCoordinator;
     }
 }

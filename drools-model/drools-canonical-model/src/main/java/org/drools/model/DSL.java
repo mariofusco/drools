@@ -25,6 +25,7 @@ import org.drools.model.datasources.impl.DataStreamImpl;
 import org.drools.model.datasources.impl.SetDataStore;
 import org.drools.model.functions.Block0;
 import org.drools.model.functions.Block1;
+import org.drools.model.functions.Function0;
 import org.drools.model.functions.Function1;
 import org.drools.model.functions.Operator;
 import org.drools.model.functions.Predicate1;
@@ -51,6 +52,7 @@ import org.drools.model.functions.temporal.TemporalPredicate;
 import org.drools.model.impl.AnnotationValueImpl;
 import org.drools.model.impl.DeclarationImpl;
 import org.drools.model.impl.EntryPointImpl;
+import org.drools.model.impl.Exchange;
 import org.drools.model.impl.FromImpl;
 import org.drools.model.impl.GlobalImpl;
 import org.drools.model.impl.PrototypeImpl;
@@ -119,6 +121,14 @@ public class DSL {
 
     public static <T> Variable<T> any(Class<T> type) {
         return declarationOf( type );
+    }
+
+    public static <T> Exchange<T> exchangeOf( Class<T> type ) {
+        return new Exchange<T>( type );
+    }
+
+    public static <T> Exchange<T> exchangeOf( Class<T> type, String name ) {
+        return new Exchange<T>( type, name );
     }
 
     public static <T> Declaration<T> declarationOf( Class<T> type ) {
@@ -199,6 +209,10 @@ public class DSL {
 
     public static <T> From<T> from( Variable<T> variable ) {
         return new FromImpl<>( variable );
+    }
+
+    public static From<?> from( Function0<?> provider ) {
+        return new FromImpl<>( null, t -> provider.apply() );
     }
 
     public static <T> From<T> from( Variable<T> variable, Function1<T, ?> provider ) {

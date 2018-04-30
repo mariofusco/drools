@@ -22,6 +22,8 @@ import org.drools.core.common.NetworkNode;
 import org.drools.core.impl.KnowledgeBaseImpl;
 import org.drools.core.reteoo.AccumulateNode.AccumulateMemory;
 import org.drools.core.reteoo.AlphaNode;
+import org.drools.core.reteoo.AsyncReceiveNode;
+import org.drools.core.reteoo.AsyncSendNode;
 import org.drools.core.reteoo.BetaMemory;
 import org.drools.core.reteoo.BetaNode;
 import org.drools.core.reteoo.ConditionalBranchNode;
@@ -115,6 +117,12 @@ public class SegmentUtilities {
                         break;
                     case NodeTypeEnums.TimerConditionNode:
                         processTimerNode((TimerNode) tupleSource, wm, smem, nodePosMask);
+                        break;
+                    case NodeTypeEnums.AsyncSendNode:
+                        processAsyncSendNode((AsyncSendNode) tupleSource, wm, smem);
+                        break;
+                    case NodeTypeEnums.AsyncReceiveNode:
+                        processAsyncReceiveNode((AsyncReceiveNode) tupleSource, wm, smem, nodePosMask);
                         break;
                     case NodeTypeEnums.QueryElementNode:
                         updateNodeBit = processQueryNode((QueryElementNode) tupleSource, wm, segmentRoot, smem, nodePosMask);
@@ -213,6 +221,10 @@ public class SegmentUtilities {
         smem.createNodeMemory(tupleSource, wm).setSegmentMemory(smem);
     }
 
+    private static void processAsyncSendNode(MemoryFactory tupleSource, InternalWorkingMemory wm, SegmentMemory smem) {
+        smem.createNodeMemory(tupleSource, wm).setSegmentMemory(smem);
+    }
+
     private static void processReactiveFromNode(MemoryFactory tupleSource, InternalWorkingMemory wm, SegmentMemory smem, long nodePosMask) {
         FromNode.FromMemory mem = ((FromNode.FromMemory) smem.createNodeMemory(tupleSource, wm));
         mem.setSegmentMemory(smem);
@@ -233,6 +245,12 @@ public class SegmentUtilities {
 
     private static void processTimerNode(TimerNode tupleSource, InternalWorkingMemory wm, SegmentMemory smem, long nodePosMask) {
         TimerNodeMemory tnMem = smem.createNodeMemory( tupleSource, wm );
+        tnMem.setNodePosMaskBit(nodePosMask);
+        tnMem.setSegmentMemory(smem);
+    }
+
+    private static void processAsyncReceiveNode(AsyncReceiveNode tupleSource, InternalWorkingMemory wm, SegmentMemory smem, long nodePosMask) {
+        AsyncReceiveNode.AsyncReceiveMemory tnMem = smem.createNodeMemory( tupleSource, wm );
         tnMem.setNodePosMaskBit(nodePosMask);
         tnMem.setSegmentMemory(smem);
     }
