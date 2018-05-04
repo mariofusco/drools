@@ -696,11 +696,9 @@ public class KiePackagesBuilder {
             if ( type == Condition.Type.SENDER) {
                 Function0 supplier = (( Exchange ) patternVariable).getMessageSupplier();
                 DataProvider provider = new LambdaDataProvider( null, x -> supplier.apply(), false );
-                AsyncSend send = new AsyncSend( patternVariable.getName(), provider );
-                send.setResultPattern( pattern );
-                pattern.setSource( send );
+                pattern.setSource( new AsyncSend( pattern, patternVariable.getName(), provider ) );
             } else if ( type == Condition.Type.RECEIVER) {
-                pattern.setSource( new AsyncReceive( patternVariable.getName() ) );
+                pattern.setSource( new AsyncReceive( pattern, patternVariable.getName() ) );
             } else {
                 throw new UnsupportedOperationException();
             }

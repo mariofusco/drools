@@ -30,11 +30,12 @@ public class AsyncSend extends ConditionalElement implements PatternSource {
 
     private final String messageId;
     private final DataProvider dataProvider;
+    private final Pattern resultPattern;
 
-    private Pattern resultPattern;
     private Class<?> resultClass;
 
-    public AsyncSend( String messageId, DataProvider dataProvider ) {
+    public AsyncSend( Pattern resultPattern, String messageId, DataProvider dataProvider ) {
+        this.resultPattern = resultPattern;
         this.messageId = messageId;
         this.dataProvider = dataProvider;
     }
@@ -97,10 +98,6 @@ public class AsyncSend extends ConditionalElement implements PatternSource {
     public void readExternal( ObjectInput in ) throws IOException, ClassNotFoundException {
         throw new UnsupportedOperationException( "org.drools.core.rule.AsyncReceive.readExternal -> TODO" );
 
-    }
-
-    public void setResultPattern(Pattern pattern) {
-        this.resultPattern = pattern;
     }
 
     public Pattern getResultPattern() {

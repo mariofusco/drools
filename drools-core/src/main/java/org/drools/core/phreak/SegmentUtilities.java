@@ -225,6 +225,12 @@ public class SegmentUtilities {
         smem.createNodeMemory(tupleSource, wm).setSegmentMemory(smem);
     }
 
+    private static void processAsyncReceiveNode(AsyncReceiveNode tupleSource, InternalWorkingMemory wm, SegmentMemory smem, long nodePosMask) {
+        AsyncReceiveNode.AsyncReceiveMemory tnMem = smem.createNodeMemory( tupleSource, wm );
+        tnMem.setNodePosMaskBit(nodePosMask);
+        tnMem.setSegmentMemory(smem);
+    }
+
     private static void processReactiveFromNode(MemoryFactory tupleSource, InternalWorkingMemory wm, SegmentMemory smem, long nodePosMask) {
         FromNode.FromMemory mem = ((FromNode.FromMemory) smem.createNodeMemory(tupleSource, wm));
         mem.setSegmentMemory(smem);
@@ -245,12 +251,6 @@ public class SegmentUtilities {
 
     private static void processTimerNode(TimerNode tupleSource, InternalWorkingMemory wm, SegmentMemory smem, long nodePosMask) {
         TimerNodeMemory tnMem = smem.createNodeMemory( tupleSource, wm );
-        tnMem.setNodePosMaskBit(nodePosMask);
-        tnMem.setSegmentMemory(smem);
-    }
-
-    private static void processAsyncReceiveNode(AsyncReceiveNode tupleSource, InternalWorkingMemory wm, SegmentMemory smem, long nodePosMask) {
-        AsyncReceiveNode.AsyncReceiveMemory tnMem = smem.createNodeMemory( tupleSource, wm );
         tnMem.setNodePosMaskBit(nodePosMask);
         tnMem.setSegmentMemory(smem);
     }

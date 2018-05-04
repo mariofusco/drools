@@ -57,15 +57,14 @@ public class AsyncSendNode<T extends AsyncSendNode.AsyncSendMemory> extends Left
     private AlphaNodeFieldConstraint[] alphaConstraints;
     private BetaConstraints betaConstraints;
 
-    protected LeftTupleSinkNode previousTupleSinkNode;
-    protected LeftTupleSinkNode nextTupleSinkNode;
+    private LeftTupleSinkNode previousTupleSinkNode;
+    private LeftTupleSinkNode nextTupleSinkNode;
 
-    protected AsyncSend send;
-    protected Class<?> resultClass;
+    private AsyncSend send;
 
-    protected boolean                    tupleMemoryEnabled;
+    private boolean tupleMemoryEnabled;
 
-    protected transient ObjectTypeConf   objectTypeConf;
+    private transient ObjectTypeConf objectTypeConf;
 
     public AsyncSendNode() {
     }
@@ -87,7 +86,6 @@ public class AsyncSendNode<T extends AsyncSendNode.AsyncSendMemory> extends Left
         this.tupleMemoryEnabled = tupleMemoryEnabled;
         this.send = send;
         this.messageId = send.getMessageId();
-        resultClass = this.send.getResultClass();
 
         initMasks(context, tupleSource);
 
@@ -102,7 +100,6 @@ public class AsyncSendNode<T extends AsyncSendNode.AsyncSendMemory> extends Left
         betaConstraints = (BetaConstraints) in.readObject();
         tupleMemoryEnabled = in.readBoolean();
         send = (AsyncSend) in.readObject();
-        resultClass = send.getResultClass();
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -166,17 +163,15 @@ public class AsyncSendNode<T extends AsyncSendNode.AsyncSendMemory> extends Left
     public BetaConstraints getBetaConstraints() {
         return betaConstraints;
     }
-    
 
-    public Class< ? > getResultClass() {
-        return resultClass;
+    public Class<?> getResultClass() {
+        return send.getResultClass();
     }
 
     public void networkUpdated(UpdateContext updateContext) {
         this.leftInput.networkUpdated(updateContext);
     }
 
-    @SuppressWarnings("unchecked")
     public RightTuple createRightTuple( final LeftTuple leftTuple,
                                         final PropagationContext context,
                                         final InternalWorkingMemory workingMemory,
@@ -186,10 +181,6 @@ public class AsyncSendNode<T extends AsyncSendNode.AsyncSendMemory> extends Left
 
     public InternalFactHandle createFactHandle( Tuple leftTuple, PropagationContext context, InternalWorkingMemory workingMemory, Object object ) {
         FactHandle _handle = null;
-        if ( objectTypeConf == null ) {
-            // use default entry point and object class. Notice that at this point object is assignable to resultClass
-            objectTypeConf = new ClassObjectTypeConf( workingMemory.getEntryPoint(), resultClass, workingMemory.getKnowledgeBase() );
-        }
         if( context.getReaderContext() != null ) {
             Map<TupleKey, List<FactHandle>> map = (Map<TupleKey, List<FactHandle>>) context.getReaderContext().nodeMemories.get( getId() );
             if( map != null ) {
@@ -211,36 +202,25 @@ public class AsyncSendNode<T extends AsyncSendNode.AsyncSendMemory> extends Left
             handle = workingMemory.getFactHandleFactory().newFactHandle( _handle.getId(),
                                                                          object,
                                                                          _handle.getRecency(),
-                                                                         objectTypeConf,
+                                                                         getObjectTypeConf( workingMemory ),
                                                                          workingMemory,
                                                                          null );
         } else {
             handle = workingMemory.getFactHandleFactory().newFactHandle( object,
-                                                                         objectTypeConf,
+                                                                         getObjectTypeConf( workingMemory ),
                                                                          workingMemory,
                                                                          null );
         }
         return handle;
     }
 
-
-    public void addToCreatedHandlesMap(final Map<Object, RightTuple> matches,
-                                       final RightTuple rightTuple) {
-        if ( rightTuple.getFactHandle().isValid() ) {
-            Object object = rightTuple.getFactHandle().getObject();
-            // keeping a list of matches
-            RightTuple existingMatch = matches.get( object );
-            if ( existingMatch != null ) {
-                // this is for the obscene case where two or more objects returned by "from"
-                // have the same hash code and evaluate equals() to true, so we need to preserve
-                // all of them to avoid leaks
-                rightTuple.setNext( existingMatch );
-            }
-            matches.put( object,
-                         rightTuple );
+    private ObjectTypeConf getObjectTypeConf( InternalWorkingMemory workingMemory ) {
+        if ( objectTypeConf == null ) {
+            // use default entry point and object class. Notice that at this point object is assignable to resultClass
+            objectTypeConf = new ClassObjectTypeConf( workingMemory.getEntryPoint(), getResultClass(), workingMemory.getKnowledgeBase() );
         }
+        return objectTypeConf;
     }
-
 
     public T createMemory(final RuleBaseConfiguration config, InternalWorkingMemory wm) {
         BetaMemory beta = new BetaMemory( new TupleList(),
@@ -327,7 +307,7 @@ public class AsyncSendNode<T extends AsyncSendNode.AsyncSendMemory> extends Left
         }
 
         public short getNodeType() {
-            return NodeTypeEnums.FromNode;
+            return NodeTypeEnums.AsyncSendNode;
         }
 
         public SegmentMemory getSegmentMemory() {

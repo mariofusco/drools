@@ -23,11 +23,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.drools.core.base.ClassObjectType;
+
 public class AsyncReceive extends ConditionalElement implements PatternSource {
 
     private final String messageId;
+    private final Pattern resultPattern;
 
-    public AsyncReceive( String messageId ) {
+    private Class<?> resultClass;
+
+    public AsyncReceive( Pattern resultPattern, String messageId ) {
+        this.resultPattern = resultPattern;
         this.messageId = messageId;
     }
 
@@ -86,5 +92,17 @@ public class AsyncReceive extends ConditionalElement implements PatternSource {
     public void readExternal( ObjectInput in ) throws IOException, ClassNotFoundException {
         throw new UnsupportedOperationException( "org.drools.core.rule.AsyncReceive.readExternal -> TODO" );
 
+    }
+
+    public Pattern getResultPattern() {
+        return this.resultPattern;
+    }
+
+    public Class<?> getResultClass() {
+        return resultClass != null ? resultClass : ((ClassObjectType )resultPattern.getObjectType()).getClassType();
+    }
+
+    public void setResultClass(Class<?> resultClass) {
+        this.resultClass = resultClass;
     }
 }

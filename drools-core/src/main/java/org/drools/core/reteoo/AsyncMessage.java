@@ -18,20 +18,21 @@ package org.drools.core.reteoo;
 
 import org.drools.core.common.InternalWorkingMemory;
 
-public class LeftTupleMessage {
-    private final LeftTuple leftTuple;
+public class AsyncMessage {
+
     private final InternalWorkingMemory workingMemory;
+    private final Object object;
 
-    public LeftTupleMessage( LeftTuple leftTuple, InternalWorkingMemory workingMemory ) {
-        this.leftTuple = leftTuple;
+    public AsyncMessage( InternalWorkingMemory workingMemory, Object object ) {
         this.workingMemory = workingMemory;
-    }
-
-    public LeftTuple getLeftTuple() {
-        return leftTuple;
+        this.object = object;
     }
 
     public InternalWorkingMemory getWorkingMemory() {
         return workingMemory;
+    }
+
+    public Object getObject() {
+        return object;
     }
 }

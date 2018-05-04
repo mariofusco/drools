@@ -19,6 +19,8 @@ package org.drools.core.reteoo;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.drools.core.RuleBaseConfiguration;
 import org.drools.core.common.BetaConstraints;
@@ -54,6 +56,9 @@ public class AsyncReceiveNode extends LeftTupleSource
     private LeftTupleSinkNode previousTupleSinkNode;
     private LeftTupleSinkNode nextTupleSinkNode;
 
+    private AsyncReceive receive;
+    private transient ObjectTypeConf objectTypeConf;
+
     // ------------------------------------------------------------
     // Constructors
     // ------------------------------------------------------------
@@ -67,6 +72,7 @@ public class AsyncReceiveNode extends LeftTupleSource
                              final BuildContext context ) {
         super( id, context );
         this.messageId = receive.getMessageId();
+        this.receive = receive;
         this.tupleMemoryEnabled = context.isTupleMemoryEnabled();
         setLeftTupleSource( tupleSource );
         this.alphaConstraints = constraints;
@@ -97,8 +103,8 @@ public class AsyncReceiveNode extends LeftTupleSource
 
     public void attach( BuildContext context ) {
         this.leftInput.addTupleSink( this, context );
-        context.getKnowledgeBase().getMessagesCoordinator().registerReceiver( messageId, ltMessage -> {
-            ltMessage.getWorkingMemory().addPropagation( new AsyncReceiveAction( this, ltMessage.getLeftTuple() ) );
+        context.getKnowledgeBase().getMessagesCoordinator().registerReceiver( messageId, asyncMessage -> {
+            asyncMessage.getWorkingMemory().addPropagation( new AsyncReceiveAction( this, asyncMessage.getObject() ) );
         } );
     }
 
@@ -110,26 +116,32 @@ public class AsyncReceiveNode extends LeftTupleSource
         return betaConstraints;
     }
 
+    public Class<?> getResultClass() {
+        return receive.getResultClass();
+    }
+
+    public ObjectTypeConf getObjectTypeConf( InternalWorkingMemory workingMemory ) {
+        if ( objectTypeConf == null ) {
+            // use default entry point and object class. Notice that at this point object is assignable to resultClass
+            objectTypeConf = new ClassObjectTypeConf( workingMemory.getEntryPoint(), getResultClass(), workingMemory.getKnowledgeBase() );
+        }
+        return objectTypeConf;
+    }
+
     public static class AsyncReceiveAction extends PropagationEntry.AbstractPropagationEntry {
 
         private final AsyncReceiveNode asyncReceiveNode;
-        private final LeftTuple leftTuple;
+        private final Object object;
 
-        private AsyncReceiveAction( AsyncReceiveNode asyncReceiveNode, LeftTuple leftTuple ) {
+        private AsyncReceiveAction( AsyncReceiveNode asyncReceiveNode, Object object ) {
             this.asyncReceiveNode = asyncReceiveNode;
-            this.leftTuple = leftTuple;
+            this.object = object;
         }
 
         @Override
         public void execute( final InternalWorkingMemory wm ) {
             AsyncReceiveMemory memory = wm.getNodeMemory( asyncReceiveNode );
-            TupleList leftTuples = memory.getInsertOrUpdateLeftTuples();
-
-            if ( leftTuple.getMemory() == null ) {
-                // don't add it, if it's already added, which could happen with interval or cron timers
-                leftTuples.add( leftTuple );
-            }
-
+            memory.addMessage( object );
             memory.setNodeDirtyWithoutNotify();
 
             for (final PathMemory pmem : memory.getSegmentMemory().getPathMemories()) {
@@ -285,27 +297,29 @@ public class AsyncReceiveNode extends LeftTupleSource
             SegmentNodeMemory {
 
         private static final long serialVersionUID = 510l;
-        private TupleList insertOrUpdateLeftTuples;
-        private TupleList deleteLeftTuples;
+        private TupleList insertOrUpdateLeftTuples = new TupleList();
+        private List<Object> messages = new ArrayList<>();
         private SegmentMemory memory;
         private long nodePosMaskBit;
 
+        public void addMessage(Object message) {
+            messages.add(message);
+        }
 
-        public AsyncReceiveMemory() {
-            this.insertOrUpdateLeftTuples = new TupleList();
-            this.deleteLeftTuples = new TupleList();
+        public List<Object> getMessages() {
+            return messages;
         }
 
         public TupleList getInsertOrUpdateLeftTuples() {
-            return this.insertOrUpdateLeftTuples;
+            return insertOrUpdateLeftTuples;
         }
 
-        public TupleList getDeleteLeftTuples() {
-            return this.deleteLeftTuples;
+        public void addInsertOrUpdateLeftTuple(LeftTuple leftTuple) {
+            insertOrUpdateLeftTuples.add( leftTuple );
         }
 
         public short getNodeType() {
-            return NodeTypeEnums.TimerConditionNode;
+            return NodeTypeEnums.AsyncReceiveNode;
         }
 
         public SegmentMemory getSegmentMemory() {
@@ -325,16 +339,19 @@ public class AsyncReceiveNode extends LeftTupleSource
         }
 
         public void setNodeDirtyWithoutNotify() {
-            memory.updateDirtyNodeMask( nodePosMaskBit );
+            if (memory != null) {
+                memory.updateDirtyNodeMask( nodePosMaskBit );
+            }
         }
 
         public void setNodeCleanWithoutNotify() {
-            memory.updateCleanNodeMask( nodePosMaskBit );
+            if (memory != null) {
+                memory.updateCleanNodeMask( nodePosMaskBit );
+            }
         }
 
         public void reset() {
-            insertOrUpdateLeftTuples.clear();
-            deleteLeftTuples.clear();
+            messages.clear();
         }
     }
 }

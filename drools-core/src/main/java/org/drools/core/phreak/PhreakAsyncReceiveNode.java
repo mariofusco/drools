@@ -15,6 +15,8 @@
 
 package org.drools.core.phreak;
 
+import org.drools.core.common.BetaConstraints;
+import org.drools.core.common.InternalFactHandle;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.common.TupleSets;
 import org.drools.core.reteoo.AsyncReceiveNode;
@@ -23,12 +25,12 @@ import org.drools.core.reteoo.LeftTuple;
 import org.drools.core.reteoo.LeftTupleSink;
 import org.drools.core.reteoo.PathMemory;
 import org.drools.core.reteoo.SegmentMemory;
+import org.drools.core.rule.ContextEntry;
 import org.drools.core.util.index.TupleList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static org.drools.core.phreak.PhreakAsyncSendNode.isAllowed;
-import static org.drools.core.phreak.RuleNetworkEvaluator.normalizeStagedTuples;
 
 public class PhreakAsyncReceiveNode {
     private static final Logger log = LoggerFactory.getLogger( PhreakAsyncReceiveNode.class );
@@ -43,9 +45,24 @@ public class PhreakAsyncReceiveNode {
                        TupleSets<LeftTuple> trgLeftTuples,
                        TupleSets<LeftTuple> stagedLeftTuples) {
 
+        if ( srcLeftTuples.getInsertFirst() != null ) {
+            doLeftInserts( memory, srcLeftTuples );
+        }
+
         doPropagateChildLeftTuples( node, memory, wm, sink, trgLeftTuples, stagedLeftTuples );
 
         srcLeftTuples.resetAll();
+    }
+
+    private void doLeftInserts(AsyncReceiveMemory memory, TupleSets<LeftTuple> srcLeftTuples) {
+        for ( LeftTuple leftTuple = srcLeftTuples.getInsertFirst(); leftTuple != null; ) {
+            LeftTuple next = leftTuple.getStagedNext();
+
+            memory.addInsertOrUpdateLeftTuple( leftTuple );
+
+            leftTuple.clearStaged();
+            leftTuple = next;
+        }
     }
 
     private static void doPropagateChildLeftTuples(AsyncReceiveNode node,
@@ -54,41 +71,30 @@ public class PhreakAsyncReceiveNode {
                                                    LeftTupleSink sink,
                                                    TupleSets<LeftTuple> trgLeftTuples,
                                                    TupleSets<LeftTuple> stagedLeftTuples) {
+
+        BetaConstraints betaConstraints = node.getBetaConstraints();
+        ContextEntry[] context = betaConstraints.createContext();
+
         TupleList leftTuples = memory.getInsertOrUpdateLeftTuples();
-        for ( LeftTuple leftTuple = (LeftTuple) leftTuples.getFirst(); leftTuple != null; ) {
-            LeftTuple next = (LeftTuple) leftTuple.getNext();
+        for ( LeftTuple leftTuple = (LeftTuple) leftTuples.getFirst(); leftTuple != null; leftTuple = ( LeftTuple ) leftTuple.getNext() ) {
 
-            if ( isAllowed( leftTuple.getFactHandle(), node.getAlphaConstraints(), wm ) ) {
-                doPropagateChildLeftTuple( sink, trgLeftTuples, stagedLeftTuples, leftTuple );
+            betaConstraints.updateFromTuple(context, wm, leftTuple);
+
+            for (Object message : memory.getMessages()) {
+                InternalFactHandle factHandle = wm.getFactHandleFactory().newFactHandle( message, node.getObjectTypeConf( wm ), wm, null );
+                if ( isAllowed( factHandle, node.getAlphaConstraints(), wm ) ) {
+                    if (betaConstraints.isAllowedCachedLeft(context, factHandle)) {
+                        LeftTuple childLeftTuple = sink.createLeftTuple( factHandle, leftTuple, sink );
+                        childLeftTuple.setPropagationContext( leftTuple.getPropagationContext() );
+                        trgLeftTuples.addInsert( childLeftTuple );
+                    }
+                }
             }
-
-            leftTuple.clear();
-            leftTuple = next;
         }
 
-        // doLeftDeletes handles deletes, directly into the trgLeftTuples
-        if ( memory.getDeleteLeftTuples().isEmpty() ) {
-            // dirty bit can only be reset when there are no InsertOUdate LeftTuples and no Delete staged LeftTuples.
-            memory.setNodeCleanWithoutNotify();
-        }
-        leftTuples.clear();
-    }
 
-    private static LeftTuple doPropagateChildLeftTuple(LeftTupleSink sink,
-                                                       TupleSets<LeftTuple> trgLeftTuples,
-                                                       TupleSets<LeftTuple> stagedLeftTuples,
-                                                       LeftTuple leftTuple) {
-        LeftTuple childLeftTuple = leftTuple.getFirstChild();
-        if ( childLeftTuple == null ) {
-            childLeftTuple = sink.createLeftTuple( leftTuple, sink, leftTuple.getPropagationContext(), true );
-            trgLeftTuples.addInsert(childLeftTuple);
-        } else if (childLeftTuple.getContextObject() == Boolean.TRUE) {
-            // This childLeftTuple has been created in this doNode loop, just skip it
-            childLeftTuple.setContextObject( null );
-        } else {
-            normalizeStagedTuples( stagedLeftTuples, childLeftTuple );
-            trgLeftTuples.addUpdate( childLeftTuple );
-        }
-        return childLeftTuple;
+
+
+        memory.reset();
     }
 }

@@ -27,14 +27,13 @@ import org.drools.core.reteoo.AsyncSendNode;
 import org.drools.core.reteoo.AsyncSendNode.AsyncSendMemory;
 import org.drools.core.reteoo.BetaMemory;
 import org.drools.core.reteoo.LeftTuple;
-import org.drools.core.reteoo.LeftTupleMessage;
+import org.drools.core.reteoo.AsyncMessage;
 import org.drools.core.reteoo.LeftTupleSink;
 import org.drools.core.reteoo.RightTuple;
 import org.drools.core.rule.ContextEntry;
 import org.drools.core.spi.AlphaNodeFieldConstraint;
 import org.drools.core.spi.DataProvider;
 import org.drools.core.spi.PropagationContext;
-import org.drools.core.spi.Tuple;
 import org.kie.internal.concurrent.ExecutorProviderFactory;
 
 public class PhreakAsyncSendNode {
@@ -114,17 +113,10 @@ public class PhreakAsyncSendNode {
                 continue; // skip anything if it not assignable
             }
 
-            RightTuple rightTuple = node.createRightTuple(leftTuple,
-                                                              propagationContext,
-                                                              wm,
-                                                              object);
+            InternalFactHandle factHandle = node.createFactHandle(leftTuple, propagationContext, wm, object);
 
-            if ( isAllowed( rightTuple.getFactHandle(), alphaConstraints, wm ) ) {
-                propagate( node, wm, sink, leftTuple, rightTuple, betaConstraints, propagationContext, context, useLeftMemory );
-            }
-            if (useLeftMemory) {
-                node.addToCreatedHandlesMap(matches,
-                                                rightTuple);
+            if ( isAllowed( factHandle, alphaConstraints, wm ) ) {
+                propagate( node, wm, factHandle, betaConstraints, propagationContext, context );
             }
         }
     }
@@ -144,27 +136,12 @@ public class PhreakAsyncSendNode {
 
     public void propagate( AsyncSendNode node,
                            InternalWorkingMemory wm,
-                           LeftTupleSink sink,
-                           Tuple leftTuple,
-                           RightTuple rightTuple,
+                           InternalFactHandle factHandle,
                            BetaConstraints betaConstraints,
                            PropagationContext propagationContext,
-                           ContextEntry[] context,
-                           boolean useLeftMemory ) {
-        if (betaConstraints.isAllowedCachedLeft(context, rightTuple.getFactHandleForEvaluation())) {
-
-            if (rightTuple.getFirstChild() == null) {
-                // this is a new match, so propagate as assert
-                LeftTuple childLeftTuple = sink.createLeftTuple((LeftTuple)leftTuple,
-                                                                rightTuple,
-                                                                null,
-                                                                null,
-                                                                sink,
-                                                                useLeftMemory);
-                childLeftTuple.setPropagationContext(propagationContext);
-
-                wm.getKnowledgeBase().getMessagesCoordinator().propagate( node.getMessageId(), new LeftTupleMessage( childLeftTuple, wm ) );
-            }
+                           ContextEntry[] context ) {
+        if (betaConstraints.isAllowedCachedLeft(context, factHandle)) {
+            wm.getKnowledgeBase().getMessagesCoordinator().propagate( node.getMessageId(), new AsyncMessage( wm, factHandle.getObject() ) );
         }
     }
 }

@@ -24,13 +24,13 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class AsyncMessagesCoordinator {
-    private final Map<String, List<Consumer<LeftTupleMessage>>> listeners = new HashMap<>();
+    private final Map<String, List<Consumer<AsyncMessage>>> listeners = new HashMap<>();
 
-    public void propagate(String messageId, LeftTupleMessage leftTuple) {
+    public void propagate(String messageId, AsyncMessage leftTuple) {
         listeners.getOrDefault( messageId, Collections.emptyList() ).forEach( c -> c.accept( leftTuple ) );
     }
 
-    public void registerReceiver(String messageId, Consumer<LeftTupleMessage> receiver) {
+    public void registerReceiver(String messageId, Consumer<AsyncMessage> receiver) {
         listeners.computeIfAbsent( messageId, s -> new ArrayList<>() ).add( receiver );
     }
 }

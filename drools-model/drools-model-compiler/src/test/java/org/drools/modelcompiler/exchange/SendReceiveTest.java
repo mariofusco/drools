@@ -18,16 +18,18 @@ package org.drools.modelcompiler.exchange;
 
 import org.drools.model.Model;
 import org.drools.model.Rule;
+import org.drools.model.Variable;
 import org.drools.model.impl.Exchange;
 import org.drools.model.impl.ModelImpl;
-import org.drools.modelcompiler.ReteDumper;
 import org.drools.modelcompiler.builder.KieBaseBuilder;
 import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.runtime.KieSession;
 
+import static org.drools.model.DSL.declarationOf;
 import static org.drools.model.DSL.exchangeOf;
 import static org.drools.model.DSL.on;
+import static org.drools.model.PatternDSL.pattern;
 import static org.drools.model.PatternDSL.receive;
 import static org.drools.model.PatternDSL.rule;
 import static org.drools.model.PatternDSL.send;
@@ -36,9 +38,10 @@ public class SendReceiveTest {
 
     @Test
     public void testAsync() {
+        Variable<Integer> length = declarationOf( Integer.class );
         Exchange<String> exchange = exchangeOf( String.class );
 
-        Rule rule = rule( "async" )
+        Rule send = rule( "send" )
                 .build(
                         send(exchange).message( () -> {
                             try {
@@ -47,19 +50,22 @@ public class SendReceiveTest {
                                 throw new RuntimeException( e );
                             }
                             return "Hello World!";
-                        } ),
-
-                        receive(exchange).expr(s -> s.length() > 10),
-
-                        on(exchange).execute(s -> System.out.println( "received long message: " + s))
+                        } )
                 );
 
-        Model model = new ModelImpl().addRule( rule );
+        Rule receive = rule( "receive" )
+                .build(
+                        pattern(length),
+                        receive(exchange).expr(length, (s, l) -> s.length() > l),
+                        on(exchange, length).execute((s, l) -> System.out.println( "received message '" + s + "' longer than " + l))
+                );
+
+        Model model = new ModelImpl().addRule( send ).addRule( receive );
         KieBase kieBase = KieBaseBuilder.createKieBaseFromModel( model );
 
         KieSession ksession = kieBase.newKieSession();
 
-        ReteDumper.dumpRete( ksession );
+        ksession.insert( 10 );
 
         new Thread( () -> ksession.fireUntilHalt() ).start();
 
