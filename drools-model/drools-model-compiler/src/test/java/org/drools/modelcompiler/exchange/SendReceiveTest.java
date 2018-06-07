@@ -16,6 +16,11 @@
 
 package org.drools.modelcompiler.exchange;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.drools.core.reteoo.AsyncMessagesCoordinator;
+import org.drools.model.Global;
 import org.drools.model.Model;
 import org.drools.model.Rule;
 import org.drools.model.Variable;
@@ -28,16 +33,19 @@ import org.kie.api.runtime.KieSession;
 
 import static org.drools.model.DSL.declarationOf;
 import static org.drools.model.DSL.exchangeOf;
+import static org.drools.model.DSL.globalOf;
 import static org.drools.model.DSL.on;
 import static org.drools.model.PatternDSL.pattern;
 import static org.drools.model.PatternDSL.receive;
 import static org.drools.model.PatternDSL.rule;
 import static org.drools.model.PatternDSL.send;
+import static org.junit.Assert.assertEquals;
 
 public class SendReceiveTest {
 
     @Test
     public void testAsync() {
+        Global<List> messages = globalOf( List.class, "defaultpkg", "messages" );
         Variable<Integer> length = declarationOf( Integer.class );
         Exchange<String> exchange = exchangeOf( String.class );
 
@@ -57,13 +65,18 @@ public class SendReceiveTest {
                 .build(
                         pattern(length),
                         receive(exchange).expr(length, (s, l) -> s.length() > l),
-                        on(exchange, length).execute((s, l) -> System.out.println( "received message '" + s + "' longer than " + l))
+                        on(exchange, length, messages).execute((s, l, m) -> m.add( "received message '" + s + "' longer than " + l))
                 );
 
-        Model model = new ModelImpl().addRule( send ).addRule( receive );
+        Model model = new ModelImpl().addRule( send ).addRule( receive ).addGlobal( messages );
         KieBase kieBase = KieBaseBuilder.createKieBaseFromModel( model );
 
         KieSession ksession = kieBase.newKieSession();
+
+        List<String> list = new ArrayList<>();
+        ksession.setGlobal( "messages", list );
+
+        assertEquals( 1, AsyncMessagesCoordinator.get().getListeners().size() );
 
         ksession.insert( 10 );
 
@@ -77,5 +90,66 @@ public class SendReceiveTest {
 
         ksession.halt();
         ksession.dispose();
+
+        assertEquals( 1, list.size());
+        assertEquals( "received message 'Hello World!' longer than 10", list.get(0));
+        assertEquals( 0, AsyncMessagesCoordinator.get().getListeners().size() );
+    }
+
+    @Test
+    public void testAsyncWith2KBase() {
+        Exchange<String> exchange = exchangeOf( String.class );
+
+        Rule send = rule( "send" )
+                .build(
+                        send(exchange).message( () -> {
+                            try {
+                                Thread.sleep(1_000L);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException( e );
+                            }
+                            return "Hello World!";
+                        } )
+                );
+
+        Variable<Integer> length = declarationOf( Integer.class );
+        Global<List> messages = globalOf( List.class, "defaultpkg", "messages" );
+
+        Rule receive = rule( "receive" )
+                .build(
+                        pattern(length),
+                        receive(exchange).expr(length, (s, l) -> s.length() > l),
+                        on(exchange, length, messages).execute((s, l, m) -> m.add( "received message '" + s + "' longer than " + l))
+                );
+
+        Model model1 = new ModelImpl().addRule( send );
+        KieBase kieBase1 = KieBaseBuilder.createKieBaseFromModel( model1 );
+        KieSession ksession1 = kieBase1.newKieSession();
+
+        Model model2 = new ModelImpl().addRule( receive ).addGlobal( messages );
+        KieBase kieBase2 = KieBaseBuilder.createKieBaseFromModel( model2 );
+        KieSession ksession2 = kieBase2.newKieSession();
+
+        List<String> list = new ArrayList<>();
+        ksession2.setGlobal( "messages", list );
+
+        ksession2.insert( 10 );
+        new Thread( () -> ksession2.fireUntilHalt() ).start();
+
+        new Thread( () -> ksession1.fireUntilHalt() ).start();
+
+        try {
+            Thread.sleep( 2_000L );
+        } catch (InterruptedException e) {
+            throw new RuntimeException( e );
+        }
+
+        ksession1.halt();
+        ksession1.dispose();
+        ksession2.halt();
+        ksession2.dispose();
+
+        assertEquals( 1, list.size());
+        assertEquals( "received message 'Hello World!' longer than 10", list.get(0));
     }
 }

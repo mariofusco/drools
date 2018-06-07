@@ -23,11 +23,12 @@ import org.drools.core.common.BetaConstraints;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.common.TupleSets;
+import org.drools.core.reteoo.AsyncMessage;
+import org.drools.core.reteoo.AsyncMessagesCoordinator;
 import org.drools.core.reteoo.AsyncSendNode;
 import org.drools.core.reteoo.AsyncSendNode.AsyncSendMemory;
 import org.drools.core.reteoo.BetaMemory;
 import org.drools.core.reteoo.LeftTuple;
-import org.drools.core.reteoo.AsyncMessage;
 import org.drools.core.reteoo.LeftTupleSink;
 import org.drools.core.reteoo.RightTuple;
 import org.drools.core.rule.ContextEntry;
@@ -141,7 +142,7 @@ public class PhreakAsyncSendNode {
                            PropagationContext propagationContext,
                            ContextEntry[] context ) {
         if (betaConstraints.isAllowedCachedLeft(context, factHandle)) {
-            wm.getKnowledgeBase().getMessagesCoordinator().propagate( node.getMessageId(), new AsyncMessage( wm, factHandle.getObject() ) );
+            AsyncMessagesCoordinator.get().propagate( node.getMessageId(), new AsyncMessage( wm, factHandle.getObject() ) );
         }
     }
 }

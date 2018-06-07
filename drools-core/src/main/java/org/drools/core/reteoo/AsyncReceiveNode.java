@@ -21,6 +21,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.drools.core.RuleBaseConfiguration;
 import org.drools.core.common.BetaConstraints;
@@ -103,9 +104,7 @@ public class AsyncReceiveNode extends LeftTupleSource
 
     public void attach( BuildContext context ) {
         this.leftInput.addTupleSink( this, context );
-        context.getKnowledgeBase().getMessagesCoordinator().registerReceiver( messageId, asyncMessage -> {
-            asyncMessage.getWorkingMemory().addPropagation( new AsyncReceiveAction( this, asyncMessage.getObject() ) );
-        } );
+        context.getKnowledgeBase().addReceiveNode(this);
     }
 
     public AlphaNodeFieldConstraint[] getAlphaConstraints() {
@@ -187,7 +186,7 @@ public class AsyncReceiveNode extends LeftTupleSource
     }
 
     public AsyncReceiveMemory createMemory( final RuleBaseConfiguration config, InternalWorkingMemory wm ) {
-        return new AsyncReceiveMemory();
+        return new AsyncReceiveMemory(this, wm);
     }
 
     @Override
@@ -297,10 +296,21 @@ public class AsyncReceiveNode extends LeftTupleSource
             SegmentNodeMemory {
 
         private static final long serialVersionUID = 510l;
-        private TupleList insertOrUpdateLeftTuples = new TupleList();
-        private List<Object> messages = new ArrayList<>();
+
+        private final Consumer<AsyncMessage> receiver;
+        private final String messageId;
+
+        private final TupleList insertOrUpdateLeftTuples = new TupleList();
+        private final List<Object> messages = new ArrayList<>();
+
         private SegmentMemory memory;
         private long nodePosMaskBit;
+
+        public AsyncReceiveMemory(AsyncReceiveNode node, InternalWorkingMemory wm) {
+            this.messageId = node.messageId;
+            this.receiver = asyncMessage -> wm.addPropagation( new AsyncReceiveAction( node, asyncMessage.getObject() ) );
+            AsyncMessagesCoordinator.get().registerReceiver( node.messageId, receiver );
+        }
 
         public void addMessage(Object message) {
             messages.add(message);
@@ -352,6 +362,10 @@ public class AsyncReceiveNode extends LeftTupleSource
 
         public void reset() {
             messages.clear();
+        }
+
+        public void dispose() {
+            AsyncMessagesCoordinator.get().deregisterReceiver( messageId, receiver );
         }
     }
 }
