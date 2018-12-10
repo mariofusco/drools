@@ -18,7 +18,7 @@ package org.drools.core.factmodel;
 
 import org.drools.core.base.ClassFieldAccessorCache;
 import org.drools.core.base.ClassFieldAccessorStore;
-import org.drools.core.common.ProjectClassLoader;
+import org.drools.dynamic.common.ProjectClassLoader;
 import org.drools.core.rule.JavaDialectRuntimeData;
 import org.drools.core.rule.JavaDialectRuntimeData.PackageClassLoader;
 import org.junit.Before;

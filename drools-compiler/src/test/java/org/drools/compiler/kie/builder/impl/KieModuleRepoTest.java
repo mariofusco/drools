@@ -19,7 +19,7 @@ import org.appformer.maven.support.PomModel;
 import org.drools.compiler.kie.builder.impl.KieRepositoryImpl.KieModuleRepo;
 import org.drools.compiler.kproject.ReleaseIdImpl;
 import org.drools.compiler.kproject.models.KieBaseModelImpl;
-import org.drools.core.common.ResourceProvider;
+import org.drools.dynamic.common.ResourceProvider;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.junit.After;
 import org.junit.Before;

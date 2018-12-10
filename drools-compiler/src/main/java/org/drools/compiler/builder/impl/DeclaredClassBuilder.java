@@ -19,7 +19,7 @@ import org.drools.compiler.compiler.PackageRegistry;
 import org.drools.compiler.compiler.TypeDeclarationError;
 import org.drools.compiler.lang.descr.AbstractClassTypeDeclarationDescr;
 import org.drools.compiler.lang.descr.TypeDeclarationDescr;
-import org.drools.core.common.ProjectClassLoader;
+import org.drools.dynamic.common.ProjectClassLoader;
 import org.drools.core.factmodel.ClassBuilder;
 import org.drools.core.factmodel.ClassDefinition;
 import org.drools.core.rule.JavaDialectRuntimeData;
@@ -27,8 +27,6 @@ import org.drools.core.rule.TypeDeclaration;
 import org.kie.soup.project.datamodel.commons.types.TypeResolver;
 
 import static org.drools.core.util.ClassUtils.convertClassToResourcePath;
-
-import org.kie.soup.project.datamodel.commons.types.TypeResolver;
 
 public class DeclaredClassBuilder {
 
