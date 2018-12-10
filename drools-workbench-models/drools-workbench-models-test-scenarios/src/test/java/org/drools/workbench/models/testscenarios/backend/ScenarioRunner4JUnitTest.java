@@ -18,7 +18,7 @@ package org.drools.workbench.models.testscenarios.backend;
 
 import java.util.HashMap;
 
-import org.drools.core.common.ProjectClassLoader;
+import org.drools.dynamic.common.ProjectClassLoader;
 import org.drools.core.impl.KnowledgeBaseImpl;
 import org.drools.core.impl.StatefulKnowledgeSessionImpl;
 import org.drools.workbench.models.testscenarios.shared.Scenario;

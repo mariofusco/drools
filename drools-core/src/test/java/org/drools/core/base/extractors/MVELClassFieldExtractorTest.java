@@ -18,10 +18,9 @@ package org.drools.core.base.extractors;
 
 import java.util.Vector;
 
-import org.drools.core.common.ProjectClassLoader;
+import org.drools.dynamic.common.ProjectClassLoader;
 import org.junit.Before;
 import org.junit.Test;
-import org.kie.internal.utils.ClassLoaderUtil;
 
 import static org.junit.Assert.*;
 

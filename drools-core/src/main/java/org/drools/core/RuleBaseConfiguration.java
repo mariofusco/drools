@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.drools.core.common.AgendaGroupFactory;
-import org.drools.core.common.ProjectClassLoader;
+import org.drools.dynamic.common.ProjectClassLoader;
 import org.drools.core.conflict.DepthConflictResolver;
 import org.drools.core.reteoo.KieComponentFactory;
 import org.drools.core.runtime.rule.impl.DefaultConsequenceExceptionHandler;

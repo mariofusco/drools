@@ -50,7 +50,7 @@ import javax.tools.ToolProvider;
 
 import org.drools.compiler.commons.jci.readers.ResourceReader;
 import org.drools.compiler.commons.jci.stores.ResourceStore;
-import org.drools.core.common.ProjectClassLoader;
+import org.drools.dynamic.common.ProjectClassLoader;
 import org.drools.core.util.IoUtils;
 import org.kie.internal.jci.CompilationProblem;
 

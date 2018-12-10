@@ -48,7 +48,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static org.drools.compiler.kie.builder.impl.KieBuilderImpl.setDefaultsforEmptyKieModule;
-import static org.drools.core.common.ProjectClassLoader.createProjectClassLoader;
+import static org.drools.dynamic.common.ProjectClassLoader.createProjectClassLoader;
 
 /**
  * Discovers all KieModules on the classpath, via the kmodule.xml file.
