@@ -17,13 +17,14 @@
 
 package org.drools;
 
+import org.drools.core.RuleBaseConfiguration;
 import org.drools.core.impl.KnowledgeBaseImpl;
 import org.kie.api.runtime.KieSession;
 
 public class A {
 
     public static void main(String[] args) {
-        KnowledgeBaseImpl knowledgeBase = new KnowledgeBaseImpl();
+        KnowledgeBaseImpl knowledgeBase = new KnowledgeBaseImpl("kbase", new RuleBaseConfiguration());
         KieSession kieSession = knowledgeBase.newKieSession();
         kieSession.fireAllRules();
     }

@@ -114,6 +114,7 @@ import org.drools.core.spi.PropagationContext;
 import org.drools.core.spi.Tuple;
 import org.drools.core.time.TimerService;
 import org.drools.core.time.TimerServiceFactory;
+import org.drools.core.time.impl.JDKTimerService;
 import org.drools.core.util.bitmask.BitMask;
 import org.drools.core.util.index.TupleList;
 import org.kie.api.KieBase;
@@ -366,7 +367,7 @@ public class StatefulKnowledgeSessionImpl extends AbstractRuntime
         this.kieBaseEventListeners = new LinkedList<KieBaseEventListener>();
         this.lock = new ReentrantLock();
 
-        this.timerService = null; //TimerServiceFactory.getTimerService( this.config );
+        this.timerService = new JDKTimerService(); //TimerServiceFactory.getTimerService( this.config );
 
         this.opCounter = new AtomicLong(0);
         this.lastIdleTimestamp = new AtomicLong(-1);

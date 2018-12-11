@@ -171,8 +171,7 @@ public class DefaultAgenda
             this.focusStack.add( this.mainAgendaGroup );
         }
 
-        Object object = ClassUtils.instantiateObject( kBase.getConfiguration().getConsequenceExceptionHandler(),
-                                                      kBase.getConfiguration().getClassLoader() );
+        Object object = new org.drools.core.runtime.rule.impl.DefaultConsequenceExceptionHandler();
         if ( object instanceof ConsequenceExceptionHandler ) {
             this.legacyConsequenceExceptionHandler = (ConsequenceExceptionHandler) object;
         } else {
