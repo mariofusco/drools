@@ -449,7 +449,8 @@ public class RuleBaseConfiguration
 
         setSequential(Boolean.valueOf(this.chainedProperties.getProperty(SequentialOption.PROPERTY_NAME, "false")).booleanValue());
 
-        setConflictResolver( determineConflictResolver( this.chainedProperties.getProperty( "drools.conflictResolver", "org.drools.core.conflict.DepthConflictResolver" ) ) );
+        setConflictResolver( new org.drools.core.conflict.DepthConflictResolver() );
+                //determineConflictResolver( this.chainedProperties.getProperty( "drools.conflictResolver", "org.drools.core.conflict.DepthConflictResolver" ) ) );
 
         setAdvancedProcessRuleIntegration( Boolean.valueOf( this.chainedProperties.getProperty( "drools.advancedProcessRuleIntegration",
                                                                                                 "false" ) ).booleanValue() );

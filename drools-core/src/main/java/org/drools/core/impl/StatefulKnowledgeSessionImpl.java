@@ -366,7 +366,7 @@ public class StatefulKnowledgeSessionImpl extends AbstractRuntime
         this.kieBaseEventListeners = new LinkedList<KieBaseEventListener>();
         this.lock = new ReentrantLock();
 
-        this.timerService = TimerServiceFactory.getTimerService( this.config );
+        this.timerService = null; //TimerServiceFactory.getTimerService( this.config );
 
         this.opCounter = new AtomicLong(0);
         this.lastIdleTimestamp = new AtomicLong(-1);

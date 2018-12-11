@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
@@ -56,7 +57,7 @@ public class CompositeDefaultAgenda implements Externalizable, InternalAgenda {
 
     protected static final transient Logger log = LoggerFactory.getLogger( CompositeDefaultAgenda.class );
 
-    private static final ExecutorService EXECUTOR = ExecutorProviderFactory.getExecutorProvider().getExecutor();
+    private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();//ExecutorProviderFactory.getExecutorProvider().getExecutor();
 
     private static final AtomicBoolean FIRING_UNTIL_HALT_USING_EXECUTOR = new AtomicBoolean( false );
 

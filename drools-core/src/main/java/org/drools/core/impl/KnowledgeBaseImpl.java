@@ -71,6 +71,7 @@ import org.drools.core.reteoo.ObjectSource;
 import org.drools.core.reteoo.ObjectTypeNode;
 import org.drools.core.reteoo.Rete;
 import org.drools.core.reteoo.ReteooBuilder;
+import org.drools.core.reteoo.ReteooFactHandleFactory;
 import org.drools.core.reteoo.RightInputAdapterNode;
 import org.drools.core.reteoo.SegmentMemory;
 import org.drools.core.reteoo.Sink;
@@ -362,9 +363,9 @@ public class KnowledgeBaseImpl
     }
 
     public StatefulKnowledgeSessionImpl internalCreateStatefulKnowledgeSession( Environment environment, SessionConfiguration sessionConfig ) {
-        StatefulKnowledgeSessionImpl session = ( StatefulKnowledgeSessionImpl ) kieComponentFactory.getWorkingMemoryFactory()
-                .createWorkingMemory( nextWorkingMemoryCounter(), this, sessionConfig, environment );
-        return internalInitSession( sessionConfig, session );
+//        StatefulKnowledgeSessionImpl session = ( StatefulKnowledgeSessionImpl ) kieComponentFactory.getWorkingMemoryFactory()
+//                .createWorkingMemory( nextWorkingMemoryCounter(), this, sessionConfig, environment );
+        return internalInitSession( sessionConfig, new StatefulKnowledgeSessionImpl(0, this, true, sessionConfig, environment) );
     }
 
     private StatefulKnowledgeSessionImpl internalInitSession( SessionConfiguration sessionConfig, StatefulKnowledgeSessionImpl session ) {
@@ -625,7 +626,7 @@ public class KnowledgeBaseImpl
     }
 
     public FactHandleFactory newFactHandleFactory() {
-        return this.factHandleFactory.newInstance();
+        return new ReteooFactHandleFactory(); //this.factHandleFactory.newInstance();
     }
 
     public FactHandleFactory newFactHandleFactory(int id,
