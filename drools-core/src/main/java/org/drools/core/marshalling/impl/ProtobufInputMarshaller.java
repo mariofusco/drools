@@ -86,7 +86,7 @@ import org.kie.api.runtime.rule.Match;
 public class ProtobufInputMarshaller {
     // NOTE: all variables prefixed with _ (underscore) are protobuf structs
 
-    private static ProcessMarshaller processMarshaller = createProcessMarshaller();
+    private static ProcessMarshaller processMarshaller = null;//createProcessMarshaller();
 
     private static ProcessMarshaller createProcessMarshaller() {
         try {
