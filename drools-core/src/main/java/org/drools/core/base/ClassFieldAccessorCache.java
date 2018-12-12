@@ -166,12 +166,13 @@ public class ClassFieldAccessorCache {
                 throw new RuntimeException( "ClassFieldAccessorFactory cannot have a null parent ClassLoader" );
             }
 
-            this.byteArrayClassLoader = AccessController.doPrivileged(
-                    (PrivilegedAction<ByteArrayClassLoader>) () ->
-                            ClassUtils.isAndroid() ?
-                                    (ByteArrayClassLoader) ClassUtils.instantiateObject(
-                                            "org.drools.android.MultiDexClassLoader", null, parentClassLoader) :
-                            new DefaultByteArrayClassLoader(parentClassLoader));
+            this.byteArrayClassLoader = null;
+//                    AccessController.doPrivileged(
+//                    (PrivilegedAction<ByteArrayClassLoader>) () ->
+//                            ClassUtils.isAndroid() ?
+//                                    (ByteArrayClassLoader) ClassUtils.instantiateObject(
+//                                            "org.drools.android.MultiDexClassLoader", null, parentClassLoader) :
+//                            new DefaultByteArrayClassLoader(parentClassLoader));
         }
 
         public ByteArrayClassLoader getByteArrayClassLoader() {

@@ -108,28 +108,28 @@ public class ClassFieldAccessorFactory {
                         index = inspector.getFieldNames().get( altFieldName );
                     }
                 }
-                if ( fieldType != null && getterMethod != null ) {
-                    final String className = ClassFieldAccessorFactory.BASE_PACKAGE + "/" + Type.getInternalName( clazz ) + Math.abs( (long) System.identityHashCode( clazz ) ) + "$" + getterMethod.getName();
-
-                    // generating byte array to create target class
-                    final byte[] bytes = dumpReader( clazz,
-                                                     className,
-                                                     getterMethod,
-                                                     fieldType );
-                    // use bytes to get a class 
-                    ByteArrayClassLoader byteArrayClassLoader = cache.getByteArrayClassLoader();
-                    final Class< ? > newClass = byteArrayClassLoader.defineClass( className.replace( '/',
-                                                                                                     '.' ),
-                                                                                  bytes,
-                                                                                  PROTECTION_DOMAIN );
-                    // instantiating target class
-                    final ValueType valueType = ValueType.determineValueType( fieldType );
-                    final Object[] params = {index, fieldType, valueType};
-                    return (BaseClassFieldReader) newClass.getConstructors()[0].newInstance( params );
-                } else {
+//                if ( fieldType != null && getterMethod != null ) {
+//                    final String className = ClassFieldAccessorFactory.BASE_PACKAGE + "/" + Type.getInternalName( clazz ) + Math.abs( (long) System.identityHashCode( clazz ) ) + "$" + getterMethod.getName();
+//
+//                    // generating byte array to create target class
+//                    final byte[] bytes = dumpReader( clazz,
+//                                                     className,
+//                                                     getterMethod,
+//                                                     fieldType );
+//                    // use bytes to get a class
+//                    ByteArrayClassLoader byteArrayClassLoader = cache.getByteArrayClassLoader();
+//                    final Class< ? > newClass = byteArrayClassLoader.defineClass( className.replace( '/',
+//                                                                                                     '.' ),
+//                                                                                  bytes,
+//                                                                                  PROTECTION_DOMAIN );
+//                    // instantiating target class
+//                    final ValueType valueType = ValueType.determineValueType( fieldType );
+//                    final Object[] params = {index, fieldType, valueType};
+//                    return (BaseClassFieldReader) newClass.getConstructors()[0].newInstance( params );
+//                } else {
                     // must be a public field
                     return null;
-                }
+//                }
             }
         } catch ( final RuntimeException e ) {
             throw e;
@@ -183,26 +183,27 @@ public class ClassFieldAccessorFactory {
                 setterMethod = inspector.getSetterMethods().get( altFieldName );
                 index = inspector.getFieldNames().get( altFieldName );
             }
-            if ( setterMethod != null ) {
-                final Class< ? > fieldType = setterMethod.getParameterTypes()[0];
-                final String className = ClassFieldAccessorFactory.BASE_PACKAGE + "/" + Type.getInternalName( clazz ) + Math.abs( (long) System.identityHashCode( clazz ) ) + "$" + setterMethod.getName();
-
-                // generating byte array to create target class
-                final byte[] bytes = dumpWriter( clazz,
-                                                 className,
-                                                 setterMethod,
-                                                 fieldType );
-                // use bytes to get a class 
-
-                final Class< ? > newClass = byteArrayClassLoader.defineClass( className.replace( '/',
-                                                                                                 '.' ),
-                                                                              bytes,
-                                                                              PROTECTION_DOMAIN );
-                // instantiating target class
-                final ValueType valueType = ValueType.determineValueType( fieldType );
-                final Object[] params = {index, fieldType, valueType};
-                return (BaseClassFieldWriter) newClass.getConstructors()[0].newInstance( params );
-            } else {
+//            if ( setterMethod != null ) {
+//                final Class< ? > fieldType = setterMethod.getParameterTypes()[0];
+//                final String className = ClassFieldAccessorFactory.BASE_PACKAGE + "/" + Type.getInternalName( clazz ) + Math.abs( (long) System.identityHashCode( clazz ) ) + "$" + setterMethod.getName();
+//
+//                // generating byte array to create target class
+//                final byte[] bytes = dumpWriter( clazz,
+//                                                 className,
+//                                                 setterMethod,
+//                                                 fieldType );
+//                // use bytes to get a class
+//
+//                final Class< ? > newClass = byteArrayClassLoader.defineClass( className.replace( '/',
+//                                                                                                 '.' ),
+//                                                                              bytes,
+//                                                                              PROTECTION_DOMAIN );
+//                // instantiating target class
+//                final ValueType valueType = ValueType.determineValueType( fieldType );
+//                final Object[] params = {index, fieldType, valueType};
+//                return (BaseClassFieldWriter) newClass.getConstructors()[0].newInstance( params );
+//            } else
+            {
                 if ( inspector.getFieldNames().containsKey( fieldName ) ) {
                     if ( inspector.getGetterMethods().get( fieldName ) != null ) {
                         // field without setter
