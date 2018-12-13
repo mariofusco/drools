@@ -857,7 +857,7 @@ public class KnowledgeBaseImpl
 
         }
 
-        processAllTypesDeclaration( clonedPkgs );
+        //processAllTypesDeclaration( clonedPkgs );
 
         for ( InternalKnowledgePackage newPkg : clonedPkgs ) {
             // Add functions
