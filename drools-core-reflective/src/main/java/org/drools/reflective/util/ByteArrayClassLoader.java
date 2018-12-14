@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.drools.core.util;
+package org.drools.reflective.util;
 
 import java.security.ProtectionDomain;
 

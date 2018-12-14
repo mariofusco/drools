@@ -53,7 +53,7 @@ import org.drools.core.base.extractors.BaseShortClassFieldWriter;
 import org.drools.core.base.extractors.BaseZonedDateTimeClassFieldReader;
 import org.drools.core.base.extractors.SelfReferenceClassFieldReader;
 import org.drools.core.common.InternalWorkingMemory;
-import org.drools.core.util.ByteArrayClassLoader;
+import org.drools.reflective.util.ByteArrayClassLoader;
 import org.drools.core.util.asm.ClassFieldInspector;
 import org.mvel2.asm.ClassWriter;
 import org.mvel2.asm.Label;

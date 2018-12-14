@@ -18,15 +18,15 @@ package org.drools.core.base;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.security.ProtectionDomain;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.drools.core.util.ByteArrayClassLoader;
 import org.drools.core.util.ClassUtils;
 import org.drools.core.util.asm.ClassFieldInspector;
+import org.drools.dynamic.common.ClassLoaderFactory;
+import org.drools.reflective.util.ByteArrayClassLoader;
 
 import static org.drools.core.util.ClassUtils.convertPrimitiveNameToType;
 
@@ -171,7 +171,7 @@ public class ClassFieldAccessorCache {
                             ClassUtils.isAndroid() ?
                                     (ByteArrayClassLoader) ClassUtils.instantiateObject(
                                             "org.drools.android.MultiDexClassLoader", null, parentClassLoader) :
-                            new DefaultByteArrayClassLoader(parentClassLoader));
+                                    ClassLoaderFactory.createByteArrayClassLoader(parentClassLoader));
         }
 
         public ByteArrayClassLoader getByteArrayClassLoader() {
@@ -249,21 +249,4 @@ public class ClassFieldAccessorCache {
         }
 
     }
-
-    public static class DefaultByteArrayClassLoader extends ClassLoader implements ByteArrayClassLoader {
-        public DefaultByteArrayClassLoader(final ClassLoader parent) {
-            super( parent );
-        }
-
-        public Class< ? > defineClass(final String name,
-                                      final byte[] bytes,
-                                      final ProtectionDomain domain) {
-            return defineClass( name,
-                                bytes,
-                                0,
-                                bytes.length,
-                                domain );
-        }
-    }
-
 }

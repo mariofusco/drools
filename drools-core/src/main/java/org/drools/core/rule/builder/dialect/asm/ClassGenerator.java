@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.drools.core.util.ByteArrayClassLoader;
+import org.drools.reflective.util.ByteArrayClassLoader;
 import org.drools.core.util.ClassUtils;
 import org.kie.soup.project.datamodel.commons.types.TypeResolver;
 import org.mvel2.asm.ClassWriter;

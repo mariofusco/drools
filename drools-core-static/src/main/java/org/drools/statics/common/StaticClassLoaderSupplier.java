@@ -16,13 +16,28 @@
 
 package org.drools.statics.common;
 
+import java.security.ProtectionDomain;
+
+import org.drools.dynamic.common.ClassLoaderSupplier;
 import org.drools.dynamic.common.ProjectClassLoader;
-import org.drools.dynamic.common.ProjectClassLoaderSupplier;
 import org.drools.dynamic.common.ResourceProvider;
+import org.drools.reflective.util.ByteArrayClassLoader;
 
-public class StaticProjectClassLoaderSupplier implements ProjectClassLoaderSupplier {
+public class StaticClassLoaderSupplier implements ClassLoaderSupplier {
 
-    public ProjectClassLoader create( ClassLoader parent, ResourceProvider resourceProvider) {
+    public ProjectClassLoader createProjectClassLoader( ClassLoader parent, ResourceProvider resourceProvider) {
         return StaticProjectClassLoader.create(parent, resourceProvider);
+    }
+
+    public ByteArrayClassLoader createByteArrayClassLoader( ClassLoader parent ) {
+        return new DummyByteArrayClassLoader();
+    }
+
+    public static class DummyByteArrayClassLoader implements ByteArrayClassLoader {
+        public Class< ? > defineClass(final String name,
+                                      final byte[] bytes,
+                                      final ProtectionDomain domain) {
+            throw new UnsupportedOperationException();
+        }
     }
 }

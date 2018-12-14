@@ -16,6 +16,9 @@
 
 package org.drools.dynamic.common;
 
-public interface ProjectClassLoaderSupplier {
-    ProjectClassLoader create( ClassLoader parent, ResourceProvider resourceProvider );
+import org.drools.reflective.util.ByteArrayClassLoader;
+
+public interface ClassLoaderSupplier {
+    ProjectClassLoader createProjectClassLoader( ClassLoader parent, ResourceProvider resourceProvider );
+    ByteArrayClassLoader createByteArrayClassLoader( ClassLoader parent );
 }
