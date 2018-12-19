@@ -14,11 +14,16 @@
  * limitations under the License.
  */
 
-package org.drools.dynamic.common;
+package org.drools.statics.common;
 
-import org.drools.reflective.util.ByteArrayClassLoader;
+import java.util.function.Supplier;
 
-public interface ClassLoaderSupplier {
-    ProjectClassLoader createProjectClassLoader( ClassLoader parent, ResourceProvider resourceProvider );
-    ByteArrayClassLoader createByteArrayClassLoader( ClassLoader parent );
+import org.kie.api.internal.utils.ServiceRegistry;
+
+public class StaticServiceRegistrySupplier implements Supplier<ServiceRegistry> {
+
+    @Override
+    public ServiceRegistry get() {
+        return StaticServiceRegistry.INSTANCE;
+    }
 }

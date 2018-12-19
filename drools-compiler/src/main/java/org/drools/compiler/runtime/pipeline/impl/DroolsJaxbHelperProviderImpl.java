@@ -61,7 +61,7 @@ import org.drools.core.command.runtime.rule.ModifyCommand;
 import org.drools.core.command.runtime.rule.ModifyCommand.SetterImpl;
 import org.drools.core.command.runtime.rule.QueryCommand;
 import org.drools.core.common.DefaultFactHandle;
-import org.drools.dynamic.common.ProjectClassLoader;
+import org.drools.reflective.classloader.ProjectClassLoader;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.rule.TypeDeclaration;
 import org.drools.core.runtime.impl.ExecutionResultImpl;

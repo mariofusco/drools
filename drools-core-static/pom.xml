@@ -14,9 +14,17 @@
     <name>Drools :: Core :: Static</name>
 
     <dependencies>
-      <dependency>
-        <groupId>org.drools</groupId>
-        <artifactId>drools-core-reflective</artifactId>
-      </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core-reflective</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-internal</artifactId>
+        </dependency>
     </dependencies>
 </project>

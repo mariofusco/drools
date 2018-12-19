@@ -15,7 +15,7 @@
 
 package org.drools.compiler.factmodel.traits;
 
-import org.drools.dynamic.common.ProjectClassLoader;
+import org.drools.reflective.classloader.ProjectClassLoader;
 import org.drools.core.factmodel.traits.CoreWrapper;
 import org.drools.core.factmodel.traits.Entity;
 import org.drools.core.factmodel.traits.LogicalTypeInconsistencyException;

@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package org.drools.dynamic.common;
+package org.drools.reflective;
 
+import org.drools.reflective.classloader.ProjectClassLoader;
 import org.drools.reflective.util.ByteArrayClassLoader;
 
-public class ClassLoaderFactory {
-    private static ClassLoaderSupplier supplier = initSupplier();
+import static org.kie.api.internal.utils.ServiceUtil.instanceFromNames;
+
+public class ComponentsFactory {
+
+    private static final String DYNAMIC_IMPL = "org.drools.dynamic.common.DynamicComponentsSupplier";
+    private static final String STATIC_IMPL = "org.drools.statics.common.StaticComponentsSupplier";
+
+    private static ComponentsSupplier supplier = instanceFromNames(DYNAMIC_IMPL, STATIC_IMPL);
 
     public static ProjectClassLoader createProjectClassLoader( ClassLoader parent, ResourceProvider resourceProvider ) {
         return supplier.createProjectClassLoader(parent, resourceProvider);
@@ -29,15 +36,11 @@ public class ClassLoaderFactory {
         return supplier.createByteArrayClassLoader(parent);
     }
 
-    private static ClassLoaderSupplier initSupplier() {
-        try {
-            return ( ClassLoaderSupplier ) Class.forName("org.drools.dynamic.common.DynamicClassLoaderSupplier").newInstance();
-        } catch (Exception e1) {
-            try {
-                return ( ClassLoaderSupplier ) Class.forName("org.drools.statics.common.StaticClassLoaderSupplier").newInstance();
-            } catch (Exception e2) {
-                throw new RuntimeException( e1 );
-            }
-        }
+    public static Object createConsequenceExceptionHandler(String className, ClassLoader classLoader) {
+        return supplier.createConsequenceExceptionHandler(className, classLoader);
+    }
+
+    public static Object createTimerService( String className ) {
+        return supplier.createTimerService( className );
     }
 }

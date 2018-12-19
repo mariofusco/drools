@@ -13,7 +13,7 @@
  * limitations under the License.
 */
 
-package org.drools.dynamic.common;
+package org.drools.reflective.classloader;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -26,6 +26,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.drools.reflective.ComponentsFactory;
+import org.drools.reflective.ResourceProvider;
 import org.drools.reflective.util.ClassUtils;
 import org.kie.internal.utils.KieTypeResolver;
 
@@ -85,7 +87,7 @@ public abstract class ProjectClassLoader extends ClassLoader implements KieTypeR
     }
 
     public static ProjectClassLoader createProjectClassLoader() {
-        return ClassLoaderFactory.createProjectClassLoader(findParentClassLoader(), null);
+        return ComponentsFactory.createProjectClassLoader(findParentClassLoader(), null);
     }
 
     public static ProjectClassLoader createProjectClassLoader(ClassLoader parent) {
@@ -94,9 +96,9 @@ public abstract class ProjectClassLoader extends ClassLoader implements KieTypeR
 
     public static ProjectClassLoader createProjectClassLoader(ClassLoader parent, ResourceProvider resourceProvider) {
         if (parent == null) {
-            return ClassLoaderFactory.createProjectClassLoader(findParentClassLoader(), resourceProvider);
+            return ComponentsFactory.createProjectClassLoader(findParentClassLoader(), resourceProvider);
         }
-        return parent instanceof ProjectClassLoader ? (ProjectClassLoader)parent : ClassLoaderFactory.createProjectClassLoader(parent, resourceProvider);
+        return parent instanceof ProjectClassLoader ? (ProjectClassLoader)parent : ComponentsFactory.createProjectClassLoader(parent, resourceProvider);
     }
 
     public static ProjectClassLoader createProjectClassLoader(ClassLoader parent, Map<String, byte[]> store) {
@@ -320,7 +322,7 @@ public abstract class ProjectClassLoader extends ClassLoader implements KieTypeR
     // WARNING: This is and should be used just for testing purposes.
     // If not, dragons will come to the Earth, eat all cookies and
     // hijack all kittens and puppies.
-    void setInternalClassLoader(InternalTypesClassLoader classLoader) {
+    public void setInternalClassLoader(InternalTypesClassLoader classLoader) {
         typesClassLoader = classLoader;
     }
 
@@ -338,7 +340,7 @@ public abstract class ProjectClassLoader extends ClassLoader implements KieTypeR
         nonExistingClasses.addAll(other.nonExistingClasses);
     }
 
-    protected abstract InternalTypesClassLoader makeClassLoader();
+    public abstract InternalTypesClassLoader makeClassLoader();
 
     @Override
     public boolean equals(Object o) {

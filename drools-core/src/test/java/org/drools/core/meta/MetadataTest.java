@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.drools.dynamic.common.ProjectClassLoader;
+import org.drools.reflective.classloader.ProjectClassLoader;
 import org.drools.core.factmodel.traits.Entity;
 import org.drools.core.meta.org.test.AnotherKlass;
 import org.drools.core.meta.org.test.AnotherKlassImpl;

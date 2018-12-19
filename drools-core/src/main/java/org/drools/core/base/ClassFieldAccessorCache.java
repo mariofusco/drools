@@ -23,9 +23,8 @@ import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.drools.core.util.ClassUtils;
 import org.drools.core.util.asm.ClassFieldInspector;
-import org.drools.dynamic.common.ClassLoaderFactory;
+import org.drools.reflective.ComponentsFactory;
 import org.drools.reflective.util.ByteArrayClassLoader;
 
 import static org.drools.core.util.ClassUtils.convertPrimitiveNameToType;
@@ -166,12 +165,8 @@ public class ClassFieldAccessorCache {
                 throw new RuntimeException( "ClassFieldAccessorFactory cannot have a null parent ClassLoader" );
             }
 
-            this.byteArrayClassLoader = AccessController.doPrivileged(
-                    (PrivilegedAction<ByteArrayClassLoader>) () ->
-                            ClassUtils.isAndroid() ?
-                                    (ByteArrayClassLoader) ClassUtils.instantiateObject(
-                                            "org.drools.android.MultiDexClassLoader", null, parentClassLoader) :
-                                    ClassLoaderFactory.createByteArrayClassLoader(parentClassLoader));
+            this.byteArrayClassLoader = AccessController.doPrivileged( (PrivilegedAction<ByteArrayClassLoader>)
+                     () -> ComponentsFactory.createByteArrayClassLoader(parentClassLoader) );
         }
 
         public ByteArrayClassLoader getByteArrayClassLoader() {

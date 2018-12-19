@@ -22,8 +22,8 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.Vector;
 
-import org.drools.dynamic.common.ProjectClassLoader;
-import org.drools.dynamic.common.ResourceProvider;
+import org.drools.reflective.ResourceProvider;
+import org.drools.reflective.classloader.ProjectClassLoader;
 
 public class StaticProjectClassLoader extends ProjectClassLoader {
 
@@ -61,7 +61,7 @@ public class StaticProjectClassLoader extends ProjectClassLoader {
     }
 
     @Override
-    protected InternalTypesClassLoader makeClassLoader() {
+    public InternalTypesClassLoader makeClassLoader() {
         return new DummyInternalTypesClassLoader(this);
     }
 

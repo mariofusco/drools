@@ -2402,42 +2402,6 @@ public class Misc2Test extends CommonTestMethodBase {
     }
 
     @Test
-    public void testLegacySalienceResolver() {
-        // DROOLS-159
-        String drl = "package org.drools.test; \n" +
-                     "" +
-                     "global java.util.List list; \n " +
-                     "" +
-                     "rule X salience 10 \n" +
-                     "then\n" +
-                     " list.add( 1 ); \n" +
-                     "end\n" +
-                     "" +
-                     "rule Y salience 5 \n" +
-                     "then\n" +
-                     " list.add( 2 ); \n" +
-                     "end\n" +
-                     "";
-
-        KnowledgeBuilder kb = KnowledgeBuilderFactory.newKnowledgeBuilder();
-        kb.add( new ByteArrayResource( drl.getBytes() ), ResourceType.DRL );
-        assertFalse( kb.hasErrors() );
-
-        KieBaseConfiguration kbconf = KnowledgeBaseFactory.newKnowledgeBaseConfiguration();
-        ( (RuleBaseConfiguration) kbconf ).setConflictResolver( SalienceConflictResolver.getInstance() );
-
-        InternalKnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase( kbconf );
-        knowledgeBase.addPackages( kb.getKnowledgePackages() );
-        KieSession knowledgeSession = knowledgeBase.newKieSession();
-
-        List list = new ArrayList();
-        knowledgeSession.setGlobal( "list", list );
-        knowledgeSession.fireAllRules();
-
-        assertEquals( Arrays.asList( 1, 2 ), list );
-    }
-
-    @Test
     public void testUnaryNegation() {
         // DROOLS-177
         String str =

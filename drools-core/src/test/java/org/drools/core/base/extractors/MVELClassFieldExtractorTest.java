@@ -18,7 +18,7 @@ package org.drools.core.base.extractors;
 
 import java.util.Vector;
 
-import org.drools.dynamic.common.ProjectClassLoader;
+import org.drools.reflective.classloader.ProjectClassLoader;
 import org.junit.Before;
 import org.junit.Test;
 

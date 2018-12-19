@@ -18,16 +18,24 @@ package org.drools.dynamic.common;
 
 import java.security.ProtectionDomain;
 
+import org.drools.reflective.ResourceProvider;
+import org.drools.reflective.ComponentsSupplier;
+import org.drools.reflective.classloader.ProjectClassLoader;
 import org.drools.reflective.util.ByteArrayClassLoader;
+import org.drools.reflective.util.ClassUtils;
 
-public class DynamicClassLoaderSupplier implements ClassLoaderSupplier {
+public class DynamicComponentsSupplier implements ComponentsSupplier {
 
+    @Override
     public ProjectClassLoader createProjectClassLoader( ClassLoader parent, ResourceProvider resourceProvider) {
         return DynamicProjectClassLoader.create(parent, resourceProvider);
     }
 
+    @Override
     public ByteArrayClassLoader createByteArrayClassLoader( ClassLoader parent ) {
-        return new DefaultByteArrayClassLoader( parent );
+        return ClassUtils.isAndroid() ?
+                (ByteArrayClassLoader) ClassUtils.instantiateObject("org.drools.android.MultiDexClassLoader", null, parent) :
+                new DefaultByteArrayClassLoader( parent );
     }
 
     public static class DefaultByteArrayClassLoader extends ClassLoader implements ByteArrayClassLoader {
@@ -35,6 +43,7 @@ public class DynamicClassLoaderSupplier implements ClassLoaderSupplier {
             super( parent );
         }
 
+        @Override
         public Class< ? > defineClass(final String name,
                                       final byte[] bytes,
                                       final ProtectionDomain domain) {
@@ -44,5 +53,15 @@ public class DynamicClassLoaderSupplier implements ClassLoaderSupplier {
                     bytes.length,
                     domain );
         }
+    }
+
+    @Override
+    public Object createConsequenceExceptionHandler( String className, ClassLoader classLoader ) {
+        return ClassUtils.instantiateObject( className, classLoader );
+    }
+
+    @Override
+    public Object createTimerService( String className ) {
+        return ClassUtils.instantiateObject( className );
     }
 }

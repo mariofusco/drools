@@ -23,6 +23,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import org.drools.reflective.classloader.ProjectClassLoader;
 import org.junit.Test;
 
 public class ClassLoaderTest {
@@ -35,7 +36,7 @@ public class ClassLoaderTest {
         final ClassLoader projectClassLoader = ProjectClassLoader.createProjectClassLoader();
         final ClassLoader internalTypesClassLoader = (ClassLoader) ((ProjectClassLoader) projectClassLoader).makeClassLoader();
 
-        ((ProjectClassLoader) projectClassLoader).setInternalClassLoader((ProjectClassLoader.InternalTypesClassLoader) internalTypesClassLoader);
+        (( ProjectClassLoader ) projectClassLoader).setInternalClassLoader((ProjectClassLoader.InternalTypesClassLoader) internalTypesClassLoader);
 
         final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
         try {

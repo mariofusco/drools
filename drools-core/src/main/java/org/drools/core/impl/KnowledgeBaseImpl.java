@@ -87,7 +87,7 @@ import org.drools.core.rule.WindowDeclaration;
 import org.drools.core.ruleunit.RuleUnitDescriptionRegistry;
 import org.drools.core.spi.FactHandleFactory;
 import org.drools.core.util.TripleStore;
-import org.drools.dynamic.common.ProjectClassLoader;
+import org.drools.reflective.classloader.ProjectClassLoader;
 import org.kie.api.builder.ReleaseId;
 import org.kie.api.conf.EventProcessingOption;
 import org.kie.api.definition.KiePackage;
@@ -115,7 +115,7 @@ import org.slf4j.LoggerFactory;
 import static org.drools.core.util.BitMaskUtil.isSet;
 import static org.drools.core.util.ClassUtils.areNullSafeEquals;
 import static org.drools.core.util.ClassUtils.convertClassToResourcePath;
-import static org.drools.dynamic.common.ProjectClassLoader.createProjectClassLoader;
+import static org.drools.reflective.classloader.ProjectClassLoader.createProjectClassLoader;
 
 public class KnowledgeBaseImpl
     implements

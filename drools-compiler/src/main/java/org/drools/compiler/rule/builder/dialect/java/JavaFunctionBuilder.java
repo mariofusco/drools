@@ -15,6 +15,15 @@
 
 package org.drools.compiler.rule.builder.dialect.java;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.drools.compiler.compiler.FunctionError;
 import org.drools.compiler.lang.descr.FunctionDescr;
 import org.drools.compiler.rule.builder.FunctionBuilder;
@@ -27,32 +36,15 @@ import org.kie.soup.project.datamodel.commons.types.TypeResolver;
 import org.mvel2.integration.impl.MapVariableResolverFactory;
 import org.mvel2.templates.TemplateRuntime;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 public class JavaFunctionBuilder
         implements
         FunctionBuilder {
 
-    //    private static final StringTemplateGroup functionGroup = new StringTemplateGroup( new InputStreamReader( JavaFunctionBuilder.class.getResourceAsStream( "javaFunction.stg" ) ),
-    //                                                                                      AngleBracketTemplateLexer.class );
-
-    private static final String template = StringUtils.readFileAsString(
-            new InputStreamReader(JavaFunctionBuilder.class.getResourceAsStream("javaFunction.mvel"), IoUtils.UTF8_CHARSET));
-
-    public JavaFunctionBuilder() {
-
+    private static class LazyHolder {
+        private static final String template = StringUtils.readFileAsString(
+                new InputStreamReader( JavaFunctionBuilder.class.getResourceAsStream( "javaFunction.mvel" ), IoUtils.UTF8_CHARSET ) );
     }
 
-    /* (non-Javadoc)
-     * @see org.kie.rule.builder.dialect.java.JavaFunctionBuilder#build(org.kie.rule.Package, org.kie.lang.descr.FunctionDescr, org.codehaus.jfdi.interpreter.TypeResolver, java.util.Map)
-     */
     public String build(final InternalKnowledgePackage pkg,
                         final FunctionDescr functionDescr,
                         final TypeResolver typeResolver,
@@ -112,7 +104,7 @@ public class JavaFunctionBuilder
         vars.put("text",
                  functionDescr.getText());
 
-        final String text = String.valueOf(TemplateRuntime.eval(template, null, new MapVariableResolverFactory(vars)));
+        final String text = String.valueOf(TemplateRuntime.eval(LazyHolder.template, null, new MapVariableResolverFactory(vars)));
 
         final BufferedReader reader = new BufferedReader(new StringReader(text));
         final String lineStartsWith = "    public static " + functionDescr.getReturnType() + " " + functionDescr.getName();

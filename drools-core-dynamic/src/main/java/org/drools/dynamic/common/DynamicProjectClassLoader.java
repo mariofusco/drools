@@ -24,6 +24,8 @@ import java.security.PrivilegedAction;
 import java.util.Enumeration;
 import java.util.Vector;
 
+import org.drools.reflective.ResourceProvider;
+import org.drools.reflective.classloader.ProjectClassLoader;
 import org.drools.reflective.util.ClassUtils;
 
 public class DynamicProjectClassLoader extends ProjectClassLoader {
@@ -62,7 +64,7 @@ public class DynamicProjectClassLoader extends ProjectClassLoader {
     }
 
     @Override
-    protected InternalTypesClassLoader makeClassLoader() {
+    public InternalTypesClassLoader makeClassLoader() {
         return AccessController.doPrivileged(
                 ( PrivilegedAction<InternalTypesClassLoader> ) () ->
                         ClassUtils.isAndroid() ?

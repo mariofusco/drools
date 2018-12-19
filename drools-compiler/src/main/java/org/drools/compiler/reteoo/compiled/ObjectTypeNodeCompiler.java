@@ -30,7 +30,7 @@ import org.drools.compiler.compiler.io.memory.MemoryFileSystem;
 import org.drools.compiler.lang.descr.PackageDescr;
 import org.drools.compiler.rule.builder.dialect.java.JavaDialectConfiguration;
 import org.drools.core.base.ClassObjectType;
-import org.drools.dynamic.common.ProjectClassLoader;
+import org.drools.reflective.classloader.ProjectClassLoader;
 import org.drools.core.reteoo.ObjectTypeNode;
 import org.drools.core.reteoo.compiled.AssertHandler;
 import org.drools.core.reteoo.compiled.CompiledNetwork;
