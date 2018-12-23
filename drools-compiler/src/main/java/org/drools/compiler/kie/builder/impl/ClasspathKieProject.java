@@ -48,6 +48,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static org.drools.compiler.kie.builder.impl.KieBuilderImpl.setDefaultsforEmptyKieModule;
+import static org.drools.compiler.kproject.models.KieModuleModelImpl.KMODULE_JAR_PATH;
+import static org.drools.compiler.kproject.models.KieModuleModelImpl.KMODULE_SPRING_JAR_PATH;
 import static org.drools.reflective.classloader.ProjectClassLoader.createProjectClassLoader;
 
 /**
@@ -95,7 +97,7 @@ public class ClasspathKieProject extends AbstractKieProject {
     }
 
     public void discoverKieModules() {
-        String[] configFiles = {KieModuleModelImpl.KMODULE_JAR_PATH, KieModuleModelImpl.KMODULE_SPRING_JAR_PATH};
+        String[] configFiles = {KMODULE_JAR_PATH, KMODULE_SPRING_JAR_PATH};
         for ( String configFile : configFiles) {
             final Enumeration<URL> e;
             try {
@@ -136,6 +138,9 @@ public class ClasspathKieProject extends AbstractKieProject {
     }
 
     public static InternalKieModule fetchKModule(URL url) {
+        if (url.toString().equals( "resource:" + KMODULE_JAR_PATH )) {
+            return InternalKieModuleProvider.getFromClasspath();
+        }
         if (url.toString().startsWith("bundle:") || url.toString().startsWith("bundleresource:")) {
             return fetchOsgiKModule(url);
         }
@@ -188,7 +193,7 @@ public class ClasspathKieProject extends AbstractKieProject {
 
         ReleaseId releaseId = pomProperties != null ?
                               ReleaseIdImpl.fromPropertiesString(pomProperties) :
-                              KieServices.Factory.get().getRepository().getDefaultReleaseId();
+                              KieServices.get().getRepository().getDefaultReleaseId();
 
         String rootPath = fixedURL;
         if ( rootPath.lastIndexOf( ':' ) > 0 ) {
@@ -369,10 +374,10 @@ public class ClasspathKieProject extends AbstractKieProject {
             urlPath = getPathForVFS(url);
         } else {
             if (url.toString().contains("-spring.xml")){
-                urlPath = urlPath.substring( 0, urlPath.length() - ("/" + KieModuleModelImpl.KMODULE_SPRING_JAR_PATH).length() );
-            } else if (url.toString().endsWith(KieModuleModelImpl.KMODULE_JAR_PATH)) {
+                urlPath = urlPath.substring( 0, urlPath.length() - ("/" + KMODULE_SPRING_JAR_PATH).length() );
+            } else if (url.toString().endsWith( KMODULE_JAR_PATH)) {
                 urlPath = urlPath.substring( 0,
-                        urlPath.length() - ("/" + KieModuleModelImpl.KMODULE_JAR_PATH).length() );
+                        urlPath.length() - ("/" + KMODULE_JAR_PATH).length() );
             }
         }
 
@@ -443,22 +448,22 @@ public class ClasspathKieProject extends AbstractKieProject {
         }
 
         String urlString = url.toString();
-        if (!urlString.contains( "/" + KieModuleModelImpl.KMODULE_JAR_PATH )) {
+        if (!urlString.contains( "/" + KMODULE_JAR_PATH )) {
             return path;
         }
 
-        int kModulePos = urlString.length() - ("/" + KieModuleModelImpl.KMODULE_JAR_PATH).length();
+        int kModulePos = urlString.length() - ("/" + KMODULE_JAR_PATH).length();
         boolean isInJar = urlString.substring(kModulePos - 4, kModulePos).equals(".jar");
 
         try {
             if (isInJar && path.contains("contents" + File.separator)) {
                 String jarName = urlString.substring(0, kModulePos);
                 jarName = jarName.substring(jarName.lastIndexOf('/')+1);
-                String jarFolderPath = path.substring( 0, path.length() - ("contents/" + KieModuleModelImpl.KMODULE_JAR_PATH).length() );
+                String jarFolderPath = path.substring( 0, path.length() - ("contents/" + KMODULE_JAR_PATH).length() );
                 String jarPath = jarFolderPath + jarName;
                 path = new File(jarPath).exists() ? jarPath : jarFolderPath + "content";
             } else if (path.endsWith(File.separator + KieModuleModelImpl.KMODULE_FILE_NAME)) {
-                path = path.substring( 0, path.length() - ("/" + KieModuleModelImpl.KMODULE_JAR_PATH).length() );
+                path = path.substring( 0, path.length() - ("/" + KMODULE_JAR_PATH).length() );
             }
 
             log.info( "Virtual file physical path = " + path );
