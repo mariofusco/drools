@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.drools.core.base.EvaluatorWrapper;
-import org.drools.core.base.mvel.MVELCompilationUnit;
+import org.drools.mvel.expr.MVELCompilationUnit;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.rule.Declaration;

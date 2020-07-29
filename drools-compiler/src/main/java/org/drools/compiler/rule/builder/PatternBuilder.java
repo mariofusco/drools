@@ -71,7 +71,6 @@ import org.drools.core.base.SimpleValueType;
 import org.drools.core.base.ValueType;
 import org.drools.core.base.evaluators.EvaluatorDefinition.Target;
 import org.drools.core.base.mvel.ActivationPropertyHandler;
-import org.drools.core.base.mvel.MVELCompilationUnit;
 import org.drools.core.base.mvel.MVELCompilationUnit.PropertyHandlerFactoryFixer;
 import org.drools.core.base.mvel.MVELCompileable;
 import org.drools.core.definitions.InternalKnowledgePackage;
@@ -122,9 +121,9 @@ import org.mvel2.integration.PropertyHandler;
 import org.mvel2.integration.PropertyHandlerFactory;
 import org.mvel2.util.PropertyTools;
 
-import static org.drools.compiler.rule.builder.MVELConstraintBuilder.getNormalizeDate;
-import static org.drools.compiler.rule.builder.MVELConstraintBuilder.normalizeEmptyKeyword;
-import static org.drools.compiler.rule.builder.MVELConstraintBuilder.normalizeStringOperator;
+import static org.drools.compiler.rule.builder.util.PatternBuilderUtil.getNormalizeDate;
+import static org.drools.compiler.rule.builder.util.PatternBuilderUtil.normalizeEmptyKeyword;
+import static org.drools.compiler.rule.builder.util.PatternBuilderUtil.normalizeStringOperator;
 import static org.drools.core.util.StringUtils.isIdentifier;
 
 /**
@@ -1487,11 +1486,6 @@ public class PatternBuilder
             return predicateConstraint;
         }
 
-        MVELCompilationUnit compilationUnit = getConstraintBuilder(context).buildCompilationUnit(context,
-                                                                                                 previousDeclarations,
-                                                                                                 localDeclarations,
-                                                                                                 predicateDescr,
-                                                                                                 analysis);
 
         String[] requiredGlobals = usedIdentifiers.getGlobals().keySet().toArray(new String[usedIdentifiers.getGlobals().size()]);
         Declaration[] mvelDeclarations = new Declaration[previousDeclarations.length + localDeclarations.length + requiredGlobals.length];
@@ -1510,10 +1504,11 @@ public class PatternBuilder
                 !pattern.getObjectType().getClassType().isArray() &&
                         !context.getKnowledgeBuilder().getTypeDeclaration(pattern.getObjectType().getClassType()).isTypesafe();
 
-        return getConstraintBuilder(context).buildMvelConstraint(context.getPkg().getName(), expr, mvelDeclarations, getOperators(usedIdentifiers.getOperators()), compilationUnit, isDynamic);
+        return getConstraintBuilder(context).buildMvelConstraint(context.getPkg().getName(), expr, mvelDeclarations, getOperators(usedIdentifiers.getOperators()),
+                context, previousDeclarations, localDeclarations, predicateDescr, analysis, isDynamic);
     }
 
-    protected static EvaluatorWrapper[] getOperators(Map<String, EvaluatorWrapper> operatorMap) {
+    public static EvaluatorWrapper[] getOperators(Map<String, EvaluatorWrapper> operatorMap) {
         EvaluatorWrapper[] operators = new EvaluatorWrapper[operatorMap.size()];
         int i = 0;
         for (Map.Entry<String, EvaluatorWrapper> entry : operatorMap.entrySet()) {
@@ -1562,7 +1557,7 @@ public class PatternBuilder
                                                                            pattern.getObjectType().getClassType()));
     }
 
-    protected static Map<String, EvaluatorWrapper> buildOperators(RuleBuildContext context,
+    public static Map<String, EvaluatorWrapper> buildOperators(RuleBuildContext context,
                                                                   Pattern pattern,
                                                                   BaseDescr predicateDescr,
                                                                   Map<String, OperatorDescr> aliases) {

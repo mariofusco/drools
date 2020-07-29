@@ -33,28 +33,19 @@ import org.drools.core.base.ClassFieldReader;
 import org.drools.core.base.DroolsQuery;
 import org.drools.core.base.EvaluatorWrapper;
 import org.drools.core.base.extractors.MVELObjectClassFieldReader;
-import org.drools.core.base.mvel.MVELCompilationUnit;
+import org.drools.mvel.expr.MVELCompilationUnit;
 import org.drools.core.common.DroolsObjectInputStream;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.common.InternalWorkingMemory;
+import org.drools.core.common.PlainIndexEvaluator;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.reteoo.PropertySpecificUtil;
 import org.drools.core.reteoo.builder.BuildContext;
 import org.drools.core.rule.ContextEntry;
 import org.drools.core.rule.Declaration;
-import org.drools.core.rule.IndexEvaluator;
 import org.drools.core.rule.IndexableConstraint;
-import org.drools.core.rule.MVELDialectRuntimeData;
 import org.drools.core.rule.MutableTypeConstraint;
-import org.drools.mvel.ConditionAnalyzer.CombinedCondition;
-import org.drools.mvel.ConditionAnalyzer.Condition;
-import org.drools.mvel.ConditionAnalyzer.EvaluatedExpression;
-import org.drools.mvel.ConditionAnalyzer.Expression;
-import org.drools.mvel.ConditionAnalyzer.FieldAccessInvocation;
-import org.drools.mvel.ConditionAnalyzer.Invocation;
-import org.drools.mvel.ConditionAnalyzer.MethodInvocation;
-import org.drools.mvel.ConditionAnalyzer.SingleCondition;
 import org.drools.core.rule.constraint.ConditionEvaluator;
 import org.drools.core.spi.AcceptsReadAccessor;
 import org.drools.core.spi.FieldValue;
@@ -65,6 +56,14 @@ import org.drools.core.util.AbstractHashTable.FieldIndex;
 import org.drools.core.util.MemoryUtil;
 import org.drools.core.util.bitmask.BitMask;
 import org.drools.core.util.index.IndexUtil;
+import org.drools.mvel.ConditionAnalyzer.CombinedCondition;
+import org.drools.mvel.ConditionAnalyzer.Condition;
+import org.drools.mvel.ConditionAnalyzer.EvaluatedExpression;
+import org.drools.mvel.ConditionAnalyzer.Expression;
+import org.drools.mvel.ConditionAnalyzer.FieldAccessInvocation;
+import org.drools.mvel.ConditionAnalyzer.Invocation;
+import org.drools.mvel.ConditionAnalyzer.MethodInvocation;
+import org.drools.mvel.ConditionAnalyzer.SingleCondition;
 import org.drools.reflective.classloader.ProjectClassLoader;
 import org.kie.api.runtime.rule.Variable;
 import org.kie.internal.concurrent.ExecutorProviderFactory;
@@ -373,7 +372,7 @@ public class MvelConstraint extends MutableTypeConstraint implements IndexableCo
     public FieldIndex getFieldIndex() {
         // declaration's offset can be modified by the reteoo's PatternBuilder so modify the indexingDeclaration accordingly
         indexingDeclaration.getPattern().setOffset(declarations[0].getOffset());
-        return new FieldIndex(extractor, indexingDeclaration, INDEX_EVALUATOR);
+        return new FieldIndex(extractor, indexingDeclaration, PlainIndexEvaluator.INSTANCE);
     }
 
     public InternalReadAccessor getFieldExtractor() {
@@ -888,34 +887,6 @@ public class MvelConstraint extends MutableTypeConstraint implements IndexableCo
             return this.variable;
         }
 
-    }
-
-    public static final IndexEvaluator INDEX_EVALUATOR = new PlainIndexEvaluator();
-    public static class PlainIndexEvaluator implements IndexEvaluator {
-        public boolean evaluate(InternalWorkingMemory workingMemory,
-                                final InternalReadAccessor extractor1,
-                                final Object object1,
-                                final InternalReadAccessor extractor2,
-                                final Object object2) {
-            return evaluate(workingMemory, extractor1.getValue( workingMemory, object1 ), extractor2, object2);
-        }
-
-        public boolean evaluate(InternalWorkingMemory workingMemory,
-                                final Object value1,
-                                final InternalReadAccessor extractor2,
-                                final Object object2) {
-            final Object value2 = extractor2.getValue( workingMemory, object2 );
-            if (value1 == null) {
-                return value2 == null;
-            }
-            if (value1 instanceof String) {
-                return value2 != null && value1.equals(value2.toString());
-            }
-            if (value2 instanceof String) {
-                return value1 != null && value2.equals(value1.toString());
-            }
-            return value1.equals( value2 );
-        }
     }
 
     @Override

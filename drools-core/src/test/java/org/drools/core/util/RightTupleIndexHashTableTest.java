@@ -16,17 +16,21 @@
 
 package org.drools.core.util;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.drools.core.base.ClassFieldAccessorCache;
 import org.drools.core.base.ClassFieldAccessorStore;
 import org.drools.core.base.ClassObjectType;
 import org.drools.core.common.DefaultFactHandle;
 import org.drools.core.common.InternalFactHandle;
+import org.drools.core.common.PlainIndexEvaluator;
 import org.drools.core.reteoo.LeftTupleImpl;
 import org.drools.core.reteoo.RightTuple;
 import org.drools.core.reteoo.RightTupleImpl;
 import org.drools.core.rule.Declaration;
 import org.drools.core.rule.Pattern;
-import org.drools.core.rule.constraint.MvelConstraint;
 import org.drools.core.spi.InternalReadAccessor;
 import org.drools.core.spi.Tuple;
 import org.drools.core.test.model.Cheese;
@@ -36,11 +40,9 @@ import org.drools.core.util.index.TupleList;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 
 public class RightTupleIndexHashTableTest {
 
@@ -66,7 +68,7 @@ public class RightTupleIndexHashTableTest {
 
         final FieldIndex fieldIndex = new FieldIndex( extractor,
                                                       declaration,
-                                                      MvelConstraint.INDEX_EVALUATOR );
+                                                      PlainIndexEvaluator.INSTANCE );
 
         final TupleIndexHashTable map = new TupleIndexHashTable( new FieldIndex[]{fieldIndex}, false );
 
@@ -121,7 +123,7 @@ public class RightTupleIndexHashTableTest {
 
         final FieldIndex fieldIndex = new FieldIndex( extractor,
                                                       declaration,
-                                                      MvelConstraint.INDEX_EVALUATOR );
+                                                      PlainIndexEvaluator.INSTANCE );
 
         final TupleIndexHashTable map = new TupleIndexHashTable( new FieldIndex[]{fieldIndex}, false );
 
@@ -184,7 +186,7 @@ public class RightTupleIndexHashTableTest {
 
         final FieldIndex fieldIndex = new FieldIndex( extractor,
                                                       declaration,
-                                                      MvelConstraint.INDEX_EVALUATOR );
+                                                      PlainIndexEvaluator.INSTANCE );
 
         final TupleIndexHashTable map = new TupleIndexHashTable( new FieldIndex[]{fieldIndex}, false );
 
@@ -246,7 +248,7 @@ public class RightTupleIndexHashTableTest {
 
         final FieldIndex fieldIndex = new FieldIndex( extractor,
                                                       declaration,
-                                                      MvelConstraint.INDEX_EVALUATOR );
+                                                      PlainIndexEvaluator.INSTANCE );
 
         final TupleIndexHashTable map = new TupleIndexHashTable( new FieldIndex[]{fieldIndex}, false );
 
@@ -305,7 +307,7 @@ public class RightTupleIndexHashTableTest {
 
         final FieldIndex fieldIndex = new FieldIndex( extractor,
                                                       declaration,
-                                                      MvelConstraint.INDEX_EVALUATOR );
+                                                      PlainIndexEvaluator.INSTANCE );
 
         final TupleIndexHashTable map = new TupleIndexHashTable( new FieldIndex[]{fieldIndex}, false );
 
@@ -378,7 +380,7 @@ public class RightTupleIndexHashTableTest {
 
         final FieldIndex fieldIndex = new FieldIndex( extractor,
                                                       declaration,
-                                                      MvelConstraint.INDEX_EVALUATOR );
+                                                      PlainIndexEvaluator.INSTANCE );
 
         final TupleIndexHashTable map = new TupleIndexHashTable( 16, 0.75f, new FieldIndex[]{fieldIndex}, false );
 
@@ -603,7 +605,7 @@ public class RightTupleIndexHashTableTest {
 
         final FieldIndex fieldIndex = new FieldIndex( extractor,
                                                       declaration,
-                                                      MvelConstraint.INDEX_EVALUATOR );
+                                                      PlainIndexEvaluator.INSTANCE );
 
         final TupleIndexHashTable map = new TupleIndexHashTable( new FieldIndex[]{fieldIndex}, false );
 

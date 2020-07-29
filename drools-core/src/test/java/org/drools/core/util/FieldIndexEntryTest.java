@@ -21,10 +21,10 @@ import org.drools.core.base.ClassFieldAccessorStore;
 import org.drools.core.base.ClassFieldReader;
 import org.drools.core.common.DefaultFactHandle;
 import org.drools.core.common.InternalFactHandle;
+import org.drools.core.common.PlainIndexEvaluator;
 import org.drools.core.reteoo.RightTuple;
 import org.drools.core.reteoo.RightTupleImpl;
 import org.drools.core.rule.Declaration;
-import org.drools.core.rule.constraint.MvelConstraint;
 import org.drools.core.spi.Tuple;
 import org.drools.core.test.model.Cheese;
 import org.drools.core.util.AbstractHashTable.FieldIndex;
@@ -54,7 +54,7 @@ public class FieldIndexEntryTest {
 
         final FieldIndex fieldIndex = new FieldIndex( extractor,
                                                       new Declaration("id", extractor, null) ,
-                                                      MvelConstraint.INDEX_EVALUATOR );
+                                                      PlainIndexEvaluator.INSTANCE );
         final SingleIndex singleIndex = new SingleIndex( new FieldIndex[]{fieldIndex},
                                                          1 );
 
@@ -98,7 +98,7 @@ public class FieldIndexEntryTest {
                                                                   "type" );
         final FieldIndex fieldIndex = new FieldIndex( extractor,
                                                       new Declaration("id", extractor, null) ,
-                                                      MvelConstraint.INDEX_EVALUATOR );
+                                                      PlainIndexEvaluator.INSTANCE );
         final SingleIndex singleIndex = new SingleIndex( new FieldIndex[]{fieldIndex},
                                                          1 );
 
@@ -153,7 +153,7 @@ public class FieldIndexEntryTest {
                                                                   "type" );
         final FieldIndex fieldIndex = new FieldIndex( extractor,
                                                       new Declaration("id", extractor, null) ,
-                                                      MvelConstraint.INDEX_EVALUATOR );
+                                                      PlainIndexEvaluator.INSTANCE );
         final SingleIndex singleIndex = new SingleIndex( new FieldIndex[]{fieldIndex},
                                                          1 );
 

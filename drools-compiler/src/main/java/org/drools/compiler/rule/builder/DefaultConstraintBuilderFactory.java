@@ -15,12 +15,15 @@
 
 package org.drools.compiler.rule.builder;
 
+import org.kie.api.internal.utils.ServiceRegistry;
 
 public class DefaultConstraintBuilderFactory implements ConstraintBuilderFactory {
 
-    private static ConstraintBuilder cBuilder = new MVELConstraintBuilder();
+    private static class Holder {
+        private static final ConstraintBuilder cBuilder = ServiceRegistry.getInstance().get(ConstraintBuilder.class);
+    }
 
     public ConstraintBuilder newConstraintBuilder() {
-        return cBuilder;
+        return Holder.cBuilder;
     }
 }
