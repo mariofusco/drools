@@ -36,7 +36,6 @@ import org.drools.core.spi.KnowledgeHelper;
 import org.drools.core.test.model.Cheese;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kie.api.definition.KiePackage;
 import org.kie.api.event.rule.AfterMatchFiredEvent;
 import org.kie.api.event.rule.AgendaEventListener;
 import org.kie.api.event.rule.AgendaGroupPoppedEvent;
@@ -51,7 +50,6 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
-import org.kie.internal.runtime.StatefulKnowledgeSession;
 
 import java.io.IOException;
 import java.io.ObjectInput;

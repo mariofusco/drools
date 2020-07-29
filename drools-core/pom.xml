@@ -67,6 +67,7 @@
     <dependency>
       <groupId>org.drools</groupId>
       <artifactId>drools-core-dynamic</artifactId>
+      <scope>runtime</scope>
     </dependency>
 
     <dependency>

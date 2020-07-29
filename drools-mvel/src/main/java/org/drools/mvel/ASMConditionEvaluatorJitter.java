@@ -1,10 +1,9 @@
 /*
- * Copyright 2015 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +12,7 @@
  * limitations under the License.
  */
 
-package org.drools.core.rule.constraint;
+package org.drools.mvel;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -36,34 +35,36 @@ import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.rule.Declaration;
 import org.drools.core.rule.builder.dialect.asm.ClassGenerator;
 import org.drools.core.rule.builder.dialect.asm.GeneratorHelper;
-import org.drools.core.rule.constraint.ConditionAnalyzer.AritmeticExpression;
-import org.drools.core.rule.constraint.ConditionAnalyzer.AritmeticOperator;
-import org.drools.core.rule.constraint.ConditionAnalyzer.ArrayAccessInvocation;
-import org.drools.core.rule.constraint.ConditionAnalyzer.ArrayCreationExpression;
-import org.drools.core.rule.constraint.ConditionAnalyzer.ArrayLengthInvocation;
-import org.drools.core.rule.constraint.ConditionAnalyzer.BooleanOperator;
-import org.drools.core.rule.constraint.ConditionAnalyzer.CastExpression;
-import org.drools.core.rule.constraint.ConditionAnalyzer.CombinedCondition;
-import org.drools.core.rule.constraint.ConditionAnalyzer.Condition;
-import org.drools.core.rule.constraint.ConditionAnalyzer.ConstructorInvocation;
-import org.drools.core.rule.constraint.ConditionAnalyzer.EvaluatedExpression;
-import org.drools.core.rule.constraint.ConditionAnalyzer.Expression;
-import org.drools.core.rule.constraint.ConditionAnalyzer.FieldAccessInvocation;
-import org.drools.core.rule.constraint.ConditionAnalyzer.FixedExpression;
-import org.drools.core.rule.constraint.ConditionAnalyzer.FixedValueCondition;
-import org.drools.core.rule.constraint.ConditionAnalyzer.Invocation;
-import org.drools.core.rule.constraint.ConditionAnalyzer.ListAccessInvocation;
-import org.drools.core.rule.constraint.ConditionAnalyzer.MapAccessInvocation;
-import org.drools.core.rule.constraint.ConditionAnalyzer.MethodInvocation;
-import org.drools.core.rule.constraint.ConditionAnalyzer.SingleCondition;
-import org.drools.core.rule.constraint.ConditionAnalyzer.VariableExpression;
+import org.drools.mvel.ConditionAnalyzer.AritmeticExpression;
+import org.drools.mvel.ConditionAnalyzer.AritmeticOperator;
+import org.drools.mvel.ConditionAnalyzer.ArrayAccessInvocation;
+import org.drools.mvel.ConditionAnalyzer.ArrayCreationExpression;
+import org.drools.mvel.ConditionAnalyzer.ArrayLengthInvocation;
+import org.drools.mvel.ConditionAnalyzer.BooleanOperator;
+import org.drools.mvel.ConditionAnalyzer.CastExpression;
+import org.drools.mvel.ConditionAnalyzer.CombinedCondition;
+import org.drools.mvel.ConditionAnalyzer.Condition;
+import org.drools.mvel.ConditionAnalyzer.ConstructorInvocation;
+import org.drools.mvel.ConditionAnalyzer.EvaluatedExpression;
+import org.drools.mvel.ConditionAnalyzer.Expression;
+import org.drools.mvel.ConditionAnalyzer.FieldAccessInvocation;
+import org.drools.mvel.ConditionAnalyzer.FixedExpression;
+import org.drools.mvel.ConditionAnalyzer.FixedValueCondition;
+import org.drools.mvel.ConditionAnalyzer.Invocation;
+import org.drools.mvel.ConditionAnalyzer.ListAccessInvocation;
+import org.drools.mvel.ConditionAnalyzer.MapAccessInvocation;
+import org.drools.mvel.ConditionAnalyzer.MethodInvocation;
+import org.drools.mvel.ConditionAnalyzer.SingleCondition;
+import org.drools.mvel.ConditionAnalyzer.VariableExpression;
+import org.drools.core.rule.constraint.ConditionEvaluator;
+import org.drools.core.rule.constraint.EvaluatorHelper;
 import org.drools.core.spi.Tuple;
 import org.mvel2.asm.Label;
 import org.mvel2.asm.MethodVisitor;
 import org.mvel2.util.NullType;
 
 import static org.drools.core.rule.builder.dialect.asm.GeneratorHelper.matchDeclarationsToTuple;
-import static org.drools.core.rule.constraint.ConditionAnalyzer.isFixed;
+import static org.drools.mvel.ConditionAnalyzer.isFixed;
 import static org.drools.core.rule.constraint.EvaluatorHelper.WM_ARGUMENT;
 import static org.drools.core.util.ClassUtils.convertFromPrimitiveType;
 import static org.drools.core.util.ClassUtils.convertToPrimitiveType;
@@ -110,12 +111,12 @@ import static org.mvel2.asm.Opcodes.RETURN;
 
 public class ASMConditionEvaluatorJitter {
 
-    public static ConditionEvaluator jitEvaluator(String expression,
-                                                  Condition condition,
-                                                  Declaration[] declarations,
-                                                  EvaluatorWrapper[] operators,
-                                                  ClassLoader classLoader,
-                                                  Tuple tuple) {
+    public static ConditionEvaluator jitEvaluator( String expression,
+                                                   Condition condition,
+                                                   Declaration[] declarations,
+                                                   EvaluatorWrapper[] operators,
+                                                   ClassLoader classLoader,
+                                                   Tuple tuple) {
         ClassGenerator generator = new ClassGenerator(getUniqueClassName(), classLoader)
                 .setInterfaces(ConditionEvaluator.class)
                 .addStaticField(ACC_PRIVATE | ACC_FINAL, "EXPRESSION", String.class, expression)
@@ -235,7 +236,7 @@ public class ASMConditionEvaluatorJitter {
             mv.visitVarInsn(ALOAD, 1); // InternalFactHandle
             mv.visitVarInsn(ALOAD, 3); // Tuple
             getFieldFromThis("operators", EvaluatorWrapper[].class);
-            invokeStatic(EvaluatorHelper.class, "initOperators", void.class, InternalFactHandle.class, Tuple.class, EvaluatorWrapper[].class);
+            invokeStatic( EvaluatorHelper.class, "initOperators", void.class, InternalFactHandle.class, Tuple.class, EvaluatorWrapper[].class);
         }
 
         private void jitCondition(Condition condition) {

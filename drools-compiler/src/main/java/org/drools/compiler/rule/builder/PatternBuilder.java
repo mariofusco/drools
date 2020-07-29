@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 
+import org.drools.compiler.builder.DroolsAssemblerContext;
 import org.drools.compiler.compiler.AnalysisResult;
 import org.drools.compiler.compiler.BoundIdentifiers;
 import org.drools.compiler.compiler.DescrBuildError;
@@ -62,7 +63,7 @@ import org.drools.compiler.rule.builder.dialect.java.JavaDialect;
 import org.drools.compiler.rule.builder.dialect.mvel.MVELAnalysisResult;
 import org.drools.compiler.rule.builder.dialect.mvel.MVELDialect;
 import org.drools.compiler.rule.builder.util.ConstraintUtil;
-import org.drools.compiler.builder.DroolsAssemblerContext;
+import org.drools.core.addon.TypeResolver;
 import org.drools.core.base.ClassFieldReader;
 import org.drools.core.base.ClassObjectType;
 import org.drools.core.base.EvaluatorWrapper;
@@ -78,7 +79,6 @@ import org.drools.core.definitions.rule.impl.RuleImpl;
 import org.drools.core.factmodel.AnnotationDefinition;
 import org.drools.core.factmodel.ClassDefinition;
 import org.drools.core.factmodel.FieldDefinition;
-import org.drools.core.factmodel.traits.TraitableBean;
 import org.drools.core.facttemplates.FactTemplate;
 import org.drools.core.facttemplates.FactTemplateFieldExtractor;
 import org.drools.core.facttemplates.FactTemplateObjectType;
@@ -96,8 +96,6 @@ import org.drools.core.rule.SlidingLengthWindow;
 import org.drools.core.rule.SlidingTimeWindow;
 import org.drools.core.rule.TypeDeclaration;
 import org.drools.core.rule.XpathBackReference;
-import org.drools.core.rule.constraint.EvaluatorConstraint;
-import org.drools.core.rule.constraint.MvelConstraint;
 import org.drools.core.rule.constraint.NegConstraint;
 import org.drools.core.rule.constraint.XpathConstraint;
 import org.drools.core.spi.AcceptsClassObjectType;
@@ -117,7 +115,6 @@ import org.kie.api.definition.rule.Watch;
 import org.kie.api.definition.type.Role;
 import org.kie.internal.builder.KnowledgeBuilderResult;
 import org.kie.internal.builder.ResultSeverity;
-import org.drools.core.addon.TypeResolver;
 import org.mvel2.MVEL;
 import org.mvel2.ParserConfiguration;
 import org.mvel2.ParserContext;
@@ -628,60 +625,6 @@ public class PatternBuilder
                 addFieldToPatternWatchlist(pattern, typeDeclaration, field);
             }
         }
-
-        combineConstraints(context, pattern, mvelCtx);
-    }
-
-    private void combineConstraints(RuleBuildContext context, Pattern pattern, MVELDumper.MVELDumperContext mvelCtx) {
-        List<MvelConstraint> combinableConstraints = pattern.getCombinableConstraints();
-
-        if (combinableConstraints == null || combinableConstraints.size() < 2) {
-            return;
-        }
-
-        List<Declaration> declarations = new ArrayList<Declaration>();
-        List<EvaluatorWrapper> operators = new ArrayList<EvaluatorWrapper>();
-        Set<String> declarationNames = new HashSet<String>();
-
-        boolean isFirst = true;
-        Collection<String> packageNames = null;
-        StringBuilder expressionBuilder = new StringBuilder(combinableConstraints.size() * 25);
-        for (MvelConstraint constraint : combinableConstraints) {
-            pattern.removeConstraint(constraint);
-            if (isFirst) {
-                packageNames = constraint.getPackageNames();
-                isFirst = false;
-            } else {
-                expressionBuilder.append(" && ");
-            }
-            String constraintExpression = constraint.getExpression();
-            boolean isComplex = constraintExpression.contains("&&") || constraintExpression.contains("||");
-            if (isComplex) {
-                expressionBuilder.append("( ");
-            }
-            expressionBuilder.append(constraintExpression);
-            if (isComplex) {
-                expressionBuilder.append(" )");
-            }
-            for (Declaration declaration : constraint.getRequiredDeclarations()) {
-                if (declarationNames.add(declaration.getBindingName())) {
-                    declarations.add(declaration);
-                }
-            }
-            Collections.addAll(operators, constraint.getOperators());
-        }
-
-        String expression = expressionBuilder.toString();
-        MVELCompilationUnit compilationUnit = getConstraintBuilder(context).buildCompilationUnit(context, pattern, expression, mvelCtx.getAliases());
-
-        Constraint combinedConstraint = getConstraintBuilder(context).buildMvelConstraint(packageNames,
-                                                                                          expression,
-                                                                                          declarations.toArray(new Declaration[declarations.size()]),
-                                                                                          operators.toArray(new EvaluatorWrapper[operators.size()]),
-                                                                                          compilationUnit,
-                                                                                          IndexUtil.ConstraintType.UNKNOWN,
-                                                                                          null, null, false);
-        pattern.addConstraint(combinedConstraint);
     }
 
     protected void processPositional(final RuleBuildContext context,

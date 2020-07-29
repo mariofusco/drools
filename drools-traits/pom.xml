@@ -45,9 +45,10 @@
       <artifactId>drools-compiler</artifactId>
     </dependency>
 
- <dependency>
+    <dependency>
       <groupId>org.drools</groupId>
       <artifactId>drools-persistence-jpa</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>

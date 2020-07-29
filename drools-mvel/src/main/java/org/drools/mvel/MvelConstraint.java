@@ -1,19 +1,18 @@
 /*
- * Copyright 2015 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
-package org.drools.core.rule.constraint;
+package org.drools.mvel;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -48,14 +47,15 @@ import org.drools.core.rule.IndexEvaluator;
 import org.drools.core.rule.IndexableConstraint;
 import org.drools.core.rule.MVELDialectRuntimeData;
 import org.drools.core.rule.MutableTypeConstraint;
-import org.drools.core.rule.constraint.ConditionAnalyzer.CombinedCondition;
-import org.drools.core.rule.constraint.ConditionAnalyzer.Condition;
-import org.drools.core.rule.constraint.ConditionAnalyzer.EvaluatedExpression;
-import org.drools.core.rule.constraint.ConditionAnalyzer.Expression;
-import org.drools.core.rule.constraint.ConditionAnalyzer.FieldAccessInvocation;
-import org.drools.core.rule.constraint.ConditionAnalyzer.Invocation;
-import org.drools.core.rule.constraint.ConditionAnalyzer.MethodInvocation;
-import org.drools.core.rule.constraint.ConditionAnalyzer.SingleCondition;
+import org.drools.mvel.ConditionAnalyzer.CombinedCondition;
+import org.drools.mvel.ConditionAnalyzer.Condition;
+import org.drools.mvel.ConditionAnalyzer.EvaluatedExpression;
+import org.drools.mvel.ConditionAnalyzer.Expression;
+import org.drools.mvel.ConditionAnalyzer.FieldAccessInvocation;
+import org.drools.mvel.ConditionAnalyzer.Invocation;
+import org.drools.mvel.ConditionAnalyzer.MethodInvocation;
+import org.drools.mvel.ConditionAnalyzer.SingleCondition;
+import org.drools.core.rule.constraint.ConditionEvaluator;
 import org.drools.core.spi.AcceptsReadAccessor;
 import org.drools.core.spi.FieldValue;
 import org.drools.core.spi.InternalReadAccessor;
@@ -180,10 +180,12 @@ public class MvelConstraint extends MutableTypeConstraint implements IndexableCo
         this.extractor = readAccessor;
     }
 
+    @Override
     public Collection<String> getPackageNames() {
         return packageNames;
     }
 
+    @Override
     public void addPackageNames(Collection<String> otherPkgs) {
         packageNames.addAll(otherPkgs);
     }
@@ -661,6 +663,7 @@ public class MvelConstraint extends MutableTypeConstraint implements IndexableCo
         return true;
     }
 
+    @Override
     public boolean equals(Object object, InternalKnowledgeBase kbase) {
         if ( !equals( object ) ) {
             return false;
@@ -915,6 +918,7 @@ public class MvelConstraint extends MutableTypeConstraint implements IndexableCo
         }
     }
 
+    @Override
     public void registerEvaluationContext(BuildContext buildContext) {
         evaluationContext.addContext(buildContext);
     }
