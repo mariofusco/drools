@@ -122,9 +122,10 @@ public class MVELEvalExpression
         return clone;
     }
 
-    public MVELEvalExpression clonePreservingDeclarations(MVELEvalExpression original) {
+    @Override
+    public MVELEvalExpression clonePreservingDeclarations(EvalExpression original) {
         MVELCompilationUnit cloneUnit = unit.clone();
-        cloneUnit.setPreviousDeclarations( original.unit.getPreviousDeclarations() );
+        cloneUnit.setPreviousDeclarations( ((MVELEvalExpression)original).unit.getPreviousDeclarations() );
         MVELEvalExpression clone = new MVELEvalExpression( cloneUnit,
                                                            id );
         // expr should be stateless, so it should be fine to share the reference

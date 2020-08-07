@@ -423,7 +423,6 @@ public class RuleImpl implements Externalizable,
                                RuleTerminalNode rtn,
                                WorkingMemory workingMemory) {
         if ( !this.enabled.getValue( tuple,
-                                     rtn.getEnabledDeclarations(),
                                      this,
                                      workingMemory ) ) {
             return false;
@@ -783,7 +782,6 @@ public class RuleImpl implements Externalizable,
                              RuleTerminalNode rtn,
                              WorkingMemory workingMemory) {
         return this.enabled.getValue( tuple,
-                                      rtn.getEnabledDeclarations(),
                                       this,
                                       workingMemory );
     }
@@ -877,6 +875,11 @@ public class RuleImpl implements Externalizable,
         return ruleUnitClassName != null;
     }
 
+    public void setDeclarations(Map<String, Declaration> decls) {
+        this.enabled.setDeclarations( declarations );
+        this.salience.setDeclarations( declarations );
+    }
+
     public static class SafeSalience implements Salience, Serializable {
         private static final long serialVersionUID = 1L;
         private final Salience delegate;
@@ -913,13 +916,13 @@ public class RuleImpl implements Externalizable,
 
         @Override
         public boolean getValue(final Tuple tuple,
-                                final Declaration[] declrs,
                                 final RuleImpl rule,
                                 final WorkingMemory workingMemory) {
-            return AccessController.doPrivileged((PrivilegedAction<Boolean>) () -> delegate.getValue(tuple, declrs, rule, workingMemory), KiePolicyHelper.getAccessContext());
+            return AccessController.doPrivileged((PrivilegedAction<Boolean>) () -> delegate.getValue(tuple, rule, workingMemory), KiePolicyHelper.getAccessContext());
         }
 
     }
+
     public static String getMethodBytecode( Class cls, String ruleClassName, String packageName, String methodName, String resource ) {
         try (InputStream is = cls.getClassLoader().getResourceAsStream(resource)) {
             byte[] data = readBytesFromInputStream( is );

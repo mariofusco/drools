@@ -17,14 +17,16 @@
 package org.drools.core.spi;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import org.drools.core.WorkingMemory;
 import org.drools.core.definitions.rule.impl.RuleImpl;
 import org.drools.core.rule.Declaration;
 
 public interface Enabled extends Serializable {
-    public boolean getValue(final Tuple tuple,
-                            final Declaration[] declrs,
-                            final RuleImpl rule,
-                            final WorkingMemory workingMemory);
+    boolean getValue(final Tuple tuple,
+                     final RuleImpl rule,
+                     final WorkingMemory workingMemory);
+
+    default void setDeclarations( Map<String, Declaration> decls) { }
 }

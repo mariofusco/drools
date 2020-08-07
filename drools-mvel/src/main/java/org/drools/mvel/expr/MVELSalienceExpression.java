@@ -19,13 +19,16 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Map;
 
 import org.drools.core.WorkingMemory;
-import org.drools.core.common.AgendaItem;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.definitions.rule.impl.RuleImpl;
 import org.drools.core.reteoo.LeftTuple;
+import org.drools.core.reteoo.RuleTerminalNode;
+import org.drools.core.rule.Declaration;
 import org.drools.core.spi.KnowledgeHelper;
 import org.drools.core.spi.Salience;
 import org.drools.core.time.TimeUtils;
@@ -46,6 +49,8 @@ public class MVELSalienceExpression
     private String              id;
 
     private Serializable        expr;
+
+    protected Declaration[]     salienceDeclarations;
 
     public MVELSalienceExpression() {
     }
@@ -82,8 +87,8 @@ public class MVELSalienceExpression
     public int getValue(final KnowledgeHelper khelper,
                         final Rule rule,
                         final WorkingMemory workingMemory) {
-        VariableResolverFactory factory = unit.getFactory( khelper, 
-                                                           khelper != null ? ((AgendaItem)khelper.getMatch()).getTerminalNode().getSalienceDeclarations() : null, 
+        VariableResolverFactory factory = unit.getFactory( khelper,
+                                                           this.salienceDeclarations,
                                                            rule, null, 
                                                            khelper != null ? (LeftTuple) khelper.getMatch().getTuple() : null, 
                                                            null, (InternalWorkingMemory) workingMemory, workingMemory.getGlobalResolver() );
@@ -100,6 +105,18 @@ public class MVELSalienceExpression
             value = TimeUtils.parseTimeString( (String)value );
         }
         return ((Number)value).intValue();
+    }
+
+    @Override
+    public void setDeclarations( Map<String, Declaration> decls) {
+        Declaration[] declrs = unit.getPreviousDeclarations();
+
+        this.salienceDeclarations = new Declaration[declrs.length];
+        int i = 0;
+        for ( Declaration declr : declrs ) {
+            this.salienceDeclarations[i++] = decls.get( declr.getIdentifier() );
+        }
+        Arrays.sort( this.salienceDeclarations, RuleTerminalNode.SortDeclarations.instance );
     }
 
     public boolean isDefault() {

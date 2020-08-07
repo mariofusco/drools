@@ -56,7 +56,6 @@ public class EnabledBoolean
     }
 
     public boolean getValue(final Tuple tuple,
-                            final Declaration[] declrs,
                             final RuleImpl rule,
                             final WorkingMemory workingMemory) {
         return this.value;

@@ -19,12 +19,15 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Map;
 
 import org.drools.core.WorkingMemory;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.definitions.rule.impl.RuleImpl;
 import org.drools.core.reteoo.LeftTuple;
+import org.drools.core.reteoo.RuleTerminalNode;
 import org.drools.core.rule.Declaration;
 import org.drools.core.spi.Enabled;
 import org.drools.core.spi.Tuple;
@@ -44,6 +47,8 @@ public class MVELEnabledExpression
     private String              id;
 
     private Serializable        expr;
+
+    protected Declaration[]     enabledDeclarations;
 
     public MVELEnabledExpression() {
     }
@@ -78,10 +83,9 @@ public class MVELEnabledExpression
     }
 
     public boolean getValue(final Tuple tuple,
-                            final Declaration[] declrs,
                             final RuleImpl rule,
                             final WorkingMemory workingMemory) {
-        VariableResolverFactory factory = unit.getFactory( null, declrs,
+        VariableResolverFactory factory = unit.getFactory( null, enabledDeclarations,
                                                            rule, null, (LeftTuple) tuple, null, (InternalWorkingMemory) workingMemory, workingMemory.getGlobalResolver()  );
 
         // do we have any functions for this namespace?
@@ -100,4 +104,15 @@ public class MVELEnabledExpression
         return this.unit.getExpression();
     }
 
+    @Override
+    public void setDeclarations( Map<String, Declaration> decls) {
+        Declaration[] declrs = unit.getPreviousDeclarations();
+
+        this.enabledDeclarations = new Declaration[declrs.length];
+        int i = 0;
+        for ( Declaration declr : declrs ) {
+            this.enabledDeclarations[i++] = decls.get( declr.getIdentifier() );
+        }
+        Arrays.sort( this.enabledDeclarations, RuleTerminalNode.SortDeclarations.instance );
+    }
 }

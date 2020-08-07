@@ -19,7 +19,7 @@
     <parent>
         <artifactId>drools</artifactId>
         <groupId>org.drools</groupId>
-        <version>7.41.0-SNAPSHOT</version>
+        <version>7.42.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -72,4 +72,37 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Export-Package>
+                            org.drools.mvel.*
+                        </Export-Package>
+                        <Import-Package>
+                            *
+                        </Import-Package>
+    <!--                    <Bundle-Activator>org.drools.core.osgi.Activator</Bundle-Activator>-->
+                        <_removeheaders>Private-Package</_removeheaders>
+                    </instructions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <configuration>
+                    <excludeFilterFile>${project.basedir}/src/main/spotbugs/spotbugs-exclude.xml</excludeFilterFile>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

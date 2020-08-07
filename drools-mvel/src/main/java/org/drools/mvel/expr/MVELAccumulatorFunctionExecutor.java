@@ -161,6 +161,7 @@ public class MVELAccumulatorFunctionExecutor
         return unit.getPreviousDeclarations();
     }
 
+    @Override
     public void replaceDeclaration( Declaration declaration, Declaration resolved ) {
         unit.replaceDeclaration( declaration, resolved );
     }
