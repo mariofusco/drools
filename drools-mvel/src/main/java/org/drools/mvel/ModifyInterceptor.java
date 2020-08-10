@@ -1,11 +1,9 @@
 /*
- * Copyright 2010 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,7 +12,7 @@
  * limitations under the License.
  */
 
-package org.drools.core.base;
+package org.drools.mvel;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -26,7 +24,6 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import org.drools.core.RuleBaseConfiguration;
-import org.drools.core.base.mvel.MVELCompilationUnit.DroolsVarFactory;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.reteoo.PropertySpecificUtil;
 import org.drools.core.rule.TypeDeclaration;
@@ -34,6 +31,7 @@ import org.drools.core.spi.KnowledgeHelper;
 import org.drools.core.spi.Tuple;
 import org.drools.core.util.bitmask.AllSetBitMask;
 import org.drools.core.util.bitmask.BitMask;
+import org.drools.mvel.expr.MVELCompilationUnit;
 import org.mvel2.ast.ASTNode;
 import org.mvel2.ast.WithNode;
 import org.mvel2.compiler.AccessorNode;
@@ -78,7 +76,7 @@ public class ModifyInterceptor
     public int doAfter(Object value,
                        ASTNode node,
                        VariableResolverFactory factory) {
-        while ( factory != null && !(factory instanceof DroolsVarFactory)) {
+        while ( factory != null && !(factory instanceof MVELCompilationUnit.DroolsVarFactory)) {
             factory =  factory.getNextFactory();
         }
         
@@ -86,7 +84,7 @@ public class ModifyInterceptor
             throw new RuntimeException( "Unable to find DroolsMVELIndexedFactory" );
         }
 
-        KnowledgeHelper knowledgeHelper = ((DroolsVarFactory)factory).getKnowledgeHelper();
+        KnowledgeHelper knowledgeHelper = ((MVELCompilationUnit.DroolsVarFactory)factory).getKnowledgeHelper();
         if (isEqualityMode == null) {
             isEqualityMode = knowledgeHelper.getWorkingMemory().getKnowledgeBase().getConfiguration().getAssertBehaviour() == RuleBaseConfiguration.AssertBehaviour.EQUALITY;
         }

@@ -26,7 +26,7 @@ import org.drools.compiler.lang.descr.FromDescr;
 import org.drools.compiler.rule.builder.FromBuilder;
 import org.drools.compiler.rule.builder.RuleBuildContext;
 import org.drools.compiler.rule.builder.dialect.DialectUtil;
-import org.drools.core.base.dataproviders.MVELDataProvider;
+import org.drools.mvel.dataproviders.MVELDataProvider;
 import org.drools.core.reteoo.RuleTerminalNode.SortDeclarations;
 import org.drools.core.rule.Declaration;
 import org.drools.core.rule.EntryPointId;

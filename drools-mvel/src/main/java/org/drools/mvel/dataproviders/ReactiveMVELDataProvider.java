@@ -1,9 +1,7 @@
 /*
- * Copyright 2016 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
  *       http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -14,21 +12,21 @@
  * limitations under the License.
  */
 
-package org.drools.core.base.dataproviders;
+package org.drools.mvel.dataproviders;
 
-import org.drools.core.base.mvel.MVELCompilationUnit;
+import java.util.Iterator;
+
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.phreak.ReactiveObject;
 import org.drools.core.spi.PropagationContext;
 import org.drools.core.spi.Tuple;
-
-import java.util.Iterator;
+import org.drools.mvel.expr.MVELCompilationUnit;
 
 public class ReactiveMVELDataProvider extends MVELDataProvider {
 
     public ReactiveMVELDataProvider() { }
 
-    public ReactiveMVELDataProvider(MVELCompilationUnit unit, String id) {
+    public ReactiveMVELDataProvider( MVELCompilationUnit unit, String id) {
         super(unit, id);
     }
 

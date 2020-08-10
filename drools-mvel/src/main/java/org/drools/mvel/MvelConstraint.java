@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.drools.core.base.ClassFieldReader;
 import org.drools.core.base.DroolsQuery;
 import org.drools.core.base.EvaluatorWrapper;
-import org.drools.core.base.extractors.MVELObjectClassFieldReader;
+import org.drools.mvel.extractors.MVELObjectClassFieldReader;
 import org.drools.mvel.expr.MVELCompilationUnit;
 import org.drools.core.common.DroolsObjectInputStream;
 import org.drools.core.common.InternalFactHandle;

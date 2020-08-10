@@ -31,7 +31,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.drools.core.base.EvaluatorWrapper;
-import org.drools.core.base.ModifyInterceptor;
+import org.drools.mvel.ModifyInterceptor;
+import org.drools.core.common.AgendaItemImpl;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.reteoo.LeftTuple;
@@ -104,6 +105,11 @@ public class MVELCompilationUnit
 
         // always use mvel reflective optimizer
         OptimizerFactory.setDefaultOptimizer( OptimizerFactory.SAFE_REFLECTIVE );
+
+        PropertyHandler handler = PropertyHandlerFactory.getPropertyHandler( AgendaItemImpl.class );
+        if ( handler == null ) {
+            PropertyHandlerFactoryFixer.getPropertyHandlerClass().put( AgendaItemImpl.class, new ActivationPropertyHandler() );
+        }
     }
 
     private static final Map<String, Class< ? >> primitivesMap    = new HashMap<String, Class< ? >>();
@@ -433,11 +439,6 @@ public class MVELCompilationUnit
             KnowledgeHelper kh = ( KnowledgeHelper ) knowledgeHelper;
             df.setKnowledgeHelper( kh );
         }        
-    }
-
-    public static InternalFactHandle getFactHandle( Declaration declaration,
-                                                    InternalFactHandle[] handles ) {
-        return handles != null && handles.length > declaration.getOffset() ? handles[declaration.getOffset()] : null;
     }
 
     private static Serializable compile( final String text,

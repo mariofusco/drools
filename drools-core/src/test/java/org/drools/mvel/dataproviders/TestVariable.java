@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.drools.core.base.dataproviders;
+package org.drools.mvel.dataproviders;
 
 import java.util.ArrayList;
 import java.util.List;

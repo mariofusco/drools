@@ -49,6 +49,7 @@ import org.drools.core.rule.Pattern;
 import org.drools.core.spi.AgendaGroup;
 import org.drools.core.spi.Salience;
 import org.drools.core.time.TimeUtils;
+import org.drools.core.time.TimerExpression;
 import org.drools.core.time.impl.CronExpression;
 import org.drools.core.time.impl.CronTimer;
 import org.drools.core.time.impl.ExpressionIntervalTimer;
@@ -397,7 +398,7 @@ public class RuleBuilder {
     }
 
     public static Timer buildTimer( RuleImpl rule, String timerString, RuleBuildContext context,
-                                    Function<String, MVELObjectExpression> exprCreator, Consumer<String> errorManager ) {
+                                    Function<String, TimerExpression> exprCreator, Consumer<String> errorManager ) {
         if( timerString.indexOf( '(' ) >=0 ) {
             timerString = timerString.substring( timerString.indexOf( '(' )+1, timerString.lastIndexOf( ')' ) ).trim();
         }
@@ -489,7 +490,7 @@ public class RuleBuilder {
         return timerString.substring( equalsPos + 1, endPos ).trim();
     }
 
-    private static MVELObjectExpression createMVELExpr(String expr, RuleBuildContext context) {
+    private static TimerExpression createMVELExpr(String expr, RuleBuildContext context) {
         if (expr == null || context == null) {
             return null;
         }

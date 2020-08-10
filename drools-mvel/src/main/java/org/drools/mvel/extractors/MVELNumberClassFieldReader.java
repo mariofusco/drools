@@ -1,11 +1,9 @@
 /*
- * Copyright 2010 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,25 +12,26 @@
  * limitations under the License.
  */
 
-package org.drools.core.base.extractors;
-
-import org.drools.core.base.mvel.MVELCompileable;
-import org.drools.core.common.InternalWorkingMemory;
-import org.drools.core.definitions.rule.impl.RuleImpl;
-import org.drools.core.rule.MVELDialectRuntimeData;
-import org.drools.core.util.MVELSafeHelper;
-import org.mvel2.compiler.ExecutableStatement;
+package org.drools.mvel.extractors;
 
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import org.drools.core.base.extractors.BaseNumberClassFieldReader;
+import org.drools.core.common.InternalWorkingMemory;
+import org.drools.core.definitions.rule.impl.RuleImpl;
+import org.drools.core.util.MVELSafeHelper;
+import org.drools.mvel.MVELDialectRuntimeData;
+import org.drools.mvel.expr.MVELCompileable;
+import org.mvel2.compiler.ExecutableStatement;
+
 /**
  * A class field extractor that uses MVEL engine to extract the actual value for a given
  * expression. We use MVEL to resolve nested accessor expressions.
  */
-public class MVELDateClassFieldReader extends BaseDateClassFieldReader implements Externalizable, MVELCompileable, MVELClassFieldReader {
+public class MVELNumberClassFieldReader extends BaseNumberClassFieldReader implements Externalizable, MVELCompileable, MVELClassFieldReader {
 
     private static final long   serialVersionUID = 510l;
 
@@ -43,10 +42,10 @@ public class MVELDateClassFieldReader extends BaseDateClassFieldReader implement
     private boolean             typesafe;
     private Object              evaluationContext;
 
-    public MVELDateClassFieldReader() {
+    public MVELNumberClassFieldReader() {
     }    
     
-    public MVELDateClassFieldReader(String className,
+    public MVELNumberClassFieldReader(String className,
                                     String expr,
                                     boolean typesafe) {
         this.className = className;
@@ -98,11 +97,11 @@ public class MVELDateClassFieldReader extends BaseDateClassFieldReader implement
         this.evaluationContext = evaluationContext;
     }
 
-    public void compile(MVELDialectRuntimeData runtimeData) {
+    public void compile( MVELDialectRuntimeData runtimeData) {
         MVELObjectClassFieldReader.doCompile(this, runtimeData, getEvaluationContext());
     }
 
-    public void compile(MVELDialectRuntimeData runtimeData, RuleImpl rule) {
+    public void compile( MVELDialectRuntimeData runtimeData, RuleImpl rule ) {
         MVELObjectClassFieldReader.doCompile(this, runtimeData, rule.toRuleNameAndPathString());
     }
 
@@ -136,7 +135,7 @@ public class MVELDateClassFieldReader extends BaseDateClassFieldReader implement
         if ( this == obj ) return true;
         if ( !super.equals( obj ) ) return false;
         if ( getClass() != obj.getClass() ) return false;
-        MVELDateClassFieldReader other = (MVELDateClassFieldReader) obj;
+        MVELNumberClassFieldReader other = (MVELNumberClassFieldReader) obj;
         if ( className == null ) {
             if ( other.className != null ) return false;
         } else if ( !className.equals( other.className ) ) return false;

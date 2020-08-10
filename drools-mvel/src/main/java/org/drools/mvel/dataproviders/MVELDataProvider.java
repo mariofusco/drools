@@ -1,11 +1,9 @@
 /*
- * Copyright 2010 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,20 +12,7 @@
  * limitations under the License.
  */
 
-package org.drools.core.base.dataproviders;
-
-import org.drools.core.base.mvel.MVELCompilationUnit;
-import org.drools.core.base.mvel.MVELCompileable;
-import org.drools.core.common.InternalWorkingMemory;
-import org.drools.core.definitions.rule.impl.RuleImpl;
-import org.drools.core.rule.Declaration;
-import org.drools.core.rule.MVELDialectRuntimeData;
-import org.drools.core.spi.DataProvider;
-import org.drools.core.spi.PropagationContext;
-import org.drools.core.spi.Tuple;
-import org.drools.core.util.ArrayIterator;
-import org.drools.core.util.MVELSafeHelper;
-import org.mvel2.integration.VariableResolverFactory;
+package org.drools.mvel.dataproviders;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -39,15 +24,24 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class MVELDataProvider
-    implements
-    DataProvider,
-    MVELCompileable,
-    Externalizable {
+import org.drools.core.common.InternalWorkingMemory;
+import org.drools.core.definitions.rule.impl.RuleImpl;
+import org.drools.core.rule.Declaration;
+import org.drools.core.spi.DataProvider;
+import org.drools.core.spi.PropagationContext;
+import org.drools.core.spi.Tuple;
+import org.drools.core.util.ArrayIterator;
+import org.drools.core.util.MVELSafeHelper;
+import org.drools.mvel.MVELDialectRuntimeData;
+import org.drools.mvel.expr.MVELCompilationUnit;
+import org.drools.mvel.expr.MVELCompileable;
+import org.mvel2.integration.VariableResolverFactory;
+
+public class MVELDataProvider implements DataProvider, MVELCompileable, Externalizable {
 
     private static final long       serialVersionUID = 510l;
 
-    private MVELCompilationUnit     unit;
+    private MVELCompilationUnit unit;
     private String                  id;
 
     private Serializable            expr;
@@ -96,7 +90,7 @@ public class MVELDataProvider
     }
 
     @SuppressWarnings("unchecked")
-    public void compile(MVELDialectRuntimeData runtimeData) {
+    public void compile( MVELDialectRuntimeData runtimeData) {
         expr = unit.getCompiledExpression( runtimeData );
         if (clones != null) {
             for (MVELDataProvider clone : clones) {

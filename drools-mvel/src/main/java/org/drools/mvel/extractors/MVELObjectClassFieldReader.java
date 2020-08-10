@@ -1,11 +1,9 @@
 /*
- * Copyright 2010 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,21 +12,22 @@
  * limitations under the License.
  */
 
-package org.drools.core.base.extractors;
-
-import org.drools.core.base.ValueType;
-import org.drools.core.base.mvel.MVELCompileable;
-import org.drools.core.common.InternalWorkingMemory;
-import org.drools.core.definitions.rule.impl.RuleImpl;
-import org.drools.core.rule.MVELDialectRuntimeData;
-import org.drools.core.util.MVELSafeHelper;
-import org.mvel2.MVEL;
-import org.mvel2.ParserContext;
-import org.mvel2.compiler.ExecutableStatement;
+package org.drools.mvel.extractors;
 
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+
+import org.drools.core.base.ValueType;
+import org.drools.core.base.extractors.BaseObjectClassFieldReader;
+import org.drools.core.common.InternalWorkingMemory;
+import org.drools.core.definitions.rule.impl.RuleImpl;
+import org.drools.core.util.MVELSafeHelper;
+import org.drools.mvel.MVELDialectRuntimeData;
+import org.drools.mvel.expr.MVELCompileable;
+import org.mvel2.MVEL;
+import org.mvel2.ParserContext;
+import org.mvel2.compiler.ExecutableStatement;
 
 /**
  * A class field extractor that uses MVEL engine to extract the actual value for a given
@@ -100,7 +99,7 @@ public class MVELObjectClassFieldReader extends BaseObjectClassFieldReader imple
         this.evaluationContext = evaluationContext;
     }
 
-    public void compile(MVELDialectRuntimeData runtimeData) {
+    public void compile( MVELDialectRuntimeData runtimeData) {
         doCompile(this, runtimeData, getEvaluationContext());
     }    
 
