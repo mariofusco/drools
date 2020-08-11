@@ -284,14 +284,6 @@ public class PatternBuilder
         }
         pattern.setPassive(patternDescr.isPassive(context));
 
-        if (ClassObjectType.Match_ObjectType.isAssignableFrom(pattern.getObjectType())) {
-            PropertyHandler handler = PropertyHandlerFactory.getPropertyHandler(RuleTerminalNodeLeftTuple.class);
-            if (handler == null) {
-                PropertyHandlerFactoryFixer.getPropertyHandlerClass().put(RuleTerminalNodeLeftTuple.class,
-                                                                          new ActivationPropertyHandler());
-            }
-        }
-
         // adding the newly created pattern to the build stack this is necessary in case of local declaration usage
         context.getDeclarationResolver().pushOnBuildStack(pattern);
 
@@ -1103,7 +1095,7 @@ public class PatternBuilder
             ValueType vtype = extractor.getValueType();
             FieldValue field = getFieldValue(context, vtype, restrictionDescr.getText().trim());
             if (field != null) {
-                Constraint constraint = getConstraintBuilder(context)
+                Constraint constraint = getConstraintBuilder()
                         .buildLiteralConstraint(context, pattern, vtype, field, expr,
                                 value1, relDescr.getOperator(), relDescr.isNegated(), value2,
                                 extractor, restrictionDescr, aliases);
@@ -1504,7 +1496,7 @@ public class PatternBuilder
                 !pattern.getObjectType().getClassType().isArray() &&
                         !context.getKnowledgeBuilder().getTypeDeclaration(pattern.getObjectType().getClassType()).isTypesafe();
 
-        return getConstraintBuilder(context).buildMvelConstraint(context.getPkg().getName(), expr, mvelDeclarations, getOperators(usedIdentifiers.getOperators()),
+        return getConstraintBuilder().buildMvelConstraint(context.getPkg().getName(), expr, mvelDeclarations, getOperators(usedIdentifiers.getOperators()),
                 context, previousDeclarations, localDeclarations, predicateDescr, analysis, isDynamic);
     }
 
@@ -1578,16 +1570,16 @@ public class PatternBuilder
             op.setLeftIsHandle(left == Target.HANDLE);
             op.setRightIsHandle(right == Target.HANDLE);
 
-            Evaluator evaluator = getConstraintBuilder(context).getEvaluator(context,
-                                                                             predicateDescr,
-                                                                             ValueType.OBJECT_TYPE,
-                                                                             op.getOperator(),
-                                                                             false, // the rewrite takes care of negation
-                                                                             op.getParametersText(),
-                                                                             left,
-                                                                             right);
+            Evaluator evaluator = getConstraintBuilder().getEvaluator(context,
+                                                                      predicateDescr,
+                                                                      ValueType.OBJECT_TYPE,
+                                                                      op.getOperator(),
+                                                                      false, // the rewrite takes care of negation
+                                                                      op.getParametersText(),
+                                                                      left,
+                                                                      right);
 
-            EvaluatorWrapper wrapper = getConstraintBuilder(context).wrapEvaluator(evaluator, leftDecl, rightDecl);
+            EvaluatorWrapper wrapper = getConstraintBuilder().wrapEvaluator(evaluator, leftDecl, rightDecl);
             operators.put(entry.getKey(), wrapper);
         }
         return operators;
@@ -1625,8 +1617,8 @@ public class PatternBuilder
         return declaration;
     }
 
-    protected static ConstraintBuilder getConstraintBuilder(RuleBuildContext context) {
-        return context.getCompilerFactory().getConstraintBuilderFactoryService().newConstraintBuilder();
+    private static ConstraintBuilder getConstraintBuilder() {
+        return ConstraintBuilder.get();
     }
 
     public static void createImplicitBindings(final RuleBuildContext context,

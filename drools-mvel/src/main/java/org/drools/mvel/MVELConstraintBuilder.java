@@ -146,7 +146,7 @@ public class MVELConstraintBuilder implements ConstraintBuilder {
         IndexUtil.ConstraintType constraintType = IndexUtil.ConstraintType.decode(operatorDescr.getOperator(), operatorDescr.isNegated());
         MVELCompilationUnit compilationUnit = isUnification ? null : buildCompilationUnit(context, pattern, expression, aliases);
         EvaluatorWrapper[] operators = getOperators(buildOperators(context, pattern, relDescr, aliases));
-        return new MvelConstraint( Collections.singletonList( context.getPkg().getName() ), expression, declarations, operators, compilationUnit, constraintType, requiredDeclaration, extractor, isUnification);
+        return new MVELConstraint( Collections.singletonList( context.getPkg().getName() ), expression, declarations, operators, compilationUnit, constraintType, requiredDeclaration, extractor, isUnification);
     }
 
     public Constraint buildMvelConstraint(String packageName,
@@ -161,7 +161,7 @@ public class MVELConstraintBuilder implements ConstraintBuilder {
                                           boolean isDynamic) {
 
         MVELCompilationUnit compilationUnit = buildCompilationUnit(context, previousDeclarations, localDeclarations, predicateDescr, analysis);
-        return new MvelConstraint( packageName, expression, declarations, operators, compilationUnit, isDynamic );
+        return new MVELConstraint( packageName, expression, declarations, operators, compilationUnit, isDynamic );
     }
 
     public Constraint buildLiteralConstraint(RuleBuildContext context,
@@ -199,7 +199,7 @@ public class MVELConstraintBuilder implements ConstraintBuilder {
         }
         MVELCompilationUnit compilationUnit = buildCompilationUnit(context, pattern, mvelExpr, aliases);
         EvaluatorWrapper[] operators = getOperators(buildOperators(context, pattern, restrictionDescr, aliases));
-        return new MvelConstraint(context.getPkg().getName(), mvelExpr, compilationUnit, constraintType, field, extractor, operators);
+        return new MVELConstraint(context.getPkg().getName(), mvelExpr, compilationUnit, constraintType, field, extractor, operators);
     }
 
     private static String normalizeDoubleNegation(String expr) {

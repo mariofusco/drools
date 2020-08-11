@@ -23,15 +23,11 @@ import java.io.ObjectOutput;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.drools.core.base.AccessorKey.AccessorType;
-import org.drools.core.base.extractors.MVELDateClassFieldReader;
-import org.drools.core.base.extractors.MVELNumberClassFieldReader;
-import org.drools.core.base.extractors.MVELObjectClassFieldReader;
 import org.drools.core.rule.TypeDeclaration;
 import org.drools.core.spi.AcceptsClassObjectType;
 import org.drools.core.spi.AcceptsReadAccessor;
@@ -145,20 +141,8 @@ public class ClassFieldAccessorStore
     }
     
     public static InternalReadAccessor getReadAcessor(String className, String expr, boolean typesafe, Class<?> returnType) {
-        if (Number.class.isAssignableFrom( returnType ) ||
-            ( returnType == byte.class ||
-              returnType == short.class ||
-              returnType == int.class ||
-              returnType == long.class ||
-              returnType == float.class ||
-              returnType == double.class ) ) {            
-            return new MVELNumberClassFieldReader( className, expr, typesafe );            
-        } else if (  Date.class.isAssignableFrom( returnType ) ) {
-          return new MVELDateClassFieldReader( className, expr, typesafe );
-        } else {
-          return new MVELObjectClassFieldReader( className, expr, typesafe );
-        }       
-    }     
+        return CoreComponentsBuilder.get().getReadAcessor(className, expr, typesafe, returnType);
+    }
 
     public ClassFieldAccessor getAccessor(Class<?> cls, String fieldName) {
         return getAccessor( cls.getName(), fieldName );

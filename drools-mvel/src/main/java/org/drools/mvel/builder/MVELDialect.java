@@ -197,7 +197,7 @@ public class MVELDialect
             data.onAdd(this.pkg.getDialectRuntimeRegistry(),
                        rootClassLoader);
         } else {
-            data = (MVELDialectRuntimeData) this.pkg.getDialectRuntimeRegistry().getDialectData("mvel");
+            data = ( MVELDialectRuntimeData ) this.pkg.getDialectRuntimeRegistry().getDialectData("mvel");
         }
 
         this.results = new ArrayList<KnowledgeBuilderResult>();
@@ -219,7 +219,7 @@ public class MVELDialect
         packageRegistry = (PackageRegistry) in.readObject();
         configuration = (MVELDialectConfiguration) in.readObject();
         strictMode = in.readBoolean();
-        data = (MVELDialectRuntimeData) this.pkg.getDialectRuntimeRegistry().getDialectData("mvel");
+        data = ( MVELDialectRuntimeData ) this.pkg.getDialectRuntimeRegistry().getDialectData("mvel");
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

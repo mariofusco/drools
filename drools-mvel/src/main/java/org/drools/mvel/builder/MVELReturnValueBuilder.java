@@ -59,7 +59,7 @@ public class MVELReturnValueBuilder
                                                                             context.getDialect().getId() );
             returnValueRestriction.setReturnValueExpression( expr );
             
-            MVELDialectRuntimeData data = (MVELDialectRuntimeData) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
+            MVELDialectRuntimeData data = ( MVELDialectRuntimeData ) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
             data.addCompileable( returnValueRestriction,
                                   expr );
             

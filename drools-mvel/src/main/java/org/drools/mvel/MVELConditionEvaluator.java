@@ -46,7 +46,7 @@ import org.mvel2.util.ASTLinkedList;
 
 import static org.drools.core.rule.constraint.EvaluatorHelper.valuesAsMap;
 
-public class MvelConditionEvaluator implements ConditionEvaluator {
+public class MVELConditionEvaluator implements ConditionEvaluator {
 
     private final Declaration[] declarations;
     private final EvaluatorWrapper[] operators;
@@ -58,11 +58,11 @@ public class MvelConditionEvaluator implements ConditionEvaluator {
 
     private boolean evaluated = false;
 
-    public MvelConditionEvaluator(ParserConfiguration configuration,
-                                  String expression,
-                                  Declaration[] declarations,
-                                  EvaluatorWrapper[] operators,
-                                  String conditionClass) {
+    public MVELConditionEvaluator( ParserConfiguration configuration,
+                                   String expression,
+                                   Declaration[] declarations,
+                                   EvaluatorWrapper[] operators,
+                                   String conditionClass) {
         this(null,
              configuration,
              (ExecutableStatement)MVEL.compileExpression(expression, new ParserContext(configuration)),
@@ -71,12 +71,12 @@ public class MvelConditionEvaluator implements ConditionEvaluator {
              conditionClass);
     }
 
-    public MvelConditionEvaluator(MVELCompilationUnit compilationUnit,
-                                  ParserConfiguration parserConfiguration,
-                                  ExecutableStatement executableStatement,
-                                  Declaration[] declarations,
-                                  EvaluatorWrapper[] operators,
-                                  String conditionClass) {
+    public MVELConditionEvaluator( MVELCompilationUnit compilationUnit,
+                                   ParserConfiguration parserConfiguration,
+                                   ExecutableStatement executableStatement,
+                                   Declaration[] declarations,
+                                   EvaluatorWrapper[] operators,
+                                   String conditionClass) {
         this.declarations = declarations;
         this.operators = operators;
         this.conditionClass = conditionClass;

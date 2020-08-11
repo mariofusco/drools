@@ -19,5 +19,5 @@ import org.drools.mvel.MVELDialectRuntimeData;
 
 public interface MVELCompileable {
     void compile( MVELDialectRuntimeData runtimeData);
-    void compile(MVELDialectRuntimeData runtimeData, RuleImpl rule);
+    void compile( MVELDialectRuntimeData runtimeData, RuleImpl rule);
 }

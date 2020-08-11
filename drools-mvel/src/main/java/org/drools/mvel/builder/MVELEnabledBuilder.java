@@ -87,7 +87,7 @@ public class MVELEnabledBuilder
                                                                     dialect.getId() );
             context.getRule().setEnabled( KiePolicyHelper.isPolicyEnabled() ? new SafeEnabled(expr) : expr );
 
-            MVELDialectRuntimeData data = (MVELDialectRuntimeData) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
+            MVELDialectRuntimeData data = ( MVELDialectRuntimeData ) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
             data.addCompileable( context.getRule(),
                                  expr );
 

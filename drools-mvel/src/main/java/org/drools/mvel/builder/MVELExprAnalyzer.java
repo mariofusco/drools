@@ -289,7 +289,7 @@ public class MVELExprAnalyzer {
                                              Map<String, Class< ? >> declCls,
                                              RuleConditionElement source,
                                              String expression) {
-        MVELDialectRuntimeData data = ( MVELDialectRuntimeData) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
+        MVELDialectRuntimeData data = ( MVELDialectRuntimeData ) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
         ParserConfiguration conf = data.getParserConfiguration();
         conf.setClassLoader( context.getKnowledgeBuilder().getRootClassLoader() );
         ParserContext pctx = new ParserContext( conf );

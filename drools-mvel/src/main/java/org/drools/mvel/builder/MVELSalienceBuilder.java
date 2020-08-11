@@ -78,7 +78,7 @@ public class MVELSalienceBuilder
                                                                       dialect.getId() );
             context.getRule().setSalience( KiePolicyHelper.isPolicyEnabled() ? new SafeSalience(expr) : expr );
             
-            MVELDialectRuntimeData data = (MVELDialectRuntimeData) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
+            MVELDialectRuntimeData data = ( MVELDialectRuntimeData ) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
             data.addCompileable( context.getRule(),
                                  expr );
             

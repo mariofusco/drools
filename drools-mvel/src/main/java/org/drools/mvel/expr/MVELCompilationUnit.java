@@ -31,16 +31,17 @@ import java.util.Map;
 import java.util.Set;
 
 import org.drools.core.base.EvaluatorWrapper;
-import org.drools.mvel.ModifyInterceptor;
 import org.drools.core.common.AgendaItemImpl;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.reteoo.LeftTuple;
+import org.drools.core.reteoo.RuleTerminalNodeLeftTuple;
 import org.drools.core.rule.Declaration;
 import org.drools.core.spi.GlobalResolver;
 import org.drools.core.spi.KnowledgeHelper;
 import org.drools.core.spi.Tuple;
 import org.drools.mvel.MVELDialectRuntimeData;
+import org.drools.mvel.ModifyInterceptor;
 import org.kie.api.definition.rule.Rule;
 import org.mvel2.DataConversion;
 import org.mvel2.MVEL;
@@ -106,9 +107,13 @@ public class MVELCompilationUnit
         // always use mvel reflective optimizer
         OptimizerFactory.setDefaultOptimizer( OptimizerFactory.SAFE_REFLECTIVE );
 
-        PropertyHandler handler = PropertyHandlerFactory.getPropertyHandler( AgendaItemImpl.class );
-        if ( handler == null ) {
+        PropertyHandler handler1 = PropertyHandlerFactory.getPropertyHandler( AgendaItemImpl.class );
+        if ( handler1 == null ) {
             PropertyHandlerFactoryFixer.getPropertyHandlerClass().put( AgendaItemImpl.class, new ActivationPropertyHandler() );
+        }
+        PropertyHandler handler2 = PropertyHandlerFactory.getPropertyHandler( RuleTerminalNodeLeftTuple.class);
+        if (handler2 == null) {
+            PropertyHandlerFactoryFixer.getPropertyHandlerClass().put(RuleTerminalNodeLeftTuple.class, new ActivationPropertyHandler());
         }
     }
 
@@ -239,7 +244,7 @@ public class MVELCompilationUnit
         return getCompiledExpression(conf, null);
     }
 
-    public Serializable getCompiledExpression(MVELDialectRuntimeData runtimeData, Object evaluationContext) {
+    public Serializable getCompiledExpression( MVELDialectRuntimeData runtimeData, Object evaluationContext) {
         return getCompiledExpression(runtimeData.getParserConfiguration(), evaluationContext);
     }
 

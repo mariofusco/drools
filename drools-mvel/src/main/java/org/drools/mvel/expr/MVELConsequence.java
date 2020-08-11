@@ -78,7 +78,7 @@ public class MVELConsequence
         expr = unit.getCompiledExpression( runtimeData );
     }
 
-    public void compile(MVELDialectRuntimeData runtimeData, RuleImpl rule) {
+    public void compile( MVELDialectRuntimeData runtimeData, RuleImpl rule) {
         expr = unit.getCompiledExpression( runtimeData, rule.toRuleNameAndPathString() );
     }
 
@@ -91,7 +91,7 @@ public class MVELConsequence
         // do we have any functions for this namespace?
         InternalKnowledgePackage pkg = workingMemory.getKnowledgeBase().getPackage( "MAIN" );
         if ( pkg != null ) {
-            MVELDialectRuntimeData data = (MVELDialectRuntimeData) pkg.getDialectRuntimeRegistry().getDialectData( this.id );
+            MVELDialectRuntimeData data = ( MVELDialectRuntimeData ) pkg.getDialectRuntimeRegistry().getDialectData( this.id );
             factory.setNextFactory( data.getFunctionFactory() );
         }
 

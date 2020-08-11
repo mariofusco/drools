@@ -1,11 +1,9 @@
 /*
- * Copyright 2005 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,19 +12,21 @@
  * limitations under the License.
  */
 
-package org.drools.core.rule;
-
-import org.drools.core.base.ClassFieldAccessorCache;
-import org.drools.core.base.ClassFieldAccessorStore;
-import org.drools.core.base.ClassObjectType;
-import org.drools.core.spi.InternalReadAccessor;
-import org.drools.core.test.model.Cheese;
-import org.junit.Before;
-import org.junit.Test;
+package org.drools.mvel.rule;
 
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+
+import org.drools.core.base.ClassFieldAccessorCache;
+import org.drools.core.base.ClassFieldAccessorStore;
+import org.drools.core.base.ClassObjectType;
+import org.drools.core.rule.Declaration;
+import org.drools.core.rule.Pattern;
+import org.drools.core.spi.InternalReadAccessor;
+import org.drools.core.test.model.Cheese;
+import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;

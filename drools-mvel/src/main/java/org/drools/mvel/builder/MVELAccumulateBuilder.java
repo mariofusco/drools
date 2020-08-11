@@ -51,7 +51,7 @@ import org.drools.core.spi.KnowledgeHelper;
 import org.drools.core.spi.MvelAccumulator;
 import org.drools.core.util.index.IndexUtil;
 import org.drools.mvel.MVELDialectRuntimeData;
-import org.drools.mvel.MvelConstraint;
+import org.drools.mvel.MVELConstraint;
 import org.drools.mvel.expr.MVELAccumulator;
 import org.drools.mvel.expr.MVELCompilationUnit;
 import org.drools.mvel.expr.MVELCompileable;
@@ -135,7 +135,7 @@ public class MVELAccumulateBuilder
                 Collections.addAll( requiredDeclarations, mvelAcc.getRequiredDeclarations() );
             }
 
-            MVELDialectRuntimeData data = (MVELDialectRuntimeData) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
+            MVELDialectRuntimeData data = ( MVELDialectRuntimeData ) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
 
             Accumulate accumulate;
             if (accumDescr.isMultiFunction()) {
@@ -239,7 +239,7 @@ public class MVELAccumulateBuilder
                                                                "Duplicate declaration for variable '" + func.getBind() + "' in the rule '" + context.getRule().getName() + "'" ) );
                     } else {
                         Declaration inner = context.getDeclarationResolver().getDeclaration( func.getBind() );
-                        Constraint c = new MvelConstraint( Collections.singletonList( context.getPkg().getName() ),
+                        Constraint c = new MVELConstraint( Collections.singletonList( context.getPkg().getName() ),
                                                            accumDescr.isMultiFunction()
                                                                 ? "this[ " + index + " ] == " + func.getBind()
                                                                 : "this == " + func.getBind(),

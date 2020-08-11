@@ -1,11 +1,9 @@
 /*
- * Copyright 2010 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,7 +12,7 @@
  * limitations under the License.
  */
 
-package org.drools.core.rule;
+package org.drools.mvel.rule;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -26,6 +24,9 @@ import java.security.CodeSource;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.definitions.impl.KnowledgePackageImpl;
 import org.drools.core.impl.KnowledgeBaseImpl;
+import org.drools.core.rule.Declaration;
+import org.drools.core.rule.EvalCondition;
+import org.drools.core.rule.JavaDialectRuntimeData;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -37,7 +38,7 @@ import org.drools.core.spi.Tuple;
 public class PackageCompilationDataTest {
     public static class TestEvalExpression implements EvalExpression {
         public Object createContext() { return null; }
-        public boolean evaluate(Tuple t, Declaration[] d, WorkingMemory w, Object context ) {
+        public boolean evaluate( Tuple t, Declaration[] d, WorkingMemory w, Object context ) {
             return false;
         }
         public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {

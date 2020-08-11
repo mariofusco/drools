@@ -91,7 +91,7 @@ public class MVELObjectExpression implements MVELCompileable, TimerExpression, E
         // do we have any functions for this namespace?
         InternalKnowledgePackage pkg = wm.getKnowledgeBase().getPackage( "MAIN" );
         if ( pkg != null ) {
-            MVELDialectRuntimeData data = (MVELDialectRuntimeData) pkg.getDialectRuntimeRegistry().getDialectData( this.id );
+            MVELDialectRuntimeData data = ( MVELDialectRuntimeData ) pkg.getDialectRuntimeRegistry().getDialectData( this.id );
             factory.setNextFactory( data.getFunctionFactory() );
         }
 

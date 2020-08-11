@@ -86,7 +86,7 @@ public class AgendaEventSupportTest {
 
         final FieldValue field = FieldFactory.getInstance().getFieldValue( "cheddar" );
 
-        final MvelConstraint constraint = new MvelConstraintTestUtil("type == \"cheddar\"", field, extractor);
+        final MVELConstraint constraint = new MVELConstraintTestUtil("type == \"cheddar\"", field, extractor);
 
         pattern.addConstraint( constraint );
         rule.addPattern( pattern );

@@ -102,7 +102,7 @@ public class MVELDataProvider implements DataProvider, MVELCompileable, External
 //        this.requiredDeclarations = (Declaration[]) previousDeclarations.values().toArray( new Declaration[previousDeclarations.size()] );
     }
 
-    public void compile(MVELDialectRuntimeData runtimeData, RuleImpl rule) {
+    public void compile( MVELDialectRuntimeData runtimeData, RuleImpl rule) {
         expr = unit.getCompiledExpression( runtimeData, rule.toRuleNameAndPathString() );
     }
 

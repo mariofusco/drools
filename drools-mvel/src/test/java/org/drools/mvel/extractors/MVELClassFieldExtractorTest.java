@@ -1,11 +1,9 @@
 /*
- * Copyright 2010 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,15 +12,15 @@
  * limitations under the License.
  */
 
-package org.drools.core.base.extractors;
+package org.drools.mvel.extractors;
 
 import java.util.Vector;
 
 import org.drools.core.base.ClassFieldAccessorCache;
 import org.drools.core.base.ClassFieldAccessorStore;
-import org.drools.core.rule.MVELDialectRuntimeData;
 import org.drools.core.test.model.Address;
 import org.drools.core.test.model.Person;
+import org.drools.mvel.MVELDialectRuntimeData;
 import org.drools.reflective.classloader.ProjectClassLoader;
 import org.junit.Before;
 import org.junit.Test;

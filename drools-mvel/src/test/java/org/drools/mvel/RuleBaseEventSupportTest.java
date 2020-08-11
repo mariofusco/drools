@@ -90,7 +90,7 @@ public class RuleBaseEventSupportTest {
 
         final FieldValue field = FieldFactory.getInstance().getFieldValue( "cheddar" );
 
-        final MvelConstraint constraint = new MvelConstraintTestUtil("type == \"cheddar\"", field, extractor);
+        final MVELConstraint constraint = new MVELConstraintTestUtil("type == \"cheddar\"", field, extractor);
 
         pattern.addConstraint( constraint );
         rule1.addPattern( pattern );
@@ -123,7 +123,7 @@ public class RuleBaseEventSupportTest {
 
         final FieldValue field2 = FieldFactory.getInstance().getFieldValue( "stilton" );
 
-        final MvelConstraint constraint2 = new MvelConstraintTestUtil("type == \"stilton\"", field, extractor);
+        final MVELConstraint constraint2 = new MVELConstraintTestUtil("type == \"stilton\"", field, extractor);
 
         pattern2.addConstraint( constraint2 );
         rule2.addPattern( pattern2 );

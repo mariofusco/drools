@@ -78,7 +78,7 @@ public class FieldConstraintTest {
         final ClassFieldReader extractor = store.getReader( Cheese.class,
                 "type");
 
-        final MvelConstraint constraint = new MvelConstraintTestUtil( "type == \"cheddar\"",
+        final MVELConstraint constraint = new MVELConstraintTestUtil( "type == \"cheddar\"",
                                                                       FieldFactory.getInstance().getFieldValue( "cheddar" ),
                                                                       extractor );
 
@@ -118,7 +118,7 @@ public class FieldConstraintTest {
         final ClassFieldReader extractor = store.getReader(Cheese.class,
                 "price");
 
-        final MvelConstraint constraint = new MvelConstraintTestUtil( "price == 5",
+        final MVELConstraint constraint = new MVELConstraintTestUtil( "price == 5",
                                                                       FieldFactory.getInstance().getFieldValue( 5 ),
                                                                       extractor );
         final Cheese cheddar = new Cheese( "cheddar",

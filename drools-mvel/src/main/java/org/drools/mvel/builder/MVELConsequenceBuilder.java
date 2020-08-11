@@ -195,7 +195,7 @@ public class MVELConsequenceBuilder
                 context.getRule().addNamedConsequence(consequenceName, expr);
             }
             
-            MVELDialectRuntimeData data = (MVELDialectRuntimeData) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
+            MVELDialectRuntimeData data = ( MVELDialectRuntimeData ) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
             data.addCompileable( context.getRule(),
                                  expr );
             

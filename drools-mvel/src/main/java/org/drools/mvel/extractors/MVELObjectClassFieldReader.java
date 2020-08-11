@@ -103,11 +103,11 @@ public class MVELObjectClassFieldReader extends BaseObjectClassFieldReader imple
         doCompile(this, runtimeData, getEvaluationContext());
     }    
 
-    public void compile(MVELDialectRuntimeData runtimeData, RuleImpl rule) {
+    public void compile( MVELDialectRuntimeData runtimeData, RuleImpl rule) {
         doCompile(this, runtimeData, rule.toRuleNameAndPathString());
     }
 
-    public static void doCompile(MVELClassFieldReader target, MVELDialectRuntimeData runtimeData, Object evaluationContext) {
+    public static void doCompile( MVELClassFieldReader target, MVELDialectRuntimeData runtimeData, Object evaluationContext) {
         Class cls;
         try {            
             cls = runtimeData.getRootClassLoader().loadClass( target.getClassName() );

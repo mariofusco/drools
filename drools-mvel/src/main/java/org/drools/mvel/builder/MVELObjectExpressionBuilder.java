@@ -73,7 +73,7 @@ public class MVELObjectExpressionBuilder {
             MVELObjectExpression expr = new MVELObjectExpression( unit,
                                                                       dialect.getId() );
 
-            MVELDialectRuntimeData data = (MVELDialectRuntimeData) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
+            MVELDialectRuntimeData data = ( MVELDialectRuntimeData ) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
             data.addCompileable( context.getRule(),
                                  expr );
 

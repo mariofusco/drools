@@ -75,7 +75,7 @@ public class MVELAccumulatorFunctionExecutor
         expression = unit.getCompiledExpression( runtimeData );
     }
 
-    public void compile(MVELDialectRuntimeData runtimeData, RuleImpl rule) {
+    public void compile( MVELDialectRuntimeData runtimeData, RuleImpl rule) {
         expression = unit.getCompiledExpression( runtimeData, rule.toRuleNameAndPathString() );
     }
 

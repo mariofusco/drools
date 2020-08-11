@@ -268,7 +268,7 @@ public class LeftLeftTupleIndexHashTableIteratorTest {
                                                                 new ClassObjectType( clazz ) ) );
 
         String expression = fieldName + " " + operator.getOperatorString() + " " + declaration.getIdentifier();
-        return new MvelConstraintTestUtil(expression, declaration, extractor);
+        return new MVELConstraintTestUtil(expression, declaration, extractor);
     }
 
     public static class Foo {

@@ -89,7 +89,7 @@ public class MVELAccumulator
         compile(runtimeData, null);
     }
 
-    public void compile(MVELDialectRuntimeData runtimeData, RuleImpl rule) {
+    public void compile( MVELDialectRuntimeData runtimeData, RuleImpl rule) {
         init = initUnit.getCompiledExpression( runtimeData );
         action = actionUnit.getCompiledExpression( runtimeData );
         result = resultUnit.getCompiledExpression( runtimeData );
@@ -126,7 +126,7 @@ public class MVELAccumulator
 
         InternalKnowledgePackage pkg = workingMemory.getKnowledgeBase().getPackage( "MAIN" );
         if ( pkg != null ) {
-            MVELDialectRuntimeData data = (MVELDialectRuntimeData) pkg.getDialectRuntimeRegistry().getDialectData( "mvel" );
+            MVELDialectRuntimeData data = ( MVELDialectRuntimeData ) pkg.getDialectRuntimeRegistry().getDialectData( "mvel" );
             factory.setNextFactory( data.getFunctionFactory() );
         }
 

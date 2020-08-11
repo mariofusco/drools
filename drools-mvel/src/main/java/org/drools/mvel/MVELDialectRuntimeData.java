@@ -104,7 +104,7 @@ public class MVELDialectRuntimeData
     public void merge( DialectRuntimeRegistry registry,
                        DialectRuntimeData newData,
                        boolean excludeClasses ) {
-        MVELDialectRuntimeData other = (MVELDialectRuntimeData) newData;
+        MVELDialectRuntimeData other = ( MVELDialectRuntimeData ) newData;
 
         for ( Entry<String, Object> entry : other.imports.entrySet() ) {
             if ( entry.getValue() instanceof Class ) {

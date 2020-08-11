@@ -85,10 +85,10 @@ import static org.drools.core.util.StringUtils.equalsIgnoreSpaces;
 import static org.drools.core.util.StringUtils.extractFirstIdentifier;
 import static org.drools.core.util.StringUtils.skipBlanks;
 
-public class MvelConstraint extends MutableTypeConstraint implements IndexableConstraint, AcceptsReadAccessor {
+public class MVELConstraint extends MutableTypeConstraint implements IndexableConstraint, AcceptsReadAccessor {
     protected static final boolean TEST_JITTING = false;
 
-    private static final Logger logger = LoggerFactory.getLogger(MvelConstraint.class);
+    private static final Logger logger = LoggerFactory.getLogger( MVELConstraint.class);
 
     protected final transient AtomicInteger invocationCounter = new AtomicInteger(1);
     protected transient volatile boolean jitted = false;
@@ -114,15 +114,15 @@ public class MvelConstraint extends MutableTypeConstraint implements IndexableCo
     private static final Declaration[] EMPTY_DECLARATIONS = new Declaration[0];
     private static final EvaluatorWrapper[] EMPTY_OPERATORS = new EvaluatorWrapper[0];
 
-    public MvelConstraint() {}
+    public MVELConstraint() {}
 
-    public MvelConstraint(final String packageName,
-                          String expression,
-                          MVELCompilationUnit compilationUnit,
-                          IndexUtil.ConstraintType constraintType,
-                          FieldValue fieldValue,
-                          InternalReadAccessor extractor,
-                          EvaluatorWrapper[] operators) {
+    public MVELConstraint( final String packageName,
+                           String expression,
+                           MVELCompilationUnit compilationUnit,
+                           IndexUtil.ConstraintType constraintType,
+                           FieldValue fieldValue,
+                           InternalReadAccessor extractor,
+                           EvaluatorWrapper[] operators) {
         this.packageNames = new HashSet<String>() {{ add(packageName); }};
         this.expression = expression;
         this.compilationUnit = compilationUnit;
@@ -133,12 +133,12 @@ public class MvelConstraint extends MutableTypeConstraint implements IndexableCo
         this.extractor = extractor;
     }
 
-    public MvelConstraint(final String packageName,
-                          String expression,
-                          Declaration[] declarations,
-                          EvaluatorWrapper[] operators,
-                          MVELCompilationUnit compilationUnit,
-                          boolean isDynamic) {
+    public MVELConstraint( final String packageName,
+                           String expression,
+                           Declaration[] declarations,
+                           EvaluatorWrapper[] operators,
+                           MVELCompilationUnit compilationUnit,
+                           boolean isDynamic) {
         this.packageNames = new HashSet<String>() {{ add(packageName); }};
         this.expression = expression;
         this.declarations = declarations == null ? EMPTY_DECLARATIONS : declarations;
@@ -147,15 +147,15 @@ public class MvelConstraint extends MutableTypeConstraint implements IndexableCo
         this.isDynamic = isDynamic;
     }
 
-    public MvelConstraint(Collection<String> packageNames,
-                          String expression,
-                          Declaration[] declarations,
-                          EvaluatorWrapper[] operators,
-                          MVELCompilationUnit compilationUnit,
-                          IndexUtil.ConstraintType constraintType,
-                          Declaration indexingDeclaration,
-                          InternalReadAccessor extractor,
-                          boolean isUnification) {
+    public MVELConstraint( Collection<String> packageNames,
+                           String expression,
+                           Declaration[] declarations,
+                           EvaluatorWrapper[] operators,
+                           MVELCompilationUnit compilationUnit,
+                           IndexUtil.ConstraintType constraintType,
+                           Declaration indexingDeclaration,
+                           InternalReadAccessor extractor,
+                           boolean isUnification) {
         this.packageNames = new HashSet<String>(packageNames);
         this.expression = expression;
         this.compilationUnit = compilationUnit;
@@ -286,9 +286,9 @@ public class MvelConstraint extends MutableTypeConstraint implements IndexableCo
             ParserConfiguration configuration = statement instanceof CompiledExpression ?
                     ((CompiledExpression)statement).getParserConfiguration() :
                     data.getParserConfiguration();
-            return new MvelConditionEvaluator(compilationUnit, configuration, statement, declarations, operators, getAccessedClass());
+            return new MVELConditionEvaluator(compilationUnit, configuration, statement, declarations, operators, getAccessedClass());
         } else {
-            return new MvelConditionEvaluator(getParserConfiguration(workingMemory), expression, declarations, operators, getAccessedClass());
+            return new MVELConditionEvaluator(getParserConfiguration(workingMemory), expression, declarations, operators, getAccessedClass());
         }
     }
 
@@ -306,12 +306,12 @@ public class MvelConstraint extends MutableTypeConstraint implements IndexableCo
     }
 
     private static class ConditionJitter implements Runnable {
-        private MvelConstraint mvelConstraint;
+        private MVELConstraint mvelConstraint;
         private InternalFactHandle rightHandle;
         private InternalWorkingMemory workingMemory;
         private Tuple tuple;
 
-        private ConditionJitter(MvelConstraint mvelConstraint, InternalFactHandle rightHandle, InternalWorkingMemory workingMemory, Tuple tuple) {
+        private ConditionJitter( MVELConstraint mvelConstraint, InternalFactHandle rightHandle, InternalWorkingMemory workingMemory, Tuple tuple) {
             this.mvelConstraint = mvelConstraint;
             this.rightHandle = rightHandle;
             this.workingMemory = workingMemory;
@@ -339,7 +339,7 @@ public class MvelConstraint extends MutableTypeConstraint implements IndexableCo
 
         try {
             if (analyzedCondition == null) {
-                analyzedCondition = ((MvelConditionEvaluator) mvelEvaluator).getAnalyzedCondition(handle, workingMemory, tuple);
+                analyzedCondition = (( MVELConditionEvaluator ) mvelEvaluator).getAnalyzedCondition(handle, workingMemory, tuple);
             }
             ClassLoader jitClassLoader = kBase.getRootClassLoader() instanceof ProjectClassLoader ?
                     (( ProjectClassLoader ) kBase.getRootClassLoader()).getTypesClassLoader() :
@@ -586,19 +586,19 @@ public class MvelConstraint extends MutableTypeConstraint implements IndexableCo
     }
 
     @Override
-    public MvelConstraint cloneIfInUse() {
-        MvelConstraint clone = (MvelConstraint)super.cloneIfInUse();
+    public MVELConstraint cloneIfInUse() {
+        MVELConstraint clone = ( MVELConstraint )super.cloneIfInUse();
         if ( clone != this) {
             clone.conditionEvaluator = null;
         }
         return clone;
     }
 
-    public MvelConstraint clone() {
+    public MVELConstraint clone() {
         Declaration[] clonedDeclarations = new Declaration[declarations.length];
         System.arraycopy(declarations, 0, clonedDeclarations, 0, declarations.length);
 
-        MvelConstraint clone = new MvelConstraint();
+        MVELConstraint clone = new MVELConstraint();
         clone.setType(getType());
         clone.packageNames = packageNames;
         clone.expression = expression;
@@ -636,10 +636,10 @@ public class MvelConstraint extends MutableTypeConstraint implements IndexableCo
         if ( this == object ) {
             return true;
         }
-        if ( object == null || object.getClass() != MvelConstraint.class ) {
+        if ( object == null || object.getClass() != MVELConstraint.class ) {
             return false;
         }
-        MvelConstraint other = (MvelConstraint) object;
+        MVELConstraint other = ( MVELConstraint ) object;
         if (isAlphaHashable()) {
             if ( !other.isAlphaHashable() ||
                     !getLeftInExpression(IndexUtil.ConstraintType.EQUAL).equals(other.getLeftInExpression(IndexUtil.ConstraintType.EQUAL)) ||
@@ -668,13 +668,13 @@ public class MvelConstraint extends MutableTypeConstraint implements IndexableCo
             return false;
         }
         String thisPkg = packageNames.iterator().next();
-        String otherPkg = ((MvelConstraint) object).packageNames.iterator().next();
+        String otherPkg = (( MVELConstraint ) object).packageNames.iterator().next();
         if (thisPkg.equals( otherPkg )) {
             return true;
         }
 
-        Map<String, Object> thisImports = ((MVELDialectRuntimeData) kbase.getPackage( thisPkg ).getDialectRuntimeRegistry().getDialectData("mvel")).getImports();
-        Map<String, Object> otherImports = ((MVELDialectRuntimeData) kbase.getPackage( otherPkg ).getDialectRuntimeRegistry().getDialectData("mvel")).getImports();
+        Map<String, Object> thisImports = (( MVELDialectRuntimeData ) kbase.getPackage( thisPkg ).getDialectRuntimeRegistry().getDialectData("mvel")).getImports();
+        Map<String, Object> otherImports = (( MVELDialectRuntimeData ) kbase.getPackage( otherPkg ).getDialectRuntimeRegistry().getDialectData("mvel")).getImports();
 
         if (fieldValue != null && constraintType.getOperator() != null) {
             return equalsExpressionTokensInBothImports(getLeftInExpression(constraintType), thisImports, otherImports);
@@ -732,15 +732,15 @@ public class MvelConstraint extends MutableTypeConstraint implements IndexableCo
         return getMVELDialectRuntimeData(workingMemory).getParserConfiguration();
     }
 
-    protected MVELDialectRuntimeData getMVELDialectRuntimeData(InternalWorkingMemory workingMemory) {
+    protected MVELDialectRuntimeData getMVELDialectRuntimeData( InternalWorkingMemory workingMemory) {
         return getMVELDialectRuntimeData(workingMemory.getKnowledgeBase());
     }
 
-    protected MVELDialectRuntimeData getMVELDialectRuntimeData(InternalKnowledgeBase kbase) {
+    protected MVELDialectRuntimeData getMVELDialectRuntimeData( InternalKnowledgeBase kbase) {
         for (String packageName : packageNames) {
             InternalKnowledgePackage pkg = kbase.getPackage( packageName );
             if (pkg != null) {
-                return ((MVELDialectRuntimeData) pkg.getDialectRuntimeRegistry().getDialectData("mvel"));
+                return (( MVELDialectRuntimeData ) pkg.getDialectRuntimeRegistry().getDialectData("mvel"));
             }
         }
         return null;

@@ -101,7 +101,7 @@ public class MVELDateClassFieldReader extends BaseDateClassFieldReader implement
         MVELObjectClassFieldReader.doCompile(this, runtimeData, getEvaluationContext());
     }
 
-    public void compile(MVELDialectRuntimeData runtimeData, RuleImpl rule) {
+    public void compile( MVELDialectRuntimeData runtimeData, RuleImpl rule) {
         MVELObjectClassFieldReader.doCompile(this, runtimeData, rule.toRuleNameAndPathString());
     }
 

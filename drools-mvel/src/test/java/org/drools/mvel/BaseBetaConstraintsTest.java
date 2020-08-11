@@ -63,7 +63,7 @@ public abstract class BaseBetaConstraintsTest {
                                                                 new ClassObjectType( clazz ) ) );
 
         String expression = fieldName + " " + operator.getOperatorString() + " " + identifier;
-        return new MvelConstraintTestUtil(expression, operator.getOperatorString(), declaration, extractor);
+        return new MVELConstraintTestUtil(expression, operator.getOperatorString(), declaration, extractor);
     }
 
     protected void checkBetaConstraints(BetaNodeFieldConstraint[] constraints,

@@ -33,7 +33,7 @@ import org.drools.compiler.rule.builder.dialect.mvel.MVELDialect;
 import org.drools.compiler.builder.DroolsAssemblerContext;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.rule.Dialectable;
-import org.drools.core.rule.MVELDialectRuntimeData;
+import org.drools.core.rule.MvelDialectRuntimeData;
 
 /**
  * A context for the current build

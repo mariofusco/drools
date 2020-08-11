@@ -116,7 +116,7 @@ public class MVELFromBuilder
             From from = new From( dataProvider );
             from.setResultPattern( prefixPattern );
 
-            MVELDialectRuntimeData data = (MVELDialectRuntimeData) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
+            MVELDialectRuntimeData data = ( MVELDialectRuntimeData ) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
             data.addCompileable( from, dataProvider );
             
             dataProvider.compile( data, context.getRule() );

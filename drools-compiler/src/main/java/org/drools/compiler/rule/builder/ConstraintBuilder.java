@@ -33,9 +33,18 @@ import org.drools.core.spi.Constraint;
 import org.drools.core.spi.Evaluator;
 import org.drools.core.spi.FieldValue;
 import org.drools.core.spi.InternalReadAccessor;
+import org.kie.api.internal.utils.ServiceRegistry;
 
 
 public interface ConstraintBuilder {
+
+    class Holder {
+        private static final ConstraintBuilder cBuilder = ServiceRegistry.getInstance().get(ConstraintBuilder.class);
+    }
+
+    static ConstraintBuilder get() {
+        return Holder.cBuilder;
+    }
 
     boolean isMvelOperator(String operator);
 

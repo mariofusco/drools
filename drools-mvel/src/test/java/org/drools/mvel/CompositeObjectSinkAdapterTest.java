@@ -140,7 +140,7 @@ public class CompositeObjectSinkAdapterTest {
 
         final CompositeObjectSinkAdapter ad = new CompositeObjectSinkAdapter();
 
-        final MvelConstraint lit = new MvelConstraintTestUtil( "type == \"stilton\"",
+        final MVELConstraint lit = new MVELConstraintTestUtil( "type == \"stilton\"",
                                                                 new ObjectFieldImpl( "stilton" ),
                                                                 new MockExtractor() );
 
@@ -169,7 +169,7 @@ public class CompositeObjectSinkAdapterTest {
 
         final CompositeObjectSinkAdapter ad = new CompositeObjectSinkAdapter();
 
-        final MvelConstraint lit = new MvelConstraintTestUtil( "type == \"stilton\"",
+        final MVELConstraint lit = new MVELConstraintTestUtil( "type == \"stilton\"",
                                                                new ObjectFieldImpl( "stilton" ),
                                                                new MockExtractor() );
 
@@ -187,7 +187,7 @@ public class CompositeObjectSinkAdapterTest {
         assertEquals( al,
                       ad.getSinks()[0] );
 
-        final MvelConstraint lit2 = new MvelConstraintTestUtil( "type == \"cheddar\"",
+        final MVELConstraint lit2 = new MVELConstraintTestUtil( "type == \"cheddar\"",
                                                                new ObjectFieldImpl( "cheddar" ),
                                                                new MockExtractor() );
 
@@ -234,7 +234,7 @@ public class CompositeObjectSinkAdapterTest {
         InternalReadAccessor extractor = store.getReader( Cheese.class,
                                                           "type" );
 
-        final MvelConstraint lit = new MvelConstraintTestUtil( "type == \"stilton\"",
+        final MVELConstraint lit = new MVELConstraintTestUtil( "type == \"stilton\"",
                                                                 new ObjectFieldImpl( "stilton" ),
                                                                 new MockExtractor() );
 
@@ -252,7 +252,7 @@ public class CompositeObjectSinkAdapterTest {
         assertEquals( al,
                       ad.getSinks()[0] );
 
-        final MvelConstraint lit2 = new MvelConstraintTestUtil( "type == \"cheddar\"",
+        final MVELConstraint lit2 = new MVELConstraintTestUtil( "type == \"cheddar\"",
                                                                 new ObjectFieldImpl( "cheddar" ),
                                                                 new MockExtractor() );
 
@@ -267,7 +267,7 @@ public class CompositeObjectSinkAdapterTest {
         assertEquals( 2,
                       ad.getHashableSinks().size() );
 
-        final MvelConstraint lit3 = new MvelConstraintTestUtil( "type == \"stinky\"",
+        final MVELConstraint lit3 = new MVELConstraintTestUtil( "type == \"stinky\"",
                                                                 new ObjectFieldImpl( "stinky" ),
                                                                 new MockExtractor() );
 
@@ -296,7 +296,7 @@ public class CompositeObjectSinkAdapterTest {
         InternalReadAccessor extractor = store.getReader( Cheese.class,
                                                           "charType" );
 
-        final MvelConstraint lit = new MvelConstraintTestUtil( "charType == 65",
+        final MVELConstraint lit = new MVELConstraintTestUtil( "charType == 65",
                                                                new LongFieldImpl( 65 ),
                                                                extractor );
 
@@ -314,7 +314,7 @@ public class CompositeObjectSinkAdapterTest {
         assertEquals( al,
                       ad.getSinks()[0] );
 
-        final MvelConstraint lit2 = new MvelConstraintTestUtil( "charType == 66",
+        final MVELConstraint lit2 = new MVELConstraintTestUtil( "charType == 66",
                                                                 new LongFieldImpl( 66 ),
                                                                 extractor );
 
@@ -329,7 +329,7 @@ public class CompositeObjectSinkAdapterTest {
         assertEquals( 2,
                       ad.getHashableSinks().size() );
 
-        final MvelConstraint lit3 = new MvelConstraintTestUtil( "charType == 67",
+        final MVELConstraint lit3 = new MVELConstraintTestUtil( "charType == 67",
                                                                 new LongFieldImpl( 67 ),
                                                                 extractor );
 
@@ -378,7 +378,7 @@ public class CompositeObjectSinkAdapterTest {
         InternalReadAccessor extractor = store.getReader( Cheese.class,
                                                           "charObjectType" );
 
-        final MvelConstraint lit = new MvelConstraintTestUtil( "charObjectType == 65",
+        final MVELConstraint lit = new MVELConstraintTestUtil( "charObjectType == 65",
                                                                new LongFieldImpl( 65 ),
                                                                extractor );
 
@@ -396,7 +396,7 @@ public class CompositeObjectSinkAdapterTest {
         assertEquals( al,
                       ad.getSinks()[0] );
 
-        final MvelConstraint lit2 = new MvelConstraintTestUtil( "charObjectType == 66",
+        final MVELConstraint lit2 = new MVELConstraintTestUtil( "charObjectType == 66",
                                                                 new LongFieldImpl( 66 ),
                                                                 extractor );
 
@@ -411,7 +411,7 @@ public class CompositeObjectSinkAdapterTest {
         assertEquals( 2,
                       ad.getHashableSinks().size() );
 
-        final MvelConstraint lit3 = new MvelConstraintTestUtil( "charObjectType == 67",
+        final MVELConstraint lit3 = new MVELConstraintTestUtil( "charObjectType == 67",
                                                                 new LongFieldImpl( 67 ),
                                                                 extractor );
 
@@ -461,7 +461,7 @@ public class CompositeObjectSinkAdapterTest {
         InternalReadAccessor extractor = store.getReader( Cheese.class,
                                                           "type" );
 
-        final MvelConstraint lit1 = new MvelConstraintTestUtil( "type == \"stilton\"",
+        final MVELConstraint lit1 = new MVELConstraintTestUtil( "type == \"stilton\"",
                                                                 new ObjectFieldImpl( "stilton" ),
                                                                 new MockExtractor() );
 
@@ -470,7 +470,7 @@ public class CompositeObjectSinkAdapterTest {
                                              new MockObjectSource( buildContext.getNextId() ),
                                              buildContext );
 
-        final MvelConstraint lit2 = new MvelConstraintTestUtil( "type == \"brie\"",
+        final MVELConstraint lit2 = new MVELConstraintTestUtil( "type == \"brie\"",
                 new ObjectFieldImpl( "brie" ),
                 new MockExtractor() );
 
@@ -479,7 +479,7 @@ public class CompositeObjectSinkAdapterTest {
                                              new MockObjectSource( buildContext.getNextId() ),
                                              buildContext );
 
-        final MvelConstraint lit3 = new MvelConstraintTestUtil( "type == \"muzzarela\"",
+        final MVELConstraint lit3 = new MVELConstraintTestUtil( "type == \"muzzarela\"",
                                                                 new ObjectFieldImpl( "muzzarela" ),
                                                                 new MockExtractor() );
 

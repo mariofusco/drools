@@ -102,7 +102,7 @@ public class MVELEvalBuilder
                                                               dialect.getId() );
             eval.setEvalExpression( KiePolicyHelper.isPolicyEnabled() ? new SafeEvalExpression(expr) : expr );
 
-            MVELDialectRuntimeData data = (MVELDialectRuntimeData) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
+            MVELDialectRuntimeData data = ( MVELDialectRuntimeData ) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
             data.addCompileable( eval,
                                   expr );
 
