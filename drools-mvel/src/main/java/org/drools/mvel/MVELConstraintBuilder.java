@@ -15,6 +15,7 @@
 package org.drools.mvel;
 
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -22,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.drools.compiler.compiler.AnalysisResult;
+import org.drools.compiler.compiler.BoundIdentifiers;
 import org.drools.compiler.compiler.DescrBuildError;
 import org.drools.compiler.compiler.Dialect;
 import org.drools.compiler.lang.descr.BaseDescr;
@@ -31,6 +33,7 @@ import org.drools.compiler.lang.descr.PredicateDescr;
 import org.drools.compiler.lang.descr.RelationalExprDescr;
 import org.drools.compiler.rule.builder.ConstraintBuilder;
 import org.drools.compiler.rule.builder.RuleBuildContext;
+import org.drools.compiler.rule.builder.dialect.DialectUtil;
 import org.drools.core.base.ClassObjectType;
 import org.drools.core.base.DroolsQuery;
 import org.drools.core.base.EvaluatorWrapper;
@@ -38,18 +41,22 @@ import org.drools.core.base.SimpleValueType;
 import org.drools.core.base.ValueType;
 import org.drools.core.base.evaluators.EvaluatorDefinition;
 import org.drools.core.base.evaluators.Operator;
+import org.drools.core.reteoo.RuleTerminalNode;
 import org.drools.core.rule.Declaration;
 import org.drools.core.rule.Pattern;
 import org.drools.core.rule.constraint.EvaluatorConstraint;
 import org.drools.core.spi.Constraint;
+import org.drools.core.spi.DeclarationScopeResolver;
 import org.drools.core.spi.Evaluator;
 import org.drools.core.spi.FieldValue;
 import org.drools.core.spi.InternalReadAccessor;
 import org.drools.core.spi.KnowledgeHelper;
+import org.drools.core.time.TimerExpression;
 import org.drools.core.util.index.IndexUtil;
 import org.drools.mvel.builder.MVELAnalysisResult;
 import org.drools.mvel.builder.MVELDialect;
 import org.drools.mvel.expr.MVELCompilationUnit;
+import org.drools.mvel.expr.MVELObjectExpression;
 import org.mvel2.ConversionHandler;
 import org.mvel2.DataConversion;
 import org.mvel2.util.CompatibilityStrategy;
@@ -440,4 +447,64 @@ public class MVELConstraintBuilder implements ConstraintBuilder {
             return super.areEqualityCompatible(c1, c2);
         }
     }
+
+    @Override
+    public TimerExpression buildTimerExpression( String expression, RuleBuildContext context ) {
+        boolean typesafe = context.isTypesafe();
+        // pushing consequence LHS into the stack for variable resolution
+        context.getDeclarationResolver().pushOnBuildStack( context.getRule().getLhs() );
+
+        try {
+            // This builder is re-usable in other dialects, so specify by name
+            MVELDialect dialect = (MVELDialect) context.getDialect( "mvel" );
+
+            Map<String, Declaration> decls = context.getDeclarationResolver().getDeclarations(context.getRule());
+
+            MVELAnalysisResult analysis = ( MVELAnalysisResult) dialect.analyzeExpression( context,
+                    context.getRuleDescr(),
+                    expression,
+                    new BoundIdentifiers( DeclarationScopeResolver.getDeclarationClasses( decls ),
+                            context ) );
+            context.setTypesafe( analysis.isTypesafe() );
+            final BoundIdentifiers usedIdentifiers = analysis.getBoundIdentifiers();
+            int i = usedIdentifiers.getDeclrClasses().keySet().size();
+            Declaration[] previousDeclarations = new Declaration[i];
+            i = 0;
+            for ( String id :  usedIdentifiers.getDeclrClasses().keySet() ) {
+                previousDeclarations[i++] = decls.get( id );
+            }
+            Arrays.sort(previousDeclarations, RuleTerminalNode.SortDeclarations.instance);
+
+            MVELCompilationUnit unit = dialect.getMVELCompilationUnit( expression,
+                    analysis,
+                    previousDeclarations,
+                    null,
+                    null,
+                    context,
+                    "drools",
+                    KnowledgeHelper.class,
+                    false,
+                    MVELCompilationUnit.Scope.EXPRESSION );
+
+            MVELObjectExpression expr = new MVELObjectExpression( unit,
+                    dialect.getId() );
+
+            MVELDialectRuntimeData data = ( MVELDialectRuntimeData ) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
+            data.addCompileable( context.getRule(),
+                    expr );
+
+            expr.compile( data );
+            return expr;
+        } catch ( final Exception e ) {
+            DialectUtil.copyErrorLocation(e, context.getRuleDescr());
+            context.addError( new DescrBuildError( context.getParentDescr(),
+                    context.getRuleDescr(),
+                    null,
+                    "Unable to build expression : " + e.getMessage() + "'" + expression + "'" ) );
+            return null;
+        } finally {
+            context.setTypesafe( typesafe );
+        }
+    }
+
 }

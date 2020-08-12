@@ -60,8 +60,6 @@ import org.drools.compiler.lang.descr.ReturnValueRestrictionDescr;
 import org.drools.compiler.rule.builder.XpathAnalysis.XpathPart;
 import org.drools.compiler.rule.builder.dialect.DialectUtil;
 import org.drools.compiler.rule.builder.dialect.java.JavaDialect;
-import org.drools.compiler.rule.builder.dialect.mvel.MVELAnalysisResult;
-import org.drools.compiler.rule.builder.dialect.mvel.MVELDialect;
 import org.drools.compiler.rule.builder.util.ConstraintUtil;
 import org.drools.core.addon.TypeResolver;
 import org.drools.core.base.ClassFieldReader;
@@ -70,9 +68,6 @@ import org.drools.core.base.EvaluatorWrapper;
 import org.drools.core.base.SimpleValueType;
 import org.drools.core.base.ValueType;
 import org.drools.core.base.evaluators.EvaluatorDefinition.Target;
-import org.drools.core.base.mvel.ActivationPropertyHandler;
-import org.drools.core.base.mvel.MVELCompilationUnit.PropertyHandlerFactoryFixer;
-import org.drools.core.base.mvel.MVELCompileable;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.definitions.rule.impl.RuleImpl;
 import org.drools.core.factmodel.AnnotationDefinition;
@@ -82,10 +77,8 @@ import org.drools.core.facttemplates.FactTemplate;
 import org.drools.core.facttemplates.FactTemplateFieldExtractor;
 import org.drools.core.facttemplates.FactTemplateObjectType;
 import org.drools.core.reteoo.RuleTerminalNode.SortDeclarations;
-import org.drools.core.reteoo.RuleTerminalNodeLeftTuple;
 import org.drools.core.rule.Behavior;
 import org.drools.core.rule.Declaration;
-import org.drools.core.rule.MVELDialectRuntimeData;
 import org.drools.core.rule.Pattern;
 import org.drools.core.rule.PatternSource;
 import org.drools.core.rule.PredicateConstraint;
@@ -110,6 +103,10 @@ import org.drools.core.util.ClassUtils;
 import org.drools.core.util.MVELSafeHelper;
 import org.drools.core.util.StringUtils;
 import org.drools.core.util.index.IndexUtil;
+import org.drools.mvel.MVELDialectRuntimeData;
+import org.drools.mvel.builder.MVELAnalysisResult;
+import org.drools.mvel.builder.MVELDialect;
+import org.drools.mvel.expr.MVELCompileable;
 import org.kie.api.definition.rule.Watch;
 import org.kie.api.definition.type.Role;
 import org.kie.internal.builder.KnowledgeBuilderResult;
@@ -117,8 +114,6 @@ import org.kie.internal.builder.ResultSeverity;
 import org.mvel2.MVEL;
 import org.mvel2.ParserConfiguration;
 import org.mvel2.ParserContext;
-import org.mvel2.integration.PropertyHandler;
-import org.mvel2.integration.PropertyHandlerFactory;
 import org.mvel2.util.PropertyTools;
 
 import static org.drools.compiler.rule.builder.util.PatternBuilderUtil.getNormalizeDate;
@@ -1154,7 +1149,7 @@ public class PatternBuilder
             }
         }
 
-        return getConstraintBuilder(context).buildVariableConstraint(context, pattern, expr, declarations, value1, relDescr.getOperatorDescr(), value2, extractor, declr, relDescr, aliases);
+        return getConstraintBuilder().buildVariableConstraint(context, pattern, expr, declarations, value1, relDescr.getOperatorDescr(), value2, extractor, declr, relDescr, aliases);
     }
 
     private Declaration[] getDeclarationsForReturnValue(RuleBuildContext context, RelationalExprDescr relDescr, String value2) {
@@ -1821,10 +1816,10 @@ public class PatternBuilder
                                                                                      objectType.getClassName(),
                                                                                      fieldName,
                                                                                      context.isTypesafe(),
-                                                                                     ((MVELAnalysisResult) analysis).getReturnType());
+                                                                                     (( MVELAnalysisResult ) analysis).getReturnType());
 
                 MVELDialectRuntimeData data = (MVELDialectRuntimeData) context.getPkg().getDialectRuntimeRegistry().getDialectData("mvel");
-                ((MVELCompileable) reader).compile(data, context.getRule());
+                (( MVELCompileable ) reader).compile(data, context.getRule());
                 data.addCompileable((MVELCompileable) reader);
             } catch (final Exception e) {
                 int dotPos = fieldName.indexOf('.');

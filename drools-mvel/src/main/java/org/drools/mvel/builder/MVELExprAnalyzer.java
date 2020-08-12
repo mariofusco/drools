@@ -98,7 +98,7 @@ public class MVELExprAnalyzer {
 
         MVELDialect dialect = (MVELDialect) context.getDialect( "mvel" );
 
-        ParserConfiguration conf = context.getMVELDialectRuntimeData().getParserConfiguration();
+        ParserConfiguration conf = getMVELDialectRuntimeData(context).getParserConfiguration();
 
         conf.setClassLoader( context.getKnowledgeBuilder().getRootClassLoader() );
 
@@ -230,6 +230,10 @@ public class MVELExprAnalyzer {
         result.setMvelVariables( variables );
         result.setTypesafe( typesafe );
         return result;
+    }
+
+    private static MVELDialectRuntimeData getMVELDialectRuntimeData(PackageBuildContext context) {
+        return ( MVELDialectRuntimeData) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
     }
 
     /**

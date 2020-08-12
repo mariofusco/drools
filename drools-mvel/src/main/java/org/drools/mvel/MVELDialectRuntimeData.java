@@ -319,6 +319,7 @@ public class MVELDialectRuntimeData
         return this.parserConfiguration;
     }
 
+    @Override
     public void resetParserConfiguration() {
         this.parserConfiguration = null;
     }

@@ -461,6 +461,7 @@ public class MVELDialect
         return null;
     }
 
+    @Override
     public boolean isStrictMode() {
         return strictMode;
     }

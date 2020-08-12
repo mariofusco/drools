@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.drools.compiler.builder.DroolsAssemblerContext;
 import org.drools.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
 import org.drools.compiler.compiler.DescrBuildError;
 import org.drools.compiler.compiler.Dialect;
@@ -29,11 +30,8 @@ import org.drools.compiler.compiler.DialectCompiletimeRegistry;
 import org.drools.compiler.compiler.DroolsError;
 import org.drools.compiler.compiler.DroolsWarning;
 import org.drools.compiler.lang.descr.BaseDescr;
-import org.drools.compiler.rule.builder.dialect.mvel.MVELDialect;
-import org.drools.compiler.builder.DroolsAssemblerContext;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.rule.Dialectable;
-import org.drools.core.rule.MvelDialectRuntimeData;
 
 /**
  * A context for the current build
@@ -91,7 +89,7 @@ public class PackageBuildContext {
         this.parentDescr = parentDescr;
         this.dialectRegistry = dialectRegistry;
         this.dialect = (component != null && component.getDialect() != null) ? this.dialectRegistry.getDialect( component.getDialect() ) : defaultDialect;
-        this.typesafe = ((MVELDialect) dialectRegistry.getDialect( "mvel" )).isStrictMode();
+        this.typesafe = dialectRegistry.getDialect( "mvel" ).isStrictMode();
 
         if ( dialect == null && (component != null && component.getDialect() != null) ) {
             this.errors.add( new DescrBuildError( null,
@@ -228,10 +226,6 @@ public class PackageBuildContext {
 
     public void setTypesafe(boolean stricttype) {
         this.typesafe = stricttype;
-    }
-
-    public MVELDialectRuntimeData getMVELDialectRuntimeData() {
-        return ( MVELDialectRuntimeData) pkg.getDialectRuntimeRegistry().getDialectData( "mvel" );
     }
 
     public Class< ? > resolveVarType(String identifier) {

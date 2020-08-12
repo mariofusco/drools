@@ -38,10 +38,8 @@ import org.drools.compiler.lang.descr.EntryPointDescr;
 import org.drools.compiler.lang.descr.PatternDescr;
 import org.drools.compiler.lang.descr.QueryDescr;
 import org.drools.compiler.lang.descr.RuleDescr;
-import org.drools.compiler.rule.builder.dialect.mvel.MVELObjectExpressionBuilder;
 import org.drools.core.base.EnabledBoolean;
 import org.drools.core.base.SalienceInteger;
-import org.drools.core.base.mvel.MVELObjectExpression;
 import org.drools.core.definitions.rule.impl.RuleImpl;
 import org.drools.core.factmodel.AnnotationDefinition;
 import org.drools.core.rule.GroupElement;
@@ -467,10 +465,10 @@ public class RuleBuilder {
                 return null;
             }
 
-            MVELObjectExpression times = MVELObjectExpressionBuilder.build( tok.nextToken().trim(), context );
-            MVELObjectExpression period = tok.hasMoreTokens() ?
-                                          MVELObjectExpressionBuilder.build( tok.nextToken().trim(), context ) :
-                                          MVELObjectExpressionBuilder.build( "0", context );
+            TimerExpression times = ConstraintBuilder.get().buildTimerExpression( tok.nextToken().trim(), context );
+            TimerExpression period = tok.hasMoreTokens() ?
+                    ConstraintBuilder.get().buildTimerExpression( tok.nextToken().trim(), context ) :
+                    ConstraintBuilder.get().buildTimerExpression( "0", context );
 
             return new ExpressionIntervalTimer( exprCreator.apply(startDate), exprCreator.apply(endDate), repeatLimit, times, period );
         }
@@ -498,7 +496,7 @@ public class RuleBuilder {
             DateUtils.parseDate( expr );
             expr = "\"" + expr + "\""; // if expr is a valid date wrap in quotes
         } catch (Exception e) { }
-        return MVELObjectExpressionBuilder.build( expr, context );
+        return ConstraintBuilder.get().buildTimerExpression( expr, context );
     }
 
     private static void registerError(String error, RuleImpl rule, RuleBuildContext context) {

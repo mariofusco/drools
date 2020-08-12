@@ -34,7 +34,6 @@ import org.drools.compiler.compiler.xml.RulesSemanticModule;
 import org.drools.compiler.kie.builder.impl.InternalKieModule.CompilationCache;
 import org.drools.compiler.rule.builder.DroolsCompilerComponentFactory;
 import org.drools.compiler.rule.builder.dialect.java.JavaDialectConfiguration;
-import org.drools.compiler.rule.builder.dialect.mvel.MVELDialectConfiguration;
 import org.drools.compiler.rule.builder.util.AccumulateUtil;
 import org.drools.core.base.evaluators.EvaluatorDefinition;
 import org.drools.core.base.evaluators.EvaluatorRegistry;
@@ -50,6 +49,7 @@ import org.drools.core.xml.Handler;
 import org.drools.core.xml.SemanticModule;
 import org.drools.core.xml.SemanticModules;
 import org.drools.core.xml.WrapperSemanticModule;
+import org.drools.mvel.builder.MVELDialectConfiguration;
 import org.drools.reflective.classloader.ProjectClassLoader;
 import org.kie.api.runtime.rule.AccumulateFunction;
 import org.kie.internal.builder.KnowledgeBuilderConfiguration;
@@ -400,10 +400,8 @@ public class KnowledgeBuilderConfigurationImpl
         setDefaultDialect(dialectProperties.get(DefaultDialectOption.PROPERTY_NAME));
     }
 
-    public void addDialect(String dialectName,
-            DialectConfiguration dialectConf) {
-        dialectConfigurations.put(dialectName,
-                dialectConf);
+    public void addDialect(String dialectName, DialectConfiguration dialectConf) {
+        dialectConfigurations.put(dialectName, dialectConf);
     }
 
     public DialectCompiletimeRegistry buildDialectRegistry(ClassLoader rootClassLoader,
