@@ -19,6 +19,7 @@ package org.drools.compiler.rule.builder;
 import java.util.Map;
 
 import org.drools.compiler.compiler.AnalysisResult;
+import org.drools.compiler.compiler.DialectConfiguration;
 import org.drools.compiler.lang.descr.BaseDescr;
 import org.drools.compiler.lang.descr.LiteralRestrictionDescr;
 import org.drools.compiler.lang.descr.OperatorDescr;
@@ -33,6 +34,7 @@ import org.drools.core.spi.Constraint;
 import org.drools.core.spi.Evaluator;
 import org.drools.core.spi.FieldValue;
 import org.drools.core.spi.InternalReadAccessor;
+import org.drools.core.spi.ObjectType;
 import org.drools.core.time.TimerExpression;
 import org.kie.api.internal.utils.ServiceRegistry;
 
@@ -40,12 +42,19 @@ import org.kie.api.internal.utils.ServiceRegistry;
 public interface ConstraintBuilder {
 
     class Holder {
-        private static final ConstraintBuilder cBuilder = ServiceRegistry.getInstance().get(ConstraintBuilder.class);
+        private static final ConstraintBuilder cBuilder = getConstraintBuilder();
+
+        private static ConstraintBuilder getConstraintBuilder() {
+            ConstraintBuilder builder = ServiceRegistry.getInstance().get(ConstraintBuilder.class);
+            return builder != null ? builder : DummyConstraintBuilder.INSTANCE;
+        }
     }
 
     static ConstraintBuilder get() {
         return Holder.cBuilder;
     }
+
+    DialectConfiguration createMVELDialectConfiguration();
 
     boolean isMvelOperator(String operator);
 
@@ -107,4 +116,95 @@ public interface ConstraintBuilder {
                                     boolean isIndexable );
 
     TimerExpression buildTimerExpression( String expression, RuleBuildContext context );
+
+    TimerExpression buildTimerExpression( String expression, ClassLoader classLoader, Map<String, Declaration> decls );
+
+    AnalysisResult analyzeExpression(Class<?> thisClass, String expr);
+
+    InternalReadAccessor buildMvelFieldReadAccessor( RuleBuildContext context, BaseDescr descr, Pattern pattern,
+                                                     ObjectType objectType, String fieldName, boolean reportError);
+
+    void setExprInputs(RuleBuildContext context, PatternBuilder.ExprBindings descrBranch,
+                       Class<?> thisClass, String expr);
+
+    FieldValue getMvelFieldValue(RuleBuildContext context, ValueType vtype, String value);
+
+    enum DummyConstraintBuilder implements ConstraintBuilder {
+        INSTANCE;
+
+        @Override
+        public DialectConfiguration createMVELDialectConfiguration() {
+            return null;
+        }
+
+        @Override
+        public AnalysisResult analyzeExpression( Class<?> thisClass, String expr ) {
+            return null;
+        }
+
+        @Override
+        public boolean isMvelOperator( String operator ) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Constraint buildVariableConstraint( RuleBuildContext context, Pattern pattern, String expression, Declaration[] declarations, String leftValue, OperatorDescr operator, String rightValue, InternalReadAccessor extractor, Declaration requiredDeclaration, RelationalExprDescr relDescr, Map<String, OperatorDescr> aliases ) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Constraint buildLiteralConstraint( RuleBuildContext context, Pattern pattern, ValueType vtype, FieldValue field, String expression, String leftValue, String operator, boolean negated, String rightValue, InternalReadAccessor extractor, LiteralRestrictionDescr restrictionDescr, Map<String, OperatorDescr> aliases ) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Evaluator buildLiteralEvaluator( RuleBuildContext context, InternalReadAccessor extractor, LiteralRestrictionDescr literalRestrictionDescr, ValueType vtype ) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public EvaluatorDefinition.Target getRightTarget( InternalReadAccessor extractor ) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Evaluator getEvaluator( RuleBuildContext context, BaseDescr descr, ValueType valueType, String evaluatorString, boolean isNegated, String parameters, EvaluatorDefinition.Target left, EvaluatorDefinition.Target right ) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public EvaluatorWrapper wrapEvaluator( Evaluator evaluator, Declaration left, Declaration right ) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Constraint buildMvelConstraint( String packageName, String expression, Declaration[] declarations, EvaluatorWrapper[] operators, RuleBuildContext context, Declaration[] previousDeclarations, Declaration[] localDeclarations, PredicateDescr predicateDescr, AnalysisResult analysis, boolean isIndexable ) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public TimerExpression buildTimerExpression( String expression, RuleBuildContext context ) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public TimerExpression buildTimerExpression( String expression, ClassLoader classLoader, Map<String, Declaration> decls ) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public InternalReadAccessor buildMvelFieldReadAccessor( RuleBuildContext context, BaseDescr descr, Pattern pattern, ObjectType objectType, String fieldName, boolean reportError ) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void setExprInputs( RuleBuildContext context, PatternBuilder.ExprBindings descrBranch, Class<?> thisClass, String expr ) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public FieldValue getMvelFieldValue( RuleBuildContext context, ValueType vtype, String value ) {
+            throw new UnsupportedOperationException();
+        }
+    }
 }

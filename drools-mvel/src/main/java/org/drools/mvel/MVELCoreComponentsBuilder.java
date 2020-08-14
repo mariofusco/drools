@@ -14,10 +14,23 @@
 
 package org.drools.mvel;
 
+import java.util.Collections;
 import java.util.Date;
 
+import org.drools.compiler.compiler.AnalysisResult;
+import org.drools.compiler.compiler.BoundIdentifiers;
+import org.drools.compiler.compiler.Dialect;
+import org.drools.compiler.lang.descr.BaseDescr;
+import org.drools.compiler.lang.descr.BindingDescr;
+import org.drools.compiler.rule.builder.RuleBuildContext;
+import org.drools.compiler.rule.builder.dialect.DialectUtil;
 import org.drools.core.base.CoreComponentsBuilder;
+import org.drools.core.rule.Pattern;
 import org.drools.core.spi.InternalReadAccessor;
+import org.drools.core.spi.ObjectType;
+import org.drools.mvel.builder.MVELAnalysisResult;
+import org.drools.mvel.builder.MVELDialect;
+import org.drools.mvel.expr.MVELCompileable;
 import org.drools.mvel.extractors.MVELDateClassFieldReader;
 import org.drools.mvel.extractors.MVELNumberClassFieldReader;
 import org.drools.mvel.extractors.MVELObjectClassFieldReader;

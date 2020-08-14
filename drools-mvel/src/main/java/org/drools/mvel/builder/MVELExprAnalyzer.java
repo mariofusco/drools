@@ -27,12 +27,12 @@ import org.drools.compiler.compiler.DescrBuildError;
 import org.drools.compiler.lang.descr.BaseDescr;
 import org.drools.compiler.rule.builder.PackageBuildContext;
 import org.drools.compiler.rule.builder.RuleBuildContext;
-import org.drools.compiler.rule.builder.dialect.DialectUtil;
 import org.drools.core.base.EvaluatorWrapper;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.rule.Declaration;
 import org.drools.core.rule.RuleConditionElement;
 import org.drools.mvel.MVELDialectRuntimeData;
+import org.drools.mvel.asm.AsmUtil;
 import org.kie.api.definition.rule.Rule;
 import org.mvel2.CompileException;
 import org.mvel2.MVEL;
@@ -136,7 +136,7 @@ public class MVELExprAnalyzer {
                 // rewrite error message in cause original message is null
                 e = new CompileException(e.getCause().toString(), ( (CompileException) e ).getExpr(), ( (CompileException) e ).getCursor(), e.getCause());
             }
-            DialectUtil.copyErrorLocation(e, context.getParentDescr());
+            AsmUtil.copyErrorLocation(e, context.getParentDescr());
             context.addError( new DescrBuildError( base,
                                                    context.getParentDescr(),
                                                    null,
@@ -203,7 +203,7 @@ public class MVELExprAnalyzer {
             // is this an error, or can we fall back to non-typesafe mode?
             if ( typesafe ) {
                 BaseDescr base = (context instanceof RuleBuildContext) ? ((RuleBuildContext)context).getRuleDescr() : context.getParentDescr();
-                DialectUtil.copyErrorLocation(e, context.getParentDescr());
+                AsmUtil.copyErrorLocation(e, context.getParentDescr());
                 context.addError( new DescrBuildError( base,
                                                        context.getParentDescr(),
                                                        null,

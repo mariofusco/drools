@@ -87,6 +87,7 @@ import org.drools.core.rule.LineMappings;
 import org.drools.core.spi.KnowledgeHelper;
 import org.drools.core.util.StringUtils;
 import org.drools.mvel.MVELDialectRuntimeData;
+import org.drools.mvel.asm.AsmUtil;
 import org.drools.mvel.expr.MVELCompilationUnit;
 import org.kie.api.definition.rule.Rule;
 import org.kie.api.io.Resource;
@@ -502,7 +503,7 @@ public class MVELDialect
                                                         "drools",
                                                         KnowledgeHelper.class);
         } catch (final Exception e) {
-            DialectUtil.copyErrorLocation(e, descr);
+            AsmUtil.copyErrorLocation(e, descr);
             context.addError(new DescrBuildError(context.getParentDescr(),
                                                  descr,
                                                  null,

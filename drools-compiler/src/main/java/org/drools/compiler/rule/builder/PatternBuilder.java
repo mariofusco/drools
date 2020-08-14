@@ -58,7 +58,6 @@ import org.drools.compiler.lang.descr.PredicateDescr;
 import org.drools.compiler.lang.descr.RelationalExprDescr;
 import org.drools.compiler.lang.descr.ReturnValueRestrictionDescr;
 import org.drools.compiler.rule.builder.XpathAnalysis.XpathPart;
-import org.drools.compiler.rule.builder.dialect.DialectUtil;
 import org.drools.compiler.rule.builder.dialect.java.JavaDialect;
 import org.drools.compiler.rule.builder.util.ConstraintUtil;
 import org.drools.core.addon.TypeResolver;
@@ -100,21 +99,12 @@ import org.drools.core.spi.InternalReadAccessor;
 import org.drools.core.spi.ObjectType;
 import org.drools.core.time.TimeUtils;
 import org.drools.core.util.ClassUtils;
-import org.drools.core.util.MVELSafeHelper;
 import org.drools.core.util.StringUtils;
 import org.drools.core.util.index.IndexUtil;
-import org.drools.mvel.MVELDialectRuntimeData;
-import org.drools.mvel.builder.MVELAnalysisResult;
-import org.drools.mvel.builder.MVELDialect;
-import org.drools.mvel.expr.MVELCompileable;
 import org.kie.api.definition.rule.Watch;
 import org.kie.api.definition.type.Role;
 import org.kie.internal.builder.KnowledgeBuilderResult;
 import org.kie.internal.builder.ResultSeverity;
-import org.mvel2.MVEL;
-import org.mvel2.ParserConfiguration;
-import org.mvel2.ParserContext;
-import org.mvel2.util.PropertyTools;
 
 import static org.drools.compiler.rule.builder.util.PatternBuilderUtil.getNormalizeDate;
 import static org.drools.compiler.rule.builder.util.PatternBuilderUtil.normalizeEmptyKeyword;
@@ -975,7 +965,7 @@ public class PatternBuilder
 
         ValueType valueType = getValueType(context, pattern, leftValue);
         if (valueType != null && valueType.getSimpleType() == SimpleValueType.DATE) {
-            FieldValue fieldValue = getFieldValue(context, valueType, rightValue);
+            FieldValue fieldValue = ConstraintBuilder.get().getMvelFieldValue(context, valueType, rightValue);
             if (fieldValue != null) {
                 subExpr = subExpr.replace(rightValue, getNormalizeDate(valueType, fieldValue));
             }
@@ -1032,10 +1022,11 @@ public class PatternBuilder
 
     private ExprBindings getExprBindings(RuleBuildContext context, Pattern pattern, String value) {
         ExprBindings value1Expr = new ExprBindings();
-        setInputs(context,
-                  value1Expr,
-                  (pattern.getObjectType() instanceof ClassObjectType) ? ((ClassObjectType) pattern.getObjectType()).getClassType() : FactTemplate.class,
-                  value);
+        ConstraintBuilder.get().setExprInputs( context, value1Expr,
+                                               (pattern.getObjectType() instanceof ClassObjectType) ?
+                                                       ((ClassObjectType) pattern.getObjectType()).getClassType() :
+                                                       FactTemplate.class,
+                                               value);
         return value1Expr;
     }
 
@@ -1088,7 +1079,7 @@ public class PatternBuilder
 
         if (restrictionDescr != null) {
             ValueType vtype = extractor.getValueType();
-            FieldValue field = getFieldValue(context, vtype, restrictionDescr.getText().trim());
+            FieldValue field = ConstraintBuilder.get().getMvelFieldValue(context, vtype, restrictionDescr.getText().trim());
             if (field != null) {
                 Constraint constraint = getConstraintBuilder()
                         .buildLiteralConstraint(context, pattern, vtype, field, expr,
@@ -1274,8 +1265,7 @@ public class PatternBuilder
                                                  String expr,
                                                  Map<String, OperatorDescr> aliases) {
         Dialect dialect = context.getDialect();
-        MVELDialect mvelDialect = (MVELDialect) context.getDialect("mvel");
-        context.setDialect(mvelDialect);
+        context.setDialect(context.getDialect("mvel"));
 
         PredicateDescr pdescr = new PredicateDescr(context.getRuleDescr().getResource(), expr);
         pdescr.copyParameters(base);
@@ -1285,51 +1275,6 @@ public class PatternBuilder
         // fall back to original dialect
         context.setDialect(dialect);
         return evalConstraint;
-    }
-
-    protected void setInputs(RuleBuildContext context,
-                             ExprBindings descrBranch,
-                             Class<?> thisClass,
-                             String expr) {
-        MVELDialectRuntimeData data = (MVELDialectRuntimeData) context.getPkg().getDialectRuntimeRegistry().getDialectData("mvel");
-        ParserConfiguration conf = data.getParserConfiguration();
-
-        conf.setClassLoader(context.getKnowledgeBuilder().getRootClassLoader());
-
-        final ParserContext pctx = new ParserContext(conf);
-        pctx.setStrictTypeEnforcement(false);
-        pctx.setStrongTyping(false);
-        pctx.addInput("this", thisClass);
-        pctx.addInput("empty", boolean.class); // overrides the mvel empty label
-        MVEL.COMPILER_OPT_ALLOW_NAKED_METH_CALL = true;
-        MVEL.COMPILER_OPT_ALLOW_OVERRIDE_ALL_PROPHANDLING = true;
-        MVEL.COMPILER_OPT_ALLOW_RESOLVE_INNERCLASSES_WITH_DOTNOTATION = true;
-        MVEL.COMPILER_OPT_SUPPORT_JAVA_STYLE_CLASS_LITERALS = true;
-
-        try {
-            MVEL.analysisCompile(expr, pctx);
-        } catch (Exception e) {
-            // There is a problem in setting the inputs for this expression, but it will be
-            // reported during expression analysis, so swallow it at the moment
-            return;
-        }
-
-        if (!pctx.getInputs().isEmpty()) {
-            for (String v : pctx.getInputs().keySet()) {
-                // in the following if, we need to check that the expr actually contains a reference
-                // to an "empty" property, or the if will evaluate to true even if it doesn't 
-                if ("this".equals(v) || (PropertyTools.getFieldOrAccessor(thisClass,
-                                                                          v) != null && expr.matches("(^|.*\\W)empty($|\\W.*)"))) {
-                    descrBranch.getFieldAccessors().add(v);
-                } else if ("empty".equals(v)) {
-                    // do nothing
-                } else if (!context.getPkg().getGlobals().containsKey(v)) {
-                    descrBranch.getRuleBindings().add(v);
-                } else {
-                    descrBranch.getGlobalBindings().add(v);
-                }
-            }
-        }
     }
 
     public static class ExprBindings {
@@ -1676,32 +1621,6 @@ public class PatternBuilder
         return declaration;
     }
 
-    private FieldValue getFieldValue(RuleBuildContext context,
-                                     ValueType vtype,
-                                     String value) {
-        try {
-            MVEL.COMPILER_OPT_ALLOW_NAKED_METH_CALL = true;
-            MVEL.COMPILER_OPT_ALLOW_OVERRIDE_ALL_PROPHANDLING = true;
-            MVEL.COMPILER_OPT_ALLOW_RESOLVE_INNERCLASSES_WITH_DOTNOTATION = true;
-            MVEL.COMPILER_OPT_SUPPORT_JAVA_STYLE_CLASS_LITERALS = true;
-
-            MVELDialectRuntimeData data = (MVELDialectRuntimeData) context.getPkg().getDialectRuntimeRegistry().getDialectData("mvel");
-            ParserConfiguration pconf = data.getParserConfiguration();
-            ParserContext pctx = new ParserContext(pconf);
-
-            Object o = MVELSafeHelper.getEvaluator().executeExpression(MVEL.compileExpression(value, pctx));
-            if (o != null && vtype == null) {
-                // was a compilation problem else where, so guess valuetype so we can continue
-                vtype = ValueType.determineValueType(o.getClass());
-            }
-
-            return context.getCompilerFactory().getFieldFactory().getFieldValue(o, vtype);
-        } catch (final Exception e) {
-            // we will fallback to regular preducates, so don't raise an error
-        }
-        return null;
-    }
-
     public static void registerReadAccessor(final RuleBuildContext context,
                                             final ObjectType objectType,
                                             final String fieldName,
@@ -1758,8 +1677,6 @@ public class PatternBuilder
                                                                                  target);
             } catch (final Exception e) {
                 if (reportError && context.isTypesafe()) {
-                    DialectUtil.copyErrorLocation(e,
-                                                  descr);
                     registerDescrBuildError(context, descr, e,
                                             "Unable to create Field Extractor for '" + fieldName + "'" + e.getMessage());
                 }
@@ -1783,61 +1700,7 @@ public class PatternBuilder
             }
         } else {
             // we need MVEL extractor for expressions
-            Dialect dialect = context.getDialect();
-            try {
-                MVELDialect mvelDialect = (MVELDialect) context.getDialect("mvel");
-                context.setDialect(mvelDialect);
-
-                final AnalysisResult analysis = context.getDialect().analyzeExpression(context,
-                                                                                       descr,
-                                                                                       fieldName,
-                                                                                       new BoundIdentifiers(pattern, context, Collections.EMPTY_MAP,
-                                                                                                            objectType.getClassType()));
-
-                if (analysis == null) {
-                    // something bad happened
-                    if (reportError) {
-                        registerDescrBuildError(context, descr, "Unable to analyze expression '" + fieldName + "'");
-                    }
-                    return null;
-                }
-
-                final BoundIdentifiers usedIdentifiers = analysis.getBoundIdentifiers();
-
-                if (!usedIdentifiers.getDeclrClasses().isEmpty()) {
-                    if (reportError && descr instanceof BindingDescr) {
-                        registerDescrBuildError(context, descr,
-                                                "Variables can not be used inside bindings. Variable " + usedIdentifiers.getDeclrClasses().keySet() + " is being used in binding '" + fieldName + "'");
-                    }
-                    return null;
-                }
-
-                reader = context.getPkg().getClassFieldAccessorStore().getMVELReader(context.getPkg().getName(),
-                                                                                     objectType.getClassName(),
-                                                                                     fieldName,
-                                                                                     context.isTypesafe(),
-                                                                                     (( MVELAnalysisResult ) analysis).getReturnType());
-
-                MVELDialectRuntimeData data = (MVELDialectRuntimeData) context.getPkg().getDialectRuntimeRegistry().getDialectData("mvel");
-                (( MVELCompileable ) reader).compile(data, context.getRule());
-                data.addCompileable((MVELCompileable) reader);
-            } catch (final Exception e) {
-                int dotPos = fieldName.indexOf('.');
-                String varName = dotPos > 0 ? fieldName.substring(0, dotPos).trim() : fieldName;
-                if (context.getKnowledgeBuilder().getGlobals().containsKey(varName)) {
-                    return null;
-                }
-
-                if (reportError) {
-                    DialectUtil.copyErrorLocation(e, descr);
-                    registerDescrBuildError(context, descr, e,
-                                            "Unable to create reader for '" + fieldName + "':" + e.getMessage());
-                }
-                // if there was an error, set the reader back to null
-                reader = null;
-            } finally {
-                context.setDialect(dialect);
-            }
+            reader = ConstraintBuilder.get().buildMvelFieldReadAccessor(context, descr, pattern, objectType, fieldName, reportError);
         }
 
         return reader;
@@ -1861,11 +1724,11 @@ public class PatternBuilder
         return result;
     }
 
-    private static void registerDescrBuildError(RuleBuildContext context, BaseDescr patternDescr, String error) {
+    public static void registerDescrBuildError(RuleBuildContext context, BaseDescr patternDescr, String error) {
         registerDescrBuildError(context, patternDescr, null, error);
     }
 
-    private static void registerDescrBuildError(RuleBuildContext context, BaseDescr patternDescr, Object object, String error) {
+    public static void registerDescrBuildError(RuleBuildContext context, BaseDescr patternDescr, Object object, String error) {
         context.addError(new DescrBuildError(context.getParentDescr(), patternDescr, object, error));
     }
 }

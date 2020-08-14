@@ -18,6 +18,7 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -26,14 +27,16 @@ import org.drools.compiler.compiler.AnalysisResult;
 import org.drools.compiler.compiler.BoundIdentifiers;
 import org.drools.compiler.compiler.DescrBuildError;
 import org.drools.compiler.compiler.Dialect;
+import org.drools.compiler.compiler.DialectConfiguration;
 import org.drools.compiler.lang.descr.BaseDescr;
+import org.drools.compiler.lang.descr.BindingDescr;
 import org.drools.compiler.lang.descr.LiteralRestrictionDescr;
 import org.drools.compiler.lang.descr.OperatorDescr;
 import org.drools.compiler.lang.descr.PredicateDescr;
 import org.drools.compiler.lang.descr.RelationalExprDescr;
 import org.drools.compiler.rule.builder.ConstraintBuilder;
+import org.drools.compiler.rule.builder.PatternBuilder;
 import org.drools.compiler.rule.builder.RuleBuildContext;
-import org.drools.compiler.rule.builder.dialect.DialectUtil;
 import org.drools.core.base.ClassObjectType;
 import org.drools.core.base.DroolsQuery;
 import org.drools.core.base.EvaluatorWrapper;
@@ -41,6 +44,7 @@ import org.drools.core.base.SimpleValueType;
 import org.drools.core.base.ValueType;
 import org.drools.core.base.evaluators.EvaluatorDefinition;
 import org.drools.core.base.evaluators.Operator;
+import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.reteoo.RuleTerminalNode;
 import org.drools.core.rule.Declaration;
 import org.drools.core.rule.Pattern;
@@ -51,26 +55,39 @@ import org.drools.core.spi.Evaluator;
 import org.drools.core.spi.FieldValue;
 import org.drools.core.spi.InternalReadAccessor;
 import org.drools.core.spi.KnowledgeHelper;
+import org.drools.core.spi.ObjectType;
 import org.drools.core.time.TimerExpression;
+import org.drools.core.util.MVELSafeHelper;
 import org.drools.core.util.index.IndexUtil;
+import org.drools.mvel.asm.AsmUtil;
 import org.drools.mvel.builder.MVELAnalysisResult;
 import org.drools.mvel.builder.MVELDialect;
+import org.drools.mvel.builder.MVELDialectConfiguration;
 import org.drools.mvel.expr.MVELCompilationUnit;
+import org.drools.mvel.expr.MVELCompileable;
 import org.drools.mvel.expr.MVELObjectExpression;
+import org.kie.api.definition.rule.Rule;
 import org.mvel2.ConversionHandler;
 import org.mvel2.DataConversion;
+import org.mvel2.MVEL;
+import org.mvel2.ParserConfiguration;
+import org.mvel2.ParserContext;
 import org.mvel2.util.CompatibilityStrategy;
 import org.mvel2.util.NullType;
+import org.mvel2.util.PropertyTools;
 
 import static org.drools.compiler.rule.builder.PatternBuilder.buildAnalysis;
 import static org.drools.compiler.rule.builder.PatternBuilder.buildOperators;
 import static org.drools.compiler.rule.builder.PatternBuilder.getOperators;
 import static org.drools.compiler.rule.builder.PatternBuilder.getUsedDeclarations;
-import static org.drools.compiler.rule.builder.dialect.DialectUtil.copyErrorLocation;
+import static org.drools.compiler.rule.builder.PatternBuilder.registerDescrBuildError;
 import static org.drools.compiler.rule.builder.util.PatternBuilderUtil.getNormalizeDate;
 import static org.drools.compiler.rule.builder.util.PatternBuilderUtil.normalizeEmptyKeyword;
 import static org.drools.compiler.rule.builder.util.PatternBuilderUtil.normalizeStringOperator;
+import static org.drools.core.rule.constraint.EvaluatorHelper.WM_ARGUMENT;
 import static org.drools.core.util.ClassUtils.convertFromPrimitiveType;
+import static org.drools.mvel.asm.AsmUtil.copyErrorLocation;
+import static org.drools.mvel.builder.MVELExprAnalyzer.analyze;
 
 public class MVELConstraintBuilder implements ConstraintBuilder {
 
@@ -99,6 +116,10 @@ public class MVELConstraintBuilder implements ConstraintBuilder {
                 add("instanceof");
             }};
         }
+    }
+
+    public DialectConfiguration createMVELDialectConfiguration() {
+        return new MVELDialectConfiguration();
     }
 
     public boolean isMvelOperator(String operator) {
@@ -486,17 +507,15 @@ public class MVELConstraintBuilder implements ConstraintBuilder {
                     false,
                     MVELCompilationUnit.Scope.EXPRESSION );
 
-            MVELObjectExpression expr = new MVELObjectExpression( unit,
-                    dialect.getId() );
+            MVELObjectExpression expr = new MVELObjectExpression( unit, dialect.getId() );
 
             MVELDialectRuntimeData data = ( MVELDialectRuntimeData ) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" );
-            data.addCompileable( context.getRule(),
-                    expr );
+            data.addCompileable( context.getRule(), expr );
 
             expr.compile( data );
             return expr;
         } catch ( final Exception e ) {
-            DialectUtil.copyErrorLocation(e, context.getRuleDescr());
+            AsmUtil.copyErrorLocation(e, context.getRuleDescr());
             context.addError( new DescrBuildError( context.getParentDescr(),
                     context.getRuleDescr(),
                     null,
@@ -507,4 +526,275 @@ public class MVELConstraintBuilder implements ConstraintBuilder {
         }
     }
 
+    @Override
+    public TimerExpression buildTimerExpression( String expression, ClassLoader classLoader, Map<String, Declaration> decls ) {
+        if (expression == null) {
+            return null;
+        }
+
+        ParserConfiguration conf = new ParserConfiguration();
+        conf.setClassLoader( classLoader );
+
+        MVELAnalysisResult analysis = analyzeExpression( expression, conf, new BoundIdentifiers( DeclarationScopeResolver.getDeclarationClasses( decls ), null ) );
+
+        final BoundIdentifiers usedIdentifiers = analysis.getBoundIdentifiers();
+        int i = usedIdentifiers.getDeclrClasses().keySet().size();
+        Declaration[] previousDeclarations = new Declaration[i];
+        i = 0;
+        for ( String id :  usedIdentifiers.getDeclrClasses().keySet() ) {
+            previousDeclarations[i++] = decls.get( id );
+        }
+        Arrays.sort(previousDeclarations, RuleTerminalNode.SortDeclarations.instance);
+
+        MVELCompilationUnit unit = MVELDialect.getMVELCompilationUnit( expression,
+                analysis,
+                previousDeclarations,
+                null,
+                null,
+                null,
+                "drools",
+                KnowledgeHelper.class,
+                false,
+                MVELCompilationUnit.Scope.EXPRESSION );
+
+        MVELObjectExpression expr = new MVELObjectExpression( unit, "mvel" );
+        expr.compile( conf );
+        return expr;
+    }
+
+    @Override
+    public AnalysisResult analyzeExpression(Class<?> thisClass, String expr) {
+        ParserConfiguration conf = new ParserConfiguration();
+        conf.setClassLoader( thisClass.getClassLoader() );
+        return analyzeExpression( expr, conf, new BoundIdentifiers( thisClass ) );
+    }
+
+    private static MVELAnalysisResult analyzeExpression(String expr,
+                                                        ParserConfiguration conf,
+                                                        BoundIdentifiers availableIdentifiers) {
+        if ( expr.trim().length() <= 0 ) {
+            MVELAnalysisResult result = analyze( (Set<String> ) Collections.EMPTY_SET, availableIdentifiers );
+            result.setMvelVariables( new HashMap<String, Class< ? >>() );
+            result.setTypesafe( true );
+            return result;
+        }
+
+        MVEL.COMPILER_OPT_ALLOW_NAKED_METH_CALL = true;
+        MVEL.COMPILER_OPT_ALLOW_OVERRIDE_ALL_PROPHANDLING = true;
+        MVEL.COMPILER_OPT_ALLOW_RESOLVE_INNERCLASSES_WITH_DOTNOTATION = true;
+        MVEL.COMPILER_OPT_SUPPORT_JAVA_STYLE_CLASS_LITERALS = true;
+
+        // first compilation is for verification only
+        final ParserContext parserContext1 = new ParserContext( conf );
+        if ( availableIdentifiers.getThisClass() != null ) {
+            parserContext1.addInput( "this", availableIdentifiers.getThisClass() );
+        }
+
+        if ( availableIdentifiers.getOperators() != null ) {
+            for ( Map.Entry<String, EvaluatorWrapper> opEntry : availableIdentifiers.getOperators().entrySet() ) {
+                parserContext1.addInput( opEntry.getKey(), opEntry.getValue().getClass() );
+            }
+        }
+
+        parserContext1.setStrictTypeEnforcement( false );
+        parserContext1.setStrongTyping( false );
+        Class< ? > returnType;
+
+        try {
+            returnType = MVEL.analyze( expr, parserContext1 );
+        } catch ( Exception e ) {
+            return null;
+        }
+
+        Set<String> requiredInputs = new HashSet<>( parserContext1.getInputs().keySet() );
+        Map<String, Class> variables = parserContext1.getVariables();
+
+        // MVEL includes direct fields of context object in non-strict mode. so we need to strip those
+        if ( availableIdentifiers.getThisClass() != null ) {
+            requiredInputs.removeIf( s -> PropertyTools.getFieldOrAccessor( availableIdentifiers.getThisClass(), s ) != null );
+        }
+
+        // now, set the required input types and compile again
+        final ParserContext parserContext2 = new ParserContext( conf );
+        parserContext2.setStrictTypeEnforcement( true );
+        parserContext2.setStrongTyping( true );
+
+        for ( String input : requiredInputs ) {
+            if ("this".equals( input )) {
+                continue;
+            }
+            if (WM_ARGUMENT.equals( input )) {
+                parserContext2.addInput( input, InternalWorkingMemory.class );
+                continue;
+            }
+
+            Class< ? > cls = availableIdentifiers.resolveType( input );
+            if ( cls == null ) {
+                if ( input.equals( "rule" ) ) {
+                    cls = Rule.class;
+                }
+            }
+            if ( cls != null ) {
+                parserContext2.addInput( input, cls );
+            }
+        }
+
+        if ( availableIdentifiers.getThisClass() != null ) {
+            parserContext2.addInput( "this", availableIdentifiers.getThisClass() );
+        }
+
+        try {
+            returnType = MVEL.analyze( expr, parserContext2 );
+        } catch ( Exception e ) {
+            return null;
+        }
+
+        requiredInputs = new HashSet<>();
+        requiredInputs.addAll( parserContext2.getInputs().keySet() );
+        requiredInputs.addAll( variables.keySet() );
+        variables = parserContext2.getVariables();
+
+        MVELAnalysisResult result = analyze( requiredInputs, availableIdentifiers );
+        result.setReturnType( returnType );
+        result.setMvelVariables( (Map<String, Class< ? >>) (Map) variables );
+        result.setTypesafe( true );
+        return result;
+    }
+
+    @Override
+    public InternalReadAccessor buildMvelFieldReadAccessor( RuleBuildContext context,
+                                                            BaseDescr descr,
+                                                            Pattern pattern,
+                                                            ObjectType objectType,
+                                                            String fieldName,
+                                                            boolean reportError) {
+        InternalReadAccessor reader;
+        Dialect dialect = context.getDialect();
+        try {
+            MVELDialect mvelDialect = (MVELDialect) context.getDialect("mvel");
+            context.setDialect(mvelDialect);
+
+            final AnalysisResult analysis = context.getDialect().analyzeExpression(context,
+                    descr,
+                    fieldName,
+                    new BoundIdentifiers(pattern, context, Collections.EMPTY_MAP,
+                            objectType.getClassType()));
+
+            if (analysis == null) {
+                // something bad happened
+                if (reportError) {
+                    registerDescrBuildError(context, descr, "Unable to analyze expression '" + fieldName + "'");
+                }
+                return null;
+            }
+
+            final BoundIdentifiers usedIdentifiers = analysis.getBoundIdentifiers();
+
+            if (!usedIdentifiers.getDeclrClasses().isEmpty()) {
+                if (reportError && descr instanceof BindingDescr ) {
+                    registerDescrBuildError(context, descr,
+                            "Variables can not be used inside bindings. Variable " + usedIdentifiers.getDeclrClasses().keySet() + " is being used in binding '" + fieldName + "'");
+                }
+                return null;
+            }
+
+            reader = context.getPkg().getClassFieldAccessorStore().getMVELReader(context.getPkg().getName(),
+                    objectType.getClassName(),
+                    fieldName,
+                    context.isTypesafe(),
+                    (( MVELAnalysisResult ) analysis).getReturnType());
+
+            MVELDialectRuntimeData data = (MVELDialectRuntimeData) context.getPkg().getDialectRuntimeRegistry().getDialectData("mvel");
+            (( MVELCompileable ) reader).compile(data, context.getRule());
+            data.addCompileable((MVELCompileable) reader);
+        } catch (final Exception e) {
+            int dotPos = fieldName.indexOf('.');
+            String varName = dotPos > 0 ? fieldName.substring(0, dotPos).trim() : fieldName;
+            if (context.getKnowledgeBuilder().getGlobals().containsKey(varName)) {
+                return null;
+            }
+
+            if (reportError) {
+                AsmUtil.copyErrorLocation(e, descr);
+                registerDescrBuildError(context, descr, e,
+                        "Unable to create reader for '" + fieldName + "':" + e.getMessage());
+            }
+            // if there was an error, set the reader back to null
+            reader = null;
+        } finally {
+            context.setDialect(dialect);
+        }
+        return reader;
+    }
+
+    @Override
+    public void setExprInputs(RuleBuildContext context,
+                              PatternBuilder.ExprBindings descrBranch,
+                              Class<?> thisClass,
+                              String expr) {
+        MVELDialectRuntimeData data = (MVELDialectRuntimeData) context.getPkg().getDialectRuntimeRegistry().getDialectData("mvel");
+        ParserConfiguration conf = data.getParserConfiguration();
+
+        conf.setClassLoader(context.getKnowledgeBuilder().getRootClassLoader());
+
+        final ParserContext pctx = new ParserContext(conf);
+        pctx.setStrictTypeEnforcement(false);
+        pctx.setStrongTyping(false);
+        pctx.addInput("this", thisClass);
+        pctx.addInput("empty", boolean.class); // overrides the mvel empty label
+        MVEL.COMPILER_OPT_ALLOW_NAKED_METH_CALL = true;
+        MVEL.COMPILER_OPT_ALLOW_OVERRIDE_ALL_PROPHANDLING = true;
+        MVEL.COMPILER_OPT_ALLOW_RESOLVE_INNERCLASSES_WITH_DOTNOTATION = true;
+        MVEL.COMPILER_OPT_SUPPORT_JAVA_STYLE_CLASS_LITERALS = true;
+
+        try {
+            MVEL.analysisCompile(expr, pctx);
+        } catch (Exception e) {
+            // There is a problem in setting the inputs for this expression, but it will be
+            // reported during expression analysis, so swallow it at the moment
+            return;
+        }
+
+        if (!pctx.getInputs().isEmpty()) {
+            for (String v : pctx.getInputs().keySet()) {
+                // in the following if, we need to check that the expr actually contains a reference
+                // to an "empty" property, or the if will evaluate to true even if it doesn't
+                if ("this".equals(v) || (PropertyTools.getFieldOrAccessor(thisClass,
+                        v) != null && expr.matches("(^|.*\\W)empty($|\\W.*)"))) {
+                    descrBranch.getFieldAccessors().add(v);
+                } else if ("empty".equals(v)) {
+                    // do nothing
+                } else if (!context.getPkg().getGlobals().containsKey(v)) {
+                    descrBranch.getRuleBindings().add(v);
+                } else {
+                    descrBranch.getGlobalBindings().add(v);
+                }
+            }
+        }
+    }
+
+    @Override
+    public FieldValue getMvelFieldValue(RuleBuildContext context, ValueType vtype, String value) {
+        try {
+            MVEL.COMPILER_OPT_ALLOW_NAKED_METH_CALL = true;
+            MVEL.COMPILER_OPT_ALLOW_OVERRIDE_ALL_PROPHANDLING = true;
+            MVEL.COMPILER_OPT_ALLOW_RESOLVE_INNERCLASSES_WITH_DOTNOTATION = true;
+            MVEL.COMPILER_OPT_SUPPORT_JAVA_STYLE_CLASS_LITERALS = true;
+
+            MVELDialectRuntimeData data = (MVELDialectRuntimeData) context.getPkg().getDialectRuntimeRegistry().getDialectData("mvel");
+            ParserConfiguration pconf = data.getParserConfiguration();
+            ParserContext pctx = new ParserContext(pconf);
+
+            Object o = MVELSafeHelper.getEvaluator().executeExpression(MVEL.compileExpression(value, pctx));
+            if (o != null && vtype == null) {
+                // was a compilation problem else where, so guess valuetype so we can continue
+                vtype = ValueType.determineValueType(o.getClass());
+            }
+
+            return context.getCompilerFactory().getFieldFactory().getFieldValue(o, vtype);
+        } catch (final Exception e) {
+            // we will fallback to regular preducates, so don't raise an error
+        }
+        return null;
+    }
 }

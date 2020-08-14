@@ -25,8 +25,6 @@ import org.drools.compiler.lang.descr.BaseDescr;
 import org.drools.compiler.lang.descr.FromDescr;
 import org.drools.compiler.rule.builder.FromBuilder;
 import org.drools.compiler.rule.builder.RuleBuildContext;
-import org.drools.compiler.rule.builder.dialect.DialectUtil;
-import org.drools.mvel.dataproviders.MVELDataProvider;
 import org.drools.core.reteoo.RuleTerminalNode.SortDeclarations;
 import org.drools.core.rule.Declaration;
 import org.drools.core.rule.EntryPointId;
@@ -36,6 +34,8 @@ import org.drools.core.rule.RuleConditionElement;
 import org.drools.core.spi.DeclarationScopeResolver;
 import org.drools.core.spi.KnowledgeHelper;
 import org.drools.mvel.MVELDialectRuntimeData;
+import org.drools.mvel.asm.AsmUtil;
+import org.drools.mvel.dataproviders.MVELDataProvider;
 import org.drools.mvel.expr.MVELCompilationUnit;
 
 /**
@@ -123,7 +123,7 @@ public class MVELFromBuilder
             return from;
 
         } catch ( final Exception e ) {
-            DialectUtil.copyErrorLocation(e, descr);
+            AsmUtil.copyErrorLocation(e, descr);
             context.addError( new DescrBuildError( context.getParentDescr(),
                                                    descr,
                                                    null,

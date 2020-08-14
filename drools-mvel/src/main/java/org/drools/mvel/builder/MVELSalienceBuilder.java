@@ -31,7 +31,7 @@ import org.drools.mvel.expr.MVELCompilationUnit;
 import org.drools.mvel.expr.MVELSalienceExpression;
 import org.kie.internal.security.KiePolicyHelper;
 
-import static org.drools.compiler.rule.builder.dialect.DialectUtil.copyErrorLocation;
+import static org.drools.mvel.asm.AsmUtil.copyErrorLocation;
 
 public class MVELSalienceBuilder
     implements

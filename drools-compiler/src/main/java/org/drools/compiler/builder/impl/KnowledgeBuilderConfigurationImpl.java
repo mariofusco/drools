@@ -32,6 +32,7 @@ import org.drools.compiler.compiler.DrlParser;
 import org.drools.compiler.compiler.PackageRegistry;
 import org.drools.compiler.compiler.xml.RulesSemanticModule;
 import org.drools.compiler.kie.builder.impl.InternalKieModule.CompilationCache;
+import org.drools.compiler.rule.builder.ConstraintBuilder;
 import org.drools.compiler.rule.builder.DroolsCompilerComponentFactory;
 import org.drools.compiler.rule.builder.dialect.java.JavaDialectConfiguration;
 import org.drools.compiler.rule.builder.util.AccumulateUtil;
@@ -49,7 +50,6 @@ import org.drools.core.xml.Handler;
 import org.drools.core.xml.SemanticModule;
 import org.drools.core.xml.SemanticModules;
 import org.drools.core.xml.WrapperSemanticModule;
-import org.drools.mvel.builder.MVELDialectConfiguration;
 import org.drools.reflective.classloader.ProjectClassLoader;
 import org.kie.api.runtime.rule.AccumulateFunction;
 import org.kie.internal.builder.KnowledgeBuilderConfiguration;
@@ -387,9 +387,11 @@ public class KnowledgeBuilderConfigurationImpl
     }
 
     private void buildDialectConfigurationMap() {
-        DialectConfiguration mvel = new MVELDialectConfiguration();
-        mvel.init(this);
-        dialectConfigurations.put("mvel", mvel);
+        DialectConfiguration mvel = ConstraintBuilder.get().createMVELDialectConfiguration();
+        if (mvel != null) {
+            mvel.init( this );
+            dialectConfigurations.put( "mvel", mvel );
+        }
 
         DialectConfiguration java = new JavaDialectConfiguration();
         java.init(this);

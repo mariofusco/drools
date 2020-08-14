@@ -29,10 +29,8 @@ import org.drools.compiler.lang.descr.BaseDescr;
 import org.drools.compiler.rule.builder.AccumulateBuilder;
 import org.drools.compiler.rule.builder.RuleBuildContext;
 import org.drools.compiler.rule.builder.RuleConditionBuilder;
-import org.drools.compiler.rule.builder.dialect.DialectUtil;
 import org.drools.compiler.rule.builder.util.AccumulateUtil;
 import org.drools.compiler.rule.builder.util.PackageBuilderUtil;
-import org.drools.mvel.expr.MVELAccumulatorFunctionExecutor;
 import org.drools.core.base.extractors.ArrayElementReader;
 import org.drools.core.base.extractors.SelfReferenceClassFieldReader;
 import org.drools.core.reteoo.RuleTerminalNode.SortDeclarations;
@@ -50,9 +48,11 @@ import org.drools.core.spi.InternalReadAccessor;
 import org.drools.core.spi.KnowledgeHelper;
 import org.drools.core.spi.MvelAccumulator;
 import org.drools.core.util.index.IndexUtil;
-import org.drools.mvel.MVELDialectRuntimeData;
 import org.drools.mvel.MVELConstraint;
+import org.drools.mvel.MVELDialectRuntimeData;
+import org.drools.mvel.asm.AsmUtil;
 import org.drools.mvel.expr.MVELAccumulator;
+import org.drools.mvel.expr.MVELAccumulatorFunctionExecutor;
 import org.drools.mvel.expr.MVELCompilationUnit;
 import org.drools.mvel.expr.MVELCompileable;
 import org.kie.api.runtime.rule.AccumulateFunction;
@@ -159,7 +159,7 @@ public class MVELAccumulateBuilder
 
             return accumulate;
         } catch ( Exception e ) {
-            DialectUtil.copyErrorLocation(e, descr);
+            AsmUtil.copyErrorLocation(e, descr);
             context.addError( new DescrBuildError( context.getParentDescr(),
                                                           descr,
                                                           e,

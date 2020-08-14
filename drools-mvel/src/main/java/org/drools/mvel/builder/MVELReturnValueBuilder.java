@@ -20,11 +20,11 @@ import org.drools.compiler.compiler.DescrBuildError;
 import org.drools.compiler.lang.descr.ReturnValueRestrictionDescr;
 import org.drools.compiler.rule.builder.ReturnValueBuilder;
 import org.drools.compiler.rule.builder.RuleBuildContext;
-import org.drools.compiler.rule.builder.dialect.DialectUtil;
 import org.drools.core.rule.Declaration;
 import org.drools.core.rule.ReturnValueRestriction;
 import org.drools.core.spi.KnowledgeHelper;
 import org.drools.mvel.MVELDialectRuntimeData;
+import org.drools.mvel.asm.AsmUtil;
 import org.drools.mvel.expr.MVELCompilationUnit;
 import org.drools.mvel.expr.MVELReturnValueExpression;
 
@@ -65,7 +65,7 @@ public class MVELReturnValueBuilder
             
             expr.compile( data, context.getRule() );
         } catch ( final Exception e ) {
-            DialectUtil.copyErrorLocation(e, context.getRuleDescr());
+            AsmUtil.copyErrorLocation(e, context.getRuleDescr());
             context.addError( new DescrBuildError( context.getParentDescr(),
                                                           context.getRuleDescr(),
                                                           null,
