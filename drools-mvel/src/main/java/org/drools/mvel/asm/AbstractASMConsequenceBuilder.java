@@ -18,9 +18,8 @@ import java.util.Map;
 
 import org.drools.compiler.rule.builder.ConsequenceBuilder;
 import org.drools.compiler.rule.builder.RuleBuildContext;
-import org.drools.compiler.rule.builder.dialect.java.JavaAnalysisResult;
-import org.drools.compiler.rule.builder.dialect.java.JavaRuleBuilderHelper;
-import org.drools.compiler.rule.builder.dialect.java.KnowledgeHelperFixer;
+import org.drools.mvel.java.JavaAnalysisResult;
+import org.drools.mvel.java.JavaRuleBuilderHelper;
 import org.drools.core.rule.Declaration;
 
 public abstract class AbstractASMConsequenceBuilder implements ConsequenceBuilder {

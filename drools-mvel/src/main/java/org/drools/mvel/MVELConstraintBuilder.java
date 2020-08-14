@@ -66,6 +66,7 @@ import org.drools.mvel.builder.MVELDialectConfiguration;
 import org.drools.mvel.expr.MVELCompilationUnit;
 import org.drools.mvel.expr.MVELCompileable;
 import org.drools.mvel.expr.MVELObjectExpression;
+import org.drools.mvel.java.JavaDialectConfiguration;
 import org.kie.api.definition.rule.Rule;
 import org.mvel2.ConversionHandler;
 import org.mvel2.DataConversion;
@@ -116,6 +117,11 @@ public class MVELConstraintBuilder implements ConstraintBuilder {
                 add("instanceof");
             }};
         }
+    }
+
+    @Override
+    public DialectConfiguration createJavaDialectConfiguration() {
+        return new JavaDialectConfiguration();
     }
 
     public DialectConfiguration createMVELDialectConfiguration() {

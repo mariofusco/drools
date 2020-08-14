@@ -21,7 +21,7 @@ import org.drools.compiler.compiler.BoundIdentifiers;
 import org.drools.compiler.lang.descr.PredicateDescr;
 import org.drools.compiler.rule.builder.PredicateBuilder;
 import org.drools.compiler.rule.builder.RuleBuildContext;
-import org.drools.compiler.rule.builder.dialect.java.JavaRuleBuilderHelper;
+import org.drools.mvel.java.JavaRuleBuilderHelper;
 import org.drools.core.rule.Declaration;
 import org.drools.core.rule.PredicateConstraint;
 

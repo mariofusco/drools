@@ -24,9 +24,9 @@ import org.drools.compiler.rule.builder.RuleBuildContext;
 
 import java.util.Map;
 
-import static org.drools.compiler.rule.builder.dialect.java.JavaRuleBuilderHelper.createVariableContext;
-import static org.drools.compiler.rule.builder.dialect.java.JavaRuleBuilderHelper.generateMethodTemplate;
-import static org.drools.compiler.rule.builder.dialect.java.JavaRuleBuilderHelper.registerInvokerBytecode;
+import static org.drools.mvel.java.JavaRuleBuilderHelper.createVariableContext;
+import static org.drools.mvel.java.JavaRuleBuilderHelper.generateMethodTemplate;
+import static org.drools.mvel.java.JavaRuleBuilderHelper.registerInvokerBytecode;
 
 public abstract class AbstractASMReturnValueBuilder implements ReturnValueBuilder {
 

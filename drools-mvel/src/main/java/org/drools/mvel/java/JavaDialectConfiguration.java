@@ -1,32 +1,39 @@
 /*
- * Copyright 2015 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
-package org.drools.compiler.rule.builder.dialect.java;
+package org.drools.mvel.java;
 
 import java.util.Arrays;
 
 import org.drools.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
 import org.drools.compiler.compiler.Dialect;
 import org.drools.compiler.compiler.DialectConfiguration;
+import org.drools.compiler.compiler.JavaConfiguration;
 import org.drools.compiler.compiler.PackageRegistry;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.rule.builder.dialect.asm.ClassLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.mvel2.asm.Opcodes.*;
+import static org.mvel2.asm.Opcodes.V10;
+import static org.mvel2.asm.Opcodes.V11;
+import static org.mvel2.asm.Opcodes.V12;
+import static org.mvel2.asm.Opcodes.V1_5;
+import static org.mvel2.asm.Opcodes.V1_6;
+import static org.mvel2.asm.Opcodes.V1_7;
+import static org.mvel2.asm.Opcodes.V1_8;
+import static org.mvel2.asm.Opcodes.V9;
 
 /**
  * 
@@ -49,18 +56,12 @@ import static org.mvel2.asm.Opcodes.*;
  * instantiating this class or the PackageBuilder, or make sure Eclipse is in the 
  * classpath, as Eclipse is the default.
  */
-public class JavaDialectConfiguration
+public class JavaDialectConfiguration extends JavaConfiguration
     implements
     DialectConfiguration {
 
     protected static final transient Logger logger = LoggerFactory.getLogger(JavaDialectConfiguration.class);
     
-    public static final String          JAVA_COMPILER_PROPERTY = "drools.dialect.java.compiler";
-
-    public enum CompilerType {
-        ECLIPSE, JANINO, NATIVE
-    }
-
     // This should be in alphabetic order to search with BinarySearch
     protected static final String[]  LANGUAGE_LEVELS = new String[]{"1.5", "1.6", "1.7", "1.8", "10", "11", "12", "9"};
 
@@ -138,10 +139,6 @@ public class JavaDialectConfiguration
             default :
                 throw new RuntimeException( "value '" + compiler + "' is not a valid compiler" );
         }
-    }
-
-    public CompilerType getCompiler() {
-        return this.compiler;
     }
 
     /**

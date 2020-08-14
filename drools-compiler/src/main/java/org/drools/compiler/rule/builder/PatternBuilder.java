@@ -58,7 +58,6 @@ import org.drools.compiler.lang.descr.PredicateDescr;
 import org.drools.compiler.lang.descr.RelationalExprDescr;
 import org.drools.compiler.lang.descr.ReturnValueRestrictionDescr;
 import org.drools.compiler.rule.builder.XpathAnalysis.XpathPart;
-import org.drools.compiler.rule.builder.dialect.java.JavaDialect;
 import org.drools.compiler.rule.builder.util.ConstraintUtil;
 import org.drools.core.addon.TypeResolver;
 import org.drools.core.base.ClassFieldReader;
@@ -1398,7 +1397,7 @@ public class PatternBuilder
         Arrays.sort(previousDeclarations, SortDeclarations.instance);
         Arrays.sort(localDeclarations, SortDeclarations.instance);
 
-        boolean isJavaEval = isEvalExpression && context.getDialect() instanceof JavaDialect;
+        boolean isJavaEval = isEvalExpression && context.getDialect().isJava();
 
         if (isJavaEval) {
             final PredicateConstraint predicateConstraint = new PredicateConstraint(null,

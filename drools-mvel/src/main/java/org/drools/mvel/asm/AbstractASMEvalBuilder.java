@@ -36,9 +36,9 @@ import org.drools.core.spi.DeclarationScopeResolver;
 
 import static org.drools.compiler.rule.builder.PatternBuilder.buildAnalysis;
 import static org.drools.compiler.rule.builder.PatternBuilder.createImplicitBindings;
-import static org.drools.compiler.rule.builder.dialect.java.JavaRuleBuilderHelper.createVariableContext;
-import static org.drools.compiler.rule.builder.dialect.java.JavaRuleBuilderHelper.generateMethodTemplate;
-import static org.drools.compiler.rule.builder.dialect.java.JavaRuleBuilderHelper.registerInvokerBytecode;
+import static org.drools.mvel.java.JavaRuleBuilderHelper.createVariableContext;
+import static org.drools.mvel.java.JavaRuleBuilderHelper.generateMethodTemplate;
+import static org.drools.mvel.java.JavaRuleBuilderHelper.registerInvokerBytecode;
 
 public abstract class AbstractASMEvalBuilder implements RuleConditionBuilder {
     public RuleConditionElement build(RuleBuildContext context, BaseDescr descr) {

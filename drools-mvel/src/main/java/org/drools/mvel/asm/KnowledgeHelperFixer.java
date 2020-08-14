@@ -1,11 +1,9 @@
 /*
- * Copyright 2005 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,13 +12,13 @@
  * limitations under the License.
  */
 
-package org.drools.compiler.rule.builder.dialect.java;
-
-import org.mvel2.Macro;
-import org.mvel2.MacroProcessor;
+package org.drools.mvel.asm;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.mvel2.Macro;
+import org.mvel2.MacroProcessor;
 
 public class KnowledgeHelperFixer {
     private static final Map<String, Macro> macros = new HashMap<String, Macro>();

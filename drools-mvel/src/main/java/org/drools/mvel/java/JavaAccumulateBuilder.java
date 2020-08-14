@@ -1,12 +1,10 @@
 /*
- * Copyright 2006 Red Hat, Inc. and/or its affiliates.
- * 
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,7 +12,7 @@
  * limitations under the License.
  */
 
-package org.drools.compiler.rule.builder.dialect.java;
+package org.drools.mvel.java;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,7 +36,6 @@ import org.drools.compiler.rule.builder.AccumulateBuilder;
 import org.drools.compiler.rule.builder.RuleBuildContext;
 import org.drools.compiler.rule.builder.RuleConditionBuilder;
 import org.drools.compiler.rule.builder.dialect.java.parser.JavaLocalDeclarationDescr;
-import org.drools.compiler.rule.builder.dialect.mvel.MVELExprAnalyzer;
 import org.drools.compiler.rule.builder.util.AccumulateUtil;
 import org.drools.compiler.rule.builder.util.PackageBuilderUtil;
 import org.drools.core.base.accumulators.JavaAccumulatorFunctionExecutor;
@@ -52,16 +49,17 @@ import org.drools.core.rule.MutableTypeConstraint;
 import org.drools.core.rule.Pattern;
 import org.drools.core.rule.RuleConditionElement;
 import org.drools.core.rule.SingleAccumulate;
-import org.drools.core.rule.constraint.MvelConstraint;
 import org.drools.core.spi.Accumulator;
 import org.drools.core.spi.Constraint;
 import org.drools.core.spi.DeclarationScopeResolver;
 import org.drools.core.spi.InternalReadAccessor;
 import org.drools.core.util.index.IndexUtil;
+import org.drools.mvel.MVELConstraint;
+import org.drools.mvel.builder.MVELExprAnalyzer;
 import org.kie.api.runtime.rule.AccumulateFunction;
 
-import static org.drools.compiler.rule.builder.dialect.java.JavaRuleBuilderHelper.createVariableContext;
-import static org.drools.compiler.rule.builder.dialect.java.JavaRuleBuilderHelper.generateTemplates;
+import static org.drools.mvel.java.JavaRuleBuilderHelper.createVariableContext;
+import static org.drools.mvel.java.JavaRuleBuilderHelper.generateTemplates;
 
 /**
  * A builder for the java dialect accumulate version
@@ -203,7 +201,7 @@ public class JavaAccumulateBuilder
                                                            "Duplicate declaration for variable '" + fc.getBind() + "' in the rule '" + context.getRule().getName() + "'" ) );
                 } else {
                     Declaration inner = context.getDeclarationResolver().getDeclaration( fc.getBind() );
-                    Constraint c = new MvelConstraint( Collections.singletonList( context.getPkg().getName() ),
+                    Constraint c = new MVELConstraint( Collections.singletonList( context.getPkg().getName() ),
                                                        index >= 0
                                                             ? "this[ " + index + " ] == " + fc.getBind()
                                                             : "this == " + fc.getBind(),

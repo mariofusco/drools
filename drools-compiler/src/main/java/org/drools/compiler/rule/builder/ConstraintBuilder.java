@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.drools.compiler.compiler.AnalysisResult;
 import org.drools.compiler.compiler.DialectConfiguration;
+import org.drools.compiler.compiler.JavaConfiguration;
 import org.drools.compiler.lang.descr.BaseDescr;
 import org.drools.compiler.lang.descr.LiteralRestrictionDescr;
 import org.drools.compiler.lang.descr.OperatorDescr;
@@ -53,6 +54,8 @@ public interface ConstraintBuilder {
     static ConstraintBuilder get() {
         return Holder.cBuilder;
     }
+
+    DialectConfiguration createJavaDialectConfiguration();
 
     DialectConfiguration createMVELDialectConfiguration();
 
@@ -131,6 +134,11 @@ public interface ConstraintBuilder {
 
     enum DummyConstraintBuilder implements ConstraintBuilder {
         INSTANCE;
+
+        @Override
+        public DialectConfiguration createJavaDialectConfiguration() {
+            return new JavaConfiguration();
+        }
 
         @Override
         public DialectConfiguration createMVELDialectConfiguration() {

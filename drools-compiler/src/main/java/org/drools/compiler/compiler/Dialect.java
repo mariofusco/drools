@@ -126,4 +126,6 @@ public interface Dialect {
     PackageRegistry getPackageRegistry();
 
     default boolean isStrictMode() { return true; }
+
+    default boolean isJava() { return true; }
 }

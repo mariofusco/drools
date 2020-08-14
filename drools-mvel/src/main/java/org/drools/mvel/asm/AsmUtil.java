@@ -28,7 +28,7 @@ import org.drools.compiler.lang.descr.BaseDescr;
 import org.drools.compiler.lang.descr.FunctionDescr;
 import org.drools.compiler.lang.descr.PackageDescr;
 import org.drools.compiler.rule.builder.RuleBuildContext;
-import org.drools.compiler.rule.builder.dialect.java.JavaAnalysisResult;
+import org.drools.mvel.java.JavaAnalysisResult;
 import org.drools.compiler.rule.builder.dialect.java.parser.JavaBlockDescr;
 import org.drools.compiler.rule.builder.dialect.java.parser.JavaInterfacePointsDescr;
 import org.drools.compiler.rule.builder.dialect.java.parser.JavaLocalDeclarationDescr;

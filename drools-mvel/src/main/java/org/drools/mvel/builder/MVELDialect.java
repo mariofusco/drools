@@ -77,7 +77,7 @@ import org.drools.compiler.rule.builder.RuleConditionBuilder;
 import org.drools.compiler.rule.builder.SalienceBuilder;
 import org.drools.compiler.rule.builder.WindowReferenceBuilder;
 import org.drools.compiler.rule.builder.dialect.DialectUtil;
-import org.drools.compiler.rule.builder.dialect.java.JavaFunctionBuilder;
+import org.drools.mvel.java.JavaFunctionBuilder;
 import org.drools.core.addon.TypeResolver;
 import org.drools.core.base.EvaluatorWrapper;
 import org.drools.core.common.InternalWorkingMemory;
@@ -465,6 +465,11 @@ public class MVELDialect
     @Override
     public boolean isStrictMode() {
         return strictMode;
+    }
+
+    @Override
+    public boolean isJava() {
+        return false;
     }
 
     public void setStrictMode(boolean strictMode) {
