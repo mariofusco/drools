@@ -14,6 +14,7 @@
 
 package org.drools.core.base;
 
+import org.drools.core.rule.DialectRuntimeData;
 import org.drools.core.spi.InternalReadAccessor;
 import org.kie.api.internal.utils.ServiceRegistry;
 
@@ -27,4 +28,6 @@ public interface CoreComponentsBuilder {
     }
 
     InternalReadAccessor getReadAcessor( String className, String expr, boolean typesafe, Class<?> returnType);
+
+    Object evaluateMvelExpression(DialectRuntimeData data, ClassLoader classLoader, String expr);
 }

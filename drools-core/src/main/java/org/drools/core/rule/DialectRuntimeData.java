@@ -18,6 +18,7 @@ package org.drools.core.rule;
 
 import org.drools.core.definitions.impl.KnowledgePackageImpl;
 import org.drools.core.definitions.rule.impl.RuleImpl;
+import org.drools.core.spi.InternalReadAccessor;
 
 public interface DialectRuntimeData extends Cloneable {
     void removeRule( KnowledgePackageImpl pkg, RuleImpl rule );
@@ -45,4 +46,8 @@ public interface DialectRuntimeData extends Cloneable {
     void onBeforeExecute();
 
     default void resetParserConfiguration() { }
+
+    default void compile(InternalReadAccessor reader) {
+        throw new UnsupportedOperationException();
+    }
 }

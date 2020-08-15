@@ -75,6 +75,7 @@ public class MVELAnalysisResult
         this.mvelVariables = mvelVariables;
     }
 
+    @Override
     public Class<?> getReturnType() {
         return returnType;
     }

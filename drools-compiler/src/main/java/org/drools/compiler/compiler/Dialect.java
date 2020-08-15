@@ -128,4 +128,8 @@ public interface Dialect {
     default boolean isStrictMode() { return true; }
 
     default boolean isJava() { return true; }
+
+    default void addSrc(String resourceName, byte[] content) {
+        throw new UnsupportedOperationException();
+    }
 }

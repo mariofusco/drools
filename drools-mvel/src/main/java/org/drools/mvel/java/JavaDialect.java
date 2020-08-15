@@ -85,13 +85,7 @@ import org.drools.compiler.rule.builder.RuleConditionBuilder;
 import org.drools.compiler.rule.builder.SalienceBuilder;
 import org.drools.compiler.rule.builder.WindowReferenceBuilder;
 import org.drools.compiler.rule.builder.dialect.DialectUtil;
-import org.drools.compiler.rule.builder.dialect.asm.ASMConsequenceStubBuilder;
-import org.drools.compiler.rule.builder.dialect.asm.ASMEvalStubBuilder;
-import org.drools.compiler.rule.builder.dialect.asm.ASMPredicateStubBuilder;
-import org.drools.compiler.rule.builder.dialect.asm.ASMReturnValueStubBuilder;
-import org.drools.compiler.rule.builder.dialect.mvel.MVELEnabledBuilder;
-import org.drools.compiler.rule.builder.dialect.mvel.MVELFromBuilder;
-import org.drools.compiler.rule.builder.dialect.mvel.MVELSalienceBuilder;
+import org.drools.core.addon.TypeResolver;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.definitions.rule.impl.RuleImpl;
 import org.drools.core.io.internal.InternalResource;
@@ -101,10 +95,16 @@ import org.drools.core.rule.LineMappings;
 import org.drools.core.spi.Wireable;
 import org.drools.core.util.IoUtils;
 import org.drools.core.util.StringUtils;
+import org.drools.mvel.asm.ASMConsequenceStubBuilder;
+import org.drools.mvel.asm.ASMEvalStubBuilder;
+import org.drools.mvel.asm.ASMPredicateStubBuilder;
+import org.drools.mvel.asm.ASMReturnValueStubBuilder;
+import org.drools.mvel.builder.MVELEnabledBuilder;
+import org.drools.mvel.builder.MVELFromBuilder;
+import org.drools.mvel.builder.MVELSalienceBuilder;
 import org.kie.api.io.Resource;
 import org.kie.internal.builder.KnowledgeBuilderResult;
 import org.kie.internal.jci.CompilationProblem;
-import org.drools.core.addon.TypeResolver;
 
 public class JavaDialect
         implements
@@ -586,11 +586,10 @@ public class JavaDialect
         this.packageRegistry.addStaticImport(importDescr);
     }
 
-    public void addSrc(String resourceName,
-                       byte[] content) {
+    @Override
+    public void addSrc(String resourceName, byte[] content) {
 
-        src.add(resourceName,
-                content);
+        src.add(resourceName, content);
 
         this.errorHandlers.put(resourceName,
                                new SrcErrorHandler("Src compile error"));

@@ -16,6 +16,7 @@
 package org.drools.compiler.rule.builder;
 
 
+import java.util.List;
 import java.util.Map;
 
 import org.drools.compiler.compiler.AnalysisResult;
@@ -31,6 +32,7 @@ import org.drools.core.base.ValueType;
 import org.drools.core.base.evaluators.EvaluatorDefinition;
 import org.drools.core.rule.Declaration;
 import org.drools.core.rule.Pattern;
+import org.drools.core.rule.QueryArgument;
 import org.drools.core.spi.Constraint;
 import org.drools.core.spi.Evaluator;
 import org.drools.core.spi.FieldValue;
@@ -132,6 +134,8 @@ public interface ConstraintBuilder {
 
     FieldValue getMvelFieldValue(RuleBuildContext context, ValueType vtype, String value);
 
+    QueryArgument buildExpressionQueryArgument(RuleBuildContext context, List<Declaration> declarations, String expression);
+
     enum DummyConstraintBuilder implements ConstraintBuilder {
         INSTANCE;
 
@@ -212,6 +216,11 @@ public interface ConstraintBuilder {
 
         @Override
         public FieldValue getMvelFieldValue( RuleBuildContext context, ValueType vtype, String value ) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public QueryArgument buildExpressionQueryArgument(RuleBuildContext context, List<Declaration> declarations, String expression) {
             throw new UnsupportedOperationException();
         }
     }

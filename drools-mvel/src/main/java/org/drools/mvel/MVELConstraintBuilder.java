@@ -14,12 +14,17 @@
 
 package org.drools.mvel;
 
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.Serializable;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -45,9 +50,11 @@ import org.drools.core.base.ValueType;
 import org.drools.core.base.evaluators.EvaluatorDefinition;
 import org.drools.core.base.evaluators.Operator;
 import org.drools.core.common.InternalWorkingMemory;
+import org.drools.core.reteoo.LeftTuple;
 import org.drools.core.reteoo.RuleTerminalNode;
 import org.drools.core.rule.Declaration;
 import org.drools.core.rule.Pattern;
+import org.drools.core.rule.QueryArgument;
 import org.drools.core.rule.constraint.EvaluatorConstraint;
 import org.drools.core.spi.Constraint;
 import org.drools.core.spi.DeclarationScopeResolver;
@@ -85,6 +92,7 @@ import static org.drools.compiler.rule.builder.PatternBuilder.registerDescrBuild
 import static org.drools.compiler.rule.builder.util.PatternBuilderUtil.getNormalizeDate;
 import static org.drools.compiler.rule.builder.util.PatternBuilderUtil.normalizeEmptyKeyword;
 import static org.drools.compiler.rule.builder.util.PatternBuilderUtil.normalizeStringOperator;
+import static org.drools.core.rule.QueryArgument.Declr.evaluateDeclaration;
 import static org.drools.core.rule.constraint.EvaluatorHelper.WM_ARGUMENT;
 import static org.drools.core.util.ClassUtils.convertFromPrimitiveType;
 import static org.drools.mvel.asm.AsmUtil.copyErrorLocation;
@@ -802,5 +810,81 @@ public class MVELConstraintBuilder implements ConstraintBuilder {
             // we will fallback to regular preducates, so don't raise an error
         }
         return null;
+    }
+
+    @Override
+    public QueryArgument buildExpressionQueryArgument(RuleBuildContext context, List<Declaration> declarations, String expression) {
+        return new Expression( declarations, expression, getParserContext(context) );
+    }
+
+    private ParserContext getParserContext(RuleBuildContext context) {
+        return MVELCoreComponentsBuilder.getParserContext( context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" ), context.getKnowledgeBuilder().getRootClassLoader() );
+    }
+
+    public static class Expression implements QueryArgument {
+        private List<Declaration> declarations;
+        private String expression;
+        private ParserContext parserContext;
+
+        private transient Class<?> argumentClass;
+        private transient Serializable mvelExpr;
+
+        public Expression() { }
+
+        public Expression( List<Declaration> declarations, String expression, ParserContext parserContext ) {
+            this.declarations = declarations;
+            this.expression = expression;
+            this.parserContext = parserContext;
+            init();
+        }
+
+        private void init() {
+            Map<String, Class> inputs = new HashMap<String, Class>();
+            for (Declaration d : declarations) {
+                inputs.put(d.getBindingName(), d.getDeclarationClass());
+            }
+            parserContext.setInputs(inputs);
+
+            this.argumentClass = MVEL.analyze( expression, parserContext );
+            this.mvelExpr = MVEL.compileExpression( expression, parserContext );
+        }
+
+        @Override
+        public Object getValue( InternalWorkingMemory wm, LeftTuple leftTuple ) {
+            Map<String, Object> vars = new HashMap<String, Object>();
+            for (Declaration d : declarations) {
+                vars.put(d.getBindingName(), evaluateDeclaration( wm, leftTuple, d ));
+            }
+            return MVELSafeHelper.getEvaluator().executeExpression( this.mvelExpr, vars );
+        }
+
+        @Override
+        public QueryArgument normalize( ClassLoader classLoader ) {
+            parserContext.getParserConfiguration().setClassLoader( classLoader );
+            return new Expression( declarations, expression, parserContext );
+        }
+
+        @Override
+        public void writeExternal( ObjectOutput out ) throws IOException {
+            out.writeObject( declarations );
+            out.writeObject( expression );
+            out.writeObject( parserContext );
+        }
+
+        @Override
+        public void readExternal( ObjectInput in ) throws IOException, ClassNotFoundException {
+            declarations = (List<Declaration>) in.readObject();
+            expression = (String) in.readObject();
+            parserContext = (ParserContext) in.readObject();
+
+            ParserConfiguration newConf = new ParserConfiguration();
+            newConf.setImports( parserContext.getParserConfiguration().getImports() );
+            newConf.setPackageImports( parserContext.getParserConfiguration().getPackageImports() );
+            parserContext = new ParserContext( newConf );
+            parserContext.setInputs( parserContext.getInputs() );
+            parserContext.setVariables( parserContext.getVariables() );
+
+            init();
+        }
     }
 }

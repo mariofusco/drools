@@ -91,4 +91,9 @@ public class JavaAnalysisResult implements AnalysisResult {
     public void setBlockDescrs(JavaContainerBlockDescr blocks) {
         this.blocks = blocks;
     }
+
+    @Override
+    public Class<?> getReturnType() {
+        throw new UnsupportedOperationException();
+    }
 }
