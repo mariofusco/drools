@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Person;
+import org.drools.mvel.compiler.Person;
 import org.drools.core.common.InternalFactHandle;
 import org.junit.Test;
 import org.kie.api.KieBase;

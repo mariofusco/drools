@@ -15,17 +15,14 @@
 
 package org.drools.mvel.compiler.rule.builder.dialect.mvel;
 
-import org.drools.mvel.compiler.Cheese;
-import org.drools.mvel.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
-import org.drools.mvel.compiler.builder.impl.KnowledgeBuilderImpl;
-import org.drools.mvel.compiler.compiler.DialectCompiletimeRegistry;
-import org.drools.mvel.compiler.lang.descr.AccumulateDescr;
-import org.drools.mvel.compiler.lang.descr.PackageDescr;
-import org.drools.mvel.compiler.lang.descr.PatternDescr;
-import org.drools.mvel.compiler.lang.descr.RuleDescr;
-import org.drools.mvel.compiler.reteoo.MockLeftTupleSink;
-import org.drools.mvel.compiler.rule.builder.RuleBuildContext;
-import org.drools.core.base.mvel.MVELCompileable;
+import org.drools.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
+import org.drools.compiler.builder.impl.KnowledgeBuilderImpl;
+import org.drools.compiler.compiler.DialectCompiletimeRegistry;
+import org.drools.compiler.lang.descr.AccumulateDescr;
+import org.drools.compiler.lang.descr.PackageDescr;
+import org.drools.compiler.lang.descr.PatternDescr;
+import org.drools.compiler.lang.descr.RuleDescr;
+import org.drools.compiler.rule.builder.RuleBuildContext;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.impl.InternalKnowledgeBase;
@@ -34,7 +31,12 @@ import org.drools.core.impl.StatefulKnowledgeSessionImpl;
 import org.drools.core.reteoo.InitialFactImpl;
 import org.drools.core.reteoo.LeftTupleImpl;
 import org.drools.core.rule.Accumulate;
-import org.drools.core.rule.MVELDialectRuntimeData;
+import org.drools.mvel.MVELDialectRuntimeData;
+import org.drools.mvel.builder.MVELAccumulateBuilder;
+import org.drools.mvel.builder.MVELDialect;
+import org.drools.mvel.compiler.Cheese;
+import org.drools.mvel.compiler.reteoo.MockLeftTupleSink;
+import org.drools.mvel.expr.MVELCompileable;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -72,7 +74,7 @@ public class MVELAccumulateBuilderTest {
         final Accumulate acc = (Accumulate) builder.build( context,
                                                            accDescr );
 
-        ((MVELCompileable) acc.getAccumulators()[0]).compile( (MVELDialectRuntimeData) pkgBuilder.getPackageRegistry( pkg.getName() ).getDialectRuntimeRegistry().getDialectData( "mvel" ) );
+        (( MVELCompileable ) acc.getAccumulators()[0]).compile( ( MVELDialectRuntimeData ) pkgBuilder.getPackageRegistry( pkg.getName() ).getDialectRuntimeRegistry().getDialectData( "mvel" ) );
 
         InternalKnowledgeBase kBase = KnowledgeBaseFactory.newKnowledgeBase();
         StatefulKnowledgeSessionImpl ksession = (StatefulKnowledgeSessionImpl)kBase.newKieSession();

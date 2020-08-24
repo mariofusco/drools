@@ -37,7 +37,7 @@ public class MessageImplTest {
         String dsl = "bananna\n";
 
         //Some suitably valid DRL
-        String drl = "import org.drools.compiler.Person;\n"
+        String drl = "import org.drools.mvel.compiler.Person;\n"
                 + "rule R1\n"
                 + "when\n"
                 + "There is a Person\n"
@@ -63,7 +63,7 @@ public class MessageImplTest {
         String dsl1 = "bananna\n";
 
         //Some suitably valid DRL
-        String drl1 = "import org.drools.compiler.Person;\n"
+        String drl1 = "import org.drools.mvel.compiler.Person;\n"
                 + "rule R1\n"
                 + "when\n"
                 + "There is a Person\n"

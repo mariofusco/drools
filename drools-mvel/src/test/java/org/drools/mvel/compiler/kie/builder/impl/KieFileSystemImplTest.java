@@ -18,12 +18,14 @@ package org.drools.mvel.compiler.kie.builder.impl;
 
 import java.util.Collection;
 
-import org.drools.mvel.compiler.compiler.io.memory.MemoryFileSystem;
+import org.drools.compiler.compiler.io.memory.MemoryFileSystem;
+import org.drools.compiler.kie.builder.impl.KieFileSystemImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.builder.KieFileSystem;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class KieFileSystemImplTest {
 

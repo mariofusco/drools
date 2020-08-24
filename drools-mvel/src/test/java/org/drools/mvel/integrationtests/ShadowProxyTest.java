@@ -18,11 +18,11 @@ package org.drools.mvel.integrationtests;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.drools.compiler.Cheesery;
-import org.drools.compiler.Child;
+import org.drools.mvel.compiler.Cheesery;
+import org.drools.mvel.compiler.Child;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.MockPersistentSet;
-import org.drools.compiler.ObjectWithSet;
+import org.drools.mvel.compiler.MockPersistentSet;
+import org.drools.mvel.compiler.ObjectWithSet;
 import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.runtime.KieSession;

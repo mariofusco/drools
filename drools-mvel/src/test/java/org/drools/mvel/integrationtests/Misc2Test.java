@@ -43,22 +43,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.drools.compiler.Address;
-import org.drools.compiler.Cheese;
-import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Message;
-import org.drools.compiler.Person;
-import org.drools.compiler.PersonHolder;
 import org.drools.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
 import org.drools.compiler.builder.impl.KnowledgeBuilderImpl;
 import org.drools.compiler.compiler.DrlParser;
 import org.drools.compiler.compiler.DroolsParserException;
-import org.drools.mvel.integrationtests.facts.FactWithList;
-import org.drools.mvel.integrationtests.facts.FactWithString;
 import org.drools.compiler.lang.descr.PackageDescr;
 import org.drools.compiler.lang.descr.PatternDescr;
 import org.drools.compiler.lang.descr.RuleDescr;
-import org.drools.compiler.rule.builder.dialect.mvel.MVELDialectConfiguration;
 import org.drools.core.ClassObjectFilter;
 import org.drools.core.InitialFact;
 import org.drools.core.WorkingMemory;
@@ -88,6 +79,15 @@ import org.drools.core.reteoo.ReteDumper;
 import org.drools.core.reteoo.SegmentMemory;
 import org.drools.core.spi.KnowledgeHelper;
 import org.drools.core.spi.Salience;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.builder.MVELDialectConfiguration;
+import org.drools.mvel.compiler.Address;
+import org.drools.mvel.compiler.Cheese;
+import org.drools.mvel.compiler.Message;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.compiler.PersonHolder;
+import org.drools.mvel.integrationtests.facts.FactWithList;
+import org.drools.mvel.integrationtests.facts.FactWithString;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.api.KieBase;
@@ -142,7 +142,7 @@ import org.slf4j.LoggerFactory;
 
 import static java.util.Arrays.asList;
 
-import static org.drools.compiler.TestUtil.assertDrlHasCompilationError;
+import static org.drools.mvel.compiler.TestUtil.assertDrlHasCompilationError;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -361,7 +361,7 @@ public class Misc2Test extends CommonTestMethodBase {
     @Test
     public void testEvalBeforeNot() {
         String str =
-                "package org.drools.compiler.integration; \n" +
+                "package org.drools.mvel.compiler.integration; \n" +
                 "import " + A.class.getCanonicalName() + ";\n" +
                 "global java.util.List list;\n" +
                 "\n" +
@@ -401,7 +401,7 @@ public class Misc2Test extends CommonTestMethodBase {
     public void testReuseAgendaAfterException() throws Exception {
         // JBRULES-3677
 
-        String str = "import org.drools.compiler.Person;\n" +
+        String str = "import org.drools.mvel.compiler.Person;\n" +
                      "global java.util.List results;" +
                      "rule R1\n" +
                      "ruleflow-group \"test\"\n" +
@@ -524,7 +524,7 @@ public class Misc2Test extends CommonTestMethodBase {
     @Test
     public void testBigDecimalComparison() throws Exception {
         // JBRULES-3715
-        String str = "import org.drools.compiler.Person;\n" +
+        String str = "import org.drools.mvel.compiler.Person;\n" +
                      "rule \"Big Decimal Comparison\"\n" +
                      "    dialect \"mvel\"\n" +
                      "when\n" +
@@ -722,7 +722,7 @@ public class Misc2Test extends CommonTestMethodBase {
     public void testPropertyReactiveAccumulateModification() {
         // DROOLS-16
         String str =
-                "package org.drools.compiler.test;\n" +
+                "package org.drools.mvel.compiler.test;\n" +
                 "\n" +
                 "declare Neuron\n" +
                 "@propertyReactive\n" +
@@ -3274,7 +3274,7 @@ public class Misc2Test extends CommonTestMethodBase {
     @Test
     public void testFactStealing() throws Exception {
         String drl = "package org.drools.test; \n" +
-                     "import org.drools.compiler.Person; \n " +
+                     "import org.drools.mvel.compiler.Person; \n " +
                      "global java.util.List list; \n" +
                      "\n" +
                      "\n" +
@@ -3706,7 +3706,7 @@ public class Misc2Test extends CommonTestMethodBase {
     public void testLockOnActiveWithModify() {
         String drl = "" +
                      "package org.drools.test; \n" +
-                     "import org.drools.compiler.Person; \n" +
+                     "import org.drools.mvel.compiler.Person; \n" +
                      "" +
                      "rule \"Rule1\" \n" +
                      "@Propagation(EAGER) \n" +
@@ -3748,7 +3748,7 @@ public class Misc2Test extends CommonTestMethodBase {
         // DROOLS-280
         String drl = "" +
                      "package org.drools.test; \n" +
-                     "import org.drools.compiler.Person; \n" +
+                     "import org.drools.mvel.compiler.Person; \n" +
                      "" +
                      "rule \"Rule1\" \n" +
                      "salience 1 \n" +
@@ -3954,7 +3954,7 @@ public class Misc2Test extends CommonTestMethodBase {
 
     @Test
     public void testManyAccumulatesWithSubnetworks() {
-        String drl = "package org.drools.compiler.tests; \n" +
+        String drl = "package org.drools.mvel.compiler.tests; \n" +
                      "" +
                      "declare FunctionResult\n" +
                      "    father  : Applied\n" +
@@ -4017,7 +4017,7 @@ public class Misc2Test extends CommonTestMethodBase {
 
     @Test
     public void testLinkRiaNodesWithSubSubNetworks() {
-        String drl = "package org.drools.compiler.tests; \n" +
+        String drl = "package org.drools.mvel.compiler.tests; \n" +
                      "" +
                      "import java.util.*; \n" +
                      "" +
@@ -4075,7 +4075,7 @@ public class Misc2Test extends CommonTestMethodBase {
 
     @Test
     public void testDynamicSalienceUpdate() {
-        String drl = "package org.drools.compiler.tests; \n" +
+        String drl = "package org.drools.mvel.compiler.tests; \n" +
                      "" +
                      "import java.util.*; \n" +
                      "" +
@@ -4189,7 +4189,7 @@ public class Misc2Test extends CommonTestMethodBase {
     public void testInsertModifyInteractionsWithLockOnActive() {
         String drl =
                 "package org.drools.mvel.integrationtests;\n" +
-                "import org.drools.compiler.Message;\n" +
+                "import org.drools.mvel.compiler.Message;\n" +
                 "global Message m2;\n" +
                 "rule r1 lock-on-active\n" +
                 "    when\n" +
@@ -5671,7 +5671,7 @@ public class Misc2Test extends CommonTestMethodBase {
     public void testCrossNoLoopWithNodeSharing() throws Exception {
         // DROOLS-501 Propgation context is not set correctly when nodes are shared
         // This test was looping in 6.1.0-Beta4
-        String drl = "package org.drools.compiler.loop " +
+        String drl = "package org.drools.mvel.compiler.loop " +
 
                      "rule 'Rule 1' " +
                      "  agenda-group 'Start' " +
@@ -6981,8 +6981,8 @@ public class Misc2Test extends CommonTestMethodBase {
     public void testMvelConstraintErrorMessageOnAlpha() throws Exception {
         // DROOLS-687
         String drl =
-                " import org.drools.compiler.Person; " +
-                " import org.drools.compiler.Address; " +
+                " import org.drools.mvel.compiler.Person; " +
+                " import org.drools.mvel.compiler.Address; " +
                 " rule 'hello person' " +
                 " when " +
                 " Person( address.street == 'abbey' ) " +
@@ -7007,8 +7007,8 @@ public class Misc2Test extends CommonTestMethodBase {
     public void testMvelConstraintErrorMessageOnBeta() throws Exception {
         // DROOLS-687
         String drl =
-                " import org.drools.compiler.Person; " +
-                " import org.drools.compiler.Address; " +
+                " import org.drools.mvel.compiler.Person; " +
+                " import org.drools.mvel.compiler.Address; " +
                 " rule 'hello person' " +
                 " when " +
                 " $s : String( ) " +
@@ -7141,7 +7141,7 @@ public class Misc2Test extends CommonTestMethodBase {
     public void testJittedConstraintStringAndLong() {
         // DROOLS-740
         String drl =
-                " import org.drools.compiler.Person; " +
+                " import org.drools.mvel.compiler.Person; " +
                 " rule 'hello person' " +
                 " when " +
                 " Person( name == \"Elizabeth\" + new Long(2L) ) " +
@@ -7152,7 +7152,7 @@ public class Misc2Test extends CommonTestMethodBase {
                                              .build()
                                              .newKieSession();
 
-        ksession.insert( new org.drools.compiler.Person( "Elizabeth2", 88 ) );
+        ksession.insert( new org.drools.mvel.compiler.Person( "Elizabeth2", 88 ) );
         assertEquals( 1, ksession.fireAllRules() );
     }
 

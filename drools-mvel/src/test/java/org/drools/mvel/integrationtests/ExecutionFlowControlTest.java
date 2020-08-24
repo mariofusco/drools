@@ -19,16 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.drools.compiler.Cell;
-import org.drools.compiler.Cheese;
+import org.drools.mvel.compiler.Cell;
+import org.drools.mvel.compiler.Cheese;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.FactA;
-import org.drools.compiler.Foo;
-import org.drools.compiler.Message;
-import org.drools.compiler.Neighbor;
-import org.drools.compiler.Person;
-import org.drools.compiler.PersonInterface;
-import org.drools.compiler.Pet;
+import org.drools.mvel.compiler.FactA;
+import org.drools.mvel.compiler.Foo;
+import org.drools.mvel.compiler.Message;
+import org.drools.mvel.compiler.Neighbor;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.compiler.PersonInterface;
+import org.drools.mvel.compiler.Pet;
 import org.drools.core.common.InternalAgenda;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.phreak.RuleAgendaItem;
@@ -938,7 +938,7 @@ public class ExecutionFlowControlTest extends CommonTestMethodBase {
         // JBRULES-3234
 
         String str = "package org.kie.test \n"
-                     + "import org.drools.compiler.Person; \n"
+                     + "import org.drools.mvel.compiler.Person; \n"
                      + "rule 'Rule 1' agenda-group 'g1' lock-on-active	when \n"
                      + "		$p : Person( age != 35 ) \n"
                      + "	then \n"

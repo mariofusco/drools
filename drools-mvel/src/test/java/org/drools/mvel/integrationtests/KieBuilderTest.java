@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import org.assertj.core.api.Assertions;
-import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Message;
 import org.drools.compiler.kie.builder.impl.InternalKieModule;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.Message;
 import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
@@ -281,7 +281,7 @@ public class KieBuilderTest extends CommonTestMethodBase {
 
         final KieContainer kieContainer = ks.newKieContainer(km.getReleaseId());
         try {
-            final Class<?> messageClass = kieContainer.getClassLoader().loadClass("org.drools.compiler.JavaSourceMessage");
+            final Class<?> messageClass = kieContainer.getClassLoader().loadClass("org.drools.mvel.compiler.JavaSourceMessage");
             assertNotNull(messageClass);
         } catch (final ClassNotFoundException e) {
             throw new IllegalStateException("Loading the java class failed.", e);
@@ -337,7 +337,7 @@ public class KieBuilderTest extends CommonTestMethodBase {
 
         final KieContainer kieContainer = ks.newKieContainer(km.getReleaseId());
         try {
-            final Class<?> messageClass = kieContainer.getClassLoader().loadClass("org.drools.compiler.JavaSourceMessage");
+            final Class<?> messageClass = kieContainer.getClassLoader().loadClass("org.drools.mvel.compiler.JavaSourceMessage");
             assertNotNull(messageClass);
         } catch (final ClassNotFoundException e) {
             throw new IllegalStateException("Loading the java class failed.", e);

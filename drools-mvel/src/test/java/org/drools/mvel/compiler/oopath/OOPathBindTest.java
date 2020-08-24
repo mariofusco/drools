@@ -46,7 +46,7 @@ public class OOPathBindTest {
 
     public void testBindInteger(final boolean fireUntilHalt) throws InterruptedException, ExecutionException {
         final String drl =
-                "import org.drools.mvel.compiler.oopath.model.*;\n" +
+                "import org.drools.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -100,7 +100,7 @@ public class OOPathBindTest {
     @Test
     public void testBindString() {
         final String drl =
-                "import org.drools.mvel.compiler.oopath.model.*;\n" +
+                "import org.drools.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -115,7 +115,7 @@ public class OOPathBindTest {
     @Test
     public void testBindStringWithConstraint() {
         final String drl =
-                "import org.drools.mvel.compiler.oopath.model.*;\n" +
+                "import org.drools.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -130,7 +130,7 @@ public class OOPathBindTest {
     @Test
     public void testBindStringWithAlphaConstraint() {
         final String drl =
-                "import org.drools.mvel.compiler.oopath.model.*;\n" +
+                "import org.drools.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -145,7 +145,7 @@ public class OOPathBindTest {
     @Test
     public void testBindStringWithBetaConstraint() {
         final String drl =
-                "import org.drools.mvel.compiler.oopath.model.*;\n" +
+                "import org.drools.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -179,7 +179,7 @@ public class OOPathBindTest {
     @Test
     public void testBindObjectFromList() {
         final String drl =
-                "import org.drools.mvel.compiler.oopath.model.*;\n" +
+                "import org.drools.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -208,7 +208,7 @@ public class OOPathBindTest {
     @Test
     public void testBindList() {
         final String drl =
-                "import org.drools.mvel.compiler.oopath.model.*;\n" +
+                "import org.drools.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -246,7 +246,7 @@ public class OOPathBindTest {
     @Test
     public void testBindListWithConstraint() {
         final String drl =
-                "import org.drools.mvel.compiler.oopath.model.*;\n" +
+                "import org.drools.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +

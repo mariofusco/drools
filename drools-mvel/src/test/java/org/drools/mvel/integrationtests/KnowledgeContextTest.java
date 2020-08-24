@@ -19,7 +19,7 @@ package org.drools.mvel.integrationtests;
 import java.util.ArrayList;
 import java.util.List;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Message;
+import org.drools.mvel.compiler.Message;
 import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.runtime.KieSession;

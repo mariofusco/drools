@@ -1,7 +1,5 @@
 package org.drools.mvel.compiler.common;
 
-import org.drools.mvel.compiler.Person;
-import org.drools.mvel.compiler.integrationtests.SerializationHelper;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.impl.EnvironmentFactory;
 import org.drools.core.marshalling.impl.ClassObjectMarshallingStrategyAcceptor;
@@ -9,6 +7,8 @@ import org.drools.core.marshalling.impl.JavaSerializableResolverStrategy;
 import org.drools.core.marshalling.impl.ProtobufMessages;
 import org.drools.core.marshalling.impl.ReadSessionResult;
 import org.drools.core.marshalling.impl.SerializablePlaceholderResolverStrategy;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.integrationtests.SerializationHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

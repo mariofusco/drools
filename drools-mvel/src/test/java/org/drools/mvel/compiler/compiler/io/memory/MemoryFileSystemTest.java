@@ -16,11 +16,12 @@
 
 package org.drools.mvel.compiler.compiler.io.memory;
 
-import org.drools.mvel.compiler.compiler.io.File;
+import org.drools.compiler.compiler.io.File;
+import org.drools.compiler.compiler.io.memory.MemoryFileSystem;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class MemoryFileSystemTest {
 

@@ -18,8 +18,8 @@ package org.drools.mvel.integrationtests;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.drools.compiler.Address;
-import org.drools.compiler.Person;
+import org.drools.mvel.compiler.Address;
+import org.drools.mvel.compiler.Person;
 import org.drools.mvel.integrationtests.DynamicRulesChangesTest.Fire;
 import org.drools.mvel.integrationtests.DynamicRulesChangesTest.Room;
 import org.drools.mvel.integrationtests.DynamicRulesChangesTest.Sprinkler;

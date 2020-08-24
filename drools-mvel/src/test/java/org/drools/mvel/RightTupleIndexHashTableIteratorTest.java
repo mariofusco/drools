@@ -14,6 +14,9 @@
 
 package org.drools.mvel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.drools.core.RuleBaseConfiguration;
 import org.drools.core.base.ClassFieldAccessorCache;
 import org.drools.core.base.ClassFieldAccessorStore;
@@ -23,13 +26,13 @@ import org.drools.core.base.evaluators.Operator;
 import org.drools.core.common.BetaConstraints;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.common.SingleBetaConstraints;
+import org.drools.core.impl.KnowledgeBaseFactory;
 import org.drools.core.reteoo.BetaMemory;
 import org.drools.core.reteoo.LeftTupleImpl;
 import org.drools.core.reteoo.NodeTypeEnums;
 import org.drools.core.reteoo.RightTuple;
 import org.drools.core.reteoo.RightTupleImpl;
 import org.drools.core.rule.Declaration;
-import org.drools.core.rule.MvelConstraintTestUtil;
 import org.drools.core.rule.Pattern;
 import org.drools.core.spi.BetaNodeFieldConstraint;
 import org.drools.core.spi.InternalReadAccessor;
@@ -40,12 +43,8 @@ import org.drools.core.util.index.TupleIndexHashTable;
 import org.drools.core.util.index.TupleIndexHashTable.FieldIndexHashTableFullIterator;
 import org.drools.core.util.index.TupleList;
 import org.junit.Test;
-import org.drools.core.impl.KnowledgeBaseFactory;
 import org.kie.api.KieBase;
 import org.kie.api.runtime.KieSession;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.sameInstance;

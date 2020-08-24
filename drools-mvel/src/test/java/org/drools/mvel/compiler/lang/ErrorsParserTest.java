@@ -16,16 +16,18 @@
 
 package org.drools.mvel.compiler.lang;
 
-import org.drools.mvel.compiler.compiler.DroolsParserException;
-import org.drools.mvel.compiler.lang.dsl.DefaultExpander;
-import org.junit.Test;
-import org.kie.internal.builder.conf.LanguageLevelOption;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-import static org.drools.mvel.compiler.compiler.DRLFactory.buildParser;
+import org.drools.compiler.compiler.DroolsParserException;
+import org.drools.compiler.lang.DRLParser;
+import org.drools.compiler.lang.Expander;
+import org.drools.compiler.lang.dsl.DefaultExpander;
+import org.junit.Test;
+import org.kie.internal.builder.conf.LanguageLevelOption;
+
+import static org.drools.compiler.compiler.DRLFactory.buildParser;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;

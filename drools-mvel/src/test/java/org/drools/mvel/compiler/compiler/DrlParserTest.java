@@ -15,26 +15,27 @@
 
 package org.drools.mvel.compiler.compiler;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
 import java.io.StringReader;
 
 import org.assertj.core.api.Assertions;
-import org.drools.mvel.compiler.lang.Expander;
-import org.drools.mvel.compiler.lang.descr.PackageDescr;
-import org.drools.mvel.compiler.lang.descr.TypeDeclarationDescr;
-import org.drools.mvel.compiler.lang.dsl.DSLMappingFile;
-import org.drools.mvel.compiler.lang.dsl.DSLTokenizedMappingFile;
-import org.drools.mvel.compiler.lang.dsl.DefaultExpander;
-import org.drools.mvel.compiler.lang.dsl.DefaultExpanderResolver;
+import org.drools.compiler.compiler.DrlParser;
+import org.drools.compiler.lang.Expander;
+import org.drools.compiler.lang.descr.PackageDescr;
+import org.drools.compiler.lang.descr.TypeDeclarationDescr;
+import org.drools.compiler.lang.dsl.DSLMappingFile;
+import org.drools.compiler.lang.dsl.DSLTokenizedMappingFile;
+import org.drools.compiler.lang.dsl.DefaultExpander;
+import org.drools.compiler.lang.dsl.DefaultExpanderResolver;
 import org.junit.Test;
+import org.kie.api.io.ResourceType;
 import org.kie.internal.builder.KnowledgeBuilder;
 import org.kie.internal.builder.KnowledgeBuilderErrors;
 import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.builder.conf.LanguageLevelOption;
 import org.kie.internal.io.ResourceFactory;
-import org.kie.api.io.ResourceType;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class DrlParserTest {
 

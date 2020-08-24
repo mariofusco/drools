@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.drools.compiler.Cheese;
-import org.drools.mvel.CommonTestMethodBase;
 import org.drools.compiler.builder.impl.KnowledgeBuilderImpl;
 import org.drools.core.impl.InternalKnowledgeBase;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.Cheese;
 import org.junit.Test;
 import org.kie.api.definition.KiePackage;
 import org.kie.api.runtime.KieSession;

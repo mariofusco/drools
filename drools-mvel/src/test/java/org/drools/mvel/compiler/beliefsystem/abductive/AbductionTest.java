@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.drools.mvel.compiler.CommonTestMethodBase;
 import org.drools.core.BeliefSystemType;
 import org.drools.core.QueryResultsImpl;
 import org.drools.core.SessionConfiguration;
@@ -33,6 +32,7 @@ import org.drools.core.common.EqualityKey;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.impl.KnowledgeBaseFactory;
 import org.drools.core.runtime.rule.impl.FlatQueryResults;
+import org.drools.mvel.CommonTestMethodBase;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.api.KieBase;

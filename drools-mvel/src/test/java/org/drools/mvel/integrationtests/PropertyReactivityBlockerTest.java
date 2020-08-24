@@ -18,13 +18,12 @@ package org.drools.mvel.integrationtests;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.drools.compiler.Address;
-import org.drools.compiler.Cell;
-import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Neighbor;
-import org.drools.compiler.Person;
 import org.drools.core.event.DebugAgendaEventListener;
 import org.drools.core.reteoo.ReteDumper;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.Cell;
+import org.drools.mvel.compiler.Neighbor;
+import org.drools.mvel.compiler.Person;
 import org.junit.Test;
 import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieSession;
@@ -209,11 +208,11 @@ public class PropertyReactivityBlockerTest extends CommonTestMethodBase {
         /* The RHS was wrongly rewritten as:
           { org.kie.api.runtime.rule.FactHandle $n__Handle2__ = drools.getFactHandle($n);
             $n.setValue( $n.getValue() + 1 ); 
-            drools.update( $n__Handle2__, org.drools.core.util.bitmask.EmptyBitMask.get(), org.drools.compiler.Neighbor.class ); }
+            drools.update( $n__Handle2__, org.drools.core.util.bitmask.EmptyBitMask.get(), org.drools.mvel.compiler.Neighbor.class ); }
         instead of:
           { org.kie.api.runtime.rule.FactHandle $n__Handle2__ = drools.getFactHandle($n);
             $n.setValue( $n.getValue() + 1 ); 
-            drools.update( $n__Handle2__, new org.drools.core.util.bitmask.LongBitMask(16L), org.drools.compiler.Cell.class ); }
+            drools.update( $n__Handle2__, new org.drools.core.util.bitmask.LongBitMask(16L), org.drools.mvel.compiler.Cell.class ); }
          */
 
         // making the default explicit:

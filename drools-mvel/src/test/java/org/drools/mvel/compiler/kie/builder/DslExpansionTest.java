@@ -15,6 +15,8 @@
 
 package org.drools.mvel.compiler.kie.builder;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
@@ -23,11 +25,9 @@ import org.kie.api.builder.Message;
 import org.kie.api.builder.ReleaseId;
 import org.kie.api.builder.model.KieModuleModel;
 
-import java.util.List;
-
+import static org.drools.compiler.kie.builder.impl.KieBuilderImpl.generatePomXml;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.drools.mvel.compiler.kie.builder.impl.KieBuilderImpl.generatePomXml;
 
 /**
  * Test for DSL expansion with KieBuilder

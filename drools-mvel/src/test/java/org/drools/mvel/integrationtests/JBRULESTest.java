@@ -16,30 +16,23 @@
 
 package org.drools.mvel.integrationtests;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
-import org.drools.compiler.Bar;
-import org.drools.compiler.Cheese;
-import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.FactA;
-import org.drools.compiler.FactB;
-import org.drools.compiler.Foo;
-import org.drools.compiler.Message;
-import org.drools.compiler.Person;
-import org.drools.compiler.Primitives;
+
 import org.drools.core.rule.MapBackedClassLoader;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.Bar;
+import org.drools.mvel.compiler.Cheese;
+import org.drools.mvel.compiler.FactA;
+import org.drools.mvel.compiler.FactB;
+import org.drools.mvel.compiler.Foo;
+import org.drools.mvel.compiler.Message;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.compiler.Primitives;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kie.api.KieBase;
@@ -55,6 +48,14 @@ import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.io.ResourceFactory;
 import org.mockito.ArgumentCaptor;
 import org.mvel2.MVEL;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class JBRULESTest extends CommonTestMethodBase {
 
@@ -132,7 +133,7 @@ public class JBRULESTest extends CommonTestMethodBase {
 
     @Test
     public void testJBRULES2872() {
-        final String str = "package org.drools.compiler.test\n" +
+        final String str = "package org.drools.mvel.compiler.test\n" +
                 "import org.drools.compiler.FactA\n" +
                 "rule X\n" +
                 "when\n" +

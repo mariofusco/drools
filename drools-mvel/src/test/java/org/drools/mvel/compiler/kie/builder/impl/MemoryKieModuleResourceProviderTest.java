@@ -17,9 +17,10 @@ package org.drools.mvel.compiler.kie.builder.impl;
 
 import org.apache.commons.io.IOUtils;
 import org.assertj.core.api.Assertions;
-import org.drools.mvel.compiler.compiler.io.memory.MemoryFile;
-import org.drools.mvel.compiler.compiler.io.memory.MemoryFileSystem;
-import org.drools.mvel.compiler.compiler.io.memory.MemoryFolder;
+import org.drools.compiler.compiler.io.memory.MemoryFile;
+import org.drools.compiler.kie.builder.impl.MemoryKieModule;
+import org.drools.compiler.compiler.io.memory.MemoryFileSystem;
+import org.drools.compiler.compiler.io.memory.MemoryFolder;
 import org.drools.reflective.ResourceProvider;
 import org.junit.Test;
 import org.kie.api.builder.ReleaseId;

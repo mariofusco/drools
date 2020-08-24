@@ -1,16 +1,17 @@
 package org.drools.mvel.integrationtests;
 
-import static org.junit.Assert.*;
-
-import org.drools.mvel.CommonTestMethodBase;
 import org.drools.compiler.kie.builder.impl.KieContainerImpl;
 import org.drools.compiler.kie.builder.impl.KieServicesImpl;
+import org.drools.mvel.CommonTestMethodBase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.KieServices;
 import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.KieContainer;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class KieServicesTest extends CommonTestMethodBase {
 	
@@ -19,7 +20,7 @@ public class KieServicesTest extends CommonTestMethodBase {
 	@Before
 	public void init() {
 		ks = KieServices.Factory.get();
-		((KieServicesImpl) ks).nullKieClasspathContainer(); 
+		(( KieServicesImpl ) ks).nullKieClasspathContainer();
 		((KieServicesImpl) ks).nullAllContainerIds();
 	}
 	
@@ -91,7 +92,7 @@ public class KieServicesTest extends CommonTestMethodBase {
 			// ok.
 		}
 		
-		((KieContainerImpl) c1).dispose();
+		(( KieContainerImpl ) c1).dispose();
 		
 		ks.newKieClasspathContainer("id1"); // now OK.
 	}

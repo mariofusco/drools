@@ -15,25 +15,6 @@
 
 package org.drools.mvel.integrationtests;
 
-import org.drools.compiler.Cheese;
-import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Person;
-import org.drools.compiler.lang.Expander;
-import org.drools.compiler.lang.dsl.DefaultExpanderResolver;
-import org.drools.core.impl.InternalKnowledgeBase;
-import org.drools.core.impl.KnowledgeBaseFactory;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.kie.api.KieServices;
-import org.kie.api.builder.KieFileSystem;
-import org.kie.api.builder.Results;
-import org.kie.api.definition.KiePackage;
-import org.kie.internal.builder.KnowledgeBuilder;
-import org.kie.internal.builder.KnowledgeBuilderFactory;
-import org.kie.internal.io.ResourceFactory;
-import org.kie.api.io.ResourceType;
-import org.kie.api.runtime.KieSession;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -41,6 +22,25 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import org.drools.compiler.lang.Expander;
+import org.drools.compiler.lang.dsl.DefaultExpanderResolver;
+import org.drools.core.impl.InternalKnowledgeBase;
+import org.drools.core.impl.KnowledgeBaseFactory;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.Cheese;
+import org.drools.mvel.compiler.Person;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.kie.api.KieServices;
+import org.kie.api.builder.KieFileSystem;
+import org.kie.api.builder.Results;
+import org.kie.api.definition.KiePackage;
+import org.kie.api.io.ResourceType;
+import org.kie.api.runtime.KieSession;
+import org.kie.internal.builder.KnowledgeBuilder;
+import org.kie.internal.builder.KnowledgeBuilderFactory;
+import org.kie.internal.io.ResourceFactory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -263,7 +263,7 @@ public class DslTest extends CommonTestMethodBase {
                 + "[when]-aged less than {age}=age < {age}\n"
                 + "[then]Log {message}=list.add({message});";
 
-        String drl = "import org.drools.compiler.Person;\n"
+        String drl = "import org.drools.mvel.compiler.Person;\n"
                 + "global java.util.List list\n"
                 + "rule R1\n"
                 + "when\n"
@@ -284,7 +284,7 @@ public class DslTest extends CommonTestMethodBase {
                 + "[when]-aged less than {age}=age < {age}\n"
                 + "[then]Log person name=list.add($p.getName());";
 
-        String drl = "import org.drools.compiler.Person;\n"
+        String drl = "import org.drools.mvel.compiler.Person;\n"
                 + "global java.util.List list\n"
                 + "rule R1\n"
                 + "when\n"
@@ -303,7 +303,7 @@ public class DslTest extends CommonTestMethodBase {
         String dsl = "[when]Person's name is {name}=$p : Person(name == \"{name}\")\n"
                 + "[then]Log person name=list.add($p.getName());";
 
-        String drl = "import org.drools.compiler.Person;\n"
+        String drl = "import org.drools.mvel.compiler.Person;\n"
                 + "global java.util.List list\n"
                 + "rule R1\n"
                 + "when\n"
@@ -323,7 +323,7 @@ public class DslTest extends CommonTestMethodBase {
                 + "[when]-aged less than {age}=age < {age}\n"
                 + "[then]Log {message}=list.add({message});";
 
-        String drl = "import org.drools.compiler.Person;\n"
+        String drl = "import org.drools.mvel.compiler.Person;\n"
                 + "global java.util.List list\n"
                 + "rule R1\n"
                 + "when\n"
@@ -344,7 +344,7 @@ public class DslTest extends CommonTestMethodBase {
         // DROOLS-430
         String dsl = "[then]Log {message:.}=list.add(\"{message}\");";
 
-        String drl = "import org.drools.compiler.Person;\n"
+        String drl = "import org.drools.mvel.compiler.Person;\n"
                 + "global java.util.List list\n"
                 + "rule R1\n"
                 + "when\n"

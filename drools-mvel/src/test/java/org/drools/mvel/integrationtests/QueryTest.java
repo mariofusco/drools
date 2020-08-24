@@ -29,14 +29,14 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.xml.bind.JAXBContext;
-import org.drools.compiler.Address;
-import org.drools.compiler.Cheese;
+import org.drools.mvel.compiler.Address;
+import org.drools.mvel.compiler.Cheese;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.DomainObject;
-import org.drools.compiler.InsertedObject;
-import org.drools.compiler.Interval;
-import org.drools.compiler.Person;
-import org.drools.compiler.Worker;
+import org.drools.mvel.compiler.DomainObject;
+import org.drools.mvel.compiler.InsertedObject;
+import org.drools.mvel.compiler.Interval;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.compiler.Worker;
 import org.drools.core.QueryResultsImpl;
 import org.drools.core.QueryResultsRowImpl;
 import org.drools.core.base.ClassObjectType;
@@ -199,15 +199,15 @@ public class QueryTest extends CommonTestMethodBase {
         assertEquals( 1,
                       results.size() );
 
-        Rule rule = kbase.getKiePackage( "org.drools.compiler.test" ).getRules().iterator().next();
+        Rule rule = kbase.getKiePackage( "org.drools.mvel.compiler.test" ).getRules().iterator().next();
 
         assertEquals( "simple query",
                       rule.getName());
 
-        kbase.removeQuery( "org.drools.compiler.test",
+        kbase.removeQuery( "org.drools.mvel.compiler.test",
                            "simple query" );
 
-        assertTrue( kbase.getKiePackage( "org.drools.compiler.test" ).getRules().isEmpty() );
+        assertTrue( kbase.getKiePackage( "org.drools.mvel.compiler.test" ).getRules().isEmpty() );
 
         try {
             results = session.getQueryResults( "simple query" );
@@ -273,7 +273,7 @@ public class QueryTest extends CommonTestMethodBase {
     @Test
     public void testQueryWithMultipleResultsOnKnowledgeApi() throws Exception {
         String str = "";
-        str += "package org.drools.compiler.test  \n";
+        str += "package org.drools.mvel.compiler.test  \n";
         str += "import org.drools.compiler.Cheese \n";
         str += "query cheeses \n";
         str += "    stilton : Cheese(type == 'stilton') \n";
@@ -516,7 +516,7 @@ public class QueryTest extends CommonTestMethodBase {
     @Test
     public void testQueriesWithVariableUnification() throws Exception {
         String str = "";
-        str += "package org.drools.compiler.test  \n";
+        str += "package org.drools.mvel.compiler.test  \n";
         str += "import org.drools.compiler.Person \n";
         str += "query peeps( String $name, String $likes, int $age ) \n";
         str += "    $p : Person( $name := name, $likes := likes, $age := age ) \n";
@@ -607,7 +607,7 @@ public class QueryTest extends CommonTestMethodBase {
     @Test
     public void testQueriesWithVariableUnificationOnPatterns() throws Exception {
         String str = "";
-        str += "package org.drools.compiler.test  \n";
+        str += "package org.drools.mvel.compiler.test  \n";
         str += "import org.drools.compiler.Person \n";
         str += "query peeps( Person $p, String $name, String $likes, int $age ) \n";
         str += "    $p := Person( $name := name, $likes := likes, $age := age ) \n";
@@ -665,7 +665,7 @@ public class QueryTest extends CommonTestMethodBase {
     @Test
     public void testQueriesWithVariableUnificationOnNestedFields() throws Exception {
         String str = "";
-        str += "package org.drools.compiler.test  \n";
+        str += "package org.drools.mvel.compiler.test  \n";
         str += "import org.drools.compiler.Person \n";
         str += "query peeps( String $name, String $likes, String $street) \n";
         str += "    $p : Person( $name := name, $likes := likes, $street := address.street ) \n";
@@ -710,7 +710,7 @@ public class QueryTest extends CommonTestMethodBase {
     @Test
     public void testOpenQuery() throws Exception {
         String str = "";
-        str += "package org.drools.compiler.test  \n";
+        str += "package org.drools.mvel.compiler.test  \n";
         str += "import org.drools.compiler.Cheese \n";
         str += "query cheeses(String $type1, String $type2) \n";
         str += "    stilton : Cheese(type == $type1, $sprice : price) \n";
@@ -1305,7 +1305,7 @@ public class QueryTest extends CommonTestMethodBase {
     public void testOpenQueryNoParams() throws Exception {
         // RHDM-717
         String str = "";
-        str += "package org.drools.compiler.test  \n";
+        str += "package org.drools.mvel.compiler.test  \n";
         str += "import org.drools.compiler.Cheese \n";
         str += "query cheeses \n";
         str += "    stilton : Cheese(type == 'stilton') \n";

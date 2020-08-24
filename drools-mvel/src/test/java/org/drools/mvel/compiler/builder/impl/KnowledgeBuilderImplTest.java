@@ -1,13 +1,14 @@
 package org.drools.mvel.compiler.builder.impl;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.drools.compiler.builder.impl.KnowledgeBuilderImpl;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-
-import java.io.File;
-import java.io.IOException;
 
 import static org.junit.Assert.assertThat;
 
@@ -19,7 +20,7 @@ public class KnowledgeBuilderImplTest {
     @Test
     public void testCreateDumpDrlGeneratedFileRemovingInvalidCharacters() throws Exception {
         final File dumpDir = temporaryFolder.getRoot();
-        assertThat(KnowledgeBuilderImpl.createDumpDrlFile(dumpDir, "xxx", ".drl"), fileEndsWith(File.separator + "xxx.drl"));
+        assertThat( KnowledgeBuilderImpl.createDumpDrlFile(dumpDir, "xxx", ".drl"), fileEndsWith(File.separator + "xxx.drl"));
         assertThat(KnowledgeBuilderImpl.createDumpDrlFile(dumpDir, "x?x?", ".drl"), fileEndsWith(File.separator + "x_x_.drl"));
         assertThat(KnowledgeBuilderImpl.createDumpDrlFile(dumpDir, "x/x/", ".drl"), fileEndsWith(File.separator + "x_x_.drl"));
         assertThat(KnowledgeBuilderImpl.createDumpDrlFile(dumpDir, "x\\x\\", ".drl"), fileEndsWith(File.separator + "x_x_.drl"));

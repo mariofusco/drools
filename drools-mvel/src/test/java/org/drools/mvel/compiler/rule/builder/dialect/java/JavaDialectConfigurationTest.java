@@ -1,5 +1,6 @@
 package org.drools.mvel.compiler.rule.builder.dialect.java;
 
+import org.drools.mvel.java.JavaDialectConfiguration;
 import org.junit.Test;
 
 public class JavaDialectConfigurationTest {

@@ -19,7 +19,7 @@ package org.drools.mvel.integrationtests.session;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import org.drools.compiler.Cheese;
+import org.drools.mvel.compiler.Cheese;
 import org.drools.mvel.CommonTestMethodBase;
 import org.junit.Test;
 import org.kie.api.KieBase;

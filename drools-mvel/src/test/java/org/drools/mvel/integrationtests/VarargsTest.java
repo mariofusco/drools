@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Message;
 import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.definition.type.Modifies;

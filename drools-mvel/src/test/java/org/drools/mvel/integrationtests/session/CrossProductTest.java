@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.SpecialString;
+import org.drools.mvel.compiler.SpecialString;
 import org.drools.mvel.integrationtests.SerializationHelper;
 import org.junit.Test;
 import org.kie.api.KieBase;

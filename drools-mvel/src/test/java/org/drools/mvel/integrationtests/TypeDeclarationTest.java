@@ -59,7 +59,7 @@ public class TypeDeclarationTest {
 
     @Test
     public void testCircularDeclaration() throws Exception {
-        String rule = "package org.drools.compiler.test\n" +
+        String rule = "package org.drools.mvel.compiler.test\n" +
                       "declare FactA\n" +
                       "    fieldB: FactB\n" +
                       "end\n" +
@@ -75,9 +75,9 @@ public class TypeDeclarationTest {
         KieBase kbase = new KieHelper().addContent(rule, ResourceType.DRL).build();
         KieSession ksession = kbase.newKieSession();
 
-        FactType aType = kbase.getFactType( "org.drools.compiler.test", "FactA" );
+        FactType aType = kbase.getFactType( "org.drools.mvel.compiler.test", "FactA" );
         Object a = aType.newInstance();
-        FactType bType = kbase.getFactType( "org.drools.compiler.test", "FactB" );
+        FactType bType = kbase.getFactType( "org.drools.mvel.compiler.test", "FactB" );
         Object b = bType.newInstance();
         aType.set( a, "fieldB", b );
         bType.set( b, "fieldA", a );
@@ -91,7 +91,7 @@ public class TypeDeclarationTest {
     @Test
     public void testCircularDeclarationWithExtension() throws Exception {
         // DROOLS-640
-        String drl = "package org.drools.compiler.test\n" +
+        String drl = "package org.drools.mvel.compiler.test\n" +
                      "declare FactA\n" +
                      "    fieldB: FactB\n" +
                      "end\n" +
@@ -105,8 +105,8 @@ public class TypeDeclarationTest {
         KieBase kbase = new KieHelper().addContent(drl, ResourceType.DRL).build();
         KieSession ksession = kbase.newKieSession();
 
-        FactType aType = kbase.getFactType( "org.drools.compiler.test", "FactA" );
-        FactType bType = kbase.getFactType( "org.drools.compiler.test", "FactB" );
+        FactType aType = kbase.getFactType( "org.drools.mvel.compiler.test", "FactA" );
+        FactType bType = kbase.getFactType( "org.drools.mvel.compiler.test", "FactB" );
         Object a = aType.newInstance();
         Object b = bType.newInstance();
         aType.set( a, "fieldB", b );

@@ -20,12 +20,15 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.drools.mvel.compiler.lang.dsl.DSLMappingEntry;
-import org.drools.mvel.compiler.lang.dsl.DSLTokenizedMappingFile;
-import org.drools.mvel.compiler.lang.dsl.DefaultDSLMapping;
-import org.drools.mvel.compiler.lang.dsl.DefaultExpander;
+import org.drools.compiler.lang.dsl.DSLMappingEntry;
+import org.drools.compiler.lang.dsl.DSLTokenizedMappingFile;
+import org.drools.compiler.lang.dsl.DefaultDSLMapping;
+import org.drools.compiler.lang.dsl.DefaultExpander;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class DSLMappingEntryTest {
 
@@ -34,8 +37,8 @@ public class DSLMappingEntryTest {
     private static final String lookbehind = "(?:(?<=^)|(?<=\\W))";
     private static final String NL = System.getProperty("line.separator");
 
-    private DSLMappingEntry createEntry(final String inputKey,
-                                        final String inputValue) throws IOException {
+    private DSLMappingEntry createEntry( final String inputKey,
+                                         final String inputValue) throws IOException {
         String mapping = "[condition][]" + inputKey + "=" + inputValue;
         StringReader dsl = new StringReader( mapping );
         DSLMappingEntry entry = null;

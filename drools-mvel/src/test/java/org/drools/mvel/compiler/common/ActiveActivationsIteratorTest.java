@@ -15,19 +15,19 @@
 
 package org.drools.mvel.compiler.common;
 
-import org.drools.mvel.compiler.CommonTestMethodBase;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.drools.core.common.ActiveActivationIterator;
 import org.drools.core.common.AgendaItem;
 import org.drools.core.common.InternalAgenda;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.util.Iterator;
+import org.drools.mvel.CommonTestMethodBase;
 import org.junit.Test;
 import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieSession;
 import org.kie.internal.utils.KieHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.fail;
 

@@ -18,10 +18,10 @@ package org.drools.mvel.compiler.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.drools.mvel.compiler.Cheese;
-import org.drools.mvel.compiler.CommonTestMethodBase;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.Cheese;
 import org.junit.After;
 import org.junit.Test;
 import org.kie.api.command.Command;

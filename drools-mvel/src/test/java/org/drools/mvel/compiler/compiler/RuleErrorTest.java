@@ -15,14 +15,15 @@
 
 package org.drools.mvel.compiler.compiler;
 
+import org.drools.compiler.compiler.DescrBuildError;
+import org.drools.compiler.lang.descr.AndDescr;
+import org.drools.compiler.lang.descr.RuleDescr;
+import org.junit.Test;
+import org.kie.internal.jci.CompilationProblem;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
-import org.drools.mvel.compiler.lang.descr.AndDescr;
-import org.drools.mvel.compiler.lang.descr.RuleDescr;
-import org.junit.Test;
-import org.kie.internal.jci.CompilationProblem;
 
 public class RuleErrorTest {
 

@@ -15,7 +15,7 @@
 
 package org.drools.mvel.integrationtests.marshalling;
 
-import org.drools.compiler.Person;
+import org.drools.mvel.compiler.Person;
 import org.drools.mvel.integrationtests.marshalling.util.OldOutputMarshallerMethods;
 import org.drools.core.SessionConfiguration;
 import org.drools.core.WorkingMemoryEntryPoint;

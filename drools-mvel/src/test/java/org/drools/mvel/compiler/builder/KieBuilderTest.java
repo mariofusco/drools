@@ -21,15 +21,15 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.drools.mvel.compiler.CommonTestMethodBase;
-import org.drools.mvel.compiler.compiler.io.memory.MemoryFileSystem;
-import org.drools.mvel.compiler.kie.builder.impl.InternalKieModule;
-import org.drools.mvel.compiler.kie.builder.impl.KieBuilderImpl;
-import org.drools.mvel.compiler.kie.builder.impl.KieFileSystemImpl;
-import org.drools.mvel.compiler.kproject.ReleaseIdImpl;
-import org.drools.mvel.compiler.kproject.models.KieBaseModelImpl;
 import org.appformer.maven.support.PomModel;
+import org.drools.compiler.compiler.io.memory.MemoryFileSystem;
+import org.drools.compiler.kie.builder.impl.InternalKieModule;
+import org.drools.compiler.kie.builder.impl.KieBuilderImpl;
+import org.drools.compiler.kie.builder.impl.KieFileSystemImpl;
+import org.drools.compiler.kproject.ReleaseIdImpl;
+import org.drools.compiler.kproject.models.KieBaseModelImpl;
 import org.drools.core.util.FileManager;
+import org.drools.mvel.CommonTestMethodBase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -91,7 +91,7 @@ public class KieBuilderTest extends CommonTestMethodBase {
         
         KieFileSystem kfs = KieServices.Factory.get().newKieFileSystem();
         generateAll(kfs, namespace, releaseId, kProj);
-        MemoryFileSystem mfs = ((KieFileSystemImpl)kfs).asMemoryFileSystem();
+        MemoryFileSystem mfs = (( KieFileSystemImpl )kfs).asMemoryFileSystem();
         
         File file = fileManager.getRootDirectory() ;
         mfs.writeAsFs( file );

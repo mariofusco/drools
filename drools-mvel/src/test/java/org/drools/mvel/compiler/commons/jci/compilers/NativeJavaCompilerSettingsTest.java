@@ -15,11 +15,12 @@
 
 package org.drools.mvel.compiler.commons.jci.compilers;
 
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.data.Index;
+import org.drools.compiler.commons.jci.compilers.NativeJavaCompilerSettings;
 import org.junit.Test;
-
-import java.util.List;
 
 public class NativeJavaCompilerSettingsTest {
 

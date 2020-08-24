@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.drools.compiler.Cheese;
+import org.drools.mvel.compiler.Cheese;
 import org.junit.After;
 import org.junit.Test;
 import org.kie.api.command.Command;

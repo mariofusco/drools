@@ -22,23 +22,20 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import org.drools.mvel.compiler.Cheese;
-import org.drools.mvel.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
-import org.drools.mvel.compiler.builder.impl.KnowledgeBuilderImpl;
-import org.drools.mvel.compiler.compiler.Dialect;
-import org.drools.mvel.compiler.compiler.DialectCompiletimeRegistry;
-import org.drools.mvel.compiler.compiler.DrlParser;
-import org.drools.mvel.compiler.compiler.DroolsParserException;
-import org.drools.mvel.compiler.compiler.PackageRegistry;
-import org.drools.mvel.compiler.lang.descr.AttributeDescr;
-import org.drools.mvel.compiler.lang.descr.PackageDescr;
-import org.drools.mvel.compiler.lang.descr.RuleDescr;
-import org.drools.mvel.compiler.rule.builder.RuleBuildContext;
-import org.drools.mvel.compiler.rule.builder.RuleBuilder;
+import org.drools.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
+import org.drools.compiler.builder.impl.KnowledgeBuilderImpl;
+import org.drools.compiler.compiler.Dialect;
+import org.drools.compiler.compiler.DialectCompiletimeRegistry;
+import org.drools.compiler.compiler.DrlParser;
+import org.drools.compiler.compiler.DroolsParserException;
+import org.drools.compiler.compiler.PackageRegistry;
+import org.drools.compiler.lang.descr.AttributeDescr;
+import org.drools.compiler.lang.descr.PackageDescr;
+import org.drools.compiler.lang.descr.RuleDescr;
+import org.drools.compiler.rule.builder.RuleBuildContext;
+import org.drools.compiler.rule.builder.RuleBuilder;
 import org.drools.core.base.ClassObjectType;
 import org.drools.core.base.DefaultKnowledgeHelper;
-import org.drools.core.base.mvel.MVELConsequence;
-import org.drools.core.base.mvel.MVELDebugHandler;
 import org.drools.core.common.AgendaItem;
 import org.drools.core.common.AgendaItemImpl;
 import org.drools.core.common.InternalFactHandle;
@@ -49,7 +46,6 @@ import org.drools.core.definitions.rule.impl.RuleImpl;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
 import org.drools.core.impl.StatefulKnowledgeSessionImpl;
-import org.drools.core.reteoo.CompositeObjectSinkAdapterTest;
 import org.drools.core.reteoo.LeftTupleImpl;
 import org.drools.core.reteoo.RuleTerminalNode;
 import org.drools.core.reteoo.TerminalNode;
@@ -57,18 +53,29 @@ import org.drools.core.reteoo.builder.BuildContext;
 import org.drools.core.rule.Declaration;
 import org.drools.core.rule.GroupElement;
 import org.drools.core.rule.ImportDeclaration;
-import org.drools.core.rule.MVELDialectRuntimeData;
 import org.drools.core.rule.Pattern;
 import org.drools.core.spi.ObjectType;
 import org.drools.core.spi.PatternExtractor;
 import org.drools.core.spi.PropagationContext;
+import org.drools.mvel.CompositeObjectSinkAdapterTest;
+import org.drools.mvel.MVELDialectRuntimeData;
+import org.drools.mvel.builder.MVELConsequenceBuilder;
+import org.drools.mvel.builder.MVELDialect;
+import org.drools.mvel.compiler.Cheese;
+import org.drools.mvel.expr.MVELConsequence;
+import org.drools.mvel.expr.MVELDebugHandler;
 import org.junit.Test;
 import org.kie.internal.builder.conf.LanguageLevelOption;
 import org.mvel2.ParserContext;
 import org.mvel2.compiler.ExpressionCompiler;
 import org.mvel2.debug.DebugTools;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class MVELConsequenceBuilderTest {
 
@@ -129,7 +136,7 @@ public class MVELConsequenceBuilderTest {
                                                 new RuleTerminalNode(0, new CompositeObjectSinkAdapterTest.MockBetaNode(), context.getRule(), subrule, 0, new BuildContext( kBase )), null);
         final DefaultKnowledgeHelper kbHelper = new DefaultKnowledgeHelper( ksession );
         kbHelper.setActivation( item );
-        ((MVELConsequence) context.getRule().getConsequence()).compile(  (MVELDialectRuntimeData) pkgBuilder.getPackageRegistry( pkg.getName() ).getDialectRuntimeRegistry().getDialectData( "mvel" ));
+        (( MVELConsequence ) context.getRule().getConsequence()).compile(  ( MVELDialectRuntimeData ) pkgBuilder.getPackageRegistry( pkg.getName() ).getDialectRuntimeRegistry().getDialectData( "mvel" ));
         context.getRule().getConsequence().evaluate( kbHelper,
                                                      ksession );
 

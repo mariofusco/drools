@@ -19,7 +19,7 @@ package org.drools.mvel.integrationtests;
 import java.lang.reflect.Field;
 
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Message;
+import org.drools.mvel.compiler.Message;
 import org.junit.Test;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieModule;
@@ -63,7 +63,7 @@ public class DynamicRuleLoadTest extends CommonTestMethodBase {
             "end\n";
 
     private final String javaSrc =
-                    "package org.drools.compiler.test;\n" +
+                    "package org.drools.mvel.compiler.test;\n" +
                     "public class PersonObject {\n" +
                     "    private String id;\n" +
                     "    public String getId() {\n" +
@@ -78,7 +78,7 @@ public class DynamicRuleLoadTest extends CommonTestMethodBase {
                     "}";
 
     private final String javaSrc_2 =
-                    "package org.drools.compiler.test;\n" +
+                    "package org.drools.mvel.compiler.test;\n" +
                     "public class PersonObject {\n" +
                     "    private String id;\n" +
                     "    public String getId() {\n" +
@@ -93,7 +93,7 @@ public class DynamicRuleLoadTest extends CommonTestMethodBase {
                     "}";
 
     private final String person_drl =
-            "package org.drools.compiler.test\n" +
+            "package org.drools.mvel.compiler.test\n" +
                     "import org.drools.compiler.test.PersonObject;\n" +
                     "\n" +
                     "rule \"Update person's id\"\n" +
@@ -153,7 +153,7 @@ public class DynamicRuleLoadTest extends CommonTestMethodBase {
         kieContainer = ks.newKieContainer( km.getReleaseId() );
         ksession = kieContainer.newKieSession();
 
-        Class<?> clazz = kieContainer.getClassLoader().loadClass("org.drools.compiler.test.PersonObject");
+        Class<?> clazz = kieContainer.getClassLoader().loadClass("org.drools.mvel.compiler.test.PersonObject");
         Object person = clazz.newInstance();
 
         ksession.insert( person );
@@ -177,7 +177,7 @@ public class DynamicRuleLoadTest extends CommonTestMethodBase {
         // now let's run the rules
         ksession = kieContainer.newKieSession();
 
-        person = kieContainer.getClassLoader().loadClass("org.drools.compiler.test.PersonObject").newInstance();
+        person = kieContainer.getClassLoader().loadClass("org.drools.mvel.compiler.test.PersonObject").newInstance();
 
         ksession.insert( person );
         ksession.fireAllRules();

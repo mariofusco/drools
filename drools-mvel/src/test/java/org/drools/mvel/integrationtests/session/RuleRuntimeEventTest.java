@@ -20,7 +20,7 @@ import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.drools.compiler.Cheese;
+import org.drools.mvel.compiler.Cheese;
 import org.drools.mvel.CommonTestMethodBase;
 import org.drools.mvel.integrationtests.SerializationHelper;
 import org.junit.Test;

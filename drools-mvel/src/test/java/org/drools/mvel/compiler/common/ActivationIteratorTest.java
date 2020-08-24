@@ -15,13 +15,16 @@
 
 package org.drools.mvel.compiler.common;
 
-import org.drools.mvel.compiler.CommonTestMethodBase;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.drools.core.common.ActivationIterator;
 import org.drools.core.common.AgendaItem;
 import org.drools.core.common.InternalAgenda;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.impl.KnowledgeBaseFactory;
 import org.drools.core.util.Iterator;
+import org.drools.mvel.CommonTestMethodBase;
 import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.definition.rule.Rule;
@@ -33,9 +36,6 @@ import org.kie.api.runtime.KieSessionConfiguration;
 import org.kie.internal.runtime.conf.ForceEagerActivationFilter;
 import org.kie.internal.runtime.conf.ForceEagerActivationOption;
 import org.kie.internal.utils.KieHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;

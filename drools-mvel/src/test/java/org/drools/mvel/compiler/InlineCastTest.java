@@ -18,6 +18,7 @@ package org.drools.mvel.compiler;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.drools.mvel.CommonTestMethodBase;
 import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.runtime.KieSession;
@@ -28,7 +29,7 @@ public class InlineCastTest extends CommonTestMethodBase {
 
     @Test
     public void testInlineCast() throws Exception {
-        String str = "import org.drools.mvel.compiler.*;\n" +
+        String str = "import org.drools.compiler.*;\n" +
                 "rule R1 when\n" +
                 "   Person( name == \"mark\", address#LongAddress.country == \"uk\" )\n" +
                 "then\n" +
@@ -54,7 +55,7 @@ public class InlineCastTest extends CommonTestMethodBase {
 
     @Test
     public void testInlineCastWithBinding() throws Exception {
-        String str = "import org.drools.mvel.compiler.*;\n" +
+        String str = "import org.drools.compiler.*;\n" +
                 "rule R1 when\n" +
                 "   Person( name == \"mark\", $country : address#LongAddress.country == \"uk\" )\n" +
                 "then\n" +
@@ -80,7 +81,7 @@ public class InlineCastTest extends CommonTestMethodBase {
 
     @Test
     public void testInlineCastOnlyBinding() throws Exception {
-        String str = "import org.drools.mvel.compiler.*;\n" +
+        String str = "import org.drools.compiler.*;\n" +
                 "rule R1 when\n" +
                 "   Person( name == \"mark\", $country : address#LongAddress.country )\n" +
                 "then\n" +
@@ -125,7 +126,7 @@ public class InlineCastTest extends CommonTestMethodBase {
 
     @Test
     public void testInlineCastOnRightOperand() throws Exception {
-        String str = "import org.drools.mvel.compiler.*;\n" +
+        String str = "import org.drools.compiler.*;\n" +
                 "rule R1 when\n" +
                 "   $person : Person( )\n" +
                 "   String( this == $person.address#LongAddress.country )\n" +
@@ -167,7 +168,7 @@ public class InlineCastTest extends CommonTestMethodBase {
 
     @Test
     public void testInferredCast() throws Exception {
-        String str = "import org.drools.mvel.compiler.*;\n" +
+        String str = "import org.drools.compiler.*;\n" +
                 "rule R1 when\n" +
                 "   Person( name == \"mark\", address instanceof LongAddress, address.country == \"uk\" )\n" +
                 "then\n" +
@@ -194,7 +195,7 @@ public class InlineCastTest extends CommonTestMethodBase {
     @Test
     public void testInlineTypeCast() throws Exception {
         // DROOLS-136
-        String str = "import org.drools.mvel.compiler.*;\n" +
+        String str = "import org.drools.compiler.*;\n" +
                      "rule R1 when\n" +
                      " Person( name == \"mark\", address#LongAddress )\n" +
                      "then\n" +
@@ -221,7 +222,7 @@ public class InlineCastTest extends CommonTestMethodBase {
     @Test
     public void testInlineCastWithNestedAccces() throws Exception {
         // DROOLS-127
-        String str = "import org.drools.mvel.compiler.*;\n" +
+        String str = "import org.drools.compiler.*;\n" +
                      "rule R1 when\n" +
                      "   Person( name == \"mark\", address#LongAddress.country.length == 2 )\n" +
                      "then\n" +
@@ -247,7 +248,7 @@ public class InlineCastTest extends CommonTestMethodBase {
 
     @Test
     public void testInlineCastWithNestedAcccesAndNullSafeDereferencing() throws Exception {
-        String str = "import org.drools.mvel.compiler.*;\n" +
+        String str = "import org.drools.compiler.*;\n" +
                      "rule R1 when\n" +
                      " Person( name == \"mark\", address#LongAddress.country!.length == 2 )\n" +
                      "then\n" +
@@ -273,7 +274,7 @@ public class InlineCastTest extends CommonTestMethodBase {
 
     @Test
     public void testInlineCastWithNestedAcccesAndNullSafeDereferencing2() throws Exception {
-        String str = "import org.drools.mvel.compiler.*;\n" +
+        String str = "import org.drools.compiler.*;\n" +
                      "rule R1 when\n" +
                      " Person( " +
                      " name == \"mark\", " +
@@ -302,7 +303,7 @@ public class InlineCastTest extends CommonTestMethodBase {
     @Test
     public void testSuperclass() {
         String drl = "package org.drools.mvel.compiler.integrationtests\n"
-                     + "import org.drools.mvel.compiler.*;\n"
+                     + "import org.drools.compiler.*;\n"
                      + "rule R1\n"
                      + " when\n"
                      + " Person( address#LongAddress.country str[startsWith] \"United\" )\n"
@@ -333,7 +334,7 @@ public class InlineCastTest extends CommonTestMethodBase {
     @Test
     public void testGroupedAccess() {
         String drl = "package org.drools.mvel.compiler.integrationtests\n"
-                     + "import org.drools.mvel.compiler.*;\n"
+                     + "import org.drools.compiler.*;\n"
                      + "rule R1\n"
                      + " when\n"
                      + " Person( address#LongAddress.(country == \"United States\" || country == \"United Kingdom\") )\n"
@@ -365,7 +366,7 @@ public class InlineCastTest extends CommonTestMethodBase {
     public void testMatchesOperator() {
         // BZ-971008
         String drl = "package org.drools.mvel.compiler.integrationtests\n"
-                     + "import org.drools.mvel.compiler.*;\n"
+                     + "import org.drools.compiler.*;\n"
                      + "rule R1\n"
                      + " when\n"
                      + " Person( address#LongAddress.country matches \"[Uu]nited.*\" )\n"
@@ -396,7 +397,7 @@ public class InlineCastTest extends CommonTestMethodBase {
     @Test
     public void testInlineCastWithThis() {
         String drl = "package org.drools.mvel.compiler.integrationtests "
-                     + "import org.drools.mvel.compiler.*; "
+                     + "import org.drools.compiler.*; "
                      + "rule R1 "
                      + " when "
                      + " Object( this#String matches \"[Uu]nited.*\" ) "

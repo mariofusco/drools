@@ -16,47 +16,6 @@
 
 package org.drools.mvel.compiler.lang;
 
-import junit.framework.TestCase;
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.CharStream;
-import org.assertj.core.api.Assertions;
-import org.drools.mvel.compiler.compiler.DrlParser;
-import org.drools.mvel.compiler.lang.descr.AccumulateDescr;
-import org.drools.mvel.compiler.lang.descr.AccumulateDescr.AccumulateFunctionCallDescr;
-import org.drools.mvel.compiler.lang.descr.AccumulateImportDescr;
-import org.drools.mvel.compiler.lang.descr.AndDescr;
-import org.drools.mvel.compiler.lang.descr.AnnotationDescr;
-import org.drools.mvel.compiler.lang.descr.AttributeDescr;
-import org.drools.mvel.compiler.lang.descr.BaseDescr;
-import org.drools.mvel.compiler.lang.descr.BehaviorDescr;
-import org.drools.mvel.compiler.lang.descr.CollectDescr;
-import org.drools.mvel.compiler.lang.descr.EntryPointDeclarationDescr;
-import org.drools.mvel.compiler.lang.descr.EntryPointDescr;
-import org.drools.mvel.compiler.lang.descr.EvalDescr;
-import org.drools.mvel.compiler.lang.descr.ExistsDescr;
-import org.drools.mvel.compiler.lang.descr.ExprConstraintDescr;
-import org.drools.mvel.compiler.lang.descr.ForallDescr;
-import org.drools.mvel.compiler.lang.descr.FromDescr;
-import org.drools.mvel.compiler.lang.descr.FunctionDescr;
-import org.drools.mvel.compiler.lang.descr.FunctionImportDescr;
-import org.drools.mvel.compiler.lang.descr.GlobalDescr;
-import org.drools.mvel.compiler.lang.descr.ImportDescr;
-import org.drools.mvel.compiler.lang.descr.MVELExprDescr;
-import org.drools.mvel.compiler.lang.descr.NotDescr;
-import org.drools.mvel.compiler.lang.descr.OrDescr;
-import org.drools.mvel.compiler.lang.descr.PackageDescr;
-import org.drools.mvel.compiler.lang.descr.PatternDescr;
-import org.drools.mvel.compiler.lang.descr.QueryDescr;
-import org.drools.mvel.compiler.lang.descr.RuleDescr;
-import org.drools.mvel.compiler.lang.descr.TypeDeclarationDescr;
-import org.drools.mvel.compiler.lang.descr.TypeFieldDescr;
-import org.drools.mvel.compiler.lang.descr.WindowDeclarationDescr;
-import org.drools.core.base.evaluators.EvaluatorRegistry;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.kie.internal.builder.conf.LanguageLevelOption;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -66,7 +25,50 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import static org.drools.mvel.compiler.compiler.DRLFactory.buildParser;
+import junit.framework.TestCase;
+import org.antlr.runtime.ANTLRStringStream;
+import org.antlr.runtime.CharStream;
+import org.assertj.core.api.Assertions;
+import org.drools.compiler.compiler.DrlParser;
+import org.drools.compiler.lang.DRL6Lexer;
+import org.drools.compiler.lang.DRL6Parser;
+import org.drools.compiler.lang.DRLParser;
+import org.drools.compiler.lang.descr.AccumulateDescr;
+import org.drools.compiler.lang.descr.AccumulateImportDescr;
+import org.drools.compiler.lang.descr.AndDescr;
+import org.drools.compiler.lang.descr.AnnotationDescr;
+import org.drools.compiler.lang.descr.AttributeDescr;
+import org.drools.compiler.lang.descr.BaseDescr;
+import org.drools.compiler.lang.descr.BehaviorDescr;
+import org.drools.compiler.lang.descr.CollectDescr;
+import org.drools.compiler.lang.descr.EntryPointDeclarationDescr;
+import org.drools.compiler.lang.descr.EntryPointDescr;
+import org.drools.compiler.lang.descr.EvalDescr;
+import org.drools.compiler.lang.descr.ExistsDescr;
+import org.drools.compiler.lang.descr.ExprConstraintDescr;
+import org.drools.compiler.lang.descr.ForallDescr;
+import org.drools.compiler.lang.descr.FromDescr;
+import org.drools.compiler.lang.descr.FunctionDescr;
+import org.drools.compiler.lang.descr.FunctionImportDescr;
+import org.drools.compiler.lang.descr.GlobalDescr;
+import org.drools.compiler.lang.descr.ImportDescr;
+import org.drools.compiler.lang.descr.MVELExprDescr;
+import org.drools.compiler.lang.descr.NotDescr;
+import org.drools.compiler.lang.descr.OrDescr;
+import org.drools.compiler.lang.descr.PackageDescr;
+import org.drools.compiler.lang.descr.PatternDescr;
+import org.drools.compiler.lang.descr.QueryDescr;
+import org.drools.compiler.lang.descr.RuleDescr;
+import org.drools.compiler.lang.descr.TypeDeclarationDescr;
+import org.drools.compiler.lang.descr.TypeFieldDescr;
+import org.drools.compiler.lang.descr.WindowDeclarationDescr;
+import org.drools.core.base.evaluators.EvaluatorRegistry;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.kie.internal.builder.conf.LanguageLevelOption;
+
+import static org.drools.compiler.compiler.DRLFactory.buildParser;
 
 public class RuleParserTest extends TestCase {
 
@@ -299,7 +301,7 @@ public class RuleParserTest extends TestCase {
                       pkg.getFunctionImports().size() );
 
         assertEquals( "abd.def.x",
-                      ((FunctionImportDescr) pkg.getFunctionImports().get( 0 )).getTarget() );
+                      (( FunctionImportDescr ) pkg.getFunctionImports().get( 0 )).getTarget() );
         assertFalse( ((FunctionImportDescr) pkg.getFunctionImports().get( 0 )).getStartCharacter() == -1 );
         assertFalse( ((FunctionImportDescr) pkg.getFunctionImports().get( 0 )).getEndCharacter() == -1 );
         assertEquals( "qed.wah.*",
@@ -337,7 +339,7 @@ public class RuleParserTest extends TestCase {
         assertEquals( "Customer",
                       customer.getObjectType() );
         assertEquals( "customerService.getCustomer(o.getCustomerId())",
-                      ((FromDescr) customer.getSource()).getDataSource().getText() );
+                      (( FromDescr ) customer.getSource()).getDataSource().getText() );
 
     }
 
@@ -3057,7 +3059,7 @@ public class RuleParserTest extends TestCase {
         AccumulateDescr accum = (AccumulateDescr) out.getSource();
         assertTrue( accum.isExternalFunction() );
 
-        List<AccumulateFunctionCallDescr> functions = accum.getFunctions();
+        List<AccumulateDescr.AccumulateFunctionCallDescr> functions = accum.getFunctions();
         assertEquals( 3,
                       functions.size() );
         assertEquals( "average",
@@ -3111,7 +3113,7 @@ public class RuleParserTest extends TestCase {
         AccumulateDescr accum = (AccumulateDescr) out.getSource();
         assertTrue( accum.isExternalFunction() );
 
-        List<AccumulateFunctionCallDescr> functions = accum.getFunctions();
+        List<AccumulateDescr.AccumulateFunctionCallDescr> functions = accum.getFunctions();
         assertEquals( 1,
                       functions.size() );
         assertEquals( "average",
@@ -3151,7 +3153,7 @@ public class RuleParserTest extends TestCase {
         AccumulateDescr accum = (AccumulateDescr) out.getSource();
         assertTrue( accum.isExternalFunction() );
 
-        List<AccumulateFunctionCallDescr> functions = accum.getFunctions();
+        List<AccumulateDescr.AccumulateFunctionCallDescr> functions = accum.getFunctions();
         assertEquals( 1,
                       functions.size() );
         assertEquals( "average",
@@ -3206,7 +3208,7 @@ public class RuleParserTest extends TestCase {
         AccumulateDescr accum = (AccumulateDescr) out.getSource();
         assertTrue( accum.isExternalFunction() );
 
-        List<AccumulateFunctionCallDescr> functions = accum.getFunctions();
+        List<AccumulateDescr.AccumulateFunctionCallDescr> functions = accum.getFunctions();
         assertEquals( 2,
                       functions.size() );
         assertEquals( "baz",
@@ -3252,7 +3254,7 @@ public class RuleParserTest extends TestCase {
         AccumulateDescr accum = (AccumulateDescr) out.getSource();
         assertTrue( accum.isExternalFunction() );
 
-        List<AccumulateFunctionCallDescr> functions = accum.getFunctions();
+        List<AccumulateDescr.AccumulateFunctionCallDescr> functions = accum.getFunctions();
         assertEquals( 3,
                       functions.size() );
         assertEquals( "average",

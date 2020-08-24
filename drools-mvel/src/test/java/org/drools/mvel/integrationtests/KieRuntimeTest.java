@@ -18,7 +18,7 @@ package org.drools.mvel.integrationtests;
 
 import java.io.IOException;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Message;
+import org.drools.mvel.compiler.Message;
 import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.runtime.KieSession;
@@ -28,7 +28,7 @@ public class KieRuntimeTest extends CommonTestMethodBase {
     @Test
     public void testKieRuntimeAccess() throws IOException, ClassNotFoundException {
         String str = "";
-        str += "package org.drools.compiler.test\n";
+        str += "package org.drools.mvel.compiler.test\n";
         str += "import " + Message.class.getName() + "\n";
         str += "rule \"Hello World\"\n";
         str += "when\n";

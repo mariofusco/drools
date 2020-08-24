@@ -19,15 +19,20 @@ import java.util.LinkedList;
 
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.Token;
+import org.drools.compiler.compiler.DroolsParserException;
+import org.drools.compiler.lang.DRLParser;
+import org.drools.compiler.lang.DroolsEditorType;
+import org.drools.compiler.lang.DroolsToken;
+import org.drools.compiler.lang.Location;
 import org.drools.core.base.evaluators.EvaluatorRegistry;
-import org.drools.mvel.compiler.compiler.DroolsParserException;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.internal.builder.conf.LanguageLevelOption;
 
-import static org.drools.mvel.compiler.compiler.DRLFactory.buildParser;
-import static org.junit.Assert.*;
+import static org.drools.compiler.compiler.DRLFactory.buildParser;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class DRLContextTest {
 
@@ -48,7 +53,7 @@ public class DRLContextTest {
         } catch (Exception ex) {
         }
 
-        assertEquals(Location.LOCATION_LHS_INSIDE_CONDITION_END,
+        assertEquals( Location.LOCATION_LHS_INSIDE_CONDITION_END,
                 getLastIntegerValue(parser.getEditorInterface().get(0)
                         .getContent()));
     }
@@ -335,7 +340,7 @@ public class DRLContextTest {
 
         assertEquals("c",
                 token.getText() );
-        assertEquals(DroolsEditorType.IDENTIFIER_VARIABLE, token
+        assertEquals( DroolsEditorType.IDENTIFIER_VARIABLE, token
                 .getEditorType());
 
         assertEquals(Location.LOCATION_LHS_INSIDE_CONDITION_START,

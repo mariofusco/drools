@@ -20,16 +20,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.drools.compiler.Cheese;
-import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Message;
-import org.drools.compiler.Person;
 import org.drools.compiler.compiler.DroolsParserException;
-import org.drools.mvel.integrationtests.DynamicRulesTest;
-import org.drools.compiler.phreak.A;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
 import org.drools.core.util.IoUtils;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.Cheese;
+import org.drools.mvel.compiler.Message;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.compiler.phreak.A;
+import org.drools.mvel.integrationtests.DynamicRulesTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.KieBase;
@@ -38,6 +38,7 @@ import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
 import org.kie.api.builder.KieFileSystem;
 import org.kie.api.builder.Results;
+import org.kie.api.conf.SequentialOption;
 import org.kie.api.event.rule.AfterMatchFiredEvent;
 import org.kie.api.event.rule.AgendaEventListener;
 import org.kie.api.event.rule.AgendaGroupPoppedEvent;
@@ -55,7 +56,6 @@ import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.StatelessKieSession;
 import org.kie.internal.command.CommandFactory;
-import org.kie.api.conf.SequentialOption;
 import org.kie.internal.utils.KieHelper;
 
 import static org.junit.Assert.assertEquals;
@@ -75,7 +75,7 @@ public class SequentialTest extends CommonTestMethodBase {
     @Test
     public void testSequentialPlusPhreakOperationComplex() throws Exception {
         String str = "";
-        str += "package org.drools.compiler.test\n";
+        str += "package org.drools.mvel.compiler.test\n";
         str +="import " + A.class.getCanonicalName() + "\n";
         str +="global  " + List.class.getCanonicalName() + " list\n";
 
@@ -177,7 +177,7 @@ public class SequentialTest extends CommonTestMethodBase {
     @Test
     public void testSequentialPlusPhreakRevisitOriginallyEmptyGroup() throws Exception {
         String str = "";
-        str += "package org.drools.compiler.test\n";
+        str += "package org.drools.mvel.compiler.test\n";
         str +="import " + A.class.getCanonicalName() + "\n";
         str +="global  " + List.class.getCanonicalName() + " list\n";
 
@@ -268,7 +268,7 @@ public class SequentialTest extends CommonTestMethodBase {
     @Test
     public void testKnowledgeRuntimeAccess() throws Exception {
         String str = "";
-        str += "package org.drools.compiler.test\n";
+        str += "package org.drools.mvel.compiler.test\n";
         str +="import org.drools.compiler.Message\n";
         str +="rule \"Hello World\"\n";
         str +="when\n";
@@ -286,7 +286,7 @@ public class SequentialTest extends CommonTestMethodBase {
     @Test
     public void testEvents() throws Exception {
         String str = "";
-        str += "package org.drools.compiler.test\n";
+        str += "package org.drools.mvel.compiler.test\n";
         str +="import org.drools.compiler.Message\n";
         str +="rule \"Hello World\"\n";
         str +="when\n";
@@ -525,7 +525,7 @@ public class SequentialTest extends CommonTestMethodBase {
     public void testSequentialWithNoLoop() throws Exception {
         // BZ-1228098
         String str =
-                "package org.drools.compiler.test\n" +
+                "package org.drools.mvel.compiler.test\n" +
                 "import \n" + Message.class.getCanonicalName() + ";" +
                 "rule R1 no-loop when\n" +
                 "    $s : String( )" +
@@ -561,7 +561,7 @@ public class SequentialTest extends CommonTestMethodBase {
     public void testSharedSegment() throws Exception {
         // BZ-1228313
         String str =
-                "package org.drools.compiler.test\n" +
+                "package org.drools.mvel.compiler.test\n" +
                 "import \n" + Message.class.getCanonicalName() + ";" +
                 "rule R1 when\n" +
                 "    $s : String()\n" +

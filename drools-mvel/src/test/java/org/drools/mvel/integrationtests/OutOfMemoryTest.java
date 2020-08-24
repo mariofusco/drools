@@ -16,9 +16,9 @@
 
 package org.drools.mvel.integrationtests;
 
-import org.drools.compiler.Cheese;
+import org.drools.mvel.compiler.Cheese;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Person;
+import org.drools.mvel.compiler.Person;
 import org.drools.core.SessionConfiguration;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;

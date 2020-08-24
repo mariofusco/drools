@@ -15,20 +15,21 @@
 
 package org.drools.mvel.compiler.lang;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
+import org.drools.compiler.compiler.DrlExprParser;
+import org.drools.compiler.lang.MVELDumper;
+import org.drools.compiler.lang.MVELDumper.MVELDumperContext;
+import org.drools.compiler.lang.descr.AtomicExprDescr;
+import org.drools.compiler.lang.descr.BindingDescr;
+import org.drools.compiler.lang.descr.ConstraintConnectiveDescr;
 import org.drools.core.base.evaluators.MatchesEvaluatorsDefinition;
 import org.drools.core.base.evaluators.SetEvaluatorsDefinition;
-import org.drools.mvel.compiler.compiler.DrlExprParser;
-import org.drools.mvel.compiler.lang.MVELDumper.MVELDumperContext;
-import org.drools.mvel.compiler.lang.descr.AtomicExprDescr;
-import org.drools.mvel.compiler.lang.descr.BindingDescr;
-import org.drools.mvel.compiler.lang.descr.ConstraintConnectiveDescr;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.internal.builder.conf.LanguageLevelOption;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class MVELDumperTest {
 

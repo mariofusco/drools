@@ -15,6 +15,51 @@
 
 package org.drools.mvel.integrationtests;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.drools.core.ClockType;
+import org.drools.core.audit.WorkingMemoryConsoleLogger;
+import org.drools.core.impl.InternalKnowledgeBase;
+import org.drools.core.impl.KnowledgeBaseFactory;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.Address;
+import org.drools.mvel.compiler.Cheese;
+import org.drools.mvel.compiler.Cheesery;
+import org.drools.mvel.compiler.FactA;
+import org.drools.mvel.compiler.FactB;
+import org.drools.mvel.compiler.FactC;
+import org.drools.mvel.compiler.Message;
+import org.drools.mvel.compiler.Order;
+import org.drools.mvel.compiler.OrderItem;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.compiler.PersonInterface;
+import org.drools.mvel.compiler.SpecialString;
+import org.drools.mvel.compiler.State;
+import org.drools.mvel.compiler.StockTick;
+import org.drools.mvel.compiler.Triangle;
+import org.junit.Test;
+import org.kie.api.KieBase;
+import org.kie.api.KieBaseConfiguration;
+import org.kie.api.conf.RemoveIdentitiesOption;
+import org.kie.api.definition.KiePackage;
+import org.kie.api.event.rule.AfterMatchFiredEvent;
+import org.kie.api.event.rule.AgendaEventListener;
+import org.kie.api.io.ResourceType;
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.KieSessionConfiguration;
+import org.kie.api.runtime.conf.ClockTypeOption;
+import org.kie.api.runtime.rule.FactHandle;
+import org.kie.api.time.SessionClock;
+import org.kie.api.time.SessionPseudoClock;
+import org.kie.internal.builder.KnowledgeBuilder;
+import org.kie.internal.builder.KnowledgeBuilderFactory;
+import org.kie.internal.io.ResourceFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
@@ -23,51 +68,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import org.drools.compiler.Address;
-import org.drools.compiler.Cheese;
-import org.drools.compiler.Cheesery;
-import org.drools.core.ClockType;
-import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.FactA;
-import org.drools.compiler.FactB;
-import org.drools.compiler.FactC;
-import org.kie.api.runtime.rule.FactHandle;
-import org.drools.compiler.Message;
-import org.drools.compiler.Order;
-import org.drools.compiler.OrderItem;
-import org.drools.compiler.Person;
-import org.drools.compiler.PersonInterface;
-import org.drools.compiler.SpecialString;
-import org.drools.compiler.State;
-import org.drools.compiler.StockTick;
-import org.drools.compiler.Triangle;
-import org.drools.core.audit.WorkingMemoryConsoleLogger;
-import org.drools.core.impl.InternalKnowledgeBase;
-import org.drools.core.impl.KnowledgeBaseFactory;
-import org.kie.api.time.SessionPseudoClock;
-import org.junit.Test;
-import org.kie.api.KieBase;
-import org.kie.api.KieBaseConfiguration;
-import org.kie.api.conf.RemoveIdentitiesOption;
-import org.kie.api.definition.KiePackage;
-import org.kie.internal.builder.KnowledgeBuilder;
-import org.kie.internal.builder.KnowledgeBuilderFactory;
-import org.kie.api.event.rule.AfterMatchFiredEvent;
-import org.kie.api.event.rule.AgendaEventListener;
-import org.kie.internal.io.ResourceFactory;
-import org.kie.api.io.ResourceType;
-import org.kie.api.runtime.KieSession;
-import org.kie.api.runtime.KieSessionConfiguration;
-import org.kie.api.runtime.conf.ClockTypeOption;
-import org.kie.api.time.SessionClock;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class FirstOrderLogicTest extends CommonTestMethodBase {
 
@@ -1286,7 +1286,7 @@ public class FirstOrderLogicTest extends CommonTestMethodBase {
     public void testLotsOfOrs() throws Exception {
         // Decomposed this test down to just two rules, while still exhibiting the problem
         // Uncomment rest of rule as those are fixed, to complicate it again.
-        String str = "package org.drools.compiler.test\n" +
+        String str = "package org.drools.mvel.compiler.test\n" +
                 "\n" + 
                 "import " + FirstOrderLogicTest.class.getCanonicalName() + ".Field;\n" + 
                 " \n" + 

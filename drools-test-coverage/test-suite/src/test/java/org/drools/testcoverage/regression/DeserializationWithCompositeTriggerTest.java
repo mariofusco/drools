@@ -19,8 +19,8 @@ package org.drools.testcoverage.regression;
 import java.util.Collection;
 
 import org.assertj.core.api.Assertions;
-import org.drools.compiler.StockTick;
-import org.drools.compiler.integrationtests.SerializationHelper;
+import org.drools.mvel.compiler.StockTick;
+import org.drools.mvel.integrationtests.SerializationHelper;
 import org.drools.testcoverage.common.util.KieBaseTestConfiguration;
 import org.drools.testcoverage.common.util.KieUtil;
 import org.drools.testcoverage.common.util.TestParametersUtil;

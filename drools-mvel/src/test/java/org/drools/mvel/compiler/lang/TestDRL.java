@@ -377,8 +377,8 @@ public class TestDRL {
 //
 //    @Test
 //    public void testCompilation_unit34() throws Exception {
-//        // test input: "import org.drools.mvel.compiler.Person\n\nrule simple_rule \n  when\n\tPerson(name == \"mark\") or \n\t( Person(type == \"fan\") and Cheese(type == \"green\") )\n  then\n\tSystem.out.println( \"Mark and Michael\" + bar );\nend"
-//        Object retval = execParser("compilation_unit", "import org.drools.mvel.compiler.Person\n\nrule simple_rule \n  when\n\tPerson(name == \"mark\") or \n\t( Person(type == \"fan\") and Cheese(type == \"green\") )\n  then\n\tSystem.out.println( \"Mark and Michael\" + bar );\nend", false);
+//        // test input: "import org.drools.compiler.Person\n\nrule simple_rule \n  when\n\tPerson(name == \"mark\") or \n\t( Person(type == \"fan\") and Cheese(type == \"green\") )\n  then\n\tSystem.out.println( \"Mark and Michael\" + bar );\nend"
+//        Object retval = execParser("compilation_unit", "import org.drools.compiler.Person\n\nrule simple_rule \n  when\n\tPerson(name == \"mark\") or \n\t( Person(type == \"fan\") and Cheese(type == \"green\") )\n  then\n\tSystem.out.println( \"Mark and Michael\" + bar );\nend", false);
 //        Object actual = examineParserExecResult(10, retval);
 //        Object expecting = "(VT_COMPILATION_UNIT (import (VT_IMPORT_ID org drools Person)) (rule simple_rule when (VT_AND_IMPLICIT (or (VT_PATTERN (VT_FACT (VT_PATTERN_TYPE Person) (VT_FIELD (VT_ACCESSOR_PATH (VT_ACCESSOR_ELEMENT name)) (== \"mark\")))) (and (VT_PATTERN (VT_FACT (VT_PATTERN_TYPE Person) (VT_FIELD (VT_ACCESSOR_PATH (VT_ACCESSOR_ELEMENT type)) (== \"fan\")))) (VT_PATTERN (VT_FACT (VT_PATTERN_TYPE Cheese) (VT_FIELD (VT_ACCESSOR_PATH (VT_ACCESSOR_ELEMENT type)) (== \"green\"))))))) then\n\tSystem.out.println( \"Mark and Michael\" + bar );\nend))";
 //
@@ -387,8 +387,8 @@ public class TestDRL {
 //
 //    @Test
 //    public void testCompilation_unit35() throws Exception {
-//        // test input: "import org.drools.mvel.compiler.Person\n\nrule simple_rule \n  when\n    Person(name == \"mark\") && Cheese(type == \"stilton\")\n    Person(name == \"mark\") || Cheese(type == \"stilton\")\n  then\n\tSystem.out.println( \"Mark and Michael\" );\nend"
-//        Object retval = execParser("compilation_unit", "import org.drools.mvel.compiler.Person\n\nrule simple_rule \n  when\n    Person(name == \"mark\") && Cheese(type == \"stilton\")\n    Person(name == \"mark\") || Cheese(type == \"stilton\")\n  then\n\tSystem.out.println( \"Mark and Michael\" );\nend", false);
+//        // test input: "import org.drools.compiler.Person\n\nrule simple_rule \n  when\n    Person(name == \"mark\") && Cheese(type == \"stilton\")\n    Person(name == \"mark\") || Cheese(type == \"stilton\")\n  then\n\tSystem.out.println( \"Mark and Michael\" );\nend"
+//        Object retval = execParser("compilation_unit", "import org.drools.compiler.Person\n\nrule simple_rule \n  when\n    Person(name == \"mark\") && Cheese(type == \"stilton\")\n    Person(name == \"mark\") || Cheese(type == \"stilton\")\n  then\n\tSystem.out.println( \"Mark and Michael\" );\nend", false);
 //        Object actual = examineParserExecResult(10, retval);
 //        Object expecting = "(VT_COMPILATION_UNIT (import (VT_IMPORT_ID org drools Person)) (rule simple_rule when (VT_AND_IMPLICIT (&& (VT_PATTERN (VT_FACT (VT_PATTERN_TYPE Person) (VT_FIELD (VT_ACCESSOR_PATH (VT_ACCESSOR_ELEMENT name)) (== \"mark\")))) (VT_PATTERN (VT_FACT (VT_PATTERN_TYPE Cheese) (VT_FIELD (VT_ACCESSOR_PATH (VT_ACCESSOR_ELEMENT type)) (== \"stilton\"))))) (|| (VT_PATTERN (VT_FACT (VT_PATTERN_TYPE Person) (VT_FIELD (VT_ACCESSOR_PATH (VT_ACCESSOR_ELEMENT name)) (== \"mark\")))) (VT_PATTERN (VT_FACT (VT_PATTERN_TYPE Cheese) (VT_FIELD (VT_ACCESSOR_PATH (VT_ACCESSOR_ELEMENT type)) (== \"stilton\")))))) then\n\tSystem.out.println( \"Mark and Michael\" );\nend))";
 //
@@ -397,8 +397,8 @@ public class TestDRL {
 //
 //    @Test
 //    public void testCompilation_unit36() throws Exception {
-//        // test input: "import org.drools.mvel.compiler.Person\n\nrule simple_rule \n  when\n\tfoo :  ( Person(name == \"mark\") or Person(type == \"fan\") ) \n\tCheese(type == \"green\")\n  then\n\tSystem.out.println( \"Mark and Michael\" + bar );\nend"
-//        Object retval = execParser("compilation_unit", "import org.drools.mvel.compiler.Person\n\nrule simple_rule \n  when\n\tfoo :  ( Person(name == \"mark\") or Person(type == \"fan\") ) \n\tCheese(type == \"green\")\n  then\n\tSystem.out.println( \"Mark and Michael\" + bar );\nend", false);
+//        // test input: "import org.drools.compiler.Person\n\nrule simple_rule \n  when\n\tfoo :  ( Person(name == \"mark\") or Person(type == \"fan\") ) \n\tCheese(type == \"green\")\n  then\n\tSystem.out.println( \"Mark and Michael\" + bar );\nend"
+//        Object retval = execParser("compilation_unit", "import org.drools.compiler.Person\n\nrule simple_rule \n  when\n\tfoo :  ( Person(name == \"mark\") or Person(type == \"fan\") ) \n\tCheese(type == \"green\")\n  then\n\tSystem.out.println( \"Mark and Michael\" + bar );\nend", false);
 //        Object actual = examineParserExecResult(10, retval);
 //        Object expecting = "(VT_COMPILATION_UNIT (import (VT_IMPORT_ID org drools Person)) (rule simple_rule when (VT_AND_IMPLICIT (VT_PATTERN (VT_FACT_BINDING foo (or (VT_FACT (VT_PATTERN_TYPE Person) (VT_FIELD (VT_ACCESSOR_PATH (VT_ACCESSOR_ELEMENT name)) (== \"mark\"))) (VT_FACT (VT_PATTERN_TYPE Person) (VT_FIELD (VT_ACCESSOR_PATH (VT_ACCESSOR_ELEMENT type)) (== \"fan\")))))) (VT_PATTERN (VT_FACT (VT_PATTERN_TYPE Cheese) (VT_FIELD (VT_ACCESSOR_PATH (VT_ACCESSOR_ELEMENT type)) (== \"green\"))))) then\n\tSystem.out.println( \"Mark and Michael\" + bar );\nend))";
 //

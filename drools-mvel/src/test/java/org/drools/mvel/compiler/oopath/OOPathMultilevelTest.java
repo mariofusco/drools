@@ -33,7 +33,7 @@ public class OOPathMultilevelTest {
     @Test
     public void testClassTwoLevelPath() {
         final String drl =
-                "import org.drools.mvel.compiler.oopath.model.*;\n" +
+                "import org.drools.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -71,7 +71,7 @@ public class OOPathMultilevelTest {
     @Test
     public void testClassThreeLevelPath() {
         final String drl =
-                "import org.drools.mvel.compiler.oopath.model.*;\n" +
+                "import org.drools.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -106,7 +106,7 @@ public class OOPathMultilevelTest {
     @Test
     public void testClassTwoLevelPathWithAlphaConstraint() {
         final String drl =
-                "import org.drools.mvel.compiler.oopath.model.*;\n" +
+                "import org.drools.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -121,7 +121,7 @@ public class OOPathMultilevelTest {
     @Test
     public void testClassTwoLevelPathWithBetaConstraint() {
         final String drl =
-                "import org.drools.mvel.compiler.oopath.model.*;\n" +
+                "import org.drools.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +

@@ -16,9 +16,9 @@
 package org.drools.mvel.compiler.compiler.xml.rules;
 
 import org.assertj.core.api.Assertions;
-import org.drools.mvel.compiler.compiler.DrlParser;
-import org.drools.mvel.compiler.lang.DrlDumper;
-import org.drools.mvel.compiler.lang.descr.PackageDescr;
+import org.drools.compiler.compiler.DrlParser;
+import org.drools.compiler.lang.DrlDumper;
+import org.drools.compiler.lang.descr.PackageDescr;
 import org.junit.Test;
 import org.kie.internal.builder.conf.LanguageLevelOption;
 

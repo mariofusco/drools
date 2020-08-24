@@ -516,7 +516,7 @@ end    >>
  * test Or Nesting
  */
 	<<
-import org.drools.mvel.compiler.Person
+import org.drools.compiler.Person
 
 rule simple_rule 
   when
@@ -530,7 +530,7 @@ end>>
  * test And Or Rules
  */
 	<<
-import org.drools.mvel.compiler.Person
+import org.drools.compiler.Person
 
 rule simple_rule 
   when
@@ -544,7 +544,7 @@ end>>
  * test Or With Binding
  */
 	<<
-import org.drools.mvel.compiler.Person
+import org.drools.compiler.Person
 
 rule simple_rule 
   when

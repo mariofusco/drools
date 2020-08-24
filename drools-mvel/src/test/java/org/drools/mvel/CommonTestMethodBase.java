@@ -20,13 +20,13 @@ import java.util.Collection;
 import java.util.function.Predicate;
 
 import org.drools.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
-import org.drools.compiler.integrationtests.SerializationHelper;
 import org.drools.compiler.kie.builder.impl.InternalKieModule;
 import org.drools.compiler.lang.descr.PackageDescr;
 import org.drools.core.common.InternalAgenda;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
 import org.drools.core.impl.KnowledgeBaseImpl;
+import org.drools.core.integrationtests.SerializationHelper;
 import org.drools.core.reteoo.builder.NodeFactory;
 import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;

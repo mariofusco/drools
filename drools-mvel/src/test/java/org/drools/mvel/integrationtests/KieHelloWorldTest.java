@@ -23,11 +23,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Message;
 import org.drools.compiler.kie.builder.impl.KieContainerImpl;
 import org.drools.compiler.kie.builder.impl.KieProject;
 import org.drools.compiler.kie.builder.impl.ResultsImpl;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.Message;
 import org.drools.reflective.classloader.ProjectClassLoader;
 import org.junit.Test;
 import org.kie.api.KieServices;

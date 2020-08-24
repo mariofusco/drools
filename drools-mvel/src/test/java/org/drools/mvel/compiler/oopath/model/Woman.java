@@ -16,7 +16,6 @@
 
 package org.drools.mvel.compiler.oopath.model;
 
-import org.drools.mvel.compiler.oopath.model.Adult;
 
 public class Woman extends Adult {
 

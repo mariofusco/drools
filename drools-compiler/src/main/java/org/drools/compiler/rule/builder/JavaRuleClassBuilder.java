@@ -12,17 +12,13 @@
  * limitations under the License.
  */
 
-package org.drools.mvel.java;
+package org.drools.compiler.rule.builder;
 
-import org.drools.compiler.rule.builder.RuleClassBuilder;
-import org.drools.core.util.StringUtils;
 import org.drools.compiler.lang.descr.RuleDescr;
-import org.drools.compiler.rule.builder.RuleBuildContext;
 import org.drools.core.spi.KnowledgeHelper;
+import org.drools.core.util.StringUtils;
 
-public class JavaRuleClassBuilder
-    implements
-        RuleClassBuilder {
+public class JavaRuleClassBuilder implements RuleClassBuilder {
 
     /* (non-Javadoc)
      * @see org.kie.rule.builder.dialect.java.RuleClassBuilder#buildRule(org.kie.rule.builder.BuildContext, org.kie.rule.builder.dialect.java.BuildUtils, org.kie.lang.descr.RuleDescr)

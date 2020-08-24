@@ -20,13 +20,16 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 
-import org.drools.mvel.compiler.lang.dsl.DSLMappingEntry;
-import org.drools.mvel.compiler.lang.dsl.DSLMappingFile;
-import org.drools.mvel.compiler.lang.dsl.DSLTokenizedMappingFile;
-import org.drools.mvel.compiler.lang.dsl.DefaultExpander;
+import org.drools.compiler.lang.dsl.DSLMappingEntry;
+import org.drools.compiler.lang.dsl.DSLMappingFile;
+import org.drools.compiler.lang.dsl.DSLTokenizedMappingFile;
+import org.drools.compiler.lang.dsl.DefaultExpander;
 import org.junit.Ignore;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class DSLMappingFileTest {
     private DSLMappingFile file     = null;

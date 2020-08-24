@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.I18nPerson;
-import org.drools.compiler.Person;
+import org.drools.mvel.compiler.I18nPerson;
+import org.drools.mvel.compiler.Person;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
 import org.junit.Ignore;
@@ -191,7 +191,7 @@ public class I18nTest extends CommonTestMethodBase {
 
     @Test
     public void testKieFileSystem() {
-        String str = "package org.drools.compiler.i18ntest;\n" +
+        String str = "package org.drools.mvel.compiler.i18ntest;\n" +
                 "import org.drools.compiler.I18nPerson;\n" +
                 "\n" +
                 "global java.util.List list;\n" +
@@ -222,7 +222,7 @@ public class I18nTest extends CommonTestMethodBase {
 
     @Test
     public void testKieModuleJar() {
-        String str = "package org.drools.compiler.i18ntest;\n" +
+        String str = "package org.drools.mvel.compiler.i18ntest;\n" +
                 "import org.drools.compiler.I18nPerson;\n" +
                 "\n" +
                 "global java.util.List list;\n" +
@@ -256,8 +256,8 @@ public class I18nTest extends CommonTestMethodBase {
     @Test
     public void testMultibytePositonalQueryParam() {
         // DROOLS-1619
-        String drl = "package org.drools.compiler.i18ntest;\n" +
-                "import org.drools.compiler.Person;\n" +
+        String drl = "package org.drools.mvel.compiler.i18ntest;\n" +
+                "import org.drools.mvel.compiler.Person;\n" +
                 "\n" +
                 "query testquery(int $a, Person $t)\n" +
                 "    $t := Person(age > $a)\n" +

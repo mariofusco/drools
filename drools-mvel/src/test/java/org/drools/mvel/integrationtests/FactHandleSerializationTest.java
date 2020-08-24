@@ -24,7 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
 
-import org.drools.compiler.Person;
+import org.drools.mvel.compiler.Person;
 import org.junit.Test;
 import org.kie.api.KieServices;
 import org.kie.api.io.ResourceType;

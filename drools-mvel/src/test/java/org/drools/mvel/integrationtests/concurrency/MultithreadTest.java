@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.Assertions;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.StockTick;
+import org.drools.mvel.compiler.StockTick;
 import org.drools.core.RuleBaseConfiguration;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;

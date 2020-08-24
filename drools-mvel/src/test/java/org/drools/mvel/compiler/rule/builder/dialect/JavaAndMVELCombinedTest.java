@@ -15,9 +15,8 @@
 
 package org.drools.mvel.compiler.rule.builder.dialect;
 
-import org.drools.mvel.compiler.CommonTestMethodBase;
+import org.drools.mvel.CommonTestMethodBase;
 import org.junit.Test;
-
 import org.kie.api.KieBase;
 
 public class JavaAndMVELCombinedTest extends CommonTestMethodBase {

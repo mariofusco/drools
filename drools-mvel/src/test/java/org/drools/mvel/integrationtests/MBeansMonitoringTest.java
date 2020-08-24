@@ -17,16 +17,16 @@ package org.drools.mvel.integrationtests;
 import java.lang.management.ManagementFactory;
 import java.net.URL;
 import java.net.URLClassLoader;
+
 import javax.management.JMX;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
-
-import org.drools.mvel.CommonTestMethodBase;
 import org.drools.compiler.kie.builder.impl.KieServicesImpl;
 import org.drools.core.ClockType;
 import org.drools.core.impl.InternalKieContainer;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.management.DroolsManagementAgent;
+import org.drools.mvel.CommonTestMethodBase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -71,7 +71,7 @@ public class MBeansMonitoringTest extends CommonTestMethodBase {
 
     @Before
     public void setUp() throws Exception {
-        ((KieServicesImpl) KieServices.Factory.get()).nullKieClasspathContainer();
+        (( KieServicesImpl ) KieServices.Factory.get()).nullKieClasspathContainer();
         ((KieServicesImpl) KieServices.Factory.get()).nullAllContainerIds();
         mbeansprop = System.getProperty( MBeansOption.PROPERTY_NAME );
         System.setProperty( MBeansOption.PROPERTY_NAME, "enabled" );    
@@ -152,7 +152,7 @@ public class MBeansMonitoringTest extends CommonTestMethodBase {
 
     @Test
     public void testEventOffset() throws Exception {
-    	String drl = "package org.drools.compiler.test\n" +
+    	String drl = "package org.drools.mvel.compiler.test\n" +
     			"import org.drools.compiler.StockTick\n" +
     			"declare StockTick\n" +
     			"    @role(event)\n" +
@@ -185,13 +185,13 @@ public class MBeansMonitoringTest extends CommonTestMethodBase {
     	ObjectName kbOn = DroolsManagementAgent.createObjectNameFor((InternalKnowledgeBase) kiebase);
     	mbserver.invoke( kbOn, "startInternalMBeans", new Object[0], new String[0] );
 
-    	Object expOffset = mbserver.getAttribute( new ObjectName( kbOn + ",group=EntryPoints,EntryPoint=DEFAULT,ObjectType=org.drools.compiler.StockTick" ), "ExpirationOffset" );
+    	Object expOffset = mbserver.getAttribute( new ObjectName( kbOn + ",group=EntryPoints,EntryPoint=DEFAULT,ObjectType=org.drools.mvel.compiler.StockTick" ), "ExpirationOffset" );
     	assertEquals( 10001, ((Number) expOffset).longValue() );
     }
     
     @Test
     public void testContainerMBeans() throws Exception {
-    	String drl = "package org.drools.compiler.test\n" +
+    	String drl = "package org.drools.mvel.compiler.test\n" +
     			"import org.drools.compiler.StockTick\n" +
     			"declare StockTick\n" +
     			"    @role(event)\n" +

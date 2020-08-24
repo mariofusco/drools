@@ -21,13 +21,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.drools.compiler.Cheese;
-import org.drools.compiler.CheeseEqual;
+import org.drools.mvel.compiler.Cheese;
+import org.drools.mvel.compiler.CheeseEqual;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Father;
-import org.drools.compiler.Person;
-import org.drools.compiler.Sensor;
-import org.drools.compiler.YoungestFather;
+import org.drools.mvel.compiler.Father;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.compiler.Sensor;
+import org.drools.mvel.compiler.YoungestFather;
 import org.drools.core.ClassObjectFilter;
 import org.drools.core.RuleBaseConfiguration;
 import org.drools.core.common.DefaultFactHandle;
@@ -148,9 +148,9 @@ public class TruthMaintenanceTest extends CommonTestMethodBase {
             KiePackage test = null, test2 = null;
             // different JVMs return the package list in different order
             for( KiePackage kpkg : kbase.getKiePackages() ) {
-                if( kpkg.getName().equals( "org.drools.compiler.test" )) {
+                if( kpkg.getName().equals( "org.drools.mvel.compiler.test" )) {
                     test = kpkg;
-                } else if( kpkg.getName().equals( "org.drools.compiler.test2" )) {
+                } else if( kpkg.getName().equals( "org.drools.mvel.compiler.test2" )) {
                     test2 = kpkg;
                 }
             }
@@ -167,9 +167,9 @@ public class TruthMaintenanceTest extends CommonTestMethodBase {
                               test.getRules().iterator().next().getName() );
             // different JVMs return the package list in different order
             for( KiePackage kpkg : kbase.getKiePackages() ) {
-                if( kpkg.getName().equals( "org.drools.compiler.test" )) {
+                if( kpkg.getName().equals( "org.drools.mvel.compiler.test" )) {
                     test = kpkg;
-                } else if( kpkg.getName().equals( "org.drools.compiler.test2" )) {
+                } else if( kpkg.getName().equals( "org.drools.mvel.compiler.test2" )) {
                     test2 = kpkg;
                 }
             }
@@ -213,9 +213,9 @@ public class TruthMaintenanceTest extends CommonTestMethodBase {
 
             // different JVMs return the package list in different order
             for( KiePackage kpkg : kbase.getKiePackages() ) {
-                if( kpkg.getName().equals( "org.drools.compiler.test" )) {
+                if( kpkg.getName().equals( "org.drools.mvel.compiler.test" )) {
                     test = kpkg;
-                } else if( kpkg.getName().equals( "org.drools.compiler.test2" )) {
+                } else if( kpkg.getName().equals( "org.drools.mvel.compiler.test2" )) {
                     test2 = kpkg;
                 }
             }
@@ -228,9 +228,9 @@ public class TruthMaintenanceTest extends CommonTestMethodBase {
 
             // different JVMs return the package list in different order
             for( KiePackage kpkg : kbase.getKiePackages() ) {
-                if( kpkg.getName().equals( "org.drools.compiler.test" )) {
+                if( kpkg.getName().equals( "org.drools.mvel.compiler.test" )) {
                     test = kpkg;
-                } else if( kpkg.getName().equals( "org.drools.compiler.test2" )) {
+                } else if( kpkg.getName().equals( "org.drools.mvel.compiler.test2" )) {
                     test2 = kpkg;
                 }
             }
@@ -1032,7 +1032,7 @@ public class TruthMaintenanceTest extends CommonTestMethodBase {
     @Test(timeout=10000)
     public void testTMSwithQueries() {
         String str =""+
-                "package org.drools.compiler.test;\n" +
+                "package org.drools.mvel.compiler.test;\n" +
                 "\n" +
                 "global java.util.List list; \n" +
                 "\n" +
@@ -1091,7 +1091,7 @@ public class TruthMaintenanceTest extends CommonTestMethodBase {
     public void testTMSWithLateUpdate() {
         //  JBRULES-3416
         String str =""+
-                "package org.drools.compiler.test;\n" +
+                "package org.drools.mvel.compiler.test;\n" +
                 "\n" +
                 "import org.drools.compiler.Father;\n" +
                 "import org.drools.compiler.YoungestFather;\n" +

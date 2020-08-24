@@ -16,12 +16,12 @@
 
 package org.drools.mvel.integrationtests.session;
 
-import org.drools.compiler.Address;
-import org.drools.compiler.Cat;
-import org.drools.compiler.Cheese;
+import org.drools.mvel.compiler.Address;
+import org.drools.mvel.compiler.Cat;
+import org.drools.mvel.compiler.Cheese;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Person;
-import org.drools.compiler.Primitives;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.compiler.Primitives;
 import org.drools.mvel.integrationtests.SerializationHelper;
 import org.junit.Test;
 import org.kie.api.KieBase;
@@ -37,7 +37,7 @@ public class FieldAccessTest extends CommonTestMethodBase {
     public void testAccessFieldsFromSubClass() throws Exception {
         String rule = "";
         rule += "package org.drools.compiler;\n";
-        rule += "import org.drools.compiler.Person;\n";
+        rule += "import org.drools.mvel.compiler.Person;\n";
         rule += "import org.drools.compiler.Pet;\n";
         rule += "import org.drools.compiler.Cat;\n";
         rule += "declare Person @typesafe(false) end\n";

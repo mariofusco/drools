@@ -26,8 +26,8 @@ import java.util.stream.IntStream;
 import javax.naming.InitialContext;
 import javax.transaction.UserTransaction;
 
-import org.drools.compiler.Address;
-import org.drools.compiler.Person;
+import org.drools.mvel.compiler.Address;
+import org.drools.mvel.compiler.Person;
 import org.drools.core.SessionConfiguration;
 import org.drools.core.command.impl.CommandBasedStatefulKnowledgeSession;
 import org.drools.core.command.impl.FireAllRulesInterceptor;

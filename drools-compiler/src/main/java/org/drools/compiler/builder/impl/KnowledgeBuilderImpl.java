@@ -462,7 +462,7 @@ public class KnowledgeBuilderImpl implements InternalKnowledgeBuilder {
         }
     }
 
-    protected static File createDumpDrlFile(File dumpDir, String fileName, String extension) {
+    public static File createDumpDrlFile(File dumpDir, String fileName, String extension) {
         return new File(dumpDir, fileName.replaceAll("[^a-zA-Z0-9\\.\\-_]+", "_") + extension);
     }
 
@@ -1989,11 +1989,11 @@ public class KnowledgeBuilderImpl implements InternalKnowledgeBuilder {
      * there were errors on items that a rule depends on (eg functions), then
      * you will get spurious errors which will not be that helpful.
      */
-    protected void resetErrors() {
+    public void resetErrors() {
         resetProblemType(ResultSeverity.ERROR);
     }
 
-    protected void resetWarnings() {
+    public void resetWarnings() {
         resetProblemType(ResultSeverity.WARNING);
     }
 
@@ -2007,7 +2007,7 @@ public class KnowledgeBuilderImpl implements InternalKnowledgeBuilder {
         this.results.removeAll(toBeDeleted);
     }
 
-    protected void resetProblems() {
+    public void resetProblems() {
         this.results.clear();
         if (this.processBuilder != null) {
             this.processBuilder.getErrors().clear();

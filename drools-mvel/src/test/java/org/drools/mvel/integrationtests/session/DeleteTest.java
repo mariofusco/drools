@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.PersonInterface;
+import org.drools.mvel.compiler.PersonInterface;
 import org.drools.mvel.integrationtests.SerializationHelper;
 import org.drools.mvel.integrationtests.facts.ClassA;
 import org.drools.mvel.integrationtests.facts.ClassB;
@@ -198,7 +198,7 @@ public class DeleteTest extends CommonTestMethodBase {
         final List list = new ArrayList();
         ksession.setGlobal("list", list);
 
-        final PersonInterface person = new org.drools.compiler.Person("michael", "cheese");
+        final PersonInterface person = new org.drools.mvel.compiler.Person("michael", "cheese");
         person.setStatus("start");
         ksession.insert(person);
 
@@ -235,7 +235,7 @@ public class DeleteTest extends CommonTestMethodBase {
         final List list = new ArrayList();
         ksession.setGlobal("list", list);
 
-        final org.drools.compiler.Person p = new org.drools.compiler.Person("ackbar");
+        final org.drools.mvel.compiler.Person p = new org.drools.mvel.compiler.Person("ackbar");
         ksession.insert(p);
         ksession.insert("ackbar");
         ksession.fireAllRules();
@@ -253,11 +253,11 @@ public class DeleteTest extends CommonTestMethodBase {
         final List list = new ArrayList();
         ksession.setGlobal("results", list);
 
-        final org.drools.compiler.Person bob = new org.drools.compiler.Person("Bob");
+        final org.drools.mvel.compiler.Person bob = new org.drools.mvel.compiler.Person("Bob");
         bob.setStatus("hungry");
         ksession.insert(bob);
-        ksession.insert(new org.drools.compiler.Cheese());
-        ksession.insert(new org.drools.compiler.Cheese());
+        ksession.insert(new org.drools.mvel.compiler.Cheese());
+        ksession.insert(new org.drools.mvel.compiler.Cheese());
 
         ksession.fireAllRules(2);
 
@@ -269,8 +269,8 @@ public class DeleteTest extends CommonTestMethodBase {
         final KieBase kbase = SerializationHelper.serializeObject(loadKnowledgeBase("test_RetractModifyWithFunction.drl"));
         final KieSession ksession = createKnowledgeSession(kbase);
 
-        final org.drools.compiler.Cheese stilton = new org.drools.compiler.Cheese("stilton", 7);
-        final org.drools.compiler.Cheese muzzarella = new org.drools.compiler.Cheese("muzzarella", 9);
+        final org.drools.mvel.compiler.Cheese stilton = new org.drools.mvel.compiler.Cheese("stilton", 7);
+        final org.drools.mvel.compiler.Cheese muzzarella = new org.drools.mvel.compiler.Cheese("muzzarella", 9);
         final int sum = stilton.getPrice() + muzzarella.getPrice();
         final FactHandle stiltonHandle = ksession.insert(stilton);
         final FactHandle muzzarellaHandle = ksession.insert(muzzarella);

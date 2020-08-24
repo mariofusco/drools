@@ -15,12 +15,12 @@
 
 package org.drools.mvel.compiler.rule.builder.dialect.mvel;
 
-import org.drools.mvel.compiler.builder.impl.KnowledgeBuilderImpl;
-import org.drools.mvel.compiler.compiler.DrlParser;
-import org.drools.mvel.compiler.lang.descr.PackageDescr;
-import org.drools.mvel.compiler.lang.descr.RuleDescr;
-import org.drools.core.base.mvel.MVELConsequence;
+import org.drools.compiler.builder.impl.KnowledgeBuilderImpl;
+import org.drools.compiler.compiler.DrlParser;
+import org.drools.compiler.lang.descr.PackageDescr;
+import org.drools.compiler.lang.descr.RuleDescr;
 import org.drools.core.definitions.InternalKnowledgePackage;
+import org.drools.mvel.expr.MVELConsequence;
 import org.junit.Test;
 import org.kie.internal.builder.conf.LanguageLevelOption;
 import org.mvel2.compiler.CompiledExpression;

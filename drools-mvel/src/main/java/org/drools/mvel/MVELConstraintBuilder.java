@@ -92,7 +92,6 @@ import static org.drools.compiler.rule.builder.PatternBuilder.registerDescrBuild
 import static org.drools.compiler.rule.builder.util.PatternBuilderUtil.getNormalizeDate;
 import static org.drools.compiler.rule.builder.util.PatternBuilderUtil.normalizeEmptyKeyword;
 import static org.drools.compiler.rule.builder.util.PatternBuilderUtil.normalizeStringOperator;
-import static org.drools.core.rule.QueryArgument.Declr.evaluateDeclaration;
 import static org.drools.core.rule.constraint.EvaluatorHelper.WM_ARGUMENT;
 import static org.drools.core.util.ClassUtils.convertFromPrimitiveType;
 import static org.drools.mvel.asm.AsmUtil.copyErrorLocation;
@@ -853,7 +852,7 @@ public class MVELConstraintBuilder implements ConstraintBuilder {
         public Object getValue( InternalWorkingMemory wm, LeftTuple leftTuple ) {
             Map<String, Object> vars = new HashMap<String, Object>();
             for (Declaration d : declarations) {
-                vars.put(d.getBindingName(), evaluateDeclaration( wm, leftTuple, d ));
+                vars.put(d.getBindingName(), QueryArgument.evaluateDeclaration( wm, leftTuple, d ));
             }
             return MVELSafeHelper.getEvaluator().executeExpression( this.mvelExpr, vars );
         }

@@ -41,7 +41,7 @@ public class OOPathCastTest {
     @Test
     public void testInlineCast() {
         final String drl =
-                "import org.drools.mvel.compiler.oopath.model.*;\n" +
+                "import org.drools.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -79,7 +79,7 @@ public class OOPathCastTest {
     @Test
     public void testInvalidCast() {
         final String drl =
-                "import org.drools.mvel.compiler.oopath.model.*;\n" +
+                "import org.drools.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -97,7 +97,7 @@ public class OOPathCastTest {
     @Test
     public void testInlineCastWithConstraint() {
         final String drl =
-                "import org.drools.mvel.compiler.oopath.model.*;\n" +
+                "import org.drools.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +

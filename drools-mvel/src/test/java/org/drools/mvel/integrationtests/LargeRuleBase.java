@@ -15,28 +15,22 @@
 
 package org.drools.mvel.integrationtests;
 
-import static org.junit.Assert.assertFalse;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
-import java.io.StringReader;
 
+import org.drools.compiler.compiler.DroolsParserException;
 import org.drools.core.common.DroolsObjectInputStream;
 import org.drools.core.common.DroolsObjectOutputStream;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
-import org.drools.compiler.compiler.DrlParser;
-import org.drools.compiler.compiler.DroolsParserException;
-import org.drools.compiler.lang.descr.PackageDescr;
 import org.kie.api.KieBase;
 import org.kie.api.io.ResourceType;
 import org.kie.internal.builder.KnowledgeBuilder;
 import org.kie.internal.builder.KnowledgeBuilderFactory;
-import org.kie.internal.builder.conf.LanguageLevelOption;
 import org.kie.internal.io.ResourceFactory;
 
 /**
@@ -89,8 +83,8 @@ public class LargeRuleBase {
         KieBase rb_ = (KieBase) in.readObject();
     }
     public static String getHeader() {
-        return "package org.kie.test; \n " + "import org.drools.compiler.Person; \n "
-                + "import org.drools.compiler.Cheese; \n "
+        return "package org.kie.test; \n " + "import org.drools.mvel.compiler.Person; \n "
+                + "import org.drools.mvel.compiler.Cheese; \n "
                 + "import org.drools.compiler.Cheesery; \n "
                 + " import java.util.List \n "
                 + " global List list \n dialect 'mvel'\n  ";

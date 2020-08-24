@@ -15,12 +15,12 @@
 
 package org.drools.mvel.integrationtests;
 
-import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Message;
 import org.drools.compiler.compiler.io.File;
 import org.drools.compiler.compiler.io.memory.MemoryFileSystem;
 import org.drools.compiler.kie.builder.impl.InternalKieModule;
 import org.drools.compiler.kie.builder.impl.KieBuilderImpl;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.Message;
 import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;

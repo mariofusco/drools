@@ -15,7 +15,7 @@
 
 package org.drools.mvel.integrationtests;
 
-import org.drools.compiler.Person;
+import org.drools.mvel.compiler.Person;
 import org.junit.Test;
 import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieSession;

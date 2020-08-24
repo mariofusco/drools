@@ -15,7 +15,9 @@
 
 package org.drools.mvel.integrationtests;
 
-import org.drools.compiler.Message;
+import java.io.File;
+
+import org.drools.mvel.compiler.Message;
 import org.junit.Test;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
@@ -32,17 +34,19 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.StatelessKieSession;
 import org.kie.internal.io.ResourceFactory;
 
-import java.io.File;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class KieLoggersTest {
 
     @Test
     public void testKieConsoleLogger() throws Exception {
         String drl = "package org.drools.integrationtests\n" + 
-        		"import org.drools.compiler.Message;\n" +
+        		"import org.drools.mvel.compiler.Message;\n" +
         		"rule \"Hello World\"\n" + 
         		"    when\n" + 
         		"        m : Message( myMessage : message )\n" + 
@@ -65,7 +69,7 @@ public class KieLoggersTest {
     @Test
     public void testDeclarativeKieConsoleLogger() throws Exception {
         String drl = "package org.drools.integrationtests\n" +
-                     "import org.drools.compiler.Message;\n" +
+                     "import org.drools.mvel.compiler.Message;\n" +
                      "rule \"Hello World\"\n" +
                      "    when\n" +
                      "        m : Message( myMessage : message )\n" +
@@ -97,7 +101,7 @@ public class KieLoggersTest {
     @Test
     public void testKieConsoleLoggerStateless() throws Exception {
         String drl = "package org.drools.integrationtests\n" + 
-                "import org.drools.compiler.Message;\n" +
+                "import org.drools.mvel.compiler.Message;\n" +
                 "rule \"Hello World\"\n" + 
                 "    when\n" + 
                 "        m : Message( myMessage : message )\n" + 
@@ -123,7 +127,7 @@ public class KieLoggersTest {
     @Test
     public void testDeclarativeKieConsoleLoggerStateless() throws Exception {
         String drl = "package org.drools.integrationtests\n" +
-                     "import org.drools.compiler.Message;\n" +
+                     "import org.drools.mvel.compiler.Message;\n" +
                      "rule \"Hello World\"\n" +
                      "    when\n" +
                      "        m : Message( myMessage : message )\n" +
@@ -156,7 +160,7 @@ public class KieLoggersTest {
     @Test
     public void testKieFileLogger() throws Exception {
         String drl = "package org.drools.integrationtests\n" +
-                     "import org.drools.compiler.Message;\n" +
+                     "import org.drools.mvel.compiler.Message;\n" +
                      "rule \"Hello World\"\n" +
                      "    when\n" +
                      "        m : Message( myMessage : message )\n" +
@@ -192,7 +196,7 @@ public class KieLoggersTest {
     public void testKieFileLoggerWithImmediateFlushing() throws Exception {
         // DROOLS-991
         String drl = "package org.drools.integrationtests\n" +
-                     "import org.drools.compiler.Message;\n" +
+                     "import org.drools.mvel.compiler.Message;\n" +
                      "rule \"Hello World\"\n" +
                      "    when\n" +
                      "        m : Message( myMessage : message )\n" +
@@ -229,7 +233,7 @@ public class KieLoggersTest {
     @Test
     public void testDeclarativeKieFileLogger() throws Exception {
         String drl = "package org.drools.integrationtests\n" + 
-                "import org.drools.compiler.Message;\n" +
+                "import org.drools.mvel.compiler.Message;\n" +
                 "rule \"Hello World\"\n" + 
                 "    when\n" + 
                 "        m : Message( myMessage : message )\n" + 

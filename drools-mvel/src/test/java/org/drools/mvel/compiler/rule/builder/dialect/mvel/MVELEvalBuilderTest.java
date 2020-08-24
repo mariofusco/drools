@@ -15,18 +15,18 @@
 
 package org.drools.mvel.compiler.rule.builder.dialect.mvel;
 
-import org.drools.mvel.compiler.Cheese;
-import org.drools.mvel.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
-import org.drools.mvel.compiler.builder.impl.KnowledgeBuilderImpl;
-import org.drools.mvel.compiler.compiler.DialectCompiletimeRegistry;
-import org.drools.mvel.compiler.lang.descr.EvalDescr;
-import org.drools.mvel.compiler.lang.descr.RuleDescr;
-import org.drools.mvel.compiler.reteoo.MockLeftTupleSink;
-import org.drools.mvel.compiler.rule.builder.RuleBuildContext;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.drools.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
+import org.drools.compiler.builder.impl.KnowledgeBuilderImpl;
+import org.drools.compiler.compiler.DialectCompiletimeRegistry;
+import org.drools.compiler.lang.descr.EvalDescr;
+import org.drools.compiler.lang.descr.RuleDescr;
+import org.drools.compiler.rule.builder.RuleBuildContext;
 import org.drools.core.base.ClassFieldAccessorCache;
 import org.drools.core.base.ClassFieldAccessorStore;
 import org.drools.core.base.ClassObjectType;
-import org.drools.core.base.mvel.MVELEvalExpression;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.definitions.impl.KnowledgePackageImpl;
@@ -36,14 +36,16 @@ import org.drools.core.impl.StatefulKnowledgeSessionImpl;
 import org.drools.core.reteoo.LeftTupleImpl;
 import org.drools.core.rule.Declaration;
 import org.drools.core.rule.EvalCondition;
-import org.drools.core.rule.MVELDialectRuntimeData;
 import org.drools.core.rule.Pattern;
 import org.drools.core.spi.InternalReadAccessor;
+import org.drools.mvel.MVELDialectRuntimeData;
+import org.drools.mvel.builder.MVELDialect;
+import org.drools.mvel.builder.MVELEvalBuilder;
+import org.drools.mvel.compiler.Cheese;
+import org.drools.mvel.compiler.reteoo.MockLeftTupleSink;
+import org.drools.mvel.expr.MVELEvalExpression;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -96,7 +98,7 @@ public class MVELEvalBuilderTest {
         final MVELEvalBuilder builder = new MVELEvalBuilder();
         final EvalCondition eval = (EvalCondition) builder.build( context,
                                                                   evalDescr );
-        ((MVELEvalExpression) eval.getEvalExpression()).compile( (MVELDialectRuntimeData) pkgBuilder.getPackageRegistry( pkg.getName() ).getDialectRuntimeRegistry().getDialectData( "mvel" ) );
+        (( MVELEvalExpression ) eval.getEvalExpression()).compile( ( MVELDialectRuntimeData ) pkgBuilder.getPackageRegistry( pkg.getName() ).getDialectRuntimeRegistry().getDialectData( "mvel" ) );
 
         InternalKnowledgeBase kBase = KnowledgeBaseFactory.newKnowledgeBase();
         StatefulKnowledgeSessionImpl ksession = (StatefulKnowledgeSessionImpl)kBase.newKieSession();

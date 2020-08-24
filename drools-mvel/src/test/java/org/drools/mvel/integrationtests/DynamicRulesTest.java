@@ -22,16 +22,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.drools.compiler.Cheese;
+import org.drools.mvel.compiler.Cheese;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.FactA;
-import org.drools.compiler.FactB;
-import org.drools.compiler.Order;
-import org.drools.compiler.OrderItem;
-import org.drools.compiler.Person;
-import org.drools.compiler.PersonInterface;
-import org.drools.compiler.Precondition;
-import org.drools.compiler.StockTick;
+import org.drools.mvel.compiler.FactA;
+import org.drools.mvel.compiler.FactB;
+import org.drools.mvel.compiler.Order;
+import org.drools.mvel.compiler.OrderItem;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.compiler.PersonInterface;
+import org.drools.mvel.compiler.Precondition;
+import org.drools.mvel.compiler.StockTick;
 import org.drools.core.RuleBaseConfiguration;
 import org.drools.core.common.InternalAgenda;
 import org.drools.core.common.InternalFactHandle;
@@ -199,7 +199,7 @@ public class DynamicRulesTest extends CommonTestMethodBase {
         assertEquals(15, list.size());
         list.clear();
 
-        kbase.removeRule("org.drools.compiler.test",
+        kbase.removeRule("org.drools.mvel.compiler.test",
                          "Who likes Stilton");
 
         wm.update(fh0, bob);
@@ -211,7 +211,7 @@ public class DynamicRulesTest extends CommonTestMethodBase {
         assertEquals(12, list.size());
         list.clear();
 
-        kbase.removeRule("org.drools.compiler.test",
+        kbase.removeRule("org.drools.mvel.compiler.test",
                          "like cheese");
 
         wm.update( fh0, bob);
@@ -247,7 +247,7 @@ public class DynamicRulesTest extends CommonTestMethodBase {
 
         KiePackage knowledgePackage = null;
         for (KiePackage pkg : kbase.getKiePackages()) {
-            if ( pkg.getName().equals( "org.drools.compiler.test" ) ) {
+            if ( pkg.getName().equals( "org.drools.mvel.compiler.test" ) ) {
                 knowledgePackage = pkg;
                 break;
             }
@@ -256,17 +256,17 @@ public class DynamicRulesTest extends CommonTestMethodBase {
         assertEquals( 5,
                       knowledgePackage.getRules().size() );
 
-        kbase.removeRule( "org.drools.compiler.test",
+        kbase.removeRule( "org.drools.mvel.compiler.test",
                           "Who likes Stilton" );
         assertEquals( 4,
                       knowledgePackage.getRules().size() );
 
-        kbase.removeRule( "org.drools.compiler.test",
+        kbase.removeRule( "org.drools.mvel.compiler.test",
                           "like cheese" );
         assertEquals( 3,
                       knowledgePackage.getRules().size() );
 
-        kbase.removeKiePackage( "org.drools.compiler.test" );
+        kbase.removeKiePackage( "org.drools.mvel.compiler.test" );
         assertEquals( 1,
                       kbase.getKiePackages().size() );
     }
@@ -297,7 +297,7 @@ public class DynamicRulesTest extends CommonTestMethodBase {
 
         // Check a function can be removed from a package.
         // Once removed any efforts to use it should throw an Exception
-        kbase.removeFunction( "org.drools.compiler.test",
+        kbase.removeFunction( "org.drools.mvel.compiler.test",
                               "addFive" );
 
         final Cheese cheddar = new Cheese( "cheddar",
@@ -443,7 +443,7 @@ public class DynamicRulesTest extends CommonTestMethodBase {
             // Creates first class loader and use it to load fact classes
             ClassLoader loader1 = new SubvertedClassLoader( new URL[]{getClass().getResource( "/" )},
                                                             this.getClass().getClassLoader() );
-            Class cheeseClass = loader1.loadClass( "org.drools.compiler.Cheese" );
+            Class cheeseClass = loader1.loadClass( "org.drools.mvel.compiler.Cheese" );
 
             KnowledgeBuilderConfiguration kbuilderConf = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(null, loader1);
             KieBase kbase = loadKnowledgeBase( kbuilderConf, "test_Dynamic1.drl"  );
@@ -455,7 +455,7 @@ public class DynamicRulesTest extends CommonTestMethodBase {
             // Creates second class loader and use it to load fact classes
             ClassLoader loader2 = new SubvertedClassLoader( new URL[]{getClass().getResource( "/" )},
                                                             this.getClass().getClassLoader() );
-            cheeseClass = loader2.loadClass( "org.drools.compiler.Cheese" );
+            cheeseClass = loader2.loadClass( "org.drools.mvel.compiler.Cheese" );
 
             kbuilderConf = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(null, loader2);
             kbase = loadKnowledgeBase(kbuilderConf, "test_Dynamic1.drl");
@@ -477,7 +477,7 @@ public class DynamicRulesTest extends CommonTestMethodBase {
             ClassLoader loader1 = new SubvertedClassLoader( new URL[]{getClass().getResource( "/" )},
                                                             this.getClass().getClassLoader() );
             Thread.currentThread().setContextClassLoader( loader1 );
-            Class cheeseClass = loader1.loadClass("org.drools.compiler.Cheese");
+            Class cheeseClass = loader1.loadClass("org.drools.mvel.compiler.Cheese");
 
             KieBase kbase = loadKnowledgeBase( "test_Dynamic1.drl" );
             KieSession wm = createKnowledgeSession( kbase );
@@ -489,7 +489,7 @@ public class DynamicRulesTest extends CommonTestMethodBase {
             ClassLoader loader2 = new SubvertedClassLoader( new URL[]{getClass().getResource( "/" )},
                                                             this.getClass().getClassLoader() );
             Thread.currentThread().setContextClassLoader( loader2 );
-            cheeseClass = loader2.loadClass( "org.drools.compiler.Cheese" );
+            cheeseClass = loader2.loadClass( "org.drools.mvel.compiler.Cheese" );
 
             kbase = loadKnowledgeBase("test_Dynamic1.drl");
             wm = createKnowledgeSession(kbase);

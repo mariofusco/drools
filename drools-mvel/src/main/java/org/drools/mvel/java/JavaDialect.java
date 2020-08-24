@@ -73,6 +73,7 @@ import org.drools.compiler.rule.builder.ForallBuilder;
 import org.drools.compiler.rule.builder.FromBuilder;
 import org.drools.compiler.rule.builder.FunctionBuilder;
 import org.drools.compiler.rule.builder.GroupElementBuilder;
+import org.drools.compiler.rule.builder.JavaRuleClassBuilder;
 import org.drools.compiler.rule.builder.NamedConsequenceBuilder;
 import org.drools.compiler.rule.builder.PackageBuildContext;
 import org.drools.compiler.rule.builder.PatternBuilder;

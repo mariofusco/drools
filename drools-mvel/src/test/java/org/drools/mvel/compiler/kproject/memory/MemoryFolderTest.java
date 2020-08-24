@@ -18,11 +18,11 @@ package org.drools.mvel.compiler.kproject.memory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import org.drools.mvel.compiler.compiler.io.File;
-import org.drools.mvel.compiler.compiler.io.FileSystem;
-import org.drools.mvel.compiler.compiler.io.Folder;
-import org.drools.mvel.compiler.compiler.io.memory.MemoryFileSystem;
-import org.drools.mvel.compiler.compiler.io.memory.MemoryFolder;
+import org.drools.compiler.compiler.io.File;
+import org.drools.compiler.compiler.io.FileSystem;
+import org.drools.compiler.compiler.io.Folder;
+import org.drools.compiler.compiler.io.memory.MemoryFileSystem;
+import org.drools.compiler.compiler.io.memory.MemoryFolder;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -33,7 +33,7 @@ public class MemoryFolderTest {
     
     @Test
     public void testGetParentWithLeadingAndTrailingSlash() {
-        MemoryFileSystem mfs = new MemoryFileSystem();        
+        MemoryFileSystem mfs = new MemoryFileSystem();
         assertEquals( "", new MemoryFolder( mfs, "/src" ).getParent().getPath().toPortableString() );
         
         assertEquals( "", new MemoryFolder( mfs, "src/" ).getParent().getPath().toPortableString() );
@@ -160,7 +160,7 @@ public class MemoryFolderTest {
         fld.create();
         
         fld = fs.getFolder( "src/main" );
-        File file = fld.getFile( "MyClass1.java" );                
+        File file = fld.getFile( "MyClass1.java" );
         file.create( new ByteArrayInputStream( "ABC1".getBytes() ) );  
         file = fld.getFile( "MyClass2.java" );                
         file.create( new ByteArrayInputStream( "ABC2".getBytes() ) ); 

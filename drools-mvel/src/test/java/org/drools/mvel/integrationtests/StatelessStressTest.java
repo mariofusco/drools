@@ -20,9 +20,9 @@ import static org.junit.Assert.assertFalse;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.drools.compiler.Address;
+import org.drools.mvel.compiler.Address;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Person;
+import org.drools.mvel.compiler.Person;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.api.KieBase;

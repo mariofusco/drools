@@ -32,7 +32,6 @@ import org.drools.core.builder.conf.impl.JaxbConfigurationImpl;
 import org.drools.core.common.DefaultFactHandle;
 import org.drools.core.io.impl.BaseResource;
 import org.drools.core.io.impl.InputStreamResource;
-import org.drools.core.rule.ConsequenceMetaData.Field;
 import org.junit.Test;
 import org.kie.api.builder.Message;
 import org.kie.api.io.ResourceType;

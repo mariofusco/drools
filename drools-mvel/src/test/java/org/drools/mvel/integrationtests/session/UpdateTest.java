@@ -16,24 +16,17 @@
 
 package org.drools.mvel.integrationtests.session;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.drools.compiler.Address;
-import org.drools.compiler.Cheese;
+
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.IndexedNumber;
-import org.drools.compiler.OuterClass;
-import org.drools.compiler.Person;
-import org.drools.compiler.Target;
+import org.drools.mvel.compiler.Address;
+import org.drools.mvel.compiler.Cheese;
+import org.drools.mvel.compiler.IndexedNumber;
+import org.drools.mvel.compiler.OuterClass;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.compiler.Target;
 import org.drools.mvel.integrationtests.SerializationHelper;
 import org.drools.mvel.integrationtests.facts.AFact;
 import org.junit.Assert;
@@ -47,6 +40,14 @@ import org.kie.internal.builder.KnowledgeBuilder;
 import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.command.CommandFactory;
 import org.kie.internal.io.ResourceFactory;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class UpdateTest extends CommonTestMethodBase {
 
@@ -208,7 +209,7 @@ public class UpdateTest extends CommonTestMethodBase {
     @Test
     public void testMissingClosingBraceOnModify() throws Exception {
         // JBRULES-3436
-        final String str = "package org.drools.compiler.test;\n" +
+        final String str = "package org.drools.mvel.compiler.test;\n" +
                 "import org.drools.compiler.*\n" +
                 "rule R1 when\n" +
                 "   $p : Person( )" +

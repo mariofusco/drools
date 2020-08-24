@@ -27,25 +27,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.drools.compiler.Address;
-import org.drools.compiler.Cheese;
-import org.drools.compiler.Cheesery;
-import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.FactA;
-import org.drools.compiler.Person;
-import org.drools.compiler.TestEnum;
 import org.drools.core.base.ClassFieldReader;
 import org.drools.core.base.ClassObjectType;
-import org.drools.core.base.extractors.MVELObjectClassFieldReader;
-import org.drools.core.base.mvel.MVELDebugHandler;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
 import org.drools.core.reteoo.AlphaNode;
 import org.drools.core.reteoo.ObjectTypeNode;
-import org.drools.core.rule.constraint.MvelConstraint;
 import org.drools.core.spi.AlphaNodeFieldConstraint;
 import org.drools.core.spi.FieldValue;
 import org.drools.core.util.DateUtils;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.MVELConstraint;
+import org.drools.mvel.compiler.Address;
+import org.drools.mvel.compiler.Cheese;
+import org.drools.mvel.compiler.Cheesery;
+import org.drools.mvel.compiler.FactA;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.compiler.TestEnum;
+import org.drools.mvel.expr.MVELDebugHandler;
+import org.drools.mvel.extractors.MVELObjectClassFieldReader;
 import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;
@@ -274,7 +274,7 @@ public class MVELTest extends CommonTestMethodBase {
     @Test
     public void testSizeCheckInObject() {
         final String str = ""+
-        "package org.drools.compiler.test \n" +
+        "package org.drools.mvel.compiler.test \n" +
         "import " + Triangle.class.getCanonicalName() + "\n" +
         "global java.util.List list \n" +
         "rule \"show\" \n" + 
@@ -296,7 +296,7 @@ public class MVELTest extends CommonTestMethodBase {
     @Test
     public void testNestedEnum() {
         final String str = ""+
-           "package org.drools.compiler.test \n" +
+           "package org.drools.mvel.compiler.test \n" +
            "import " + Triangle.class.getCanonicalName() + "\n" +
            "global java.util.List list \n" +
            "rule \"show\" \n" + 
@@ -328,7 +328,7 @@ public class MVELTest extends CommonTestMethodBase {
     @Test
     public void testNestedEnumWithMap() {
         final String str = ""+
-           "package org.drools.compiler.test \n" +
+           "package org.drools.mvel.compiler.test \n" +
            "import " + DMap.class.getCanonicalName() + " \n" +
            "import " + Triangle.class.getCanonicalName() + "\n" +
            "global java.util.List list \n" +
@@ -364,7 +364,7 @@ public class MVELTest extends CommonTestMethodBase {
     @Test
     public void testNewConstructor() {
         final String str = ""+
-           "package org.drools.compiler.test \n" +
+           "package org.drools.mvel.compiler.test \n" +
            "import " + Person.class.getCanonicalName() + "\n" +
            "import " + Address.class.getCanonicalName() + "\n" +
            "global java.util.List list \n" +
@@ -409,9 +409,9 @@ public class MVELTest extends CommonTestMethodBase {
         final AlphaNode alphanode = (AlphaNode) node.getObjectSinkPropagator().getSinks()[0];
         final AlphaNodeFieldConstraint constraint = alphanode.getConstraint();
 
-        if (constraint instanceof MvelConstraint) {
-            assertTrue(((MvelConstraint) constraint).getFieldExtractor() instanceof ClassFieldReader);
-            final FieldValue r = ((MvelConstraint) constraint).getField();
+        if (constraint instanceof MVELConstraint) {
+            assertTrue(((MVELConstraint) constraint).getFieldExtractor() instanceof ClassFieldReader);
+            final FieldValue r = (( MVELConstraint ) constraint).getField();
             assertEquals(p.getAddress(), r.getValue());
         }
     }         
@@ -419,7 +419,7 @@ public class MVELTest extends CommonTestMethodBase {
     @Test
     public void testArrayAccessorWithGenerics() {
         final String str = ""+
-           "package org.drools.compiler.test \n" +
+           "package org.drools.mvel.compiler.test \n" +
            "import " + Person.class.getCanonicalName() + "\n" +
            "import " + Address.class.getCanonicalName() + "\n" +
            "global java.util.List list \n" +
@@ -464,24 +464,24 @@ public class MVELTest extends CommonTestMethodBase {
         AlphaNode alphanode = (AlphaNode) node.getObjectSinkPropagator().getSinks()[0];
         AlphaNodeFieldConstraint constraint = alphanode.getConstraint();
 
-        if (constraint instanceof MvelConstraint) {
-            assertTrue(((MvelConstraint) constraint).getFieldExtractor() instanceof MVELObjectClassFieldReader);
-            assertEquals(new Address("s1"), ((MvelConstraint) constraint).getField().getValue());
+        if (constraint instanceof MVELConstraint) {
+            assertTrue(((MVELConstraint) constraint).getFieldExtractor() instanceof MVELObjectClassFieldReader );
+            assertEquals(new Address("s1"), ((MVELConstraint) constraint).getField().getValue());
         }
 
         alphanode = (AlphaNode) alphanode.getObjectSinkPropagator().getSinks()[0];
         constraint = alphanode.getConstraint();
 
-        if (constraint instanceof MvelConstraint) {
-            assertTrue(((MvelConstraint) constraint).getFieldExtractor() instanceof MVELObjectClassFieldReader);
-            assertEquals(new Address("s1").getStreet(), ((MvelConstraint) constraint).getField().getValue());
+        if (constraint instanceof MVELConstraint) {
+            assertTrue(((MVELConstraint) constraint).getFieldExtractor() instanceof MVELObjectClassFieldReader);
+            assertEquals(new Address("s1").getStreet(), ((MVELConstraint) constraint).getField().getValue());
         }
     }    
     
     @Test
     public void testArrayAccessorWithStaticFieldAccess() {
         final String str = ""+
-           "package org.drools.compiler.test \n" +
+           "package org.drools.mvel.compiler.test \n" +
            "import " + Person.class.getCanonicalName() + "\n" +
            "import " + Address.class.getCanonicalName() + "\n" +
            "import " + Triangle.class.getCanonicalName() + "\n" +
@@ -527,23 +527,23 @@ public class MVELTest extends CommonTestMethodBase {
         AlphaNode alphanode = (AlphaNode) node.getObjectSinkPropagator().getSinks()[0];
         AlphaNodeFieldConstraint constraint = alphanode.getConstraint();
 
-        if (constraint instanceof MvelConstraint) {
-            assertTrue(((MvelConstraint) alphanode.getConstraint()).getFieldExtractor() instanceof MVELObjectClassFieldReader);
-            assertEquals(new Address("s1"), ((MvelConstraint) alphanode.getConstraint()).getField().getValue());
+        if (constraint instanceof MVELConstraint) {
+            assertTrue(((MVELConstraint) alphanode.getConstraint()).getFieldExtractor() instanceof MVELObjectClassFieldReader);
+            assertEquals(new Address("s1"), ((MVELConstraint) alphanode.getConstraint()).getField().getValue());
         }
 
         alphanode = (AlphaNode) alphanode.getObjectSinkPropagator().getSinks()[0];
         constraint = alphanode.getConstraint();
-        if (constraint instanceof MvelConstraint) {
-            assertTrue(((MvelConstraint) alphanode.getConstraint()).getFieldExtractor() instanceof MVELObjectClassFieldReader);
-            assertEquals(new Address("s1").getStreet(), ((MvelConstraint) alphanode.getConstraint()).getField().getValue());
+        if (constraint instanceof MVELConstraint) {
+            assertTrue(((MVELConstraint) alphanode.getConstraint()).getFieldExtractor() instanceof MVELObjectClassFieldReader);
+            assertEquals(new Address("s1").getStreet(), ((MVELConstraint) alphanode.getConstraint()).getField().getValue());
         }
     }       
     
     @Test
     public void testMapAccessorWithStaticFieldAccess() {
         final String str = ""+
-           "package org.drools.compiler.test \n" +
+           "package org.drools.mvel.compiler.test \n" +
            "import " + Person.class.getCanonicalName() + "\n" +
            "import " + Address.class.getCanonicalName() + "\n" +
            "import " + TestEnum.class.getCanonicalName() + "\n" +
@@ -591,24 +591,24 @@ public class MVELTest extends CommonTestMethodBase {
         AlphaNode alphanode = (AlphaNode) node.getObjectSinkPropagator().getSinks()[0];
         AlphaNodeFieldConstraint constraint = alphanode.getConstraint();
 
-        if (constraint instanceof MvelConstraint) {
-            assertTrue(((MvelConstraint) alphanode.getConstraint()).getFieldExtractor() instanceof MVELObjectClassFieldReader);
-            assertEquals(new Address("s1"), ((MvelConstraint) alphanode.getConstraint()).getField().getValue());
+        if (constraint instanceof MVELConstraint) {
+            assertTrue(((MVELConstraint) alphanode.getConstraint()).getFieldExtractor() instanceof MVELObjectClassFieldReader);
+            assertEquals(new Address("s1"), ((MVELConstraint) alphanode.getConstraint()).getField().getValue());
         }
 
         alphanode = (AlphaNode) alphanode.getObjectSinkPropagator().getSinks()[0];
         constraint = alphanode.getConstraint();
 
-        if (constraint instanceof MvelConstraint) {
-            assertTrue(((MvelConstraint) alphanode.getConstraint()).getFieldExtractor() instanceof MVELObjectClassFieldReader);
-            assertEquals(new Address("s1").getStreet(), ((MvelConstraint) alphanode.getConstraint()).getField().getValue());
+        if (constraint instanceof MVELConstraint) {
+            assertTrue(((MVELConstraint) alphanode.getConstraint()).getFieldExtractor() instanceof MVELObjectClassFieldReader);
+            assertEquals(new Address("s1").getStreet(), ((MVELConstraint) alphanode.getConstraint()).getField().getValue());
         }
     }     
     
     @Test
     public void testArrayAccessorWithoutGenerics() {
         final String str = ""+
-           "package org.drools.compiler.test \n" +
+           "package org.drools.mvel.compiler.test \n" +
            "import " + Person.class.getCanonicalName() + "\n" +
            "import " + Address.class.getCanonicalName() + "\n" +
            "global java.util.List list \n" +
@@ -942,7 +942,7 @@ public class MVELTest extends CommonTestMethodBase {
 
     @Test
     public void testMVELTypeCoercion() {
-        final String str = "package org.drools.compiler.test; \n" +
+        final String str = "package org.drools.mvel.compiler.test; \n" +
                 "\n" +
                 "global java.util.List list;" +
                 "\n" +

@@ -28,7 +28,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.StockTick;
+import org.drools.mvel.compiler.StockTick;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.common.NamedEntryPoint;
 import org.drools.core.reteoo.AlphaNode;
@@ -62,7 +62,7 @@ public class PhreakConcurrencyTest extends CommonTestMethodBase {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append("import org.drools.compiler.StockTick;\n");
+        sb.append("import org.drools.mvel.compiler.StockTick;\n");
         for (int i = 0; i < EP_NR; i++) {
             sb.append("global java.util.List results").append(i).append(";\n");
         }

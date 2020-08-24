@@ -443,7 +443,7 @@ public class JavaAccumulateBuilder
         return accumulate;
     }
 
-    protected String fixInitCode( JavaAnalysisResult analysis,
+    public String fixInitCode( JavaAnalysisResult analysis,
                                   final String originalCode ) {
         TreeSet<JavaLocalDeclarationDescr> locals = new TreeSet<JavaLocalDeclarationDescr>( new Comparator<JavaLocalDeclarationDescr>() {
             public int compare( JavaLocalDeclarationDescr o1,

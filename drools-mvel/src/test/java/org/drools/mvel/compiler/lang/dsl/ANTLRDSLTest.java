@@ -19,9 +19,9 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Iterator;
 
-import org.drools.mvel.compiler.lang.dsl.DSLMappingEntry;
-import org.drools.mvel.compiler.lang.dsl.DSLTokenizedMappingFile;
-import org.drools.mvel.compiler.lang.dsl.DefaultExpander;
+import org.drools.compiler.lang.dsl.DSLMappingEntry;
+import org.drools.compiler.lang.dsl.DSLTokenizedMappingFile;
+import org.drools.compiler.lang.dsl.DefaultExpander;
 import org.junit.Test;
 
 public class ANTLRDSLTest {

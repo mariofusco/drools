@@ -15,26 +15,26 @@
 
 package org.drools.mvel.compiler.util.debug;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.util.ArrayList;
 
-import org.drools.mvel.compiler.Cheese;
-import org.drools.mvel.compiler.Cheesery;
-import org.drools.mvel.compiler.CommonTestMethodBase;
-import org.drools.mvel.compiler.Person;
-import org.drools.mvel.compiler.Worker;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
 import org.drools.core.util.debug.SessionInspector;
 import org.drools.core.util.debug.SessionReporter;
 import org.drools.core.util.debug.StatefulKnowledgeSessionInfo;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.Cheese;
+import org.drools.mvel.compiler.Cheesery;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.compiler.Worker;
 import org.junit.Test;
+import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
 import org.kie.internal.builder.KnowledgeBuilder;
 import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.io.ResourceFactory;
-import org.kie.api.io.ResourceType;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

@@ -16,25 +16,17 @@
 
 package org.drools.mvel.integrationtests;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.drools.compiler.Address;
-import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Person;
-import org.drools.compiler.Pet;
+
 import org.drools.core.WorkingMemory;
 import org.drools.core.audit.WorkingMemoryConsoleLogger;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.Address;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.compiler.Pet;
 import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.event.rule.AfterMatchFiredEvent;
@@ -44,6 +36,15 @@ import org.kie.internal.builder.KnowledgeBuilder;
 import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.io.ResourceFactory;
 import org.mockito.ArgumentCaptor;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class MapConstraintTest extends CommonTestMethodBase {
 

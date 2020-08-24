@@ -15,7 +15,7 @@
 
 package org.drools.mvel.compiler.rule.builder.dialect.mvel;
 
-import org.drools.mvel.compiler.rule.builder.dialect.mvel.MVELExprAnalyzer;
+import org.drools.mvel.builder.MVELExprAnalyzer;
 import org.junit.Before;
 import org.junit.Test;
 

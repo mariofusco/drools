@@ -15,14 +15,20 @@
 
 package org.drools.mvel.compiler.rule.builder.dialect.java;
 
-import org.drools.mvel.compiler.Cheese;
-import org.drools.mvel.compiler.Person;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.drools.core.base.ClassFieldAccessorCache;
 import org.drools.core.base.ClassFieldAccessorStore;
 import org.drools.core.base.ClassObjectType;
 import org.drools.core.rule.Declaration;
 import org.drools.core.spi.PatternExtractor;
 import org.drools.core.util.StringUtils;
+import org.drools.mvel.compiler.Cheese;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.java.JavaRuleBuilderHelper;
 import org.junit.Before;
 import org.junit.Test;
 import org.mvel2.integration.impl.MapVariableResolverFactory;
@@ -32,11 +38,6 @@ import org.mvel2.templates.TemplateCompiler;
 import org.mvel2.templates.TemplateRegistry;
 import org.mvel2.templates.TemplateRuntime;
 import org.mvel2.templates.res.Node;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class AccumulateTemplateTest {
 

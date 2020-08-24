@@ -15,6 +15,17 @@
 
 package org.drools.mvel.compiler;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.integrationtests.SerializationHelper;
+import org.junit.Test;
+import org.kie.api.KieBase;
+import org.kie.api.event.rule.AfterMatchFiredEvent;
+import org.kie.api.runtime.KieSession;
+import org.mockito.ArgumentCaptor;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -23,20 +34,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.util.ArrayList;
-import java.util.List;
-import org.drools.mvel.compiler.integrationtests.SerializationHelper;
-import org.junit.Test;
-import org.kie.api.KieBase;
-import org.kie.api.event.rule.AfterMatchFiredEvent;
-import org.kie.api.runtime.KieSession;
-import org.mockito.ArgumentCaptor;
-
 public class NestedAccessorsTest extends CommonTestMethodBase {
 
     @Test
     public void testNestedAccessor() throws Exception {
-        final String str = "import org.drools.mvel.compiler.*;\n" +
+        final String str = "import org.drools.compiler.*;\n" +
                 "rule R1 when\n" +
                 "   Person( name == \"mark\", cheese.(type == \"gorgonzola\", price == 10) )\n" +
                 "then\n" +
@@ -55,7 +57,7 @@ public class NestedAccessorsTest extends CommonTestMethodBase {
 
     @Test
     public void testNestedAccessorWithBinding() throws Exception {
-        final String str = "import org.drools.mvel.compiler.*;\n" +
+        final String str = "import org.drools.compiler.*;\n" +
                 "global StringBuilder sb\n" +
                 "rule R1 when\n" +
                 "   Person( name == \"mark\", cheese.(price == 10, $type : type) )\n" +
@@ -80,7 +82,7 @@ public class NestedAccessorsTest extends CommonTestMethodBase {
 
     @Test
     public void testDoubleNestedAccessor() throws Exception {
-        final String str = "import org.drools.mvel.compiler.*;\n" +
+        final String str = "import org.drools.compiler.*;\n" +
                 "rule R1 when\n" +
                 "   Person( name == \"mark\", cheese.(price == 10, type.(length == 10) ) )\n" +
                 "then\n" +
@@ -99,7 +101,7 @@ public class NestedAccessorsTest extends CommonTestMethodBase {
 
     @Test
     public void testNestedAccessorWithInlineCast() throws Exception {
-        final String str = "import org.drools.mvel.compiler.*;\n" +
+        final String str = "import org.drools.compiler.*;\n" +
                 "rule R1 when\n" +
                 "   Person( name == \"mark\", address#LongAddress.(country == \"uk\", suburb == \"suburb\") )\n" +
                 "then\n" +

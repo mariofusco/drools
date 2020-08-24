@@ -16,10 +16,10 @@
 package org.drools.mvel.integrationtests;
 
 import org.assertj.core.api.Assertions;
-import org.drools.compiler.Cheese;
+import org.drools.mvel.compiler.Cheese;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Person;
-import org.drools.compiler.StockTick;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.compiler.StockTick;
 import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.io.ResourceType;
@@ -51,7 +51,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
     }
 
     private List<String> executeTestWithCondition(String conditionElement) {
-        String drl = "import org.drools.compiler.Cheese;\n " +
+        String drl = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -88,7 +88,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testNonCompilingBreakingConsequences() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -109,7 +109,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testNonCompilingDuplicatedNamedConsequence() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -132,7 +132,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testOutOfScopeNamedConsequences() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -186,7 +186,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testNamedConsequencesOutsideOR() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -210,7 +210,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testNamedConsequencesInsideOR1() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -233,7 +233,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testNamedConsequencesInsideOR2() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -255,7 +255,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testOutOfScopeNamedConsequencesWithOr1() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -277,7 +277,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testOutOfScopeNamedConsequencesWithOr2() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -299,7 +299,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testNonCompilingIFAfterOR() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -322,7 +322,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testIfElse1() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -347,7 +347,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
     @Test
     public void testIfElseWithConstant() {
         // DROOLS-325
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -372,7 +372,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
     @Test
     public void testIfElseWithMvelAccessor() {
         // DROOLS-324
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 dialect \"mvel\" when\n" +
@@ -396,7 +396,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testIfElse2() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -420,7 +420,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testIfElseBreak() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -443,7 +443,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testNestedIfElseBreak() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -468,7 +468,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testIfWithModify() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -489,7 +489,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testEndlessIfWithModify() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -512,7 +512,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testIfWithModify2() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -533,7 +533,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testIfWithModify3() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -559,7 +559,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testIfElseWithModify() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -582,7 +582,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testEndlessIfElseWithModify() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -608,7 +608,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
     @Test
     public void testNamedConsequenceAfterNotPattern() {
         // DROOLS-5
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -639,7 +639,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testMultipleIfAfterEval() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 when\n" +
@@ -859,7 +859,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testMVELBreak() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 dialect \"mvel\" when\n" +
@@ -881,7 +881,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testMVELNoBreak() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 dialect \"mvel\" when\n" +
@@ -1016,7 +1016,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
     @Test
     public void testInheritance() {
         String str = "dialect \"mvel\"\n" +
-                "import org.drools.compiler.Cheese;\n " +
+                "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R0 when\n" +
@@ -1046,7 +1046,7 @@ public class NamedConsequencesTest extends CommonTestMethodBase {
 
     @Test
     public void testWrongConsequenceName() {
-        String str = "import org.drools.compiler.Cheese;\n " +
+        String str = "import org.drools.mvel.compiler.Cheese;\n " +
                 "global java.util.List results;\n" +
                 "\n" +
                 "rule R1 dialect \"mvel\" when\n" +

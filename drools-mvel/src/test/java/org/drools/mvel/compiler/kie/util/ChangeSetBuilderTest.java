@@ -18,8 +18,10 @@ package org.drools.mvel.compiler.kie.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.drools.mvel.compiler.kie.builder.impl.InternalKieModule;
-import org.drools.mvel.compiler.kproject.models.KieModuleModelImpl;
+import org.drools.compiler.kie.builder.impl.InternalKieModule;
+import org.drools.compiler.kie.util.ChangeSetBuilder;
+import org.drools.compiler.kie.util.KieJarChangeSet;
+import org.drools.compiler.kproject.models.KieModuleModelImpl;
 import org.junit.Test;
 import org.kie.api.KieServices;
 import org.kie.api.builder.ReleaseId;

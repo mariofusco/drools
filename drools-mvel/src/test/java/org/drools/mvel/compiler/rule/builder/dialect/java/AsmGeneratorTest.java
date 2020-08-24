@@ -18,17 +18,17 @@ package org.drools.mvel.compiler.rule.builder.dialect.java;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.drools.mvel.compiler.Cheese;
-import org.drools.mvel.compiler.CommonTestMethodBase;
-import org.drools.mvel.compiler.Person;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.Cheese;
+import org.drools.mvel.compiler.Person;
 import org.junit.Test;
+import org.kie.api.io.ResourceType;
+import org.kie.api.runtime.KieSession;
 import org.kie.internal.builder.KnowledgeBuilder;
 import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.io.ResourceFactory;
-import org.kie.api.io.ResourceType;
-import org.kie.api.runtime.KieSession;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -81,7 +81,7 @@ public class AsmGeneratorTest extends CommonTestMethodBase {
     public void testAllGeneratedConstructs() {
         String s = 
             "package org.kie.test\n" +
-            "import org.drools.mvel.compiler.Person\n" +
+            "import org.drools.compiler.Person\n" +
             "global java.util.List list\n" +
             "rule r1 when\n" +
             "    s1 : String( this == 's1' )\n" +
@@ -129,8 +129,8 @@ public class AsmGeneratorTest extends CommonTestMethodBase {
     public void testOr() {
         String s = 
             "package org.kie.test\n" +
-            "import org.drools.mvel.compiler.Person\n" +
-            "import org.drools.mvel.compiler.Cheese\n" +
+            "import org.drools.compiler.Person\n" +
+            "import org.drools.compiler.Cheese\n" +
             "global java.util.List list\n" +
             "rule r1 when\n" +
             "    s1 : String( this == 's1' )\n" +

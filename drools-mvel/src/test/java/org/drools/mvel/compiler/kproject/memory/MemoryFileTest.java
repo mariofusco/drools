@@ -15,17 +15,20 @@
 
 package org.drools.mvel.compiler.kproject.memory;
 
-import org.drools.mvel.compiler.compiler.io.File;
-import org.drools.mvel.compiler.compiler.io.FileSystem;
-import org.drools.mvel.compiler.compiler.io.Folder;
-import org.drools.mvel.compiler.compiler.io.memory.MemoryFileSystem;
-import org.drools.core.util.StringUtils;
-import org.junit.Test;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import org.drools.compiler.compiler.io.File;
+import org.drools.compiler.compiler.io.FileSystem;
+import org.drools.compiler.compiler.io.Folder;
+import org.drools.compiler.compiler.io.memory.MemoryFileSystem;
+import org.drools.core.util.StringUtils;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class MemoryFileTest {
 
@@ -33,7 +36,7 @@ public class MemoryFileTest {
     public void testFileCreation() throws IOException {
         FileSystem fs = new MemoryFileSystem();
         
-        Folder mres = fs.getFolder( "src/main/java/org/domain" );  
+        Folder mres = fs.getFolder( "src/main/java/org/domain" );
         
         File f1 = mres.getFile( "MyClass.java" );
         f1.create( new ByteArrayInputStream( "ABC".getBytes() ) );

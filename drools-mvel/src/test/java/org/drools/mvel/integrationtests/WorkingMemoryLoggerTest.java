@@ -18,9 +18,9 @@ package org.drools.mvel.integrationtests;
 import java.util.Collection;
 import java.util.List;
 
-import org.drools.compiler.Cheese;
+import org.drools.mvel.compiler.Cheese;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Message;
+import org.drools.mvel.compiler.Message;
 import org.drools.core.WorkingMemory;
 import org.drools.core.audit.WorkingMemoryFileLogger;
 import org.drools.core.audit.WorkingMemoryInMemoryLogger;

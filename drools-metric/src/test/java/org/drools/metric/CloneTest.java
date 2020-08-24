@@ -17,6 +17,7 @@
 package org.drools.metric;
 
 import org.drools.metric.util.MetricLogUtils;
+import org.drools.mvel.CommonTestMethodBase;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.io.ResourceType;

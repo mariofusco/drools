@@ -16,7 +16,7 @@
 
 package org.drools.mvel.integrationtests;
 
-import org.drools.compiler.StockTick;
+import org.drools.mvel.compiler.StockTick;
 import org.drools.core.ClockType;
 import org.drools.core.impl.KnowledgeBaseFactory;
 import org.junit.Test;

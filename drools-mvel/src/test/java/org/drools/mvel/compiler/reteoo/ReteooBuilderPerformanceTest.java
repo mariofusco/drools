@@ -18,14 +18,14 @@ package org.drools.mvel.compiler.reteoo;
 import java.io.IOException;
 import java.io.StringReader;
 
-import org.drools.mvel.compiler.builder.impl.KnowledgeBuilderImpl;
-import org.drools.mvel.compiler.compiler.DroolsParserException;
-import org.drools.mvel.compiler.integrationtests.LargeRuleBase;
+import org.drools.compiler.builder.impl.KnowledgeBuilderImpl;
+import org.drools.compiler.compiler.DroolsParserException;
 import org.drools.core.RuleBaseConfiguration;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.definitions.rule.impl.RuleImpl;
 import org.drools.core.impl.KnowledgeBaseImpl;
 import org.drools.core.reteoo.ReteooBuilder;
+import org.drools.mvel.integrationtests.LargeRuleBase;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.api.definition.rule.Rule;
@@ -90,7 +90,7 @@ public class ReteooBuilderPerformanceTest {
 
     private static String generateRules(int ruleCount) {
         System.out.println("Generating "+ruleCount+" rules");
-        StringBuilder   sb  = new StringBuilder(LargeRuleBase.getHeader());
+        StringBuilder   sb  = new StringBuilder( LargeRuleBase.getHeader());
 
         for (int i = 1; i <= ruleCount; i++) {
             sb.append(LargeRuleBase.getTemplate1("testrule"+i, i));

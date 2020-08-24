@@ -31,13 +31,13 @@ import org.drools.core.base.evaluators.Operator;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.definitions.impl.KnowledgePackageImpl;
 import org.drools.core.rule.Declaration;
-import org.drools.core.rule.MvelConstraintTestUtil;
 import org.drools.core.rule.Pattern;
 import org.drools.core.spi.AlphaNodeFieldConstraint;
 import org.drools.core.spi.BetaNodeFieldConstraint;
 import org.drools.core.spi.Evaluator;
 import org.drools.core.spi.FieldValue;
 import org.drools.core.spi.InternalReadAccessor;
+import org.drools.mvel.MVELConstraintTestUtil;
 
 public class ReteTesterHelper {
 
@@ -79,7 +79,7 @@ public class ReteTesterHelper {
         final InternalReadAccessor extractor = store.getReader(clazz,
                                                                fieldName);
         String expression = fieldName + " " + evaluatorString + " " + declaration.getIdentifier();
-        return new MvelConstraintTestUtil(expression, declaration, extractor);
+        return new MVELConstraintTestUtil(expression, declaration, extractor);
     }
 
     public AlphaNodeFieldConstraint getLiteralConstraint(final Pattern pattern,
@@ -93,7 +93,7 @@ public class ReteTesterHelper {
 
         FieldValue fieldValue = FieldFactory.getInstance().getFieldValue(value, extractor.getValueType());
 
-        return new MvelConstraintTestUtil(fieldName + evaluatorString + value,
+        return new MVELConstraintTestUtil(fieldName + evaluatorString + value,
                                           fieldValue,
                                           extractor);
     }

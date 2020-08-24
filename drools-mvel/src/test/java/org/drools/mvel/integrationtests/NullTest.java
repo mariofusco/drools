@@ -19,14 +19,15 @@ package org.drools.mvel.integrationtests;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import org.drools.compiler.Attribute;
-import org.drools.compiler.Cheese;
-import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Message;
-import org.drools.compiler.Person;
-import org.drools.compiler.PersonInterface;
-import org.drools.compiler.Primitives;
+
 import org.drools.core.impl.KnowledgeBaseFactory;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.Attribute;
+import org.drools.mvel.compiler.Message;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.compiler.PersonInterface;
+import org.drools.mvel.compiler.Primitives;
+import org.drools.mvel.model.Cheese;
 import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;
@@ -197,7 +198,7 @@ public class NullTest extends CommonTestMethodBase {
     @Test
     public void testBindingToNullFieldWithEquality() {
         // JBRULES-3396
-        final String str = "package org.drools.compiler.test; \n" +
+        final String str = "package org.drools.mvel.compiler.test; \n" +
                 "\n" +
                 "global java.util.List list;" +
                 "\n" +

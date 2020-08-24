@@ -19,9 +19,9 @@ package org.drools.mvel.integrationtests.session;
 import java.util.ArrayList;
 import java.util.List;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Person;
-import org.drools.compiler.PolymorphicFact;
-import org.drools.compiler.Primitives;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.compiler.PolymorphicFact;
+import org.drools.mvel.compiler.Primitives;
 import org.drools.mvel.integrationtests.SerializationHelper;
 import org.junit.Test;
 import org.kie.api.KieBase;
@@ -189,7 +189,7 @@ public class TypeCoercionTest extends CommonTestMethodBase {
     @Test
     public void testCoercionOfStringValueWithoutQuotes() throws Exception {
         // JBRULES-3080
-        final String str = "package org.drools.compiler.test; \n" +
+        final String str = "package org.drools.mvel.compiler.test; \n" +
                 "declare A\n" +
                 "   field : String\n" +
                 "end\n" +
@@ -201,7 +201,7 @@ public class TypeCoercionTest extends CommonTestMethodBase {
         final KieBase kbase = loadKnowledgeBaseFromString(str);
         final KieSession ksession = kbase.newKieSession();
 
-        final FactType typeA = kbase.getFactType("org.drools.compiler.test", "A");
+        final FactType typeA = kbase.getFactType("org.drools.mvel.compiler.test", "A");
         final Object a = typeA.newInstance();
         typeA.set(a, "field", "12");
         ksession.insert(a);
@@ -211,7 +211,7 @@ public class TypeCoercionTest extends CommonTestMethodBase {
 
     @Test
     public void testPrimitiveToBoxedCoercionInMethodArgument() throws Exception {
-        final String str = "package org.drools.compiler.test;\n" +
+        final String str = "package org.drools.mvel.compiler.test;\n" +
                 "import " + TypeCoercionTest.class.getName() + "\n" +
                 "import org.drools.compiler.*\n" +
                 "rule R1 when\n" +
@@ -235,7 +235,7 @@ public class TypeCoercionTest extends CommonTestMethodBase {
     @Test
     public void testStringCoercion() {
         // DROOLS-1688
-        final String drl = "package org.drools.compiler.test;\n" +
+        final String drl = "package org.drools.mvel.compiler.test;\n" +
                            "import " + Person.class.getCanonicalName() + "\n" +
                            " rule R1 when\n" +
                            "     Person(name == \"12\")\n" +
@@ -257,7 +257,7 @@ public class TypeCoercionTest extends CommonTestMethodBase {
     @Test
     public void testIntCoercion() {
         // DROOLS-1688
-        final String drl = "package org.drools.compiler.test;\n" +
+        final String drl = "package org.drools.mvel.compiler.test;\n" +
                            "import " + Person.class.getCanonicalName() + "\n" +
                            " rule R1 when\n" +
                            "     Person(age == 12)\n" +

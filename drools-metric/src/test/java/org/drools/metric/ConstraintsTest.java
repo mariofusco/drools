@@ -19,9 +19,9 @@ package org.drools.metric;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.drools.compiler.CommonTestMethodBase;
-import org.drools.compiler.Person;
+import org.drools.mvel.compiler.Person;
 import org.drools.metric.util.MetricLogUtils;
+import org.drools.mvel.CommonTestMethodBase;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.KieBase;

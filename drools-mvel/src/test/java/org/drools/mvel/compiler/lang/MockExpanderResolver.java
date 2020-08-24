@@ -19,6 +19,9 @@ package org.drools.mvel.compiler.lang;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.drools.compiler.lang.Expander;
+import org.drools.compiler.lang.ExpanderResolver;
+
 public class MockExpanderResolver
     implements
         ExpanderResolver {
@@ -26,8 +29,8 @@ public class MockExpanderResolver
     private final Map          resolveCalls = new HashMap();
     private final MockExpander expander     = new MockExpander();
 
-    public Expander get(final String name,
-                        final String config) {
+    public Expander get( final String name,
+                         final String config) {
         this.resolveCalls.put( name,
                                config );
         return this.expander;

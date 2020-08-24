@@ -15,24 +15,27 @@
 
 package org.drools.mvel.compiler.rule.builder.dialect.java;
 
-import org.drools.mvel.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
-import org.drools.mvel.compiler.builder.impl.KnowledgeBuilderImpl;
-import org.drools.mvel.compiler.compiler.BoundIdentifiers;
-import org.drools.mvel.compiler.compiler.Dialect;
-import org.drools.mvel.compiler.compiler.DialectCompiletimeRegistry;
-import org.drools.mvel.compiler.compiler.PackageRegistry;
-import org.drools.mvel.compiler.lang.descr.AccumulateDescr;
-import org.drools.mvel.compiler.lang.descr.BindingDescr;
-import org.drools.mvel.compiler.lang.descr.PackageDescr;
-import org.drools.mvel.compiler.lang.descr.PatternDescr;
-import org.drools.mvel.compiler.lang.descr.RuleDescr;
-import org.drools.mvel.compiler.rule.builder.RuleBuildContext;
+import java.util.HashMap;
+
+import org.drools.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
+import org.drools.compiler.builder.impl.KnowledgeBuilderImpl;
+import org.drools.compiler.compiler.BoundIdentifiers;
+import org.drools.compiler.compiler.Dialect;
+import org.drools.compiler.compiler.DialectCompiletimeRegistry;
+import org.drools.compiler.compiler.PackageRegistry;
+import org.drools.compiler.lang.descr.AccumulateDescr;
+import org.drools.compiler.lang.descr.BindingDescr;
+import org.drools.compiler.lang.descr.PackageDescr;
+import org.drools.compiler.lang.descr.PatternDescr;
+import org.drools.compiler.lang.descr.RuleDescr;
+import org.drools.compiler.rule.builder.RuleBuildContext;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.rule.Accumulate;
+import org.drools.mvel.java.JavaAccumulateBuilder;
+import org.drools.mvel.java.JavaAnalysisResult;
+import org.drools.mvel.java.JavaExprAnalyzer;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

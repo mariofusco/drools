@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.drools.compiler.Cheese;
-import org.drools.mvel.CommonTestMethodBase;
 import org.drools.compiler.lang.DrlDumper;
 import org.drools.compiler.lang.api.DescrFactory;
 import org.drools.compiler.lang.api.PackageDescrBuilder;
@@ -32,6 +30,8 @@ import org.drools.core.common.InternalFactHandle;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
 import org.drools.core.io.impl.ByteArrayResource;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.Cheese;
 import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.KieServices;
@@ -187,12 +187,12 @@ public class ExtendsTest extends CommonTestMethodBase {
                 .addResource( ResourceFactory.newClassPathResource( "test_Ext4.drl", getClass() ), ResourceType.DRL )
                 .build().newKieSession();
 
-        FactType person = ksession.getKieBase().getFactType("org.drools.compiler.ext.test","Person");
+        FactType person = ksession.getKieBase().getFactType("org.drools.mvel.compiler.ext.test","Person");
             assertNotNull(person);
-        FactType student = ksession.getKieBase().getFactType("org.drools.compiler.ext.test","Student");
+        FactType student = ksession.getKieBase().getFactType("org.drools.mvel.compiler.ext.test","Student");
             assertNotNull(student);
 
-        FactType worker = ksession.getKieBase().getFactType("org.drools.compiler.anothertest","Worker");
+        FactType worker = ksession.getKieBase().getFactType("org.drools.mvel.compiler.anothertest","Worker");
             assertNotNull(worker);
 
         FactType ltss = ksession.getKieBase().getFactType("defaultpkg","SubLTStudent");
@@ -407,7 +407,7 @@ public class ExtendsTest extends CommonTestMethodBase {
     @Test
     public void testExtendFromOtherPackage() throws Exception {
 
-        String s1 = "package org.drools.compiler.test.pack1;\n" +
+        String s1 = "package org.drools.mvel.compiler.test.pack1;\n" +
                 "\n" +
                 "declare Base\n" +
                 "  id    : int\n" +
@@ -417,7 +417,7 @@ public class ExtendsTest extends CommonTestMethodBase {
                 "  field : int\n" +
                 "end\n";
 
-        String s2 = "package org.drools.compiler.test.pack2;\n" +
+        String s2 = "package org.drools.mvel.compiler.test.pack2;\n" +
                 "\n" +
                 "import org.drools.compiler.test.pack1.Base;\n" +
                 "import org.drools.compiler.test.pack1.Sub;\n" +
@@ -457,7 +457,7 @@ public class ExtendsTest extends CommonTestMethodBase {
     @Test
     public void testInheritAnnotationsInOtherPackage() throws Exception {
 
-        String s1 = "package org.drools.compiler.test.pack1;\n" +
+        String s1 = "package org.drools.mvel.compiler.test.pack1;\n" +
                 "global java.util.List list;" +
                 "\n" +
                 "declare Event\n" +
@@ -474,7 +474,7 @@ public class ExtendsTest extends CommonTestMethodBase {
                 "end";
 
 
-        String s2 = "package org.drools.compiler.test.pack2;\n" +
+        String s2 = "package org.drools.mvel.compiler.test.pack2;\n" +
                 "\n" +
                 "import org.drools.compiler.test.pack1.Event;\n" +
                 "global java.util.List list;" +
@@ -694,7 +694,7 @@ public class ExtendsTest extends CommonTestMethodBase {
     @Test
     public void testDeclareExtendsJavaParent() {
         String drl = "package org.drools.test; \n" +
-                     "import org.drools.compiler.Person; \n" +
+                     "import org.drools.mvel.compiler.Person; \n" +
                      "declare Student extends Person end \n" +
                      "";
         KnowledgeBuilder kBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder(  );

@@ -23,8 +23,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.drools.compiler.Cheese;
-import org.drools.compiler.Cheesery;
+import org.drools.mvel.compiler.Cheese;
+import org.drools.mvel.compiler.Cheesery;
 import org.drools.mvel.CommonTestMethodBase;
 import org.drools.mvel.integrationtests.SerializationHelper;
 import org.drools.core.command.runtime.BatchExecutionCommandImpl;

@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.drools.compiler.Address;
+import org.drools.mvel.compiler.Address;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Person;
-import org.drools.compiler.State;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.compiler.State;
 import org.drools.core.impl.StatefulKnowledgeSessionImpl;
 import org.drools.core.io.impl.ByteArrayResource;
 import org.junit.Test;

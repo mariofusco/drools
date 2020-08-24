@@ -48,7 +48,7 @@ import static org.junit.Assert.assertTrue;
 public class ListenersTest {
 
     private static final ReleaseId RELEASE_ID = KieServices.Factory.get()
-            .newReleaseId("org.drools.compiler.test", "listeners-test", "1.0.0");
+            .newReleaseId("org.drools.mvel.compiler.test", "listeners-test", "1.0.0");
 
     private static final String PACKAGE = ListenersTest.class.getPackage().getName();
     private static final String PACKAGE_PATH = PACKAGE.replaceAll("\\.", "/");

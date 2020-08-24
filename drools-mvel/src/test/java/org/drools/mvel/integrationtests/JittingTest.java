@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.assertj.core.api.Assertions;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Person;
+import org.drools.mvel.compiler.Person;
 import org.drools.mvel.integrationtests.facts.AnEnum;
 import org.drools.mvel.integrationtests.facts.FactWithEnum;
 import org.junit.Test;
@@ -38,7 +38,7 @@ public class JittingTest extends CommonTestMethodBase {
     @Test
     public void testJitConstraintInvokingConstructor() {
         // JBRULES-3628
-        final String str = "import org.drools.compiler.Person;\n" +
+        final String str = "import org.drools.mvel.compiler.Person;\n" +
                 "rule R1 when\n" +
                 "   Person( new Integer( ageAsInteger ) < 40 ) \n" +
                 "then\n" +

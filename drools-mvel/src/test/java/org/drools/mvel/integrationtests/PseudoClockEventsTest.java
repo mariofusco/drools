@@ -17,11 +17,13 @@
  */
 package org.drools.mvel.integrationtests;
 
-import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.StockTick;
-import org.drools.compiler.StockTickInterface;
+import java.util.concurrent.TimeUnit;
+
 import org.drools.core.impl.KnowledgeBaseFactory;
 import org.drools.core.time.impl.PseudoClockScheduler;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.StockTick;
+import org.drools.mvel.compiler.StockTickInterface;
 import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;
@@ -32,8 +34,6 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.KieSessionConfiguration;
 import org.kie.api.runtime.conf.ClockTypeOption;
 import org.kie.api.time.SessionClock;
-
-import java.util.concurrent.TimeUnit;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;

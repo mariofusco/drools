@@ -29,7 +29,7 @@ public class EntryPointTest extends CommonTestMethodBase {
 
     @Test
     public void testEntryPointWithVarIN() {
-        final String str = "package org.drools.compiler.test;\n" +
+        final String str = "package org.drools.mvel.compiler.test;\n" +
                 "\n" +
                 "global java.util.List list;\n" +
                 "\n" +

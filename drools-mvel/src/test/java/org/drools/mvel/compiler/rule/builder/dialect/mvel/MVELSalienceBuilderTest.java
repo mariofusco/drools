@@ -15,17 +15,18 @@
 
 package org.drools.mvel.compiler.rule.builder.dialect.mvel;
 
-import org.drools.mvel.compiler.Person;
-import org.drools.mvel.compiler.builder.impl.KnowledgeBuilderImpl;
-import org.drools.mvel.compiler.compiler.DialectCompiletimeRegistry;
-import org.drools.mvel.compiler.lang.descr.AttributeDescr;
-import org.drools.mvel.compiler.lang.descr.RuleDescr;
-import org.drools.mvel.compiler.rule.builder.RuleBuildContext;
-import org.drools.mvel.compiler.rule.builder.SalienceBuilder;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.drools.compiler.builder.impl.KnowledgeBuilderImpl;
+import org.drools.compiler.compiler.DialectCompiletimeRegistry;
+import org.drools.compiler.lang.descr.AttributeDescr;
+import org.drools.compiler.lang.descr.RuleDescr;
+import org.drools.compiler.rule.builder.RuleBuildContext;
+import org.drools.compiler.rule.builder.SalienceBuilder;
 import org.drools.core.WorkingMemory;
 import org.drools.core.base.ClassObjectType;
 import org.drools.core.base.DefaultKnowledgeHelper;
-import org.drools.core.base.mvel.MVELSalienceExpression;
 import org.drools.core.common.AgendaItem;
 import org.drools.core.common.AgendaItemImpl;
 import org.drools.core.common.InternalFactHandle;
@@ -37,17 +38,18 @@ import org.drools.core.impl.StatefulKnowledgeSessionImpl;
 import org.drools.core.reteoo.LeftTupleImpl;
 import org.drools.core.reteoo.RuleTerminalNode;
 import org.drools.core.rule.Declaration;
-import org.drools.core.rule.MVELDialectRuntimeData;
 import org.drools.core.rule.Pattern;
 import org.drools.core.spi.ObjectType;
 import org.drools.core.spi.PatternExtractor;
 import org.drools.core.spi.Salience;
+import org.drools.mvel.MVELDialectRuntimeData;
+import org.drools.mvel.builder.MVELDialect;
+import org.drools.mvel.builder.MVELSalienceBuilder;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.expr.MVELSalienceExpression;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.definition.rule.Rule;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -96,7 +98,7 @@ public class MVELSalienceBuilderTest {
         salienceBuilder.build( context );
 
         
-        ((MVELSalienceExpression) context.getRule().getSalience()).compile( (MVELDialectRuntimeData) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" ) );
+        (( MVELSalienceExpression ) context.getRule().getSalience()).compile( ( MVELDialectRuntimeData ) context.getPkg().getDialectRuntimeRegistry().getDialectData( "mvel" ) );
 
     }
 
@@ -169,7 +171,7 @@ public class MVELSalienceBuilderTest {
         private Salience                 salience;
         private Rule                     rule;
         private LeftTupleImpl            tuple;
-        private WorkingMemory            wm;
+        private WorkingMemory wm;
         private final int                result;
         private transient boolean        halt;
         private RuleBuildContext         context;

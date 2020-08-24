@@ -18,8 +18,11 @@ package org.drools.mvel.compiler.commons.jci.compilers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.drools.mvel.compiler.compiler.io.memory.MemoryFile;
-import org.drools.mvel.compiler.compiler.io.memory.MemoryFileSystem;
+import org.drools.compiler.commons.jci.compilers.CompilationResult;
+import org.drools.compiler.commons.jci.compilers.EclipseJavaCompiler;
+import org.drools.compiler.commons.jci.compilers.EclipseJavaCompilerSettings;
+import org.drools.compiler.compiler.io.memory.MemoryFile;
+import org.drools.compiler.compiler.io.memory.MemoryFileSystem;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

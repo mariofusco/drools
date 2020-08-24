@@ -18,12 +18,12 @@ package org.drools.mvel.integrationtests;
 
 import java.io.InputStreamReader;
 
-import org.drools.mvel.CommonTestMethodBase;
 import org.drools.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
 import org.drools.compiler.compiler.DescrBuildError;
 import org.drools.compiler.compiler.DrlParser;
 import org.drools.compiler.compiler.JavaConfiguration;
 import org.drools.compiler.compiler.ParserError;
+import org.drools.mvel.CommonTestMethodBase;
 import org.junit.Test;
 import org.kie.api.io.ResourceType;
 import org.kie.internal.builder.KnowledgeBuilder;
@@ -93,7 +93,7 @@ public class ParserTest extends CommonTestMethodBase {
         parser.parse(new InputStreamReader(getClass().getResourceAsStream("errors_parser_multiple.drl")));
         assertTrue(parser.hasErrors());
         assertTrue(parser.getErrors().size() > 0);
-        assertTrue(parser.getErrors().get(0) instanceof ParserError);
+        assertTrue(parser.getErrors().get(0) instanceof ParserError );
         final ParserError first = ((ParserError) parser.getErrors().get(0));
         assertTrue(first.getMessage() != null);
         assertFalse(first.getMessage().equals(""));

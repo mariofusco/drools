@@ -22,15 +22,17 @@ import org.drools.core.SessionConfiguration;
 import org.drools.core.WorkingMemory;
 import org.drools.core.base.EnabledBoolean;
 import org.drools.core.base.SalienceInteger;
-import org.drools.core.base.mvel.MVELSalienceExpression;
 import org.drools.core.definitions.rule.impl.RuleImpl;
 import org.drools.core.impl.KnowledgeBaseImpl;
 import org.drools.core.reteoo.RuleTerminalNode;
 import org.drools.core.spi.Salience;
 import org.drools.core.time.impl.PseudoClockScheduler;
+import org.drools.mvel.expr.MVELSalienceExpression;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class RuleTest {
 

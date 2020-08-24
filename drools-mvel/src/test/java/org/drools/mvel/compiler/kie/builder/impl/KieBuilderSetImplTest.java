@@ -16,7 +16,9 @@
 
 package org.drools.mvel.compiler.kie.builder.impl;
 
-import org.drools.mvel.compiler.CommonTestMethodBase;
+import org.drools.compiler.kie.builder.impl.KieBuilderImpl;
+import org.drools.compiler.kie.builder.impl.KieBuilderSetImpl;
+import org.drools.mvel.CommonTestMethodBase;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.api.KieServices;

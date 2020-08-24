@@ -15,14 +15,22 @@
 
 package org.drools.mvel.compiler.rule.builder.dialect.asm;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.drools.core.rule.Declaration;
 import org.drools.core.rule.builder.dialect.asm.ClassGenerator;
 import org.drools.core.rule.builder.dialect.asm.InvokerStub;
-import org.junit.*;
+import org.drools.mvel.asm.InvokerContext;
+import org.drools.mvel.asm.InvokerGenerator;
+import org.junit.Test;
 
-import java.util.*;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class InvokerGeneratorTest {
 

@@ -15,7 +15,9 @@
 
 package org.drools.mvel.compiler.rule.builder.dialect.java;
 
-import org.drools.mvel.compiler.Person;
+import java.io.StringReader;
+import java.util.List;
+
 import org.drools.core.base.ClassObjectType;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
@@ -24,12 +26,13 @@ import org.drools.core.reteoo.AlphaNode;
 import org.drools.core.reteoo.BetaNode;
 import org.drools.core.reteoo.ObjectTypeNode;
 import org.drools.core.rule.PredicateConstraint;
-import org.drools.core.rule.constraint.MvelConstraint;
 import org.drools.core.spi.AlphaNodeFieldConstraint;
 import org.drools.core.spi.BetaNodeFieldConstraint;
 import org.drools.core.spi.CompiledInvoker;
 import org.drools.core.spi.FieldValue;
 import org.drools.core.spi.PredicateExpression;
+import org.drools.mvel.MVELConstraint;
+import org.drools.mvel.compiler.Person;
 import org.junit.Test;
 import org.kie.api.io.ResourceType;
 import org.kie.internal.builder.KnowledgeBuilder;
@@ -37,10 +40,10 @@ import org.kie.internal.builder.KnowledgeBuilderErrors;
 import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.io.ResourceFactory;
 
-import java.io.StringReader;
-import java.util.List;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class JavaDialectTest {
     
@@ -49,7 +52,7 @@ public class JavaDialectTest {
         // Tests evals are generated and executed with Java dialect
         String drl = "";
         drl += "package org.drools.mvel.compiler.test\n";
-        drl += "import org.drools.mvel.compiler.Person\n";
+        drl += "import org.drools.compiler.Person\n";
         drl += "global java.util.List list\n";
         drl += "rule test1\n";
         drl += "when\n";
@@ -86,8 +89,8 @@ public class JavaDialectTest {
         alphanode = (AlphaNode) alphanode.getObjectSinkPropagator().getSinks()[0];
         AlphaNodeFieldConstraint constraint = alphanode.getConstraint();
 
-        if (constraint instanceof MvelConstraint) {
-            FieldValue fieldVal = (( MvelConstraint ) constraint).getField();
+        if (constraint instanceof MVELConstraint ) {
+            FieldValue fieldVal = (( MVELConstraint ) constraint).getField();
             assertEquals( "xxx", fieldVal.getValue() );
         }
     }
@@ -99,7 +102,7 @@ public class JavaDialectTest {
         
         String drl = "";
         drl += "package org.drools.mvel.compiler.test\n";
-        drl += "import org.drools.mvel.compiler.Person\n";
+        drl += "import org.drools.compiler.Person\n";
         drl += "global java.util.List list\n";
         drl += "rule test1\n";
         drl += "when\n";

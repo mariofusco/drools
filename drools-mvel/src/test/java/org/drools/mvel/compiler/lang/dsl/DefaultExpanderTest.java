@@ -21,20 +21,24 @@ import java.io.StringReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.drools.compiler.lang.ExpanderException;
+import org.drools.compiler.lang.dsl.DSLMappingFile;
+import org.drools.compiler.lang.dsl.DSLTokenizedMappingFile;
+import org.drools.compiler.lang.dsl.DefaultExpander;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
-import org.drools.mvel.compiler.lang.ExpanderException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class DefaultExpanderTest {
 
     private static final String     NL            = System.getProperty("line.separator");
 
-    private DSLMappingFile          file          = null;
+    private DSLMappingFile file          = null;
     private DSLTokenizedMappingFile tokenizedFile = null;
-    private DefaultExpander         expander      = null;
+    private DefaultExpander expander      = null;
 
     @Before
     public void setUp() throws Exception {
@@ -532,7 +536,7 @@ public class DefaultExpanderTest {
     public void testDotInPattern() throws Exception {
         // BZ-1013960
         String source =
-                "import org.drools.mvel.compiler.Person;" + NL 
+                "import org.drools.mvel.compiler.Person;" + NL
                         + "global java.util.List list" + NL
                         + "rule R1" + NL
                         + "when" + NL

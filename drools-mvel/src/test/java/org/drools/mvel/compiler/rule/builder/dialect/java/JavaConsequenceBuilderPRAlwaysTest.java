@@ -20,17 +20,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.antlr.runtime.RecognitionException;
-import org.drools.mvel.compiler.Cheese;
-import org.drools.mvel.compiler.Person;
-import org.drools.mvel.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
-import org.drools.mvel.compiler.builder.impl.KnowledgeBuilderImpl;
-import org.drools.mvel.compiler.compiler.BoundIdentifiers;
-import org.drools.mvel.compiler.compiler.DialectCompiletimeRegistry;
-import org.drools.mvel.compiler.compiler.PackageRegistry;
-import org.drools.mvel.compiler.lang.descr.BindingDescr;
-import org.drools.mvel.compiler.lang.descr.RuleDescr;
-import org.drools.mvel.compiler.rule.builder.PatternBuilder;
-import org.drools.mvel.compiler.rule.builder.RuleBuildContext;
+import org.drools.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
+import org.drools.compiler.builder.impl.KnowledgeBuilderImpl;
+import org.drools.compiler.compiler.BoundIdentifiers;
+import org.drools.compiler.compiler.DialectCompiletimeRegistry;
+import org.drools.compiler.compiler.PackageRegistry;
+import org.drools.compiler.lang.descr.BindingDescr;
+import org.drools.compiler.lang.descr.RuleDescr;
+import org.drools.compiler.rule.builder.PatternBuilder;
+import org.drools.compiler.rule.builder.RuleBuildContext;
 import org.drools.core.base.ClassObjectType;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.definitions.impl.KnowledgePackageImpl;
@@ -41,10 +39,14 @@ import org.drools.core.rule.Pattern;
 import org.drools.core.spi.CompiledInvoker;
 import org.drools.core.spi.Consequence;
 import org.drools.core.spi.InternalReadAccessor;
+import org.drools.mvel.compiler.Cheese;
+import org.drools.mvel.compiler.Person;
+import org.drools.mvel.java.JavaAnalysisResult;
+import org.drools.mvel.java.JavaExprAnalyzer;
 import org.junit.Test;
 import org.kie.internal.builder.conf.PropertySpecificOption;
 
-import static org.drools.mvel.compiler.rule.builder.dialect.DialectUtil.fixBlockDescr;
+import static org.drools.mvel.asm.AsmUtil.fixBlockDescr;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -53,8 +55,8 @@ import static org.junit.Assert.assertTrue;
 
 public class JavaConsequenceBuilderPRAlwaysTest {
 
-    private RuleBuildContext       context;
-    private RuleDescr              ruleDescr;
+    private RuleBuildContext context;
+    private RuleDescr ruleDescr;
 
     private void setupTest(String consequence, Map<String, Object> namedConsequences) {
         InternalKnowledgePackage pkg = new KnowledgePackageImpl( "org.drools" );

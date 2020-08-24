@@ -15,8 +15,14 @@
 
 package org.drools.mvel.compiler.reteoo;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+
 import com.thoughtworks.xstream.XStream;
-import org.drools.mvel.compiler.builder.impl.KnowledgeBuilderImpl;
+import org.drools.compiler.builder.impl.KnowledgeBuilderImpl;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
@@ -26,12 +32,6 @@ import org.drools.core.reteoo.ObjectSink;
 import org.drools.core.reteoo.ObjectSource;
 import org.junit.Test;
 import org.kie.api.KieBase;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 
 import static org.junit.Assert.assertEquals;
 import static org.kie.soup.xstream.XStreamUtils.createTrustingXStream;

@@ -19,9 +19,9 @@ package org.drools.mvel.integrationtests;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.drools.compiler.Bar;
+import org.drools.mvel.compiler.Bar;
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Foo;
+import org.drools.mvel.compiler.Foo;
 import org.junit.Test;
 import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieSession;

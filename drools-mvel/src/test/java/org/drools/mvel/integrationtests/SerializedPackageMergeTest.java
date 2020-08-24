@@ -28,7 +28,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
-import org.drools.compiler.Message;
+import org.drools.mvel.compiler.Message;
 import org.drools.core.common.DroolsObjectInputStream;
 import org.drools.core.common.DroolsObjectOutputStream;
 import org.drools.core.impl.InternalKnowledgeBase;
@@ -178,8 +178,8 @@ public class SerializedPackageMergeTest {
         try {
             List<String> list = new ArrayList<String>();
             ksession.setGlobal( "list", list );
-            ksession.insert(new org.drools.compiler.Person("John"));
-            ksession.insert(new org.drools.compiler.Person("Paul"));
+            ksession.insert(new org.drools.mvel.compiler.Person("John"));
+            ksession.insert(new org.drools.mvel.compiler.Person("Paul"));
             ksession.fireAllRules();
 
             assertEquals(2, list.size());
@@ -219,8 +219,8 @@ public class SerializedPackageMergeTest {
 
         KieSession ksession = kbase.newKieSession();
         try {
-            ksession.insert(new org.drools.compiler.Person("aaa"));
-            ksession.insert(new org.drools.compiler.Cheese("aaa"));
+            ksession.insert(new org.drools.mvel.compiler.Person("aaa"));
+            ksession.insert(new org.drools.mvel.compiler.Cheese("aaa"));
             ksession.fireAllRules();
         } finally {
             ksession.dispose();
@@ -232,7 +232,7 @@ public class SerializedPackageMergeTest {
         // DROOLS-2517
         String drl =   "package com.sample\n" +
                 "import org.drools.compiler.Person\n" +
-                "global org.drools.compiler.MyUtil myUtil\n" +
+                "global org.drools.mvel.compiler.MyUtil myUtil\n" +
                 "rule R1\n" +
                 "when\n" +
                 "  Person(myUtil.transform(name) == \"John-san\")\n" + // call global's method
@@ -257,8 +257,8 @@ public class SerializedPackageMergeTest {
 
         KieSession ksession = kbase.newKieSession();
         try {
-            ksession.setGlobal("myUtil", new org.drools.compiler.MyUtil());
-            ksession.insert(new org.drools.compiler.Person("John"));
+            ksession.setGlobal("myUtil", new org.drools.mvel.compiler.MyUtil());
+            ksession.insert(new org.drools.mvel.compiler.Person("John"));
             int fired = ksession.fireAllRules();
             assertEquals(1, fired);
         } finally {

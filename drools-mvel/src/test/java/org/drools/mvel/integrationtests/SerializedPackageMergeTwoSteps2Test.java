@@ -17,37 +17,25 @@ package org.drools.mvel.integrationtests;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.ObjectInput;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 
-import org.drools.compiler.Message;
 import org.drools.core.common.DroolsObjectInputStream;
 import org.drools.core.common.DroolsObjectOutputStream;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
 import org.junit.Test;
 import org.kie.api.definition.KiePackage;
-import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieSession;
-import org.kie.internal.builder.KnowledgeBuilder;
-import org.kie.internal.builder.KnowledgeBuilderFactory;
-import org.kie.internal.io.ResourceFactory;
-import org.kie.internal.runtime.StatelessKnowledgeSession;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class SerializedPackageMergeTwoSteps2Test {
     
@@ -91,7 +79,7 @@ public class SerializedPackageMergeTwoSteps2Test {
         try {
             List<String> list = new ArrayList<String>();
             ksession.setGlobal( "list", list );
-            ksession.insert(new org.drools.compiler.Person("John"));
+            ksession.insert(new org.drools.mvel.compiler.Person("John"));
             ksession.fireAllRules();
 
             assertEquals(2, list.size());

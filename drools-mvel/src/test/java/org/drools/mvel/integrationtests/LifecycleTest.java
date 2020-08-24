@@ -17,26 +17,25 @@ package org.drools.mvel.integrationtests;
 
 import java.util.concurrent.TimeUnit;
 
-import org.drools.compiler.StockTick;
-import org.kie.api.time.SessionPseudoClock;
+import org.drools.mvel.compiler.StockTick;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
 import org.kie.api.builder.KieFileSystem;
 import org.kie.api.builder.model.KieModuleModel;
 import org.kie.api.conf.EventProcessingOption;
 import org.kie.api.io.Resource;
+import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.conf.ClockTypeOption;
+import org.kie.api.runtime.rule.EntryPoint;
+import org.kie.api.runtime.rule.FactHandle;
+import org.kie.api.time.SessionPseudoClock;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-import org.kie.api.runtime.KieSession;
-import org.kie.api.runtime.rule.EntryPoint;
-import org.kie.api.runtime.rule.FactHandle;
 
 /**
  * Tests updating events using API.
@@ -48,7 +47,7 @@ public class LifecycleTest {
     @Before
     public void initSession() {
         String drlString = "package org.jboss.brms\n" + 
-                "import org.drools.compiler.StockTick\n" + 
+                "import org.drools.compiler.StockTick\n" +
                 "declare StockTick\n" + 
                 "    @role( event )\n" + 
                 "    @expires( 4s )\n" + 

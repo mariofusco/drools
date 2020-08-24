@@ -26,9 +26,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.assertj.core.api.Assertions;
-import org.drools.compiler.FactA;
-import org.drools.compiler.FactB;
-import org.drools.compiler.FactC;
+import org.drools.mvel.compiler.FactA;
+import org.drools.mvel.compiler.FactB;
+import org.drools.mvel.compiler.FactC;
 import org.drools.core.common.EventSupport;
 import org.drools.core.event.DefaultAgendaEventListener;
 import org.drools.core.event.DefaultRuleRuntimeEventListener;

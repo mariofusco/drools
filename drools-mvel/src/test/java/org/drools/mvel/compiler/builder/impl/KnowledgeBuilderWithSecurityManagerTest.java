@@ -16,27 +16,20 @@
 
 package org.drools.mvel.compiler.builder.impl;
 
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URI;
-import java.security.AccessControlContext;
-import java.security.CodeSource;
 import java.security.NoSuchAlgorithmException;
 import java.security.Permission;
-import java.security.PermissionCollection;
 import java.security.Policy;
 import java.security.ProtectionDomain;
-import java.security.URIParameter;
-import java.security.cert.Certificate;
 
+import org.drools.compiler.builder.impl.KnowledgeBuilderImpl;
 import org.drools.core.test.model.DroolsTestCase;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kie.internal.security.KiePolicyHelper;
+
+import static org.junit.Assert.assertTrue;
 
 public class KnowledgeBuilderWithSecurityManagerTest extends DroolsTestCase {
 

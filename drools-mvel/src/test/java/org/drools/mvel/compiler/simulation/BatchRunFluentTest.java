@@ -16,9 +16,9 @@
 
 package org.drools.mvel.compiler.simulation;
 
-import org.drools.mvel.compiler.CommonTestMethodBase;
-import org.drools.mvel.compiler.Message;
 import org.drools.core.fluent.impl.ExecutableBuilderImpl;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.Message;
 import org.junit.Test;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieModule;

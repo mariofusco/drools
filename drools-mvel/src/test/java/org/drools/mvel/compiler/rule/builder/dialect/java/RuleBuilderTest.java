@@ -22,30 +22,34 @@ import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.List;
 
-import org.drools.mvel.compiler.builder.impl.KnowledgeBuilderImpl;
-import org.drools.mvel.compiler.compiler.DrlParser;
-import org.drools.mvel.compiler.lang.descr.AndDescr;
-import org.drools.mvel.compiler.lang.descr.AttributeDescr;
-import org.drools.mvel.compiler.lang.descr.ExprConstraintDescr;
-import org.drools.mvel.compiler.lang.descr.PackageDescr;
-import org.drools.mvel.compiler.lang.descr.PatternDescr;
-import org.drools.mvel.compiler.lang.descr.RuleDescr;
-import org.drools.mvel.compiler.rule.builder.RuleBuildContext;
-import org.drools.mvel.compiler.rule.builder.RuleBuilder;
+import org.drools.compiler.builder.impl.KnowledgeBuilderImpl;
+import org.drools.compiler.compiler.DrlParser;
+import org.drools.compiler.lang.descr.AndDescr;
+import org.drools.compiler.lang.descr.AttributeDescr;
+import org.drools.compiler.lang.descr.ExprConstraintDescr;
+import org.drools.compiler.lang.descr.PackageDescr;
+import org.drools.compiler.lang.descr.PatternDescr;
+import org.drools.compiler.lang.descr.RuleDescr;
+import org.drools.compiler.rule.builder.RuleBuildContext;
+import org.drools.compiler.rule.builder.RuleBuilder;
 import org.drools.core.base.EnabledBoolean;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.definitions.rule.impl.RuleImpl;
 import org.drools.core.rule.GroupElement;
 import org.drools.core.rule.Pattern;
-import org.drools.core.rule.constraint.MvelConstraint;
 import org.drools.core.time.TimeUtils;
 import org.drools.core.time.impl.IntervalTimer;
 import org.drools.core.util.DateUtils;
+import org.drools.mvel.MVELConstraint;
 import org.junit.Test;
 import org.kie.internal.builder.conf.LanguageLevelOption;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class RuleBuilderTest {
 
@@ -246,8 +250,8 @@ public class RuleBuilderTest {
         final RuleImpl rule = kBuilder.getPackages()[0].getRule( "Test Rule" );
         final GroupElement and = rule.getLhs();
         final Pattern pat = (Pattern) and.getChildren().get( 0 );
-        if (pat.getConstraints().get(0) instanceof MvelConstraint) {
-            final MvelConstraint fc = (MvelConstraint) pat.getConstraints().get( 0 );
+        if (pat.getConstraints().get(0) instanceof MVELConstraint) {
+            final MVELConstraint fc = (MVELConstraint) pat.getConstraints().get( 0 );
             assertTrue( "Wrong class. Expected java.math.BigDecimal. Found: " + fc.getField().getValue().getClass(),
                         fc.getField().getValue() instanceof BigDecimal );
         }
@@ -291,8 +295,8 @@ public class RuleBuilderTest {
         final RuleImpl rule = kBuilder.getPackages()[0].getRule( "Test Rule" );
         final GroupElement and = rule.getLhs();
         final Pattern pat = (Pattern) and.getChildren().get( 0 );
-        if (pat.getConstraints().get(0) instanceof MvelConstraint) {
-            final MvelConstraint fc = (MvelConstraint) pat.getConstraints().get( 0 );
+        if (pat.getConstraints().get(0) instanceof MVELConstraint) {
+            final MVELConstraint fc = (MVELConstraint) pat.getConstraints().get( 0 );
             assertTrue( "Wrong class. Expected java.math.BigInteger. Found: " + fc.getField().getValue().getClass(),
                         fc.getField().getValue() instanceof BigInteger );
         }

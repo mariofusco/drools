@@ -18,7 +18,7 @@ package org.drools.mvel.integrationtests;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.drools.compiler.Cheese;
+import org.drools.mvel.compiler.Cheese;
 import org.drools.mvel.CommonTestMethodBase;
 import org.junit.Test;
 import org.kie.api.KieBase;

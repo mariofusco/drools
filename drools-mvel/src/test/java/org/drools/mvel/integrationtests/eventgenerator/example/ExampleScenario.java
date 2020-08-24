@@ -19,15 +19,13 @@ package org.drools.mvel.integrationtests.eventgenerator.example;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 
-import org.drools.compiler.compiler.DroolsParserException;
+import org.drools.core.impl.InternalKnowledgeBase;
+import org.drools.core.impl.KnowledgeBaseFactory;
 import org.drools.mvel.integrationtests.eventgenerator.PseudoSessionClock;
 import org.drools.mvel.integrationtests.eventgenerator.SimpleEventGenerator;
 import org.drools.mvel.integrationtests.eventgenerator.SimpleEventListener;
-import org.drools.core.impl.InternalKnowledgeBase;
-import org.drools.core.impl.KnowledgeBaseFactory;
 import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieSession;
 import org.kie.internal.builder.KnowledgeBuilder;

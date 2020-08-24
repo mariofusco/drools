@@ -15,17 +15,18 @@
 
 package org.drools.mvel.compiler.lang;
 
+import java.util.LinkedList;
+
 import org.antlr.runtime.RecognitionException;
+import org.drools.compiler.compiler.DrlParser;
+import org.drools.compiler.compiler.DroolsParserException;
+import org.drools.compiler.lang.Location;
+import org.drools.compiler.lang.descr.PackageDescr;
 import org.drools.core.base.evaluators.EvaluatorRegistry;
-import org.drools.mvel.compiler.compiler.DrlParser;
-import org.drools.mvel.compiler.compiler.DroolsParserException;
-import org.drools.mvel.compiler.lang.descr.PackageDescr;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.internal.builder.conf.LanguageLevelOption;
-
-import java.util.LinkedList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -52,7 +53,7 @@ public class DRLIncompleteCodeTest {
         assertEquals("a.b.c.*", descr.getImports().get(0)
                 .getTarget());
 
-        assertEquals(Location.LOCATION_LHS_INSIDE_CONDITION_END,
+        assertEquals( Location.LOCATION_LHS_INSIDE_CONDITION_END,
                 getLastIntegerValue(parser.getEditorSentences().get(2)
                         .getContent()));
     }

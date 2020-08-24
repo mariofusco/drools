@@ -21,6 +21,7 @@ import java.util.List;
 import org.appformer.maven.support.AFReleaseIdImpl;
 import org.appformer.maven.support.PomModel;
 import org.assertj.core.api.Assertions;
+import org.drools.compiler.kproject.ReleaseIdImpl;
 import org.junit.Test;
 import org.kie.api.KieServices;
 import org.kie.api.builder.ReleaseId;

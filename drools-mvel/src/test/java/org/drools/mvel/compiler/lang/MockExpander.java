@@ -22,8 +22,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.drools.mvel.compiler.lang.Expander;
-import org.drools.mvel.compiler.lang.dsl.DSLMapping;
+import org.drools.compiler.lang.Expander;
+import org.drools.compiler.lang.dsl.DSLMapping;
 
 public class MockExpander
     implements

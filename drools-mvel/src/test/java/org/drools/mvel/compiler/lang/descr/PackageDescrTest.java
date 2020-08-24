@@ -15,11 +15,6 @@
 
 package org.drools.mvel.compiler.lang.descr;
 
-import org.drools.mvel.compiler.Person;
-import org.drools.mvel.compiler.lang.api.DescrFactory;
-import org.drools.mvel.compiler.lang.api.PackageDescrBuilder;
-import org.junit.Test;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -30,7 +25,19 @@ import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import org.drools.compiler.lang.api.DescrFactory;
+import org.drools.compiler.lang.api.PackageDescrBuilder;
+import org.drools.compiler.lang.descr.AttributeDescr;
+import org.drools.compiler.lang.descr.ImportDescr;
+import org.drools.compiler.lang.descr.PackageDescr;
+import org.drools.compiler.lang.descr.RuleDescr;
+import org.drools.mvel.compiler.Person;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class PackageDescrTest {
 

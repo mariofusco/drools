@@ -17,7 +17,7 @@
 package org.drools.mvel.integrationtests;
 
 import org.drools.mvel.CommonTestMethodBase;
-import org.drools.compiler.Triangle;
+import org.drools.mvel.compiler.Triangle;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
 import org.junit.Test;
@@ -103,7 +103,7 @@ public class EnumTest extends CommonTestMethodBase {
                 "  System.out.println( $bx );\n" +
                 "end";
 
-        final String str2 = "package org.drools.compiler.test2; \n" +
+        final String str2 = "package org.drools.mvel.compiler.test2; \n" +
                         "" +
                         "declare Naeb \n" +
                         "   fld : String \n" +

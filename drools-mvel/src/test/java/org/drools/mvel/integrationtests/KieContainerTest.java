@@ -24,11 +24,11 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.assertj.core.api.Assertions;
-import org.drools.mvel.CommonTestMethodBase;
 import org.drools.compiler.compiler.io.Folder;
 import org.drools.compiler.compiler.io.memory.MemoryFileSystem;
-import org.drools.core.impl.InternalKieContainer;
 import org.drools.compiler.kie.builder.impl.MemoryKieModule;
+import org.drools.core.impl.InternalKieContainer;
+import org.drools.mvel.CommonTestMethodBase;
 import org.junit.Test;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieModule;
@@ -44,7 +44,9 @@ import org.kie.api.runtime.KieSession;
 
 import static org.drools.core.util.DroolsAssert.assertEnumerationSize;
 import static org.drools.core.util.DroolsAssert.assertUrlEnumerationContainsMatch;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
 
 public class KieContainerTest extends CommonTestMethodBase {
 
@@ -288,7 +290,7 @@ public class KieContainerTest extends CommonTestMethodBase {
         KieContainer kieContainer = kieServices.newKieContainer(releaseId);
 
         KieModule kieModule = ((InternalKieContainer) kieContainer).getMainKieModule();
-        MemoryFileSystem memoryFileSystem = ((MemoryKieModule) kieModule).getMemoryFileSystem();
+        MemoryFileSystem memoryFileSystem = (( MemoryKieModule ) kieModule).getMemoryFileSystem();
         Folder rootFolder = memoryFileSystem.getFolder("");
         Object[] members = rootFolder.getMembers().toArray();
         assertEquals(2, members.length);

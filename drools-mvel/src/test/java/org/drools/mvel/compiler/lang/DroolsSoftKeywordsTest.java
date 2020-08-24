@@ -15,10 +15,12 @@
 
 package org.drools.mvel.compiler.lang;
 
+import org.drools.compiler.lang.DroolsSoftKeywords;
 import org.drools.core.base.evaluators.EvaluatorRegistry;
-
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class DroolsSoftKeywordsTest {
 

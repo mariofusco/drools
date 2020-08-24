@@ -15,14 +15,15 @@
 
 package org.drools.mvel.compiler.kie.builder.impl;
 
-import org.assertj.core.api.Assertions;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
+
+import org.assertj.core.api.Assertions;
+import org.drools.compiler.kie.builder.impl.ClasspathKieProject;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 @RunWith(Parameterized.class)
 public class ClasspathKieProjectTransformUrlToFileSystemPathTest {
