@@ -16,7 +16,6 @@
 
 package org.drools.metric;
 
-import org.drools.compiler.CommonTestMethodBase;
 import org.drools.metric.util.MetricLogUtils;
 import org.junit.Before;
 import org.junit.Test;
