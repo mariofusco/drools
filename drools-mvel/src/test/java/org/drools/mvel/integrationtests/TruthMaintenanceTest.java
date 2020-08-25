@@ -1093,8 +1093,8 @@ public class TruthMaintenanceTest extends CommonTestMethodBase {
         String str =""+
                 "package org.drools.mvel.compiler.test;\n" +
                 "\n" +
-                "import org.drools.compiler.Father;\n" +
-                "import org.drools.compiler.YoungestFather;\n" +
+                "import org.drools.mvel.compiler.Father;\n" +
+                "import org.drools.mvel.compiler.YoungestFather;\n" +
                 "\n" +
                 "rule \"findMarriedCouple\"\n" +
                 "when\n" +

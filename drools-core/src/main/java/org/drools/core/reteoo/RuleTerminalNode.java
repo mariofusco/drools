@@ -108,7 +108,8 @@ public class RuleTerminalNode extends AbstractTerminalNode {
     }
     
     public void setDeclarations(Map<String, Declaration> decls) {
-        rule.setDeclarations( decls );
+        setEnabledDeclarations( rule.findEnabledDeclarations( decls ) );
+        setSalienceDeclarations( rule.findSalienceDeclarations( decls ) );
     }
     
     // ------------------------------------------------------------
@@ -218,6 +219,10 @@ public class RuleTerminalNode extends AbstractTerminalNode {
 
     public Declaration[] getEnabledDeclarations() {
         return enabledDeclarations;
+    }
+
+    public void setEnabledDeclarations( Declaration[] enabledDeclarations ) {
+        this.enabledDeclarations = enabledDeclarations;
     }
 
     public String getConsequenceName() {

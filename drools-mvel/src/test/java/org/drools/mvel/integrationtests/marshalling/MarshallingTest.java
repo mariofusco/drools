@@ -117,7 +117,7 @@ public class MarshallingTest extends CommonTestMethodBase {
     @Test
     public void testSerializable() throws Exception {
         Collection<KiePackage>  kpkgs = loadKnowledgePackages("../test_Serializable.drl" );
-        KiePackage kpkg = kpkgs.iterator().next();
+        KiePackage kpkg = kpkgs.stream().filter( p -> p.getName().equals( "org.drools.mvel.compiler.test" ) ).findFirst().get();
         kpkg = SerializationHelper.serializeObject( kpkg );
 
         InternalKnowledgeBase kbase = (InternalKnowledgeBase) loadKnowledgeBase();
@@ -443,7 +443,7 @@ public class MarshallingTest extends CommonTestMethodBase {
                  kBase );
         map = SerializationHelper.serializeObject( map );
         kBase = (InternalKnowledgeBase) map.get( "x" );
-        org.kie.api.definition.rule.Rule[] rules = (org.kie.api.definition.rule.Rule[]) kBase.getPackage("org.drools.compiler").getRules().toArray(new org.kie.api.definition.rule.Rule[0] );
+        org.kie.api.definition.rule.Rule[] rules = (org.kie.api.definition.rule.Rule[]) kBase.getPackage("org.drools.mvel.compiler").getRules().toArray(new org.kie.api.definition.rule.Rule[0] );
         assertEquals( 3, rules.length );
 
         KieSession session = kBase.newKieSession();
@@ -1174,7 +1174,7 @@ public class MarshallingTest extends CommonTestMethodBase {
     @Test
     public void testSinglePattern() throws Exception {
         String rule = "package org.drools.mvel.compiler.test;\n";
-        rule += "import org.drools.compiler.Person\n";
+        rule += "import org.drools.mvel.compiler.Person\n";
         rule += "global java.util.List list\n";
         rule += "rule \"Rule 1\"\n";
         rule += "when\n";
@@ -1216,8 +1216,8 @@ public class MarshallingTest extends CommonTestMethodBase {
     @Test
     public void testSingleRuleSingleJoinNodePattern() throws Exception {
         String rule = "package org.drools.mvel.compiler.test;\n";
-        rule += "import org.drools.compiler.Person\n";
-        rule += "import org.drools.compiler.Cheese\n";
+        rule += "import org.drools.mvel.compiler.Person\n";
+        rule += "import org.drools.mvel.compiler.Cheese\n";
         rule += "global java.util.List list\n";
         rule += "rule \"Rule 1\"\n";
         rule += "when\n";
@@ -1305,8 +1305,8 @@ public class MarshallingTest extends CommonTestMethodBase {
     @Test
     public void testMultiRuleMultiJoinNodePatternsWithHalt() throws Exception {
         String rule1 = "package org.drools.mvel.compiler.test;\n";
-        rule1 += "import org.drools.compiler.Person\n";
-        rule1 += "import org.drools.compiler.Cheese\n";
+        rule1 += "import org.drools.mvel.compiler.Person\n";
+        rule1 += "import org.drools.mvel.compiler.Cheese\n";
         rule1 += "global java.util.List list\n";
         rule1 += "rule \"Rule 1\"\n";
         rule1 += "when\n";
@@ -1317,9 +1317,9 @@ public class MarshallingTest extends CommonTestMethodBase {
         rule1 += "end";
 
         String rule2 = "package org.drools.mvel.compiler.test;\n";
-        rule2 += "import org.drools.compiler.Person\n";
-        rule2 += "import org.drools.compiler.Cheese\n";
-        rule2 += "import org.drools.compiler.Cell\n";
+        rule2 += "import org.drools.mvel.compiler.Person\n";
+        rule2 += "import org.drools.mvel.compiler.Cheese\n";
+        rule2 += "import org.drools.mvel.compiler.Cell\n";
         rule2 += "global java.util.List list\n";
         rule2 += "rule \"Rule 2\"\n";
         rule2 += "when\n";
@@ -1331,10 +1331,10 @@ public class MarshallingTest extends CommonTestMethodBase {
         rule2 += "end";
 
         String rule3 = "package org.drools.mvel.compiler.test;\n";
-        rule3 += "import org.drools.compiler.FactA\n";
-        rule3 += "import org.drools.compiler.FactB\n";
-        rule3 += "import org.drools.compiler.FactC\n";
-        rule3 += "import org.drools.compiler.Person\n";
+        rule3 += "import org.drools.mvel.compiler.FactA\n";
+        rule3 += "import org.drools.mvel.compiler.FactB\n";
+        rule3 += "import org.drools.mvel.compiler.FactC\n";
+        rule3 += "import org.drools.mvel.compiler.Person\n";
         rule3 += "global java.util.List list\n";
         rule3 += "rule \"Rule 3\"\n";
         rule3 += "when\n";
@@ -1429,8 +1429,8 @@ public class MarshallingTest extends CommonTestMethodBase {
     public void testNot() throws Exception {
         String header = "package org.drools.mvel.compiler.test;\n";
         header += "import java.util.List;\n";
-        header += "import org.drools.compiler.Person\n";
-        header += "import org.drools.compiler.Cheese\n";
+        header += "import org.drools.mvel.compiler.Person\n";
+        header += "import org.drools.mvel.compiler.Cheese\n";
         header += "global java.util.List list;\n";
 
         String rule1 = "rule \"not rule test\"\n";
@@ -1542,8 +1542,8 @@ public class MarshallingTest extends CommonTestMethodBase {
     public void testExists() throws Exception {
         String header = "package org.drools.mvel.compiler.test;\n";
         header += "import java.util.List;\n";
-        header += "import org.drools.compiler.Person\n";
-        header += "import org.drools.compiler.Cheese\n";
+        header += "import org.drools.mvel.compiler.Person\n";
+        header += "import org.drools.mvel.compiler.Cheese\n";
         header += "global java.util.List list;\n";
 
         String rule1 = "rule \"not rule test\"\n";
@@ -1663,8 +1663,8 @@ public class MarshallingTest extends CommonTestMethodBase {
     public void testTruthMaintenance() throws Exception {
         String header = "package org.drools.mvel.compiler.test;\n";
         header += "import java.util.List;\n";
-        header += "import org.drools.compiler.Person\n";
-        header += "import org.drools.compiler.Cheese\n";
+        header += "import org.drools.mvel.compiler.Person\n";
+        header += "import org.drools.mvel.compiler.Cheese\n";
         header += "global Cheese cheese;\n";
         header += "global Person person;\n";
         header += "global java.util.List list;\n";
@@ -1735,7 +1735,7 @@ public class MarshallingTest extends CommonTestMethodBase {
     @Test
     public void testActivationGroups() throws Exception {
         String rule1 = "package org.drools.mvel.compiler.test;\n";
-        rule1 += "import org.drools.compiler.Cheese\n";
+        rule1 += "import org.drools.mvel.compiler.Cheese\n";
         rule1 += "global java.util.List list\n";
         rule1 += "rule \"Rule 1\"\n";
         rule1 += "    activation-group \"activation-group-1\"\n";
@@ -1747,7 +1747,7 @@ public class MarshallingTest extends CommonTestMethodBase {
         rule1 += "end";
 
         String rule2 = "package org.drools.mvel.compiler.test;\n";
-        rule2 += "import org.drools.compiler.Cheese\n";
+        rule2 += "import org.drools.mvel.compiler.Cheese\n";
         rule2 += "global java.util.List list\n";
         rule2 += "rule \"Rule 2\"\n";
         rule2 += "    salience 10\n";
@@ -1760,7 +1760,7 @@ public class MarshallingTest extends CommonTestMethodBase {
         rule2 += "end";
 
         String rule3 = "package org.drools.mvel.compiler.test;\n";
-        rule3 += "import org.drools.compiler.Cheese\n";
+        rule3 += "import org.drools.mvel.compiler.Cheese\n";
         rule3 += "global java.util.List list\n";
         rule3 += "rule \"Rule 3\"\n";
         rule3 += "    activation-group \"activation-group-1\"\n";
@@ -1772,7 +1772,7 @@ public class MarshallingTest extends CommonTestMethodBase {
         rule3 += "end";
 
         String rule4 = "package org.drools.mvel.compiler.test;\n";
-        rule4 += "import org.drools.compiler.Cheese\n";
+        rule4 += "import org.drools.mvel.compiler.Cheese\n";
         rule4 += "global java.util.List list\n";
         rule4 += "rule \"Rule 4\"\n";
         rule4 += "    activation-group \"activation-group-2\"\n";
@@ -1814,7 +1814,7 @@ public class MarshallingTest extends CommonTestMethodBase {
     @Test
     public void testAgendaGroups() throws Exception {
         String rule1 = "package org.drools.mvel.compiler.test;\n";
-        rule1 += "import org.drools.compiler.Cheese\n";
+        rule1 += "import org.drools.mvel.compiler.Cheese\n";
         rule1 += "global java.util.List list\n";
         rule1 += "rule \"Rule 1\"\n";
         rule1 += "    agenda-group \"agenda-group-1\"\n";
@@ -1826,7 +1826,7 @@ public class MarshallingTest extends CommonTestMethodBase {
         rule1 += "end";
 
         String rule2 = "package org.drools.mvel.compiler.test;\n";
-        rule2 += "import org.drools.compiler.Cheese\n";
+        rule2 += "import org.drools.mvel.compiler.Cheese\n";
         rule2 += "global java.util.List list\n";
         rule2 += "rule \"Rule 2\"\n";
         rule2 += "    salience 10\n";
@@ -1839,7 +1839,7 @@ public class MarshallingTest extends CommonTestMethodBase {
         rule2 += "end";
 
         String rule3 = "package org.drools.mvel.compiler.test;\n";
-        rule3 += "import org.drools.compiler.Cheese\n";
+        rule3 += "import org.drools.mvel.compiler.Cheese\n";
         rule3 += "global java.util.List list\n";
         rule3 += "rule \"Rule 3\"\n";
         rule3 += "    salience 10\n";
@@ -1853,7 +1853,7 @@ public class MarshallingTest extends CommonTestMethodBase {
         rule3 += "end";
 
         String rule4 = "package org.drools.mvel.compiler.test;\n";
-        rule4 += "import org.drools.compiler.Cheese\n";
+        rule4 += "import org.drools.mvel.compiler.Cheese\n";
         rule4 += "global java.util.List list\n";
         rule4 += "rule \"Rule 4\"\n";
         rule4 += "    agenda-group \"agenda-group-2\"\n";
@@ -1902,7 +1902,7 @@ public class MarshallingTest extends CommonTestMethodBase {
     @Test
     public void testRuleFlowGroups() throws Exception {
         String rule1 = "package org.drools.mvel.compiler.test;\n";
-        rule1 += "import org.drools.compiler.Cheese\n";
+        rule1 += "import org.drools.mvel.compiler.Cheese\n";
         rule1 += "global java.util.List list\n";
         rule1 += "rule \"Rule 1\"\n";
         rule1 += "    ruleflow-group \"ruleflow-group-1\"\n";
@@ -1914,7 +1914,7 @@ public class MarshallingTest extends CommonTestMethodBase {
         rule1 += "end";
 
         String rule2 = "package org.drools.mvel.compiler.test;\n";
-        rule2 += "import org.drools.compiler.Cheese\n";
+        rule2 += "import org.drools.mvel.compiler.Cheese\n";
         rule2 += "global java.util.List list\n";
         rule2 += "rule \"Rule 2\"\n";
         rule2 += "    salience 10\n";
@@ -1927,7 +1927,7 @@ public class MarshallingTest extends CommonTestMethodBase {
         rule2 += "end";
 
         String rule3 = "package org.drools.mvel.compiler.test;\n";
-        rule3 += "import org.drools.compiler.Cheese\n";
+        rule3 += "import org.drools.mvel.compiler.Cheese\n";
         rule3 += "global java.util.List list\n";
         rule3 += "rule \"Rule 3\"\n";
         rule3 += "    salience 10\n";
@@ -1941,7 +1941,7 @@ public class MarshallingTest extends CommonTestMethodBase {
         rule3 += "end";
 
         String rule4 = "package org.drools.mvel.compiler.test;\n";
-        rule4 += "import org.drools.compiler.Cheese\n";
+        rule4 += "import org.drools.mvel.compiler.Cheese\n";
         rule4 += "global java.util.List list\n";
         rule4 += "rule \"Rule 4\"\n";
         rule4 += "    ruleflow-group \"ruleflow-group-2\"\n";
@@ -1990,7 +1990,7 @@ public class MarshallingTest extends CommonTestMethodBase {
     @Test
     public void testAccumulate() throws Exception {
         String rule = "package org.drools\n" +
-                "import org.drools.compiler.Message\n" +
+                "import org.drools.mvel.compiler.Message\n" +
                 "global java.util.List results\n" +
                 "rule MyRule\n" +
                 "  when\n" +
@@ -2035,7 +2035,7 @@ public class MarshallingTest extends CommonTestMethodBase {
     @Test
     public void testAccumulate2() throws Exception {
         String str = "package org.drools\n" + "\n" +
-                     "import org.drools.compiler.Message\n" + "\n" +
+                     "import org.drools.mvel.compiler.Message\n" + "\n" +
                      "rule MyRule\n" + "  when\n" +
                      "    Number( intValue >= 5 ) from accumulate ( m: Message( ), count( m ) )\n" +
                      "  then\n" +
@@ -2141,7 +2141,7 @@ public class MarshallingTest extends CommonTestMethodBase {
 
     @Test
     public void testAccumulateSerialization() throws Exception {
-        KieBase kbase = loadKnowledgeBase( "org/drools/compiler/integrationtests/marshalling/test_SerializableAccumulate.drl"  );
+        KieBase kbase = loadKnowledgeBase( "org/drools/mvel/integrationtests/marshalling/test_SerializableAccumulate.drl"  );
         KieSession ksession = kbase.newKieSession();
 
         ksession.setGlobal( "results",

@@ -29,8 +29,9 @@
     <name>Drools :: MVEL</name>
 
     <properties>
-        <java.module.name>org.drools.core.traits</java.module.name>
+        <java.module.name>org.drools.mvel</java.module.name>
         <surefire.forkCount>2</surefire.forkCount>
+        <excludedGroups>org.kie.test.testcategory.TurtleTestCategory</excludedGroups>
     </properties>
 
     <dependencies>
@@ -65,6 +66,12 @@
             <artifactId>drools-compiler</artifactId>
             <type>test-jar</type>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>janino</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>

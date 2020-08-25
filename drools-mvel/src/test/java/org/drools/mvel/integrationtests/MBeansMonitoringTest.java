@@ -153,7 +153,7 @@ public class MBeansMonitoringTest extends CommonTestMethodBase {
     @Test
     public void testEventOffset() throws Exception {
     	String drl = "package org.drools.mvel.compiler.test\n" +
-    			"import org.drools.compiler.StockTick\n" +
+    			"import org.drools.mvel.compiler.StockTick\n" +
     			"declare StockTick\n" +
     			"    @role(event)\n" +
     			"    @expires(10s)\n" +

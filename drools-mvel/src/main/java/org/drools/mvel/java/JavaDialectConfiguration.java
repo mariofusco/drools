@@ -14,26 +14,14 @@
 
 package org.drools.mvel.java;
 
-import java.util.Arrays;
-
 import org.drools.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
 import org.drools.compiler.compiler.Dialect;
 import org.drools.compiler.compiler.DialectConfiguration;
 import org.drools.compiler.compiler.JavaConfiguration;
 import org.drools.compiler.compiler.PackageRegistry;
 import org.drools.core.definitions.InternalKnowledgePackage;
-import org.drools.core.rule.builder.dialect.asm.ClassLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.mvel2.asm.Opcodes.V10;
-import static org.mvel2.asm.Opcodes.V11;
-import static org.mvel2.asm.Opcodes.V12;
-import static org.mvel2.asm.Opcodes.V1_5;
-import static org.mvel2.asm.Opcodes.V1_6;
-import static org.mvel2.asm.Opcodes.V1_7;
-import static org.mvel2.asm.Opcodes.V1_8;
-import static org.mvel2.asm.Opcodes.V9;
 
 /**
  * 
@@ -62,130 +50,10 @@ public class JavaDialectConfiguration extends JavaConfiguration
 
     protected static final transient Logger logger = LoggerFactory.getLogger(JavaDialectConfiguration.class);
     
-    // This should be in alphabetic order to search with BinarySearch
-    protected static final String[]  LANGUAGE_LEVELS = new String[]{"1.5", "1.6", "1.7", "1.8", "10", "11", "12", "9"};
-
-    private String                      languageLevel;
-
-    private KnowledgeBuilderConfigurationImpl conf;
-
-    private CompilerType                compiler;
-
     public JavaDialectConfiguration() {
-    }
-
-    public void init(final KnowledgeBuilderConfigurationImpl conf) {
-        this.conf = conf;
-
-        setCompiler( getDefaultCompiler() );
-        
-        setJavaLanguageLevel( getDefaultLanguageLevel() );
-    }
-
-    public KnowledgeBuilderConfigurationImpl getPackageBuilderConfiguration() {
-        return this.conf;
     }
 
     public Dialect newDialect(ClassLoader rootClassLoader, KnowledgeBuilderConfigurationImpl pkgConf, PackageRegistry pkgRegistry, InternalKnowledgePackage pkg) {
         return new JavaDialect(rootClassLoader, pkgConf, pkgRegistry, pkg);
-    }
-
-    public String getJavaLanguageLevel() {
-        return this.languageLevel;
-    }
-
-    /**
-     * You cannot set language level below 1.5, as we need static imports, 1.5 is now the default.
-     * @param languageLevel
-     */
-    public void setJavaLanguageLevel(final String languageLevel) {
-        if ( Arrays.binarySearch( LANGUAGE_LEVELS,
-                                  languageLevel ) < 0 ) {
-            throw new RuntimeException( "value '" + languageLevel + "' is not a valid language level" );
-        }
-        this.languageLevel = languageLevel;
-    }
-
-    /** 
-     * Set the compiler to be used when building the rules semantic code blocks.
-     * This overrides the default, and even what was set as a system property. 
-     */
-    public void setCompiler(final CompilerType compiler) {
-        // check that the jar for the specified compiler are present
-        if ( compiler == CompilerType.ECLIPSE ) {
-            try {
-                Class.forName( "org.eclipse.jdt.internal.compiler.Compiler", true, this.conf.getClassLoader() );
-            } catch ( ClassNotFoundException e ) {
-                throw new RuntimeException( "The Eclipse JDT Core jar is not in the classpath" );
-            }
-        } else if ( compiler == CompilerType.JANINO ){
-            try {
-                Class.forName( "org.codehaus.janino.Parser", true, this.conf.getClassLoader() );
-            } catch ( ClassNotFoundException e ) {
-                throw new RuntimeException( "The Janino jar is not in the classpath" );
-            }
-        }
-        
-        switch ( compiler ) {
-            case ECLIPSE :
-                this.compiler = CompilerType.ECLIPSE;
-                break;
-            case JANINO :
-                this.compiler = CompilerType.JANINO;
-                break;
-            case NATIVE :
-                this.compiler = CompilerType.NATIVE;
-                break;
-            default :
-                throw new RuntimeException( "value '" + compiler + "' is not a valid compiler" );
-        }
-    }
-
-    /**
-     * This will attempt to read the System property to work out what default to set.
-     * This should only be done once when the class is loaded. After that point, you will have
-     * to programmatically override it.
-     */
-    private CompilerType getDefaultCompiler() {
-        try {
-            final String prop = this.conf.getChainedProperties().getProperty( JAVA_COMPILER_PROPERTY,
-                                                                              "ECLIPSE" );
-            if ( prop.equals( "NATIVE" ) ) {
-                return CompilerType.NATIVE;
-            } else if ( prop.equals( "ECLIPSE" ) ) {
-                return CompilerType.ECLIPSE;
-            } else if ( prop.equals( "JANINO" ) ) {
-                return CompilerType.JANINO;
-            } else {
-                logger.error( "Drools config: unable to use the drools.compiler property. Using default. It was set to:" + prop );
-                return CompilerType.ECLIPSE;
-            }
-        } catch ( final SecurityException e ) {
-            logger.error( "Drools config: unable to read the drools.compiler property. Using default.", e);
-            return CompilerType.ECLIPSE;
-        }
-    }
-
-    private String getDefaultLanguageLevel() {
-        switch (ClassLevel.findJavaVersion(this.conf.getChainedProperties())) {
-            case V1_5:
-                return "1.5";
-            case V1_6:
-                return "1.6";
-            case V1_7:
-                return "1.7";
-            case V1_8:
-                return "1.8";
-            case V9:
-                return "9";
-            case V10:
-                return "10";
-            case V11:
-                return "11";
-            case V12:
-              return "12";
-            default:
-                return "1.8";
-        }
     }
 }

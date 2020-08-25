@@ -52,7 +52,7 @@ public class JavaDialectTest {
         // Tests evals are generated and executed with Java dialect
         String drl = "";
         drl += "package org.drools.mvel.compiler.test\n";
-        drl += "import org.drools.compiler.Person\n";
+        drl += "import " + Person.class.getCanonicalName() + "\n";
         drl += "global java.util.List list\n";
         drl += "rule test1\n";
         drl += "when\n";
@@ -102,7 +102,7 @@ public class JavaDialectTest {
         
         String drl = "";
         drl += "package org.drools.mvel.compiler.test\n";
-        drl += "import org.drools.compiler.Person\n";
+        drl += "import " + Person.class.getCanonicalName() + "\n";
         drl += "global java.util.List list\n";
         drl += "rule test1\n";
         drl += "when\n";

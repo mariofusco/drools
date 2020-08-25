@@ -102,7 +102,7 @@ public class StatelessSessionTest extends CommonTestMethodBase {
     public void testInsertObject() throws Exception {
         String str = "";
         str += "package org.kie \n";
-        str += "import org.drools.compiler.Cheese \n";
+        str += "import org.drools.mvel.compiler.Cheese \n";
         str += "rule rule1 \n";
         str += "  when \n";
         str += "    $c : Cheese() \n";
@@ -127,7 +127,7 @@ public class StatelessSessionTest extends CommonTestMethodBase {
     public void testSetGlobal() throws Exception {
         String str = "";
         str += "package org.kie \n";
-        str += "import org.drools.compiler.Cheese \n";
+        str += "import org.drools.mvel.compiler.Cheese \n";
         str += "global java.util.List list1 \n";
         str += "global java.util.List list2 \n";
         str += "global java.util.List list3 \n";
@@ -181,7 +181,7 @@ public class StatelessSessionTest extends CommonTestMethodBase {
     public void testQuery() throws Exception {
         String str = "";
         str += "package org.kie.test  \n";
-        str += "import org.drools.compiler.Cheese \n";
+        str += "import org.drools.mvel.compiler.Cheese \n";
         str += "query cheeses \n";
         str += "    stilton : Cheese(type == 'stilton') \n";
         str += "    cheddar : Cheese(type == 'cheddar', price == stilton.price) \n";
@@ -265,7 +265,7 @@ public class StatelessSessionTest extends CommonTestMethodBase {
     public void testChannels() throws Exception {
         String str = "";
         str += "package org.kie \n";
-        str += "import org.drools.compiler.Cheese \n";
+        str += "import org.drools.mvel.compiler.Cheese \n";
         str += "rule rule1 \n";
         str += "  when \n";
         str += "    $c : Cheese() \n";

@@ -52,25 +52,25 @@ public class KieBuilderTest extends CommonTestMethodBase {
 
     @Test
     public void testResourceInclusion() {
-        final String drl1 = "package org.drools.compiler\n" +
+        final String drl1 = "package org.drools.mvel.compiler\n" +
                 "rule R1 when\n" +
                 "   $m : Message()\n" +
                 "then\n" +
                 "end\n";
 
-        final String drl2 = "package org.drools.compiler\n" +
+        final String drl2 = "package org.drools.mvel.compiler\n" +
                 "rule R2 when\n" +
                 "   $m : Message( message == \"Hi Universe\" )\n" +
                 "then\n" +
                 "end\n";
 
-        final String drl3 = "package org.drools.compiler\n" +
+        final String drl3 = "package org.drools.mvel.compiler\n" +
                 "rule R3 when\n" +
                 "   $m : Message( message == \"Hello World\" )\n" +
                 "then\n" +
                 "end\n";
 
-        final String drl4 = "package org.drools.compiler\n" +
+        final String drl4 = "package org.drools.mvel.compiler\n" +
                 "rule R4 when\n" +
                 "   $m : Message( message == \"Hello Earth\" )\n" +
                 "then\n" +
@@ -115,7 +115,7 @@ public class KieBuilderTest extends CommonTestMethodBase {
 
     @Test
     public void testValidXsdTargetNamespace() {
-        final String drl1 = "package org.drools.compiler\n" +
+        final String drl1 = "package org.drools.mvel.compiler\n" +
                 "rule R1 when\n" +
                 "   $m : Message()\n" +
                 "then\n" +
@@ -168,7 +168,7 @@ public class KieBuilderTest extends CommonTestMethodBase {
 
     @Test
     public void testOldXsdTargetNamespace() {
-        final String drl1 = "package org.drools.compiler\n" +
+        final String drl1 = "package org.drools.mvel.compiler\n" +
                 "rule R1 when\n" +
                 "   $m : Message()\n" +
                 "then\n" +
@@ -251,10 +251,10 @@ public class KieBuilderTest extends CommonTestMethodBase {
 
     @Test
     public void testJavaSourceFileAndDrlDeploy() {
-        final String java = "package org.drools.compiler;\n" +
+        final String java = "package org.drools.mvel.compiler;\n" +
                 "public class JavaSourceMessage { }\n";
-        final String drl = "package org.drools.compiler;\n" +
-                "import org.drools.compiler.JavaSourceMessage;" +
+        final String drl = "package org.drools.mvel.compiler;\n" +
+                "import org.drools.mvel.compiler.JavaSourceMessage;" +
                 "rule R1 when\n" +
                 "   $m : JavaSourceMessage()\n" +
                 "then\n" +
@@ -271,7 +271,7 @@ public class KieBuilderTest extends CommonTestMethodBase {
 
         final ReleaseId releaseId1 = ks.newReleaseId( "org.kie", "test-kie-builder", "1.0.0" );
         final Resource javaResource = ResourceFactory.newByteArrayResource( java.getBytes() ).setResourceType( ResourceType.JAVA )
-                .setSourcePath( "org/drools/compiler/JavaSourceMessage.java" );
+                .setSourcePath( "org/drools/mvel/compiler/JavaSourceMessage.java" );
         final Resource drlResource = ResourceFactory.newByteArrayResource( drl.getBytes() ).setResourceType( ResourceType.DRL )
                 .setSourcePath( "kbase1/drl1.drl" );
         final KieModule km = createAndDeployJar( ks,
@@ -290,12 +290,12 @@ public class KieBuilderTest extends CommonTestMethodBase {
 
     @Test
     public void testJavaSourceFileAndDrlDeployWithClassFilter() {
-        final String allowedJava = "package org.drools.compiler;\n" +
+        final String allowedJava = "package org.drools.mvel.compiler;\n" +
                 "public class JavaSourceMessage { }\n";
-        final String filteredJava = "package org.drools.compiler;\n" +
+        final String filteredJava = "package org.drools.mvel.compiler;\n" +
                 "public class ClassCausingClassNotFoundException { non.existing.Type foo() { return null; } }\n";
         final String drl = "package org.drools.compiler;\n" +
-                "import org.drools.compiler.JavaSourceMessage;" +
+                "import org.drools.mvel.compiler.JavaSourceMessage;" +
                 "rule R1 when\n" +
                 "   $m : JavaSourceMessage()\n" +
                 "then\n" +
@@ -312,13 +312,13 @@ public class KieBuilderTest extends CommonTestMethodBase {
 
         final ReleaseId releaseId1 = ks.newReleaseId( "org.kie", "test-kie-builder", "1.0.0" );
         final Resource allowedJavaResource = ResourceFactory.newByteArrayResource( allowedJava.getBytes() ).setResourceType( ResourceType.JAVA )
-                .setSourcePath( "org/drools/compiler/JavaSourceMessage.java" );
+                .setSourcePath( "org/drools/mvel/compiler/JavaSourceMessage.java" );
         final Resource filteredJavaResource = ResourceFactory.newByteArrayResource( filteredJava.getBytes() ).setResourceType( ResourceType.JAVA )
-                .setSourcePath( "org/drools/compiler/ClassCausingClassNotFoundException.java" );
+                .setSourcePath( "org/drools/mvel/compiler/ClassCausingClassNotFoundException.java" );
         final Resource drlResource = ResourceFactory.newByteArrayResource( drl.getBytes() ).setResourceType( ResourceType.DRL )
                 .setSourcePath( "kbase1/drl1.drl" );
 
-        final Predicate<String> filter = fileName -> !fileName.endsWith( "org/drools/compiler/ClassCausingClassNotFoundException.java" );
+        final Predicate<String> filter = fileName -> !fileName.endsWith( "org/drools/mvel/compiler/ClassCausingClassNotFoundException.java" );
 
         KieModule km = null;
         try {
@@ -328,7 +328,7 @@ public class KieBuilderTest extends CommonTestMethodBase {
                                      releaseId1,
                                      allowedJavaResource, filteredJavaResource, drlResource);
         } catch ( final IllegalStateException ise ) {
-            if ( ise.getMessage().contains( "org/drools/compiler/ClassCausingClassNotFoundException.java" ) ) {
+            if ( ise.getMessage().contains( "org/drools/mvel/compiler/ClassCausingClassNotFoundException.java" ) ) {
                 fail( "Build failed because source file was not filtered out." );
             } else {
                 throw ise;
@@ -491,7 +491,7 @@ public class KieBuilderTest extends CommonTestMethodBase {
     
     @Test
     public void testDeclarativeChannelRegistration() {
-        final String drl1 = "package org.drools.compiler\n" +
+        final String drl1 = "package org.drools.mvel.compiler\n" +
                 "rule R1 when\n" +
                 "   $m : Message()\n" +
                 "then\n" +
@@ -526,7 +526,7 @@ public class KieBuilderTest extends CommonTestMethodBase {
     
     @Test
     public void testStatelessSessionDeclarativeChannelRegistration() {
-        final String drl1 = "package org.drools.compiler\n" +
+        final String drl1 = "package org.drools.mvel.compiler\n" +
                 "rule R1 when\n" +
                 "   $m : Message()\n" +
                 "then\n" +

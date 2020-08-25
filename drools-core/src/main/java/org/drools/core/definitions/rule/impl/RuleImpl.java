@@ -423,6 +423,7 @@ public class RuleImpl implements Externalizable,
                                RuleTerminalNode rtn,
                                WorkingMemory workingMemory) {
         if ( !this.enabled.getValue( tuple,
+                                     rtn.getEnabledDeclarations(),
                                      this,
                                      workingMemory ) ) {
             return false;
@@ -782,6 +783,7 @@ public class RuleImpl implements Externalizable,
                              RuleTerminalNode rtn,
                              WorkingMemory workingMemory) {
         return this.enabled.getValue( tuple,
+                                      rtn.getEnabledDeclarations(),
                                       this,
                                       workingMemory );
     }
@@ -875,9 +877,12 @@ public class RuleImpl implements Externalizable,
         return ruleUnitClassName != null;
     }
 
-    public void setDeclarations(Map<String, Declaration> decls) {
-        this.enabled.setDeclarations( declarations );
-        this.salience.setDeclarations( declarations );
+    public Declaration[] findEnabledDeclarations(Map<String, Declaration> decls) {
+        return this.enabled.findDeclarations(decls);
+    }
+
+    public Declaration[] findSalienceDeclarations(Map<String, Declaration> decls) {
+        return this.salience.findDeclarations(decls);
     }
 
     public static class SafeSalience implements Salience, Serializable {
@@ -916,9 +921,10 @@ public class RuleImpl implements Externalizable,
 
         @Override
         public boolean getValue(final Tuple tuple,
+                                final Declaration[] declarations,
                                 final RuleImpl rule,
                                 final WorkingMemory workingMemory) {
-            return AccessController.doPrivileged((PrivilegedAction<Boolean>) () -> delegate.getValue(tuple, rule, workingMemory), KiePolicyHelper.getAccessContext());
+            return AccessController.doPrivileged((PrivilegedAction<Boolean>) () -> delegate.getValue(tuple, declarations, rule, workingMemory), KiePolicyHelper.getAccessContext());
         }
 
     }

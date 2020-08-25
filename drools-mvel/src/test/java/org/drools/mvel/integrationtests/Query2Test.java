@@ -34,7 +34,7 @@ public class Query2Test extends CommonTestMethodBase {
     @Test
     public void testEvalRewrite() throws Exception {
         String str = "" +
-        "package org.drools.compiler;\n" +
+        "package org.drools.mvel.compiler;\n" +
         "global java.util.List results;\n" +
         "rule \"eval rewrite\"\n" +
         "    when\n" +

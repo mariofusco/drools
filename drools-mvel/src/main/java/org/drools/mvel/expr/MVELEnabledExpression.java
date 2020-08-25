@@ -48,8 +48,6 @@ public class MVELEnabledExpression
 
     private Serializable        expr;
 
-    protected Declaration[]     enabledDeclarations;
-
     public MVELEnabledExpression() {
     }
 
@@ -83,9 +81,10 @@ public class MVELEnabledExpression
     }
 
     public boolean getValue(final Tuple tuple,
+                            final Declaration[] declarations,
                             final RuleImpl rule,
                             final WorkingMemory workingMemory) {
-        VariableResolverFactory factory = unit.getFactory( null, enabledDeclarations,
+        VariableResolverFactory factory = unit.getFactory( null, declarations,
                                                            rule, null, (LeftTuple) tuple, null, (InternalWorkingMemory) workingMemory, workingMemory.getGlobalResolver()  );
 
         // do we have any functions for this namespace?
@@ -105,14 +104,15 @@ public class MVELEnabledExpression
     }
 
     @Override
-    public void setDeclarations( Map<String, Declaration> decls) {
+    public Declaration[] findDeclarations( Map<String, Declaration> decls) {
         Declaration[] declrs = unit.getPreviousDeclarations();
 
-        this.enabledDeclarations = new Declaration[declrs.length];
+        Declaration[] enabledDeclarations = new Declaration[declrs.length];
         int i = 0;
         for ( Declaration declr : declrs ) {
-            this.enabledDeclarations[i++] = decls.get( declr.getIdentifier() );
+            enabledDeclarations[i++] = decls.get( declr.getIdentifier() );
         }
-        Arrays.sort( this.enabledDeclarations, RuleTerminalNode.SortDeclarations.instance );
+        Arrays.sort( enabledDeclarations, RuleTerminalNode.SortDeclarations.instance );
+        return enabledDeclarations;
     }
 }

@@ -17,7 +17,6 @@ package org.drools.mvel.integrationtests;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Collection;
 
 import org.drools.core.common.DroolsObjectOutputStream;
@@ -36,7 +35,7 @@ public class SerializedPackageMergeTwoSteps1Test {
 	public void testBuildAndSerializePackagesInTwoSteps1() {
 		String str1 =
 				"package com.sample.packageA\n" +
-						"import org.drools.compiler.Person\n" +
+						"import org.drools.mvel.compiler.Person\n" +
 						"global java.util.List list\n" +
 						"rule R1 when\n" +
 						"  $p : Person( name == \"John\" )\n" +
@@ -46,7 +45,7 @@ public class SerializedPackageMergeTwoSteps1Test {
 
 		String str2 =
 				"package com.sample.packageB\n" +
-						"import org.drools.compiler.Person\n" +
+						"import org.drools.mvel.compiler.Person\n" +
 						"global java.util.List list\n" +
 						"rule R2 when\n" +
 						"  $p : Person()\n" +

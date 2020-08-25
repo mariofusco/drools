@@ -163,7 +163,7 @@ public class Misc2Test extends CommonTestMethodBase {
         // JBRULES-3604
         String str = "package inheritance\n" +
                      "\n" +
-                     "import org.drools.compiler.Address\n" +
+                    "import " + Address.class.getCanonicalName() + "\n" +
                      "\n" +
                      "rule \"Parent\"\n" +
                      "    enabled false\n" +
@@ -216,7 +216,7 @@ public class Misc2Test extends CommonTestMethodBase {
     @Test
     public void testNPEOnMutableGlobal() throws Exception {
         // BZ-1019473
-        String str = "package org.drools.compiler\n" +
+        String str = "package org.drools.mvel.compiler\n" +
                      "global java.util.List context\n" +
                      "rule B\n" +
                      "  when\n" +
@@ -1933,7 +1933,7 @@ public class Misc2Test extends CommonTestMethodBase {
     public void testPhreakWithConcurrentUpdates() {
         // DROOLS-7
         String str =
-                "import org.drools.compiler.Person\n" +
+                "import " + Person.class.getCanonicalName() + "\n" +
                 "rule R when\n" +
                 "  $s : String()\n" +
                 "  $i : Integer()\n" +
@@ -1986,7 +1986,7 @@ public class Misc2Test extends CommonTestMethodBase {
     public void testPhreakWith2Nots() {
         // DROOLS-7
         String str =
-                "import org.drools.compiler.Person\n" +
+                "import " + Person.class.getCanonicalName() + "\n" +
                 "global java.util.List list;\n" +
                 "rule R when\n" +
                 "  Person( $age : age, $name : name )\n" +
@@ -2030,8 +2030,8 @@ public class Misc2Test extends CommonTestMethodBase {
     public void testPhreakTMS() {
         // DROOLS-7
         String str =
-                "import org.drools.compiler.Person\n" +
-                "import org.drools.compiler.Cheese\n" +
+                "import " + Person.class.getCanonicalName() + "\n" +
+                "import " + Cheese.class.getCanonicalName() + "\n" +
                 "rule R when\n" +
                 "  Person( $age : age, $name : name == \"A\" )\n" +
                 "  not Person( age == $age + 1 )\n" +
@@ -4163,7 +4163,7 @@ public class Misc2Test extends CommonTestMethodBase {
     public void testNoLoopWithNamedConsequences() {
         // DROOLS-327
         String drl =
-                "import org.drools.compiler.Message\n" +
+                "import " + Message.class.getCanonicalName() + "\n" +
                 "rule \"Hello World\" no-loop\n" +
                 "    when\n" +
                 "        m : Message( myMessage : message )\n" +
@@ -4709,7 +4709,7 @@ public class Misc2Test extends CommonTestMethodBase {
     @Test
     public void testTypeCheckInOr() {
         // BZ-1029911
-        String str = "import org.drools.compiler.*;\n" +
+        String str = "import org.drools.mvel.compiler.*;\n" +
                      "import java.util.*;\n" +
                      "\n" +
                      "rule \"rule test\"\n" +
@@ -4733,7 +4733,7 @@ public class Misc2Test extends CommonTestMethodBase {
     public void testDynamicNegativeSalienceWithSpace() {
         // DROOLS-302
         String str =
-                "import org.drools.compiler.Person\n" +
+                "import " + Person.class.getCanonicalName() + "\n" +
                 "rule R\n" +
                 "salience - $age\n" +
                 "when\n" +
@@ -4754,7 +4754,7 @@ public class Misc2Test extends CommonTestMethodBase {
     public void testJoinNoLoop() {
         // BZ-1034094
         String str =
-                "import org.drools.compiler.Person\n" +
+                "import " + Person.class.getCanonicalName() + "\n" +
                 "rule R no-loop\n" +
                 "when\n" +
                 "  String()\n" +
@@ -4810,7 +4810,7 @@ public class Misc2Test extends CommonTestMethodBase {
     public void testInfiniteLoopUpdatingWithRBTreeIndexing() {
         // BZ-1040032
         String drl =
-                "import org.drools.compiler.Person\n" +
+                "import " + Person.class.getCanonicalName() + "\n" +
                 "rule R when\n" +
                 "    $p : Person()\n" +
                 "    exists Person( age > $p.age, name.contains($p.name.substring(0, 1)) )\n" +
@@ -8033,7 +8033,7 @@ public class Misc2Test extends CommonTestMethodBase {
     @Test
     public void testNonSerializableInEvaluatorWrapper() throws Exception {
         // BZ-1315143
-        String str = "package org.drools.compiler\n" +
+        String str = "package org.drools.mvel.compiler\n" +
                      "rule B\n" +
                      "  when\n" +
                      "    $m1 : Message( $message1 : message, $date1 : birthday )\n" +
@@ -8800,7 +8800,7 @@ public class Misc2Test extends CommonTestMethodBase {
     public void testUnderscoreDoubleMultiplicationCastedToInt() {
         // DROOLS-1420
         String str =
-                "import org.drools.compiler.Cheese\n" +
+                "import " + Cheese.class.getCanonicalName() + "\n" +
                 "global java.util.List list\n" +
                 "rule R when\n" +
                 "  Cheese( $p : price)\n" +
@@ -8922,7 +8922,7 @@ public class Misc2Test extends CommonTestMethodBase {
     public void testMergeMVELDialect() {
         // DROOLS-1751
         String drl1 = "package com.sample\n" +
-                "import org.drools.compiler.*;\n" +
+                "import org.drools.mvel.compiler.*;\n" +
                 "rule rule1 \n" +
                 "    when\n" +
                 "        (PersonHolder($addresses : person.addresses))\n" +
@@ -8936,7 +8936,7 @@ public class Misc2Test extends CommonTestMethodBase {
         Collection<KiePackage> knowledgePackages1 = kbuilder1.getKnowledgePackages();
 
         String drl2 = "package com.sample\n" +
-                "import org.drools.compiler.*;\n" +
+                "import org.drools.mvel.compiler.*;\n" +
                 "rule rule2 \n" +
                 "    when\n" +
                 "        PersonHolder()\n" +
@@ -9032,8 +9032,8 @@ public class Misc2Test extends CommonTestMethodBase {
     public void testModifyAddToList() {
         // DROOLS-4447
         String str =
-                "import org.drools.compiler.Address\n" +
-                "import org.drools.compiler.Person\n" +
+                "import " + Address.class.getCanonicalName() + "\n" +
+                "import " + Person.class.getCanonicalName() + "\n" +
                 "rule addAddress\n" +
                 "dialect \"mvel\"\n" +
                 "when\n" +

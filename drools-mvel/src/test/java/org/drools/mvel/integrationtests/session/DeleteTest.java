@@ -52,7 +52,7 @@ public class DeleteTest extends CommonTestMethodBase {
 
     private static Logger logger = LoggerFactory.getLogger(DeleteTest.class);
 
-    private static final String DELETE_TEST_DRL = "org/drools/compiler/integrationtests/session/delete_test.drl";
+    private static final String DELETE_TEST_DRL = "org/drools/mvel/integrationtests/session/delete_test.drl";
 
     private KieSession ksession;
 
@@ -220,7 +220,7 @@ public class DeleteTest extends CommonTestMethodBase {
     public void testEmptyAfterRetractInIndexedMemory() {
         String str = "";
         str += "package org.simple \n";
-        str += "import org.drools.compiler.Person\n";
+        str += "import org.drools.mvel.compiler.Person\n";
         str += "global java.util.List list \n";
         str += "rule xxx dialect 'mvel' \n";
         str += "when \n";

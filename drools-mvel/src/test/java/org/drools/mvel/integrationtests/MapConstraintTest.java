@@ -243,8 +243,8 @@ public class MapConstraintTest extends CommonTestMethodBase {
     @Test
     public void testAccessingMapValues() throws Exception {
         String rule = "";
-        rule += "package org.drools.compiler;\n";
-        rule += "import org.drools.compiler.Pet;\n";
+        rule += "package org.drools.mvel.compiler;\n";
+        rule += "import org.drools.mvel.compiler.Pet;\n";
         rule += "rule \"Test Rule\"\n";
         rule += "  when\n";
         rule += "    $pet: Pet()\n";

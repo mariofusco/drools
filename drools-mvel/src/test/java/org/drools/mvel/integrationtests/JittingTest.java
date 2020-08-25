@@ -56,7 +56,7 @@ public class JittingTest extends CommonTestMethodBase {
     @Test
     public void testJittingConstraintWithInvocationOnLiteral() {
         final String str = "package com.sample\n" +
-                "import org.drools.compiler.Person\n" +
+                "import org.drools.mvel.compiler.Person\n" +
                 "rule XXX when\n" +
                 "  Person( name.toString().toLowerCase().contains( \"mark\".toString().toLowerCase() ) )\n" +
                 "then\n" +
@@ -68,7 +68,7 @@ public class JittingTest extends CommonTestMethodBase {
     @Test
     public void testJittingMethodWithCharSequenceArg() {
         final String str = "package com.sample\n" +
-                "import org.drools.compiler.Person\n" +
+                "import org.drools.mvel.compiler.Person\n" +
                 "rule XXX when\n" +
                 "  Person( $n : name, $n.contains( \"mark\" ) )\n" +
                 "then\n" +

@@ -123,7 +123,7 @@ public class DefeasibilityTest {
 
     @Test(timeout = 10000 )
     public void testStrictEntailment() {
-        KieSession kSession = getSession( "org/drools/compiler/beliefsystem/defeasible/strict.drl" );
+        KieSession kSession = getSession( "org/drools/mvel/compiler/beliefsystem/defeasible/strict.drl" );
         kSession.fireAllRules();
 
         TruthMaintenanceSystem tms = ((NamedEntryPoint) kSession.getEntryPoint( "DEFAULT" )).getTruthMaintenanceSystem();
@@ -154,7 +154,7 @@ public class DefeasibilityTest {
 
     @Test(timeout = 10000 )
     public void testDefeasibleEntailmentWithStrictOverride() {
-        KieSession kSession = getSession( "org/drools/compiler/beliefsystem/defeasible/strictOverride.drl" );
+        KieSession kSession = getSession( "org/drools/mvel/compiler/beliefsystem/defeasible/strictOverride.drl" );
         kSession.fireAllRules();
 
         TruthMaintenanceSystem tms = ((NamedEntryPoint) kSession.getEntryPoint( "DEFAULT" )).getTruthMaintenanceSystem();
@@ -186,7 +186,7 @@ public class DefeasibilityTest {
 
     @Test(timeout = 10000 )
     public void defeasibleEntailmentMultiActivation() {
-        KieSession kSession = getSession( "org/drools/compiler/beliefsystem/defeasible/defeat.drl" );
+        KieSession kSession = getSession( "org/drools/mvel/compiler/beliefsystem/defeasible/defeat.drl" );
         kSession.fireAllRules();
 
         TruthMaintenanceSystem tms = ((NamedEntryPoint) kSession.getEntryPoint( "DEFAULT" )).getTruthMaintenanceSystem();
@@ -212,7 +212,7 @@ public class DefeasibilityTest {
 
     @Test(timeout = 10000 )
     public void testDefeaterNeutrality() {
-        KieSession kSession = getSession( "org/drools/compiler/beliefsystem/defeasible/defeaterOnly.drl" );
+        KieSession kSession = getSession( "org/drools/mvel/compiler/beliefsystem/defeasible/defeaterOnly.drl" );
         ArrayList list = new ArrayList();
         kSession.setGlobal( "list", list );
         kSession.fireAllRules();
@@ -244,7 +244,7 @@ public class DefeasibilityTest {
 
     @Test(timeout = 10000 )
     public void testMultipleDefeats() {
-        KieSession kSession = getSession( "org/drools/compiler/beliefsystem/defeasible/multiDefeat.drl" );
+        KieSession kSession = getSession( "org/drools/mvel/compiler/beliefsystem/defeasible/multiDefeat.drl" );
         kSession.fireAllRules();
 
         TruthMaintenanceSystem tms = ((NamedEntryPoint) kSession.getEntryPoint( "DEFAULT" )).getTruthMaintenanceSystem();
@@ -277,7 +277,7 @@ public class DefeasibilityTest {
 
     @Test(timeout = 10000 )
     public void testRemoveDefiniteJustifier() {
-        KieSession kSession = getSession( "org/drools/compiler/beliefsystem/defeasible/strictRetract.drl" );
+        KieSession kSession = getSession( "org/drools/mvel/compiler/beliefsystem/defeasible/strictRetract.drl" );
 
         FactHandle h = kSession.insert( "go" );
         kSession.fireAllRules();
@@ -322,7 +322,7 @@ public class DefeasibilityTest {
 
     @Test(timeout = 10000 )
     public void testRemoveDefeasibleJustifier() {
-        KieSession kSession = getSession( "org/drools/compiler/beliefsystem/defeasible/defeaterRetract.drl" );
+        KieSession kSession = getSession( "org/drools/mvel/compiler/beliefsystem/defeasible/defeaterRetract.drl" );
 
         FactHandle h = kSession.insert( "go" );
         kSession.fireAllRules();
@@ -369,7 +369,7 @@ public class DefeasibilityTest {
 
     @Test(timeout = 10000 )
     public void testRemoveDefeasibleEntailmentMultiActivationWithDefeat() {
-        KieSession kSession = getSession( "org/drools/compiler/beliefsystem/defeasible/defeatDefeaterRetract.drl" );
+        KieSession kSession = getSession( "org/drools/mvel/compiler/beliefsystem/defeasible/defeatDefeaterRetract.drl" );
         ArrayList list = new ArrayList();
 
         kSession.setGlobal( "list", list );
@@ -452,7 +452,7 @@ public class DefeasibilityTest {
 
     @Test(timeout = 10000 )
     public void testDefeaterPositiveVsNegative() {
-        KieSession kSession = getSession( "org/drools/compiler/beliefsystem/defeasible/defeatersPosNeg.drl" );
+        KieSession kSession = getSession( "org/drools/mvel/compiler/beliefsystem/defeasible/defeatersPosNeg.drl" );
         ArrayList list = new ArrayList();
         kSession.setGlobal( "list", list );
         kSession.fireAllRules();
@@ -505,7 +505,7 @@ public class DefeasibilityTest {
     @Test(timeout = 10000 )
     public void testDefeatOutcomePosNeg() {
 
-        KieSession kSession = getSession( "org/drools/compiler/beliefsystem/defeasible/negDefeatPos.drl" );
+        KieSession kSession = getSession( "org/drools/mvel/compiler/beliefsystem/defeasible/negDefeatPos.drl" );
         ArrayList list = new ArrayList();
         kSession.setGlobal( "list", list );
         kSession.fireAllRules();

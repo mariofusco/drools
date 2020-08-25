@@ -65,7 +65,7 @@ public class OOPathAccumulateTest {
     private void testAccumulate(final String accumulateFunction, final Number expectedResult) {
         // DROOLS-1265
         final String drl =
-                "import org.drools.compiler.oopath.model.*;\n" +
+                "import org.drools.mvel.compiler.oopath.model.*;\n" +
                         "global java.lang.Object globalVar\n" +
                         "\n" +
                         "rule R when\n" +
@@ -95,7 +95,7 @@ public class OOPathAccumulateTest {
 
     private void testAccumulateCollection(final String accumulateFunction, final Integer... expectedResults) {
         final String drl =
-                "import org.drools.compiler.oopath.model.*;\n" +
+                "import org.drools.mvel.compiler.oopath.model.*;\n" +
                         "global java.util.Collection<Integer> globalVar\n" +
                         "\n" +
                         "rule R when\n" +

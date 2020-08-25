@@ -37,7 +37,7 @@ import static org.junit.Assert.assertTrue;
 public class DynamicRuleLoadTest extends CommonTestMethodBase {
 
     private final String drl1 =
-            "package org.drools.compiler\n" +
+            "package org.drools.mvel.compiler\n" +
             "rule R1 when\n" +
             "   Message( $m : message )\n" +
             "then\n" +
@@ -45,7 +45,7 @@ public class DynamicRuleLoadTest extends CommonTestMethodBase {
             "end\n";
 
     private final String drl2_1 =
-            "package org.drools.compiler\n" +
+            "package org.drools.mvel.compiler\n" +
             "global " + DynamicRuleLoadTest.class.getCanonicalName() + " test;\n" +
             "rule R2_1 when\n" +
             "   $m : Message( message == \"Hi Universe\" )\n" +
@@ -54,7 +54,7 @@ public class DynamicRuleLoadTest extends CommonTestMethodBase {
             "end\n";
 
     private final String drl2_2 =
-            "package org.drools.compiler\n" +
+            "package org.drools.mvel.compiler\n" +
             "global " + DynamicRuleLoadTest.class.getCanonicalName() + " test;\n" +
             "rule R2_2 when\n" +
             "   $m : Message( message == \"Hello World\" )\n" +
@@ -94,7 +94,7 @@ public class DynamicRuleLoadTest extends CommonTestMethodBase {
 
     private final String person_drl =
             "package org.drools.mvel.compiler.test\n" +
-                    "import org.drools.compiler.test.PersonObject;\n" +
+                    "import org.drools.mvel.compiler.test.PersonObject;\n" +
                     "\n" +
                     "rule \"Update person's id\"\n" +
                     "when\n" +
@@ -144,7 +144,7 @@ public class DynamicRuleLoadTest extends CommonTestMethodBase {
         // Create an in-memory jar for version 1.0.0
         ReleaseId releaseId1 = ks.newReleaseId( "org.kie", "test-upgrade-java", "1.0.0" );
         Resource javaResource = ResourceFactory.newByteArrayResource(javaSrc.getBytes()).setResourceType( ResourceType.JAVA )
-                .setSourcePath( "org/drools/compiler/test/PersonObject.java" );
+                .setSourcePath( "org/drools/mvel/compiler/test/PersonObject.java" );
         Resource drlResource = ResourceFactory.newByteArrayResource( person_drl.getBytes() ).setResourceType( ResourceType.DRL )
                 .setSourcePath( "kbase1/person.drl" );
         KieModule km = createAndDeployJar( ks, kmodule, releaseId1, javaResource, drlResource );
@@ -166,7 +166,7 @@ public class DynamicRuleLoadTest extends CommonTestMethodBase {
 
         ReleaseId releaseId2 = ks.newReleaseId( "org.kie", "test-upgrade-java", "1.1.0" );
         Resource javaResource2 = ResourceFactory.newByteArrayResource(javaSrc_2.getBytes()).setResourceType( ResourceType.JAVA )
-                .setSourcePath( "org/drools/compiler/test/PersonObject.java" );
+                .setSourcePath( "org/drools/mvel/compiler/test/PersonObject.java" );
         Resource drlResource2 = ResourceFactory.newByteArrayResource( person_drl.getBytes() ).setResourceType( ResourceType.DRL )
                 .setSourcePath( "kbase1/person.drl" );
         createAndDeployJar( ks, kmodule, releaseId2, javaResource2, drlResource2 );

@@ -72,7 +72,7 @@ public class DumperTest {
 
     @Test
     public void testRoundTripCollectDrl() throws Exception {
-        DumperTestHelper.DrlFile( "../../../integrationtests/test_Collect.drl" );
+        DumperTestHelper.DrlFile( "../../../../integrationtests/test_Collect.drl" );
     }
 
     @Test
@@ -82,12 +82,12 @@ public class DumperTest {
 
     @Test
     public void testRoundTripExistsDrl() throws Exception {
-        DumperTestHelper.DrlFile( "../../../integrationtests/test_exists.drl" );
+        DumperTestHelper.DrlFile( "../../../../integrationtests/test_exists.drl" );
     }
 
     @Test
     public void testRoundTripForallDrl() throws Exception {
-        DumperTestHelper.DrlFile( "../../../integrationtests/test_Forall.drl" );
+        DumperTestHelper.DrlFile( "../../../../integrationtests/test_Forall.drl" );
     }
 
     @Test

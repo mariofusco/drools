@@ -21,19 +21,19 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.security.CodeSource;
 
+import org.drools.core.WorkingMemory;
+import org.drools.core.base.ClassFieldAccessorCache;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.definitions.impl.KnowledgePackageImpl;
 import org.drools.core.impl.KnowledgeBaseImpl;
 import org.drools.core.rule.Declaration;
 import org.drools.core.rule.EvalCondition;
 import org.drools.core.rule.JavaDialectRuntimeData;
-import org.junit.Test;
-import static org.junit.Assert.*;
-
-import org.drools.core.base.ClassFieldAccessorCache;
-import org.drools.core.WorkingMemory;
 import org.drools.core.spi.EvalExpression;
 import org.drools.core.spi.Tuple;
+import org.junit.Test;
+
+import static org.junit.Assert.assertNotNull;
 
 public class PackageCompilationDataTest {
     public static class TestEvalExpression implements EvalExpression {
@@ -88,7 +88,7 @@ public class PackageCompilationDataTest {
         pcData.onAdd(pkg.getDialectRuntimeRegistry(), kBase.getRootClassLoader());
         pcData.onBeforeExecute();
         
-        Class cls = kBase.getRootClassLoader().loadClass( "org.drools.core.rule.PackageCompilationDataTest$TestEvalExpression" );
+        Class cls = kBase.getRootClassLoader().loadClass( "org.drools.mvel.rule.PackageCompilationDataTest$TestEvalExpression" );
         
         final CodeSource codeSource = invoker.getEvalExpression().getClass().getProtectionDomain().getCodeSource();
         assertNotNull(codeSource.getLocation());

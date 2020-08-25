@@ -42,8 +42,8 @@ public class MatchTest extends CommonTestMethodBase {
     public void testGetObjectsOnePattern() {
         // DROOLS-1470
         String str =
-                "import org.drools.compiler.Foo\n" +
-                "import org.drools.compiler.Bar\n" +
+                "import org.drools.mvel.compiler.Foo\n" +
+                "import org.drools.mvel.compiler.Bar\n" +
                 "global java.util.List list\n" +
                 "rule R when\n" +
                 "  Foo(id == \"Lotus Elise\")\n" +
@@ -83,8 +83,8 @@ public class MatchTest extends CommonTestMethodBase {
     public void testGetObjectsTwoPatterns() {
         // DROOLS-1470
         String str =
-                "import org.drools.compiler.Foo\n" +
-                "import org.drools.compiler.Bar\n" +
+                "import org.drools.mvel.compiler.Foo\n" +
+                "import org.drools.mvel.compiler.Bar\n" +
                 "global java.util.List list\n" +
                 "rule R when\n" +
                 "  $b : Bar(id == \"minivan\")\n" +
@@ -126,8 +126,8 @@ public class MatchTest extends CommonTestMethodBase {
     public void testGetObjectsAccumulate() {
         // DROOLS-1470
         String str =
-                "import org.drools.compiler.Foo\n" +
-                "import org.drools.compiler.Bar\n" +
+                "import org.drools.mvel.compiler.Foo\n" +
+                "import org.drools.mvel.compiler.Bar\n" +
                 "global java.util.List list\n" +
                 "rule R when\n" +
                 "  $b : Bar(id == \"roadster\")\n" +
@@ -198,8 +198,8 @@ public class MatchTest extends CommonTestMethodBase {
     public void testGetObjectsExists() {
         // DROOLS-1474
         String str =
-                "import org.drools.compiler.Foo\n" +
-                "import org.drools.compiler.Bar\n" +
+                "import org.drools.mvel.compiler.Foo\n" +
+                "import org.drools.mvel.compiler.Bar\n" +
                 "global java.util.List list\n" +
                 "rule R when\n" +
                 "  $b : Bar(id == \"roadster\")\n" +
@@ -245,8 +245,8 @@ public class MatchTest extends CommonTestMethodBase {
     public void testGetObjectsAccumulateWithNestedExists() {
         // DROOLS-1474
         String str =
-                "import org.drools.compiler.Foo\n" +
-                "import org.drools.compiler.Bar\n" +
+                "import org.drools.mvel.compiler.Foo\n" +
+                "import org.drools.mvel.compiler.Bar\n" +
                 "global java.util.List list\n" +
                 "rule R when\n" +
                 "  $b1 : Bar(id == \"roadster\")\n" +

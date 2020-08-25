@@ -115,7 +115,7 @@ public class FireUntilHaltTest extends CommonTestMethodBase {
 
     @Test
     public void testFireUntilHaltFailingAcrossEntryPoints() throws Exception {
-        String rule1 = "package org.drools.compiler\n";
+        String rule1 = "package org.drools.mvel.compiler\n";
         rule1 += "global java.util.List list\n";
         rule1 += "rule testFireUntilHalt\n";
         rule1 += "when\n";

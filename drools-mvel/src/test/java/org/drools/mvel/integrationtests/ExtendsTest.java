@@ -419,8 +419,8 @@ public class ExtendsTest extends CommonTestMethodBase {
 
         String s2 = "package org.drools.mvel.compiler.test.pack2;\n" +
                 "\n" +
-                "import org.drools.compiler.test.pack1.Base;\n" +
-                "import org.drools.compiler.test.pack1.Sub;\n" +
+                "import org.drools.mvel.compiler.test.pack1.Base;\n" +
+                "import org.drools.mvel.compiler.test.pack1.Sub;\n" +
                 "\n" +
                 "declare Sub end\n" +
                 "\n" +
@@ -476,7 +476,7 @@ public class ExtendsTest extends CommonTestMethodBase {
 
         String s2 = "package org.drools.mvel.compiler.test.pack2;\n" +
                 "\n" +
-                "import org.drools.compiler.test.pack1.Event;\n" +
+                "import org.drools.mvel.compiler.test.pack1.Event;\n" +
                 "global java.util.List list;" +
                 "\n" +
                 "declare Event end\n" +
@@ -541,7 +541,7 @@ public class ExtendsTest extends CommonTestMethodBase {
         // car is a java class with attributes
         // brand (default ferrari)
         // expensive (default true)
-        String s1 = "package org.drools.compiler;\n" +
+        String s1 = "package org.drools.mvel.compiler;\n" +
                 "global java.util.List list;\n" +
                 "declare Car end\n" +
                 "\n" +

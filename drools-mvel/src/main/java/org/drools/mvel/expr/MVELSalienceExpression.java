@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.drools.core.WorkingMemory;
+import org.drools.core.common.AgendaItem;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.definitions.rule.impl.RuleImpl;
@@ -49,8 +50,6 @@ public class MVELSalienceExpression
     private String              id;
 
     private Serializable        expr;
-
-    protected Declaration[]     salienceDeclarations;
 
     public MVELSalienceExpression() {
     }
@@ -88,7 +87,7 @@ public class MVELSalienceExpression
                         final Rule rule,
                         final WorkingMemory workingMemory) {
         VariableResolverFactory factory = unit.getFactory( khelper,
-                                                           this.salienceDeclarations,
+                                                           khelper != null ? (( AgendaItem ) khelper.getMatch()).getTerminalNode().getSalienceDeclarations() : null,
                                                            rule, null, 
                                                            khelper != null ? (LeftTuple) khelper.getMatch().getTuple() : null, 
                                                            null, (InternalWorkingMemory) workingMemory, workingMemory.getGlobalResolver() );
@@ -108,15 +107,16 @@ public class MVELSalienceExpression
     }
 
     @Override
-    public void setDeclarations( Map<String, Declaration> decls) {
+    public Declaration[] findDeclarations( Map<String, Declaration> decls) {
         Declaration[] declrs = unit.getPreviousDeclarations();
 
-        this.salienceDeclarations = new Declaration[declrs.length];
+        Declaration[] salienceDeclarations = new Declaration[declrs.length];
         int i = 0;
         for ( Declaration declr : declrs ) {
-            this.salienceDeclarations[i++] = decls.get( declr.getIdentifier() );
+            salienceDeclarations[i++] = decls.get( declr.getIdentifier() );
         }
-        Arrays.sort( this.salienceDeclarations, RuleTerminalNode.SortDeclarations.instance );
+        Arrays.sort( salienceDeclarations, RuleTerminalNode.SortDeclarations.instance );
+        return salienceDeclarations;
     }
 
     public boolean isDefault() {

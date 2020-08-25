@@ -429,10 +429,8 @@ public class KnowledgeBuilderConfigurationImpl
         return this.dialectConfigurations.get(name);
     }
 
-    public void setDialectConfiguration(String name,
-            DialectConfiguration configuration) {
-        this.dialectConfigurations.put(name,
-                configuration);
+    public void setDialectConfiguration(String name, DialectConfiguration configuration) {
+        this.dialectConfigurations.put(name, configuration);
     }
 
     public ClassLoader getClassLoader() {
@@ -470,8 +468,7 @@ public class KnowledgeBuilderConfigurationImpl
         this.semanticModules.addSemanticModule(new ChangeSetSemanticModule());
 
         // split on each space
-        String locations[] = this.chainedProperties.getProperty("semanticModules",
-                "").split("\\s");
+        String locations[] = this.chainedProperties.getProperty("semanticModules", "").split("\\s");
 
         // load each SemanticModule
         for (String moduleLocation : locations) {
@@ -481,8 +478,7 @@ public class KnowledgeBuilderConfigurationImpl
                 moduleLocation = moduleLocation.substring(1);
             }
             if (moduleLocation.endsWith("\"")) {
-                moduleLocation = moduleLocation.substring(0,
-                        moduleLocation.length() - 1);
+                moduleLocation = moduleLocation.substring(0, moduleLocation.length() - 1);
             }
             if (!moduleLocation.equals("")) {
                 loadSemanticModule(moduleLocation);
@@ -491,9 +487,7 @@ public class KnowledgeBuilderConfigurationImpl
     }
 
     public void loadSemanticModule(String moduleLocation) {
-        URL url = ConfFileUtils.getURL(moduleLocation,
-                getClassLoader(),
-                getClass());
+        URL url = ConfFileUtils.getURL(moduleLocation, getClassLoader(), getClass());
         if (url == null) {
             throw new IllegalArgumentException(moduleLocation + " is specified but cannot be found.'");
         }
@@ -507,8 +501,7 @@ public class KnowledgeBuilderConfigurationImpl
     }
 
     public void loadSemanticModule(Properties properties) {
-        String uri = properties.getProperty("uri",
-                null);
+        String uri = properties.getProperty("uri", null);
         if (uri == null || uri.trim().equals("")) {
             throw new RuntimeException("Semantic Module URI property must not be empty");
         }
@@ -544,8 +537,7 @@ public class KnowledgeBuilderConfigurationImpl
         this.semanticModules.addSemanticModule(module);
     }
 
-    public void addAccumulateFunction(String identifier,
-            String className) {
+    public void addAccumulateFunction(String identifier, String className) {
         this.accumulateFunctions.put(identifier,
                                      AccumulateUtil.loadAccumulateFunction(getClassLoader(), identifier,
                         className));

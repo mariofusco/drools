@@ -137,7 +137,7 @@ public class EnumTest extends CommonTestMethodBase {
     @Test
     public void testInnerEnum() throws Exception {
         final StringBuilder rule = new StringBuilder();
-        rule.append( "package org.drools.compiler\n" );
+        rule.append( "package org.drools.mvel.compiler\n" );
         rule.append( "rule X\n" );
         rule.append( "when\n" );
         rule.append( "    Triangle( type == Triangle.Type.UNCLASSIFIED )\n" );

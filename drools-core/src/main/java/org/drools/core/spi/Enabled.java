@@ -25,8 +25,11 @@ import org.drools.core.rule.Declaration;
 
 public interface Enabled extends Serializable {
     boolean getValue(final Tuple tuple,
+                     final Declaration[] declarations,
                      final RuleImpl rule,
                      final WorkingMemory workingMemory);
 
-    default void setDeclarations( Map<String, Declaration> decls) { }
+    default Declaration[] findDeclarations( Map<String, Declaration> decls) {
+        return null;
+    }
 }

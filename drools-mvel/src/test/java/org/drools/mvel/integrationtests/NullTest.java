@@ -27,7 +27,7 @@ import org.drools.mvel.compiler.Message;
 import org.drools.mvel.compiler.Person;
 import org.drools.mvel.compiler.PersonInterface;
 import org.drools.mvel.compiler.Primitives;
-import org.drools.mvel.model.Cheese;
+import org.drools.mvel.compiler.Cheese;
 import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;
@@ -113,7 +113,7 @@ public class NullTest extends CommonTestMethodBase {
     @Test
     public void testNullConstantLeft() {
         // JBRULES-3627
-        final String str = "import org.drools.compiler.*;\n" +
+        final String str = "import org.drools.mvel.compiler.*;\n" +
                 "rule R1 when\n" +
                 "   $p : Person( null == name )\n" +
                 "then\n" +

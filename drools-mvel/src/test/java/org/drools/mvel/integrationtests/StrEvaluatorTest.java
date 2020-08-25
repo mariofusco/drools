@@ -174,7 +174,7 @@ public class StrEvaluatorTest extends CommonTestMethodBase {
     @Test
     public void testStrWithLogicalOr() {
         String drl = "package org.drools.mvel.integrationtests\n"
-                     + "import org.drools.compiler.RoutingMessage\n"
+                     + "import org.drools.mvel.compiler.RoutingMessage\n"
                      + "rule R1\n"
                      + " when\n"
                      + " RoutingMessage( routingValue == \"R2\" || routingValue str[startsWith] \"R1\" )\n"

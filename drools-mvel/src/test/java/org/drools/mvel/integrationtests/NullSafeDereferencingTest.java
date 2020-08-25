@@ -32,7 +32,7 @@ public class NullSafeDereferencingTest extends CommonTestMethodBase {
 
     @Test
     public void testNullSafeBinding() {
-        String str = "import org.drools.compiler.*;\n" +
+        String str = "import org.drools.mvel.compiler.*;\n" +
                 "rule R1 when\n" +
                 "   Person( $streetName : address!.street ) \n" +
                 "then\n" +
@@ -57,7 +57,7 @@ public class NullSafeDereferencingTest extends CommonTestMethodBase {
 
     @Test
     public void testNullSafeNullComparison() {
-        String str = "import org.drools.compiler.*;\n" +
+        String str = "import org.drools.mvel.compiler.*;\n" +
                 "rule R1 when\n" +
                 "   Person( address!.street == null ) \n" +
                 "then\n" +
@@ -82,7 +82,7 @@ public class NullSafeDereferencingTest extends CommonTestMethodBase {
 
     @Test
     public void testNullSafeNullComparison2() {
-        String str = "import org.drools.compiler.*;\n" +
+        String str = "import org.drools.mvel.compiler.*;\n" +
                      "rule R1 when\n" +
                      " $street : String()\n"+
                      " Person( address!.street == $street ) \n" +
@@ -110,7 +110,7 @@ public class NullSafeDereferencingTest extends CommonTestMethodBase {
     @Test
     public void testNullSafeWithMethod() {
         // DROOLS-4095
-        String str = "import org.drools.compiler.*;\n" +
+        String str = "import org.drools.mvel.compiler.*;\n" +
                      "rule R1 when\n" +
                      " $street : String()\n"+
                      " Person( getAddress()!.street == $street ) \n" +
@@ -139,7 +139,7 @@ public class NullSafeDereferencingTest extends CommonTestMethodBase {
     public void testNullSafeNullComparisonReverse() {
         // DROOLS-82
         String str =
-                "import org.drools.compiler.*;\n" +
+                "import org.drools.mvel.compiler.*;\n" +
                 "rule R1 when\n" +
                 "   Person( \"Main Street\".equalsIgnoreCase(address!.street) )\n" +
                 "then\n" +
@@ -166,7 +166,7 @@ public class NullSafeDereferencingTest extends CommonTestMethodBase {
     public void testNullSafeNullComparisonReverseComplex() {
         // DROOLS-82
         String str =
-                "import org.drools.compiler.*;\n" +
+                "import org.drools.mvel.compiler.*;\n" +
                 "rule R1 when\n" +
                 "   Person( \"Main\".equalsIgnoreCase(address!.street!.substring(0, address!.street!.indexOf(' '))) )\n" +
                 "then\n" +
@@ -191,7 +191,7 @@ public class NullSafeDereferencingTest extends CommonTestMethodBase {
 
     @Test
     public void testDoubleNullSafe() {
-        String str = "import org.drools.compiler.*;\n" +
+        String str = "import org.drools.mvel.compiler.*;\n" +
                 "rule R1 when\n" +
                 "   Person( address!.street!.length > 15 ) \n" +
                 "then\n" +
@@ -220,7 +220,7 @@ public class NullSafeDereferencingTest extends CommonTestMethodBase {
 
     @Test
     public void testMixedNullSafes() {
-        String str = "import org.drools.compiler.*;\n" +
+        String str = "import org.drools.mvel.compiler.*;\n" +
                      "rule R1 when\n" +
                      " $p : Person( " +
                      " address!.street!.length > 0 && ( address!.street!.length < 15 || > 20 && < 30 ) " +

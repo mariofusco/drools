@@ -122,7 +122,7 @@ public class I18nTest extends CommonTestMethodBase {
         String dslr =
                 "package test\n" +
                 "\n" +
-                "import org.drools.compiler.Person\n" +
+                "import org.drools.mvel.compiler.Person\n" +
                 "\n" +
                 "expander test_I18n.dsl\n" +
                 "\n" +
@@ -192,7 +192,7 @@ public class I18nTest extends CommonTestMethodBase {
     @Test
     public void testKieFileSystem() {
         String str = "package org.drools.mvel.compiler.i18ntest;\n" +
-                "import org.drools.compiler.I18nPerson;\n" +
+                "import org.drools.mvel.compiler.I18nPerson;\n" +
                 "\n" +
                 "global java.util.List list;\n" +
                 "rule \"名称 is 山田花子\"\n" +
@@ -223,7 +223,7 @@ public class I18nTest extends CommonTestMethodBase {
     @Test
     public void testKieModuleJar() {
         String str = "package org.drools.mvel.compiler.i18ntest;\n" +
-                "import org.drools.compiler.I18nPerson;\n" +
+                "import org.drools.mvel.compiler.I18nPerson;\n" +
                 "\n" +
                 "global java.util.List list;\n" +
                 "rule \"名称 is 山田花子\"\n" +

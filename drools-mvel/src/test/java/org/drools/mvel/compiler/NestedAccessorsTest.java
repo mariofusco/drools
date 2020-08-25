@@ -38,7 +38,7 @@ public class NestedAccessorsTest extends CommonTestMethodBase {
 
     @Test
     public void testNestedAccessor() throws Exception {
-        final String str = "import org.drools.compiler.*;\n" +
+        final String str = "import org.drools.mvel.compiler.*;\n" +
                 "rule R1 when\n" +
                 "   Person( name == \"mark\", cheese.(type == \"gorgonzola\", price == 10) )\n" +
                 "then\n" +
@@ -57,7 +57,7 @@ public class NestedAccessorsTest extends CommonTestMethodBase {
 
     @Test
     public void testNestedAccessorWithBinding() throws Exception {
-        final String str = "import org.drools.compiler.*;\n" +
+        final String str = "import org.drools.mvel.compiler.*;\n" +
                 "global StringBuilder sb\n" +
                 "rule R1 when\n" +
                 "   Person( name == \"mark\", cheese.(price == 10, $type : type) )\n" +
@@ -82,7 +82,7 @@ public class NestedAccessorsTest extends CommonTestMethodBase {
 
     @Test
     public void testDoubleNestedAccessor() throws Exception {
-        final String str = "import org.drools.compiler.*;\n" +
+        final String str = "import org.drools.mvel.compiler.*;\n" +
                 "rule R1 when\n" +
                 "   Person( name == \"mark\", cheese.(price == 10, type.(length == 10) ) )\n" +
                 "then\n" +
@@ -101,7 +101,7 @@ public class NestedAccessorsTest extends CommonTestMethodBase {
 
     @Test
     public void testNestedAccessorWithInlineCast() throws Exception {
-        final String str = "import org.drools.compiler.*;\n" +
+        final String str = "import org.drools.mvel.compiler.*;\n" +
                 "rule R1 when\n" +
                 "   Person( name == \"mark\", address#LongAddress.(country == \"uk\", suburb == \"suburb\") )\n" +
                 "then\n" +

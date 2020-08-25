@@ -274,7 +274,7 @@ public class QueryTest extends CommonTestMethodBase {
     public void testQueryWithMultipleResultsOnKnowledgeApi() throws Exception {
         String str = "";
         str += "package org.drools.mvel.compiler.test  \n";
-        str += "import org.drools.compiler.Cheese \n";
+        str += "import org.drools.mvel.compiler.Cheese \n";
         str += "query cheeses \n";
         str += "    stilton : Cheese(type == 'stilton') \n";
         str += "    cheddar : Cheese(type == 'cheddar', price == stilton.price) \n";
@@ -517,7 +517,7 @@ public class QueryTest extends CommonTestMethodBase {
     public void testQueriesWithVariableUnification() throws Exception {
         String str = "";
         str += "package org.drools.mvel.compiler.test  \n";
-        str += "import org.drools.compiler.Person \n";
+        str += "import org.drools.mvel.compiler.Person \n";
         str += "query peeps( String $name, String $likes, int $age ) \n";
         str += "    $p : Person( $name := name, $likes := likes, $age := age ) \n";
         str += "end\n";
@@ -608,7 +608,7 @@ public class QueryTest extends CommonTestMethodBase {
     public void testQueriesWithVariableUnificationOnPatterns() throws Exception {
         String str = "";
         str += "package org.drools.mvel.compiler.test  \n";
-        str += "import org.drools.compiler.Person \n";
+        str += "import org.drools.mvel.compiler.Person \n";
         str += "query peeps( Person $p, String $name, String $likes, int $age ) \n";
         str += "    $p := Person( $name := name, $likes := likes, $age := age ) \n";
         str += "end\n";
@@ -666,7 +666,7 @@ public class QueryTest extends CommonTestMethodBase {
     public void testQueriesWithVariableUnificationOnNestedFields() throws Exception {
         String str = "";
         str += "package org.drools.mvel.compiler.test  \n";
-        str += "import org.drools.compiler.Person \n";
+        str += "import org.drools.mvel.compiler.Person \n";
         str += "query peeps( String $name, String $likes, String $street) \n";
         str += "    $p : Person( $name := name, $likes := likes, $street := address.street ) \n";
         str += "end\n";
@@ -711,7 +711,7 @@ public class QueryTest extends CommonTestMethodBase {
     public void testOpenQuery() throws Exception {
         String str = "";
         str += "package org.drools.mvel.compiler.test  \n";
-        str += "import org.drools.compiler.Cheese \n";
+        str += "import org.drools.mvel.compiler.Cheese \n";
         str += "query cheeses(String $type1, String $type2) \n";
         str += "    stilton : Cheese(type == $type1, $sprice : price) \n";
         str += "    cheddar : Cheese(type == $type2, $cprice : price == stilton.price) \n";
@@ -1169,7 +1169,7 @@ public class QueryTest extends CommonTestMethodBase {
     public void testQueryWithAccessorAsArgument() throws Exception {
         // DROOLS-414
         String str =
-                "import org.drools.compiler.Person\n" +
+                "import org.drools.mvel.compiler.Person\n" +
                 "global java.util.List persons;\n" +
                 "\n" +
                 "query contains(String $s, String $c)\n" +
@@ -1208,7 +1208,7 @@ public class QueryTest extends CommonTestMethodBase {
     public void testQueryWithExpressionAsArgument() throws Exception {
         // DROOLS-414
         String str =
-                "import org.drools.compiler.Person\n" +
+                "import org.drools.mvel.compiler.Person\n" +
                 "global java.util.List persons;\n" +
                 "\n" +
                 "query checkLength(String $s, int $l)\n" +
@@ -1306,7 +1306,7 @@ public class QueryTest extends CommonTestMethodBase {
         // RHDM-717
         String str = "";
         str += "package org.drools.mvel.compiler.test  \n";
-        str += "import org.drools.compiler.Cheese \n";
+        str += "import org.drools.mvel.compiler.Cheese \n";
         str += "query cheeses \n";
         str += "    stilton : Cheese(type == 'stilton') \n";
         str += "    cheddar : Cheese(type == 'cheddar', price == stilton.price) \n";

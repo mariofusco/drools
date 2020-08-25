@@ -224,7 +224,7 @@ public class MVELTest extends CommonTestMethodBase {
         text += "    $fact.applyValueAddPromo(1,2,3,4,\"mvel\");\n";
         text += "end";
 
-        final KieBase kieBase = loadKnowledgeBaseFromString(text.replaceAll("mvel", "java"), text);
+        final KieBase kieBase = loadKnowledgeBaseFromString(text.replaceAll("_mvel", "_java").replaceAll("\"mvel\"", "\"java\""), text);
         final StatelessKieSession statelessKieSession = kieBase.newStatelessKieSession();
 
         final List<String> list = new ArrayList<String>();
@@ -690,7 +690,7 @@ public class MVELTest extends CommonTestMethodBase {
         //test various in consequence
         final String strBegin = "" +
             "package org.kie \n" +
-            "import org.drools.compiler.Cheese \n" +
+            "import org.drools.mvel.compiler.Cheese \n" +
             "dialect \"mvel\"\n" +
             "rule rule1 \n" +
             "when \n" +

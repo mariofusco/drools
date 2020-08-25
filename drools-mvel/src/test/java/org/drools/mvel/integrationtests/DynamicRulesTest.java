@@ -579,7 +579,7 @@ public class DynamicRulesTest extends CommonTestMethodBase {
         assertEquals( 0,
                       results.size() );
 
-        kbase.removeKiePackage( "org.drools.compiler" );
+        kbase.removeKiePackage( "org.drools.mvel.compiler" );
 
         ksession.retract( ksession.getFactHandle( b ) );
 
@@ -726,7 +726,7 @@ public class DynamicRulesTest extends CommonTestMethodBase {
         session.fireAllRules();
         assertEquals( 11, list.size() );
 
-        kbase.removeRule( "org.drools.compiler",
+        kbase.removeRule( "org.drools.mvel.compiler",
                           "Apply Discount on all books" );
 
         list.clear();
@@ -738,7 +738,7 @@ public class DynamicRulesTest extends CommonTestMethodBase {
 
         assertEquals( 10, list.size() );
 
-        kbase.removeRule( "org.drools.compiler",
+        kbase.removeRule( "org.drools.mvel.compiler",
                           "like book" );
         list.clear();
         session.update( item1Fh, item1 );
@@ -756,7 +756,7 @@ public class DynamicRulesTest extends CommonTestMethodBase {
 
         assertEquals( 10, list.size() );
 
-        kbase.removeKiePackage( "org.drools.compiler" );
+        kbase.removeKiePackage( "org.drools.mvel.compiler" );
         list.clear();
         session.update( item1Fh, item1 );
         session.update( item2Fh, item2 );
@@ -776,17 +776,17 @@ public class DynamicRulesTest extends CommonTestMethodBase {
 
         assertEquals( 2, kbase.getKiePackages().size() );
         assertEquals( 4,
-                      kbase.getPackagesMap().get("org.drools.compiler").getRules().size() );
+                      kbase.getPackagesMap().get("org.drools.mvel.compiler").getRules().size() );
 
-        kbase.removeRule( "org.drools.compiler", "Apply Discount on all books" );
+        kbase.removeRule( "org.drools.mvel.compiler", "Apply Discount on all books" );
         assertEquals( 3,
-                      kbase.getPackagesMap().get("org.drools.compiler").getRules().size() );
+                      kbase.getPackagesMap().get("org.drools.mvel.compiler").getRules().size() );
 
-        kbase.removeRule( "org.drools.compiler", "like book" );
+        kbase.removeRule( "org.drools.mvel.compiler", "like book" );
         assertEquals( 2,
-                      kbase.getPackagesMap().get("org.drools.compiler").getRules().size() );
+                      kbase.getPackagesMap().get("org.drools.mvel.compiler").getRules().size() );
 
-        kbase.removeKiePackage( "org.drools.compiler" );
+        kbase.removeKiePackage( "org.drools.mvel.compiler" );
         assertEquals( 1,
                       kbase.getKiePackages().size() );
     }
@@ -1084,7 +1084,7 @@ public class DynamicRulesTest extends CommonTestMethodBase {
         verify( alistener,
                 times( 1 ) ).matchCreated(any(org.kie.api.event.rule.MatchCreatedEvent.class));
 
-        kbase.removeKiePackage( "org.drools.compiler" );
+        kbase.removeKiePackage( "org.drools.mvel.compiler" );
 
         assertEquals( 0,
                       kbase.getKiePackages().size() );

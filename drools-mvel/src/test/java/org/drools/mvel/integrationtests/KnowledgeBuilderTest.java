@@ -131,8 +131,8 @@ public class KnowledgeBuilderTest {
     @Test
     public void testDifferentPackages() throws Exception {
         String rule = "package org.drools.mvel.compiler.test.rule\n" +
-                      "import org.drools.compiler.testA.FactA\n" +
-                      "import org.drools.compiler.testB.FactB\n" +
+                      "import org.drools.mvel.compiler.testA.FactA\n" +
+                      "import org.drools.mvel.compiler.testB.FactB\n" +
                       "rule R1 when\n" +
                       "   $fieldA : FactA( $fieldB : fieldB, bigint == 1 )\n" +
                       "   FactB( this == $fieldB, fieldA == $fieldA )\n" +
@@ -141,7 +141,7 @@ public class KnowledgeBuilderTest {
                       "end";
 
         String declarationA = "package org.drools.mvel.compiler.testA\n" +
-                              "import org.drools.compiler.testB.FactB\n" +
+                              "import org.drools.mvel.compiler.testB.FactB\n" +
                               "import java.math.BigInteger\n" +
                               "declare FactA\n" +
                               "    fieldB: FactB\n" +
@@ -149,7 +149,7 @@ public class KnowledgeBuilderTest {
                               "end\n";
 
         String declarationB = "package org.drools.mvel.compiler.testB\n" +
-                              "import org.drools.compiler.testA.FactA\n" +
+                              "import org.drools.mvel.compiler.testA.FactA\n" +
                               "global java.util.List list\n" +
                               "declare FactB\n" +
                               "    fieldA: FactA\n" +
@@ -279,8 +279,8 @@ public class KnowledgeBuilderTest {
     public void testUndoRule() throws Exception {
         String rule = "package org.drools.mvel.compiler.test\n" +
                       "global java.util.List list\n" +
-                      "import org.drools.compiler.test.FactA\n" +
-                      "import org.drools.compiler.test.FactB\n" +
+                      "import org.drools.mvel.compiler.test.FactA\n" +
+                      "import org.drools.mvel.compiler.test.FactB\n" +
                       "rule R1 when\n" +
                       "   FactA( j == 1 )\n" +
                       "   FactB( i == 1 )\n" +
@@ -314,8 +314,8 @@ public class KnowledgeBuilderTest {
 
         rule = "package org.drools.mvel.compiler.test\n" +
                "global java.util.List list\n" +
-               "import org.drools.compiler.test.FactA\n" +
-               "import org.drools.compiler.test.FactB\n" +
+               "import org.drools.mvel.compiler.test.FactA\n" +
+               "import org.drools.mvel.compiler.test.FactB\n" +
                "rule R1 when\n" +
                "   FactA( i == 1 )\n" +
                "   FactB( i == 1 )\n" +
@@ -357,7 +357,7 @@ public class KnowledgeBuilderTest {
     @Test
     public void testAddKPackageSingle() throws Exception {
         String rule = "package org.drools.mvel.compiler.test\n" +
-                      "import org.drools.compiler.StockTick\n" +
+                      "import org.drools.mvel.compiler.StockTick\n" +
                       "rule R1 when\n" +
                       "   StockTick()\n" +
                       "then\n" +
@@ -387,7 +387,7 @@ public class KnowledgeBuilderTest {
     @Test
     public void testAddKPackageCollection() throws Exception {
         String rule = "package org.drools.mvel.compiler.test\n" +
-                      "import org.drools.compiler.StockTick\n" +
+                      "import org.drools.mvel.compiler.StockTick\n" +
                       "declare StockTick @role(event) end\n" +
                       "rule R1 when\n" +
                       "   StockTick()\n" +
@@ -414,7 +414,7 @@ public class KnowledgeBuilderTest {
     @Test
     public void testAddPackageSingle() throws Exception {
         String rule = "package org.drools.mvel.compiler.test\n" +
-                      "import org.drools.compiler.StockTick\n" +
+                      "import org.drools.mvel.compiler.StockTick\n" +
                       "rule R1 when\n" +
                       "   StockTick()\n" +
                       "then\n" +
@@ -434,7 +434,7 @@ public class KnowledgeBuilderTest {
     @Test
     public void testAddPackageArray() throws Exception {
         String rule = "package org.drools.mvel.compiler.test\n" +
-                      "import org.drools.compiler.StockTick\n" +
+                      "import org.drools.mvel.compiler.StockTick\n" +
                       "declare StockTick @role(event) end\n" +
                       "rule R1 when\n" +
                       "   StockTick()\n" +
@@ -562,7 +562,7 @@ public class KnowledgeBuilderTest {
         for ( KiePackage kp : kbuilder.getKnowledgePackages() ) {
             KnowledgePackageImpl kpi = (KnowledgePackageImpl) kp;
             TypeDeclaration cheez = kpi.getTypeDeclaration( "Cheese" );
-            if ( "org.drools.compiler".equals( kpi.getName() ) ) {
+            if ( "org.drools.mvel.compiler".equals( kpi.getName() ) ) {
                 assertNotNull( cheez );
             } else {
                 assertNull( cheez );

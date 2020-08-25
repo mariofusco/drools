@@ -213,7 +213,7 @@ public class TypeCoercionTest extends CommonTestMethodBase {
     public void testPrimitiveToBoxedCoercionInMethodArgument() throws Exception {
         final String str = "package org.drools.mvel.compiler.test;\n" +
                 "import " + TypeCoercionTest.class.getName() + "\n" +
-                "import org.drools.compiler.*\n" +
+                "import org.drools.mvel.compiler.*\n" +
                 "rule R1 when\n" +
                 "   Person( $ag1 : age )" +
                 "   $p2 : Person( name == TypeCoercionTest.integer2String($ag1) )" +

@@ -113,7 +113,7 @@ public class JBRULESTest extends CommonTestMethodBase {
 
     @Test
     public void testJBRULES_2995() {
-        final String str = "package org.drools.compiler\n" +
+        final String str = "package org.drools.mvel.compiler\n" +
                 "rule r1\n" +
                 "when\n" +
                 "    Primitives( classAttr == java.lang.String.class, \n" +
@@ -134,7 +134,7 @@ public class JBRULESTest extends CommonTestMethodBase {
     @Test
     public void testJBRULES2872() {
         final String str = "package org.drools.mvel.compiler.test\n" +
-                "import org.drools.compiler.FactA\n" +
+                "import org.drools.mvel.compiler.FactA\n" +
                 "rule X\n" +
                 "when\n" +
                 "    FactA( enumVal == TestEnum.ONE || == TestEnum.TWO )\n" +
@@ -152,7 +152,7 @@ public class JBRULESTest extends CommonTestMethodBase {
 
     @Test
     public void testJBRULES3030() {
-        final String str = "package org.drools.compiler\n" +
+        final String str = "package org.drools.mvel.compiler\n" +
                 "rule X\n" +
                 "when\n" +
                 "    $gp : GrandParent()" +
@@ -230,8 +230,8 @@ public class JBRULESTest extends CommonTestMethodBase {
         rule.append( "package de.orbitx.accumulatetesettest;\n" );
         rule.append( "import java.util.Set;\n" );
         rule.append( "import java.util.HashSet;\n" );
-        rule.append( "import org.drools.compiler.Foo;\n" );
-        rule.append( "import org.drools.compiler.Bar;\n" );
+        rule.append( "import org.drools.mvel.compiler.Foo;\n" );
+        rule.append( "import org.drools.mvel.compiler.Bar;\n" );
 
         rule.append( "rule \"Sub optimal foo parallelism - this rule is causing NPE upon reverse\"\n" );
         rule.append( "when\n" );
@@ -281,7 +281,7 @@ public class JBRULESTest extends CommonTestMethodBase {
     @Test
     public void testJBRULES3326() throws Exception {
         final StringBuilder rule = new StringBuilder();
-        rule.append("package org.drools.compiler\n");
+        rule.append("package org.drools.mvel.compiler\n");
         rule.append("rule X\n");
         rule.append("when\n");
         rule.append("    Message(!!!false)\n");

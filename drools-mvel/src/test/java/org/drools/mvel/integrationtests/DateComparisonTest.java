@@ -15,18 +15,18 @@
 
 package org.drools.mvel.integrationtests;
 
-import org.drools.mvel.compiler.Cheese;
-import org.drools.mvel.CommonTestMethodBase;
-import org.junit.Test;
-import org.kie.api.io.ResourceType;
-import org.kie.api.runtime.KieSession;
-import org.kie.internal.utils.KieHelper;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.Cheese;
+import org.junit.Test;
+import org.kie.api.io.ResourceType;
+import org.kie.api.runtime.KieSession;
+import org.kie.internal.utils.KieHelper;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -39,7 +39,7 @@ public class DateComparisonTest extends CommonTestMethodBase {
     @Test
     public void testDateComparisonThan() throws Exception {
         String str = "";
-        str += "package org.drools.compiler;\n";
+        str += "package org.drools.mvel.compiler;\n";
         str += "global java.util.List results;\n";
         str += "rule \"test date greater than\"\n";
         str += "     when\n";
@@ -82,7 +82,7 @@ public class DateComparisonTest extends CommonTestMethodBase {
     @Test
     public void testDateComparisonAfter() throws Exception {
         String str = "";
-        str += "package org.drools.compiler;\n";
+        str += "package org.drools.mvel.compiler;\n";
         str += "global java.util.List results;\n";
         str += "rule \"test date greater than\"\n";
         str += "     when\n";
@@ -125,7 +125,7 @@ public class DateComparisonTest extends CommonTestMethodBase {
     @Test
     public void testDateComparisonAfterWithThisBinding() throws Exception {
         String str = "";
-        str += "package org.drools.compiler;\n";
+        str += "package org.drools.mvel.compiler;\n";
         str += "global java.util.List results;\n";
         str += "rule \"test date greater than\"\n";
         str += "     when\n";

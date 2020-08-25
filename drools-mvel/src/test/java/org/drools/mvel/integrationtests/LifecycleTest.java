@@ -47,7 +47,7 @@ public class LifecycleTest {
     @Before
     public void initSession() {
         String drlString = "package org.jboss.brms\n" + 
-                "import org.drools.compiler.StockTick\n" +
+                "import org.drools.mvel.compiler.StockTick\n" +
                 "declare StockTick\n" + 
                 "    @role( event )\n" + 
                 "    @expires( 4s )\n" + 

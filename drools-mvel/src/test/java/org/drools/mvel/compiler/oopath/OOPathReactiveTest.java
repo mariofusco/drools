@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.drools.core.base.ClassObjectType;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.reteoo.BetaMemory;
@@ -60,7 +61,7 @@ public class OOPathReactiveTest {
     @Test
     public void testReactiveOnLia() {
         final String drl =
-                "import org.drools.compiler.oopath.model.*;\n" +
+                "import org.drools.mvel.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -104,7 +105,7 @@ public class OOPathReactiveTest {
     @Test
     public void testReactiveDeleteOnLia() {
         final String drl =
-                "import org.drools.compiler.oopath.model.*;\n" +
+                "import org.drools.mvel.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -117,7 +118,7 @@ public class OOPathReactiveTest {
         final KieSession ksession = kbase.newKieSession();
 
         final EntryPointNode epn = ( (InternalKnowledgeBase) ksession.getKieBase() ).getRete().getEntryPointNodes().values().iterator().next();
-        final ObjectTypeNode otn = epn.getObjectTypeNodes().values().iterator().next();
+        final ObjectTypeNode otn = epn.getObjectTypeNodes().get( new ClassObjectType(Man.class) );
         final LeftInputAdapterNode lian = (LeftInputAdapterNode)otn.getObjectSinkPropagator().getSinks()[0];
         final ReactiveFromNode from1 = (ReactiveFromNode)lian.getSinkPropagator().getSinks()[0];
         final ReactiveFromNode from2 = (ReactiveFromNode)from1.getSinkPropagator().getSinks()[0];
@@ -170,7 +171,7 @@ public class OOPathReactiveTest {
     @Test
     public void testRemoveFromReactiveListBasic() {
         final String drl =
-                "import org.drools.compiler.oopath.model.*;\n" +
+                "import org.drools.mvel.compiler.oopath.model.*;\n" +
                         "\n" +
                         "rule R2 when\n" +
                         "  School( $child: /children[age >= 13 && age < 20] )\n" +
@@ -217,7 +218,7 @@ public class OOPathReactiveTest {
     @Test
     public void testRemoveFromReactiveListExtended() {
         final String drl =
-                "import org.drools.compiler.oopath.model.*;\n" +
+                "import org.drools.mvel.compiler.oopath.model.*;\n" +
                         "\n" +
                         "rule R2 when\n" +
                         "  Group( $id: name, $p: /members[age >= 20] )\n" +
@@ -266,7 +267,7 @@ public class OOPathReactiveTest {
     @Test
     public void testRemoveFromAndAddToReactiveSet() {
         final String drl =
-                "import org.drools.compiler.oopath.model.*;\n" +
+                "import org.drools.mvel.compiler.oopath.model.*;\n" +
                         "\n" +
                         "rule R when\n" +
                         "  School( $disease: /children/diseases )\n" +
@@ -337,7 +338,7 @@ public class OOPathReactiveTest {
     @Test
     public void testRemoveFromReactiveListExtendedWithSerialization() {
         final String drl =
-                "import org.drools.compiler.oopath.model.*;\n" +
+                "import org.drools.mvel.compiler.oopath.model.*;\n" +
                         "\n" +
                         "rule R2 when\n" +
                         "  Group( $id: name, $p: /members[age >= 20] )\n" +
@@ -393,7 +394,7 @@ public class OOPathReactiveTest {
     @Test
     public void testReactiveOnBeta() {
         final String drl =
-                "import org.drools.compiler.oopath.model.*;\n" +
+                "import org.drools.mvel.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -439,7 +440,7 @@ public class OOPathReactiveTest {
     @Test
     public void testReactive2Rules() {
         final String drl =
-                "import org.drools.compiler.oopath.model.*;\n" +
+                "import org.drools.mvel.compiler.oopath.model.*;\n" +
                         "global java.util.List toyList\n" +
                         "global java.util.List teenagers\n" +
                         "\n" +
@@ -500,7 +501,7 @@ public class OOPathReactiveTest {
     @Test
     public void testReactiveList() {
         final String drl =
-                "import org.drools.compiler.oopath.model.*;\n" +
+                "import org.drools.mvel.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -544,7 +545,7 @@ public class OOPathReactiveTest {
     @Test
     public void testReactiveSet() {
         final String drl =
-                "import org.drools.compiler.oopath.model.*;\n" +
+                "import org.drools.mvel.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -586,7 +587,7 @@ public class OOPathReactiveTest {
     @Test
     public void testReactiveMap() {
         final String drl =
-                "import org.drools.compiler.oopath.model.*;\n" +
+                "import org.drools.mvel.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -620,7 +621,7 @@ public class OOPathReactiveTest {
     @Test
     public void testNonReactivePart() {
         final String drl =
-                "import org.drools.compiler.oopath.model.*;\n" +
+                "import org.drools.mvel.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -664,7 +665,7 @@ public class OOPathReactiveTest {
     @Test
     public void testAllNonReactiveAfterNonReactivePart() {
         final String drl =
-                "import org.drools.compiler.oopath.model.*;\n" +
+                "import org.drools.mvel.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -708,7 +709,7 @@ public class OOPathReactiveTest {
     @Test
     public void testInvalidDoubleNonReactivePart() {
         final String drl =
-                "import org.drools.compiler.oopath.model.*;\n" +
+                "import org.drools.mvel.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -727,7 +728,7 @@ public class OOPathReactiveTest {
     public void testSingleFireOnReactiveChange() {
         // DROOLS-1302
         final String drl =
-                "import org.drools.compiler.oopath.model.*;\n" +
+                "import org.drools.mvel.compiler.oopath.model.*;\n" +
                         "global java.util.List list\n" +
                         "\n" +
                         "rule R when\n" +
@@ -770,7 +771,7 @@ public class OOPathReactiveTest {
     @Test
     public void testReactivitySettingAttributeInDrl() {
         final String drl =
-                "import org.drools.compiler.oopath.model.*;\n" +
+                "import org.drools.mvel.compiler.oopath.model.*;\n" +
                         "\n" +
                         "rule R when\n" +
                         "  Man( $child: /wife/children[age >= 10] )\n" +

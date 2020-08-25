@@ -17,21 +17,20 @@ package org.drools.mvel.integrationtests;
 
 import java.util.Comparator;
 
-import org.drools.mvel.compiler.Cheese;
-import org.drools.mvel.CommonTestMethodBase;
+import ca.odell.glazedlists.SortedList;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
+import org.drools.mvel.CommonTestMethodBase;
+import org.drools.mvel.compiler.Cheese;
 import org.junit.Test;
+import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
+import org.kie.api.runtime.rule.LiveQuery;
+import org.kie.api.runtime.rule.Row;
 import org.kie.internal.builder.KnowledgeBuilder;
 import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.io.ResourceFactory;
-import org.kie.api.io.ResourceType;
-import org.kie.api.runtime.rule.LiveQuery;
-import org.kie.api.runtime.rule.Row;
-
-import ca.odell.glazedlists.SortedList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -42,7 +41,7 @@ public class DroolsEventListTest extends CommonTestMethodBase {
     public void testOpenQuery() throws Exception {
         String str = "";
         str += "package org.kie.test  \n";
-        str += "import org.drools.compiler.Cheese \n";
+        str += "import " + Cheese.class.getCanonicalName() + "\n";
         str += "query cheeses(String $type1, String $type2) \n";
         str += "    stilton : Cheese(type == $type1, $price : price) \n";
         str += "    cheddar : Cheese(type == $type2, price == stilton.price) \n";

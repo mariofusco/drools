@@ -28,11 +28,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
-import org.drools.mvel.compiler.Message;
 import org.drools.core.common.DroolsObjectInputStream;
 import org.drools.core.common.DroolsObjectOutputStream;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
+import org.drools.mvel.compiler.Message;
 import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.definition.KiePackage;
@@ -42,9 +42,10 @@ import org.kie.api.runtime.StatelessKieSession;
 import org.kie.internal.builder.KnowledgeBuilder;
 import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.io.ResourceFactory;
-import org.kie.internal.runtime.StatelessKnowledgeSession;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 public class SerializedPackageMergeTest {
     private static final DateFormat DF   = new SimpleDateFormat( "dd-MMM-yyyy", Locale.UK );
@@ -126,7 +127,7 @@ public class SerializedPackageMergeTest {
         // RHBRMS-2773
         String str1 =
                 "package com.sample\n" +
-                "import org.drools.compiler.Person\n" +
+                "import org.drools.mvel.compiler.Person\n" +
                 "global java.util.List list\n" +
                 "rule R1 when\n" +
                 "  $p : Person( name == \"John\" )\n" +
@@ -136,7 +137,7 @@ public class SerializedPackageMergeTest {
 
         String str2 =
                 "package com.sample\n" +
-                "import org.drools.compiler.Person\n" +
+                "import org.drools.mvel.compiler.Person\n" +
                 "global java.util.List list\n" +
                 "rule R2 when\n" +
                 "  $p : Person( name == \"Paul\" )\n" +
@@ -231,7 +232,7 @@ public class SerializedPackageMergeTest {
     public void testBuildAndSerializePackagesWithGlobalMethodInLHS() throws Exception {
         // DROOLS-2517
         String drl =   "package com.sample\n" +
-                "import org.drools.compiler.Person\n" +
+                "import org.drools.mvel.compiler.Person\n" +
                 "global org.drools.mvel.compiler.MyUtil myUtil\n" +
                 "rule R1\n" +
                 "when\n" +

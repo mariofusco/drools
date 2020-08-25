@@ -37,7 +37,7 @@ public class OOPathQueriesTest {
     @Test
     public void testQueryFromCode() {
         final String drl =
-                "import org.drools.compiler.oopath.model.Thing;\n" +
+                "import org.drools.mvel.compiler.oopath.model.Thing;\n" +
                         "query isContainedIn( Thing $x, Thing $y )\n" +
                         "    $y := /$x/children\n" +
                         "or\n" +
@@ -64,9 +64,9 @@ public class OOPathQueriesTest {
     @Test
     public void testReactiveQuery() {
         final String drl =
-                "import org.drools.compiler.oopath.model.Room;\n" +
-                    "import org.drools.compiler.oopath.model.Sensor;\n" +
-                    "import org.drools.compiler.oopath.model.SensorEvent;\n" +
+                "import org.drools.mvel.compiler.oopath.model.Room;\n" +
+                    "import org.drools.mvel.compiler.oopath.model.Sensor;\n" +
+                    "import org.drools.mvel.compiler.oopath.model.SensorEvent;\n" +
                     "query temperature ( Room $r, double $t )\n" +
                     "    $t := /$r/temperatureSensor/value\n" +
                     "end\n" +
@@ -116,9 +116,9 @@ public class OOPathQueriesTest {
     @Test
     public void testNonReactiveOOPathInQuery() {
         final String drl =
-                "import org.drools.compiler.oopath.model.Room;\n" +
-                        "import org.drools.compiler.oopath.model.Sensor;\n" +
-                        "import org.drools.compiler.oopath.model.SensorEvent;\n" +
+                "import org.drools.mvel.compiler.oopath.model.Room;\n" +
+                        "import org.drools.mvel.compiler.oopath.model.Sensor;\n" +
+                        "import org.drools.mvel.compiler.oopath.model.SensorEvent;\n" +
                         "query temperature ( Room $r, double $t )\n" +
                         "    $t := /$r?/temperatureSensor/value\n" +
                         "end\n" +

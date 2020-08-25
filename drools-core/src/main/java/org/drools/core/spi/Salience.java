@@ -39,5 +39,7 @@ public interface Salience extends Serializable {
         return getValue() == DEFAULT_SALIENCE_VALUE;
     }
 
-    default void setDeclarations( Map<String, Declaration> decls) { }
+    default Declaration[] findDeclarations( Map<String, Declaration> decls) {
+        return null;
+    }
 }

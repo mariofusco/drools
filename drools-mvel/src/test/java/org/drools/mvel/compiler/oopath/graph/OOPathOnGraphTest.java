@@ -33,7 +33,7 @@ public class OOPathOnGraphTest {
     @Test
     public void testOOPathOnGraph() {
         String drl =
-                "import org.drools.compiler.oopath.graph.*;\n" +
+                "import org.drools.mvel.compiler.oopath.graph.*;\n" +
                 "import " + Library.class.getCanonicalName() + ";\n" +
                 "import " + Book.class.getCanonicalName() + ";\n" +
                 "import " + Person.class.getCanonicalName() + ";\n" +
@@ -72,7 +72,7 @@ public class OOPathOnGraphTest {
     @Test
     public void testOOPathOnGraphWithReactiveContentModification() {
         String drl =
-                "import org.drools.compiler.oopath.graph.*;\n" +
+                "import org.drools.mvel.compiler.oopath.graph.*;\n" +
                 "import " + Library.class.getCanonicalName() + ";\n" +
                 "import " + Book.class.getCanonicalName() + ";\n" +
                 "import " + Person.class.getCanonicalName() + ";\n" +
@@ -111,7 +111,7 @@ public class OOPathOnGraphTest {
     @Test
     public void testOOPathOnGraphWithReactiveContentModificationInSubgraph() {
         String drl =
-                "import org.drools.compiler.oopath.graph.*;\n" +
+                "import org.drools.mvel.compiler.oopath.graph.*;\n" +
                 "import " + Library.class.getCanonicalName() + ";\n" +
                 "import " + Book.class.getCanonicalName() + ";\n" +
                 "import " + Person.class.getCanonicalName() + ";\n" +
@@ -150,7 +150,7 @@ public class OOPathOnGraphTest {
     @Test
     public void testOOPathOnGraphWithNonReactiveContentModification() {
         String drl =
-                "import org.drools.compiler.oopath.graph.*;\n" +
+                "import org.drools.mvel.compiler.oopath.graph.*;\n" +
                 "import " + Library.class.getCanonicalName() + ";\n" +
                 "import " + Book.class.getCanonicalName() + ";\n" +
                 "import " + Person.class.getCanonicalName() + ";\n" +

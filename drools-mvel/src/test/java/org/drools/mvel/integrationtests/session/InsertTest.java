@@ -39,8 +39,8 @@ public class InsertTest extends CommonTestMethodBase {
     public void testInsert() throws Exception {
         String drl = "";
         drl += "package test\n";
-        drl += "import org.drools.compiler.Person\n";
-        drl += "import org.drools.compiler.Pet\n";
+        drl += "import org.drools.mvel.compiler.Person\n";
+        drl += "import org.drools.mvel.compiler.Pet\n";
         drl += "import java.util.ArrayList\n";
         drl += "global java.util.List list\n";
         drl += "rule test\n";

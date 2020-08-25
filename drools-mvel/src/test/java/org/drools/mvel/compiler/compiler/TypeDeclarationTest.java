@@ -447,9 +447,9 @@ public class TypeDeclarationTest {
     public void testTypeDeclarationMetadata() {
         String str = "";
         str += "package org.drools.mvel.compiler.test; \n" +
-                "import org.drools.compiler.compiler.TypeDeclarationTest.KlassAnnotation; \n" +
-                "import org.drools.compiler.compiler.TypeDeclarationTest.FieldAnnotation; \n" +
-                "import org.drools.compiler.Person\n" +
+                "import org.drools.mvel.compiler.compiler.TypeDeclarationTest.KlassAnnotation; \n" +
+                "import org.drools.mvel.compiler.compiler.TypeDeclarationTest.FieldAnnotation; \n" +
+                "import org.drools.mvel.compiler.Person\n" +
                 "\n" +
                 "declare Bean \n" +
                 "@role(event) \n" +
@@ -519,7 +519,7 @@ public class TypeDeclarationTest {
         String str = "";
         str += "package org.drools.mvel.compiler;\n" +
                "\n" +
-               "import org.drools.compiler.compiler.TypeDeclarationTest.EventBar.*;\n" +
+               "import org.drools.mvel.compiler.compiler.TypeDeclarationTest.EventBar.*;\n" +
                "" +
                "declare Foo\n" +
                " @role( event )\n" +
@@ -548,7 +548,7 @@ public class TypeDeclarationTest {
         String str = "";
         str += "package org.drools.mvel.compiler;\n" +
                "\n" +
-               "import org.drools.compiler.compiler.TypeDeclarationTest.EventBar.Foo;\n" +
+               "import org.drools.mvel.compiler.compiler.TypeDeclarationTest.EventBar.Foo;\n" +
                "" +
                "declare Foo\n" +
                " @role( event )\n" +
@@ -783,9 +783,9 @@ public class TypeDeclarationTest {
     public void testCrossPackageDeclares() {
         String pkg1 =
                 "package org.drools.mvel.compiler.test1; " +
-                "import org.drools.compiler.test2.GrandChild; " +
-                "import org.drools.compiler.test2.Child; " +
-                "import org.drools.compiler.test2.BarFuu; " +
+                "import org.drools.mvel.compiler.test2.GrandChild; " +
+                "import org.drools.mvel.compiler.test2.Child; " +
+                "import org.drools.mvel.compiler.test2.BarFuu; " +
 
                 "declare FuBaz foo : String end " +
 
@@ -800,8 +800,8 @@ public class TypeDeclarationTest {
 
         String pkg2 =
                 "package org.drools.mvel.compiler.test2; " +
-                "import org.drools.compiler.test1.Parent; " +
-                "import org.drools.compiler.test1.FuBaz; " +
+                "import org.drools.mvel.compiler.test1.Parent; " +
+                "import org.drools.mvel.compiler.test1.FuBaz; " +
 
                 "declare BarFuu " +
                 "   baz : FuBaz " +

@@ -47,7 +47,7 @@ public class StatefulSessionTest extends CommonTestMethodBase {
     @Test
     public void testDispose() throws Exception {
         final StringBuilder rule = new StringBuilder();
-        rule.append("package org.drools.compiler\n");
+        rule.append("package org.drools.mvel.compiler\n");
         rule.append("rule X\n");
         rule.append("when\n");
         rule.append("    Message()\n");

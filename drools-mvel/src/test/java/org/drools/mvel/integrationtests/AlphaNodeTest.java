@@ -27,7 +27,7 @@ public class AlphaNodeTest extends CommonTestMethodBase {
     @Test
     public void testAlpha() {
         String str =
-                "import org.drools.compiler.Person\n" +
+                "import " + Person.class.getCanonicalName() + "\n" +
                 "rule R1 when\n" +
                 "  $p : Person(name == \"Mario\")\n" +
                 "then\n" +
@@ -43,7 +43,7 @@ public class AlphaNodeTest extends CommonTestMethodBase {
     @Test
     public void testSharedAlpha() {
         String str =
-                "import org.drools.compiler.Person\n" +
+                "import " + Person.class.getCanonicalName() + "\n" +
                 "rule R1 when\n" +
                 "  $p : Person(name == \"Mario\")\n" +
                 "then\n" +
@@ -63,7 +63,7 @@ public class AlphaNodeTest extends CommonTestMethodBase {
     @Test
     public void testBeta() {
         String str =
-                "import org.drools.compiler.Person\n" +
+                "import " + Person.class.getCanonicalName() + "\n" +
                 "rule R1 when\n" +
                 "  $p : Person(name == \"Mario\")\n" +
                 "  $s : String(this == $p.name)\n" +
@@ -81,7 +81,7 @@ public class AlphaNodeTest extends CommonTestMethodBase {
     @Test
     public void testSharedAlphaWithBeta() {
         String str =
-                "import org.drools.compiler.Person\n" +
+                "import " + Person.class.getCanonicalName() + "\n" +
                 "rule R1 when\n" +
                 "  $p : Person(name == \"Mario\")\n" +
                 "then\n" +
@@ -103,7 +103,7 @@ public class AlphaNodeTest extends CommonTestMethodBase {
     @Test
     public void testAlphaModify() {
         String str =
-                "import org.drools.compiler.Person\n" +
+                "import " + Person.class.getCanonicalName() + "\n" +
                 "rule R1 when\n" +
                 "  $p : Person(name == \"Mario\")\n" +
                 "then\n" +
@@ -120,7 +120,7 @@ public class AlphaNodeTest extends CommonTestMethodBase {
     @Test
     public void testAlphaDelete() {
         String str =
-                "import org.drools.compiler.Person\n" +
+                "import " + Person.class.getCanonicalName() + "\n" +
                 "rule R1 when\n" +
                 "  $p : Person()\n" +
                 "then\n" +
@@ -142,7 +142,7 @@ public class AlphaNodeTest extends CommonTestMethodBase {
     @Test
     public void testAlphaModifyDelete() {
         String str =
-                "import org.drools.compiler.Person\n" +
+                "import " + Person.class.getCanonicalName() + "\n" +
                 "rule R1 when\n" +
                 "  $p : Person(name == \"Mario\")\n" +
                 "then\n" +
@@ -168,7 +168,7 @@ public class AlphaNodeTest extends CommonTestMethodBase {
     @Test
     public void testBetaModifyWithAlpha() {
         String str =
-                "import org.drools.compiler.Person\n" +
+                "import " + Person.class.getCanonicalName() + "\n" +
                 "rule R1 when\n" +
                 "  $p : Person(name == \"Mario\")\n" +
                 "  $s : String(this == $p.name)\n" +
@@ -191,7 +191,7 @@ public class AlphaNodeTest extends CommonTestMethodBase {
     @Test
     public void testAlphaModifyWithBeta() {
         String str =
-                "import org.drools.compiler.Person\n" +
+                "import " + Person.class.getCanonicalName() + "\n" +
                 "rule R1 when\n" +
                 "  $p : Person(name == \"Mario\")\n" +
                 "then\n" +
@@ -214,7 +214,7 @@ public class AlphaNodeTest extends CommonTestMethodBase {
     @Test
     public void test3Alpha() {
         String str =
-                "import org.drools.compiler.Person\n" +
+                "import " + Person.class.getCanonicalName() + "\n" +
                 "rule R1 when\n" +
                 "  $p : Person(name == \"Mario\")\n" +
                 "then\n" +

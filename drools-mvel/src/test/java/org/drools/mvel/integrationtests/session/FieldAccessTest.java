@@ -38,8 +38,8 @@ public class FieldAccessTest extends CommonTestMethodBase {
         String rule = "";
         rule += "package org.drools.compiler;\n";
         rule += "import org.drools.mvel.compiler.Person;\n";
-        rule += "import org.drools.compiler.Pet;\n";
-        rule += "import org.drools.compiler.Cat;\n";
+        rule += "import org.drools.mvel.compiler.Pet;\n";
+        rule += "import org.drools.mvel.compiler.Cat;\n";
         rule += "declare Person @typesafe(false) end\n";
         rule += "rule \"Test Rule\"\n";
         rule += "when\n";
@@ -61,7 +61,7 @@ public class FieldAccessTest extends CommonTestMethodBase {
 
     @Test
     public void testAccessClassTypeField() {
-        final String str = "package org.drools.compiler\n" +
+        final String str = "package org.drools.mvel.compiler\n" +
                 "rule r1\n" +
                 "when\n" +
                 "    Primitives( classAttr == null )" +
@@ -79,7 +79,7 @@ public class FieldAccessTest extends CommonTestMethodBase {
     @Test
     public void testGenericsOption() throws Exception {
         // JBRULES-3579
-        final String str = "import org.drools.compiler.*;\n" +
+        final String str = "import org.drools.mvel.compiler.*;\n" +
                 "rule R1 when\n" +
                 "   $c : Cheese( $type: type )\n" +
                 "   $p : Person( $name : name, addressOption.get.street == $type )\n" +

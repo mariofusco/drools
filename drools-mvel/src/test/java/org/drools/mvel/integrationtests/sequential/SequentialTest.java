@@ -269,7 +269,7 @@ public class SequentialTest extends CommonTestMethodBase {
     public void testKnowledgeRuntimeAccess() throws Exception {
         String str = "";
         str += "package org.drools.mvel.compiler.test\n";
-        str +="import org.drools.compiler.Message\n";
+        str +="import org.drools.mvel.compiler.Message\n";
         str +="rule \"Hello World\"\n";
         str +="when\n";
         str +="    Message( )\n";
@@ -287,7 +287,7 @@ public class SequentialTest extends CommonTestMethodBase {
     public void testEvents() throws Exception {
         String str = "";
         str += "package org.drools.mvel.compiler.test\n";
-        str +="import org.drools.compiler.Message\n";
+        str +="import org.drools.mvel.compiler.Message\n";
         str +="rule \"Hello World\"\n";
         str +="when\n";
         str +="    Message( )\n";

@@ -156,7 +156,7 @@ public class ChangeSetTest extends CommonTestMethodBase {
         File jar = null;
         while ( true ) {
             file = file.getParentFile();
-            jar = new File( file, "/src/test/resources/org/drools/compiler/compiler/xml/changeset/changeset.jar" );
+            jar = new File( file, "/src/test/resources/org/drools/mvel/compiler/compiler/xml/changeset/changeset.jar" );
             if ( jar.exists() ) {
                 break;
             }

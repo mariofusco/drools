@@ -41,7 +41,7 @@ import static org.junit.Assert.assertEquals;
 
 public class BasicUpdateTest {
 
-    private static final String UPDATE_TEST_DRL = "org/drools/compiler/integrationtests/session/update_test.drl";
+    private static final String UPDATE_TEST_DRL = "org/drools/mvel/integrationtests/session/update_test.drl";
 
     private KieSession ksession;
 

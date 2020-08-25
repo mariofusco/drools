@@ -14,18 +14,6 @@
 
 package org.drools.mvel.java;
 
-import org.drools.compiler.compiler.FunctionError;
-import org.drools.compiler.lang.descr.FunctionDescr;
-import org.drools.compiler.rule.builder.FunctionBuilder;
-import org.drools.core.definitions.InternalKnowledgePackage;
-import org.drools.core.rule.LineMappings;
-import org.drools.core.util.IoUtils;
-import org.drools.core.util.StringUtils;
-import org.kie.internal.builder.KnowledgeBuilderResult;
-import org.drools.core.addon.TypeResolver;
-import org.mvel2.integration.impl.MapVariableResolverFactory;
-import org.mvel2.templates.TemplateRuntime;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -35,12 +23,21 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.drools.compiler.compiler.FunctionError;
+import org.drools.compiler.lang.descr.FunctionDescr;
+import org.drools.compiler.rule.builder.FunctionBuilder;
+import org.drools.core.addon.TypeResolver;
+import org.drools.core.definitions.InternalKnowledgePackage;
+import org.drools.core.rule.LineMappings;
+import org.drools.core.util.IoUtils;
+import org.drools.core.util.StringUtils;
+import org.kie.internal.builder.KnowledgeBuilderResult;
+import org.mvel2.integration.impl.MapVariableResolverFactory;
+import org.mvel2.templates.TemplateRuntime;
+
 public class JavaFunctionBuilder
         implements
         FunctionBuilder {
-
-    //    private static final StringTemplateGroup functionGroup = new StringTemplateGroup( new InputStreamReader( JavaFunctionBuilder.class.getResourceAsStream( "javaFunction.stg" ) ),
-    //                                                                                      AngleBracketTemplateLexer.class );
 
     private static final String template = StringUtils.readFileAsString(
             new InputStreamReader(JavaFunctionBuilder.class.getResourceAsStream("javaFunction.mvel"), IoUtils.UTF8_CHARSET));

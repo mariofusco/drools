@@ -185,16 +185,13 @@ public class JavaDialect
         // initialise the dialect runtime data if it doesn't already exist
         if (data == null) {
             data = new JavaDialectRuntimeData();
-            this.pkg.getDialectRuntimeRegistry().setDialectData(ID,
-                                                                data);
-            data.onAdd(this.pkg.getDialectRuntimeRegistry(),
-                       rootClassLoader);
+            this.pkg.getDialectRuntimeRegistry().setDialectData(ID, data);
+            data.onAdd(this.pkg.getDialectRuntimeRegistry(), rootClassLoader);
         } else {
             data = (JavaDialectRuntimeData) pkg.getDialectRuntimeRegistry().getDialectData(ID);
         }
 
-        this.packageStoreWrapper = new PackageStore(data,
-                                                    this.results);
+        this.packageStoreWrapper = new PackageStore(data, this.results);
 
         loadCompiler();
     }
@@ -532,8 +529,7 @@ public class JavaDialect
         mapping.setStartLine(ruleDescr.getConsequenceLine());
         mapping.setOffset(ruleDescr.getConsequenceOffset());
 
-        this.pkg.getDialectRuntimeRegistry().getLineMappings().put(name,
-                                                                   mapping);
+        this.pkg.getDialectRuntimeRegistry().getLineMappings().put(name, mapping);
     }
 
     public void addFunction(final FunctionDescr functionDescr,

@@ -141,7 +141,7 @@ public class UpdateTest extends CommonTestMethodBase {
     }
 
     private void testModifyWithDialect(final String dialect) {
-        final String str = "package org.drools.compiler\n" +
+        final String str = "package org.drools.mvel.compiler\n" +
                 "import java.util.List\n" +
                 "rule \"test\"\n" +
                 "    dialect \"" + dialect + "\"\n" +
@@ -161,7 +161,7 @@ public class UpdateTest extends CommonTestMethodBase {
 
     @Test
     public void testModifySimple() {
-        final String str = "package org.drools.compiler;\n" +
+        final String str = "package org.drools.mvel.compiler;\n" +
                 "\n" +
                 "rule \"test modify block\"\n" +
                 "when\n" +
@@ -456,7 +456,7 @@ public class UpdateTest extends CommonTestMethodBase {
     @Test
     public void noDormantCheckOnModifies() throws Exception {
         // Test case for BZ 862325
-        final String str = "package org.drools.compiler;\n"
+        final String str = "package org.drools.mvel.compiler;\n"
                 + " rule R1\n"
                 + "    salience 10\n"
                 + "    when\n"
