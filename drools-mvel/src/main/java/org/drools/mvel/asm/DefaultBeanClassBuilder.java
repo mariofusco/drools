@@ -1338,7 +1338,7 @@ public class DefaultBeanClassBuilder implements Opcodes, BeanClassBuilder, Seria
                                     Type.getMethodDescriptor( Type.getType( BuildUtils.getTypeDescriptor( fieldDef.getOverriding() ) ), new Type[]{} ),
                                     false );
                 mv.visitTypeInsn( CHECKCAST, BuildUtils.getInternalType( fieldDef.getTypeName() ) );
-                mv.visitInsn( BuildUtils.returnType( fieldDef.getTypeName() ) );
+                mv.visitInsn( AsmUtil.returnType( fieldDef.getTypeName() ) );
             }
 
             Label l1 = null;
@@ -1974,7 +1974,7 @@ public class DefaultBeanClassBuilder implements Opcodes, BeanClassBuilder, Seria
         mv.visitLdcInsn( fieldDef.resolveAlias() );
 
         if ( BuildUtils.isPrimitive( fieldType ) ) {
-            mv.visitVarInsn( BuildUtils.varType( fieldType ), 1 );
+            mv.visitVarInsn( AsmUtil.varType( fieldType ), 1 );
             mv.visitMethodInsn( INVOKESTATIC, BuildUtils.getInternalType( BuildUtils.box( fieldType ) ), "valueOf", "(" + BuildUtils.getTypeDescriptor( fieldType ) + ")" + BuildUtils.getTypeDescriptor( BuildUtils.box( fieldType ) ) );
         } else {
             mv.visitVarInsn( ALOAD, 1 );

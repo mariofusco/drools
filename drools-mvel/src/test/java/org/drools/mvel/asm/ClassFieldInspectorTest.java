@@ -1,11 +1,9 @@
 /*
- * Copyright 2005 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,22 +12,31 @@
  * limitations under the License.
  */
 
-package org.drools.core.util.asm;
-
-import org.junit.Test;
+package org.drools.mvel.asm;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import org.drools.core.util.asm.BeanInherit;
+import org.drools.core.util.asm.InterfaceChild;
+import org.drools.core.util.asm.InterfaceChildImpl;
+import org.drools.core.util.asm.TestAbstract;
+import org.drools.core.util.asm.TestInterface;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class ClassFieldInspectorTest {
 
     @Test
     public void testIt() throws Exception {
-        final ClassFieldInspector ext = new ClassFieldInspector( Person.class );
+        final ClassFieldInspectorImpl ext = new ClassFieldInspectorImpl( Person.class );
         assertEquals( 7,
                       ext.getFieldNames().size() );
         assertEquals( "getAge" ,
@@ -49,7 +56,7 @@ public class ClassFieldInspectorTest {
 
     @Test
     public void testInterface() throws Exception {
-        final ClassFieldInspector ext = new ClassFieldInspector( TestInterface.class );
+        final ClassFieldInspectorImpl ext = new ClassFieldInspectorImpl( TestInterface.class );
         assertEquals( 2,
                       ext.getFieldNames().size() );
         assertEquals( "getSomething" ,
@@ -66,7 +73,7 @@ public class ClassFieldInspectorTest {
 
     @Test
     public void testAbstract() throws Exception {
-        final ClassFieldInspector ext = new ClassFieldInspector( TestAbstract.class );
+        final ClassFieldInspectorImpl ext = new ClassFieldInspectorImpl( TestAbstract.class );
         assertEquals( 5,
                       ext.getFieldNames().size() );
         assertEquals( "getSomething" ,
@@ -83,13 +90,13 @@ public class ClassFieldInspectorTest {
 
     @Test
     public void testInheritedFields() throws Exception {
-        ClassFieldInspector ext = new ClassFieldInspector( BeanInherit.class );
+        ClassFieldInspectorImpl ext = new ClassFieldInspectorImpl( BeanInherit.class );
         assertEquals( 5,
                       ext.getFieldNames().size() );
         assertNotNull( ext.getFieldTypesField().get( "text" ) );
         assertNotNull( ext.getFieldTypesField().get( "number" ) );
 
-        ext = new ClassFieldInspector( InterfaceChildImpl.class );
+        ext = new ClassFieldInspectorImpl( InterfaceChildImpl.class );
         assertEquals( 8,
                       ext.getFieldNames().size() );
 
@@ -108,7 +115,7 @@ public class ClassFieldInspectorTest {
 
     @Test
     public void testIntefaceInheritance() throws Exception {
-        final ClassFieldInspector ext = new ClassFieldInspector( InterfaceChild.class );
+        final ClassFieldInspectorImpl ext = new ClassFieldInspectorImpl( InterfaceChild.class );
         final Map fields = ext.getFieldNames();
         assertTrue( fields.containsKey( "foo" ) );
         assertTrue( fields.containsKey( "bar" ) );
@@ -119,7 +126,7 @@ public class ClassFieldInspectorTest {
     @Test
     public void testFieldIndexCalculation() {
         try {
-            final ClassFieldInspector ext = new ClassFieldInspector( SubPerson.class );
+            final ClassFieldInspectorImpl ext = new ClassFieldInspectorImpl( SubPerson.class );
             final Map map = ext.getFieldNames();
             final String[] fields = new String[map.size()];
             for ( final Iterator i = map.entrySet().iterator(); i.hasNext(); ) {
@@ -140,7 +147,7 @@ public class ClassFieldInspectorTest {
 
     @Test
     public void testGetReturnTypes() throws Exception {
-        final ClassFieldInspector ext = new ClassFieldInspector( Person.class );
+        final ClassFieldInspectorImpl ext = new ClassFieldInspectorImpl( Person.class );
         final Map types = ext.getFieldTypes();
         assertNotNull( types );
         assertEquals( boolean.class,
@@ -153,7 +160,7 @@ public class ClassFieldInspectorTest {
 
     @Test
     public void testGetMethodForField() throws Exception {
-        final ClassFieldInspector ext = new ClassFieldInspector( Person.class );
+        final ClassFieldInspectorImpl ext = new ClassFieldInspectorImpl( Person.class );
         final Map methods = ext.getGetterMethods();
         assertNotNull( methods );
         assertEquals( "isHappy",
@@ -169,7 +176,7 @@ public class ClassFieldInspectorTest {
 
     @Test
     public void testNonGetter() throws Exception {
-        final ClassFieldInspector ext = new ClassFieldInspector( NonGetter.class );
+        final ClassFieldInspectorImpl ext = new ClassFieldInspectorImpl( NonGetter.class );
         final Map methods = ext.getGetterMethods();
         assertEquals( "getFoo",
                       ((Method) methods.get( "foo" )).getName() );
@@ -184,7 +191,7 @@ public class ClassFieldInspectorTest {
 
     @Test
     public void testWierdCapsForField() throws Exception {
-        final ClassFieldInspector ext = new ClassFieldInspector( Person.class );
+        final ClassFieldInspectorImpl ext = new ClassFieldInspectorImpl( Person.class );
         final Map methods = ext.getGetterMethods();
         assertEquals( "getURI",
                       ((Method) methods.get( "URI" )).getName() );
@@ -292,7 +299,7 @@ public class ClassFieldInspectorTest {
 
     @Test
     public void testOverridingMethodWithCovariantReturnType() throws Exception{
-        final ClassFieldInspector ext = new ClassFieldInspector( SuperCar.class );
+        final ClassFieldInspectorImpl ext = new ClassFieldInspectorImpl( SuperCar.class );
         final Class<?> engine = ext.getFieldTypes().get("engine");
         assertEquals(SuperEngine.class, engine);
     }

@@ -27,6 +27,7 @@ import java.util.Map;
 import org.drools.core.base.BaseClassFieldReader;
 import org.drools.core.base.BaseClassFieldWriter;
 import org.drools.core.base.ClassFieldAccessorCache.CacheEntry;
+import org.drools.core.base.ClassFieldInspector;
 import org.drools.core.base.FieldAccessorFactory;
 import org.drools.core.base.ValueType;
 import org.drools.core.base.extractors.BaseBooleanClassFieldReader;
@@ -54,7 +55,6 @@ import org.drools.core.base.extractors.BaseShortClassFieldWriter;
 import org.drools.core.base.extractors.BaseZonedDateTimeClassFieldReader;
 import org.drools.core.base.extractors.SelfReferenceClassFieldReader;
 import org.drools.core.common.InternalWorkingMemory;
-import org.drools.core.util.asm.ClassFieldInspector;
 import org.drools.reflective.util.ByteArrayClassLoader;
 import org.mvel2.asm.ClassWriter;
 import org.mvel2.asm.Label;
@@ -146,7 +146,7 @@ public class ClassFieldAccessorFactory implements FieldAccessorFactory {
             // otherwise, bytecode generate a specific extractor
             ClassFieldInspector inspector = inspectors.get( clazz );
             if ( inspector == null ) {
-                inspector = new ClassFieldInspector( clazz );
+                inspector = new ClassFieldInspectorImpl( clazz );
                 inspectors.put( clazz,
                                 inspector );
             }

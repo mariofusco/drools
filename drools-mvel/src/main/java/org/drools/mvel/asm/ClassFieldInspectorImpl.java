@@ -1,11 +1,9 @@
 /*
- * Copyright 2005 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,7 +12,7 @@
  * limitations under the License.
  */
 
-package org.drools.core.util.asm;
+package org.drools.mvel.asm;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.drools.core.base.ClassFieldInspector;
 import org.drools.core.base.ClassFieldReader;
 import org.drools.core.kie.impl.MessageImpl;
 import org.kie.api.io.Resource;
@@ -54,7 +53,7 @@ import org.mvel2.asm.Type;
  * This may be enhanced in the future to allow annotations or perhaps external meta data
  * configure the order of the indexes, as this may provide fine tuning options in special cases.
  */
-public class ClassFieldInspector {
+public class ClassFieldInspectorImpl implements ClassFieldInspector {
 
     private final Map<String, Integer>    fieldNames           = new HashMap<String, Integer>();
     private final Map<String, Class< ? >> fieldTypes           = new HashMap<String, Class< ? >>();
@@ -70,13 +69,13 @@ public class ClassFieldInspector {
      * @param classUnderInspection The class that the fields to be shadowed are extracted for.
      * @throws IOException
      */
-    public ClassFieldInspector(final Class< ? > classUnderInspection) throws IOException {
+    public ClassFieldInspectorImpl( final Class< ? > classUnderInspection) throws IOException {
         this( classUnderInspection,
                 true );
     }
 
-    public ClassFieldInspector(final Class< ? > classUnderInspection,
-                               final boolean includeFinalMethods) throws IOException {
+    public ClassFieldInspectorImpl( final Class< ? > classUnderInspection,
+                                    final boolean includeFinalMethods) throws IOException {
         this.classUnderInspection = classUnderInspection;
         final String name = getResourcePath( classUnderInspection );
         final InputStream stream = classUnderInspection.getResourceAsStream( name );
@@ -400,12 +399,12 @@ public class ClassFieldInspector {
             ClassVisitor {
 
         private Class< ? >          clazz;
-        private ClassFieldInspector inspector;
+        private ClassFieldInspectorImpl inspector;
         private boolean             includeFinalMethods;
 
         ClassFieldVisitor(final Class< ? > cls,
                           final boolean includeFinalMethods,
-                          final ClassFieldInspector inspector) {
+                          final ClassFieldInspectorImpl inspector) {
             super(Opcodes.ASM5);
             this.clazz = cls;
             this.includeFinalMethods = includeFinalMethods;

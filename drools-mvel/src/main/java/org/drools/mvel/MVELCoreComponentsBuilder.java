@@ -14,12 +14,15 @@
 
 package org.drools.mvel;
 
+import java.io.IOException;
 import java.util.Date;
 
+import org.drools.core.base.ClassFieldInspector;
 import org.drools.core.base.CoreComponentsBuilder;
 import org.drools.core.rule.DialectRuntimeData;
 import org.drools.core.spi.InternalReadAccessor;
 import org.drools.core.util.MVELSafeHelper;
+import org.drools.mvel.asm.ClassFieldInspectorImpl;
 import org.drools.mvel.extractors.MVELDateClassFieldReader;
 import org.drools.mvel.extractors.MVELNumberClassFieldReader;
 import org.drools.mvel.extractors.MVELObjectClassFieldReader;
@@ -49,6 +52,11 @@ public class MVELCoreComponentsBuilder implements CoreComponentsBuilder {
     @Override
     public Object evaluateMvelExpression(DialectRuntimeData data, ClassLoader classLoader, String expr) {
         return MVELSafeHelper.getEvaluator().executeExpression( MVEL.compileExpression( expr, getParserContext(data, classLoader) ) );
+    }
+
+    @Override
+    public ClassFieldInspector createClassFieldInspector( Class<?> classUnderInspection, boolean includeFinalMethods ) throws IOException {
+        return new ClassFieldInspectorImpl( classUnderInspection, includeFinalMethods );
     }
 
     static ParserContext getParserContext(DialectRuntimeData data, ClassLoader classLoader) {

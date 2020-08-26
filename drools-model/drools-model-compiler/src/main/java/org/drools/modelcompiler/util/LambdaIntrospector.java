@@ -26,7 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import org.drools.core.util.asm.DumpMethodVisitor;
+import org.drools.mvel.asm.DumpMethodVisitor;
 import org.drools.model.functions.IntrospectableLambda;
 import org.drools.model.functions.LambdaPrinter;
 import org.mvel2.asm.ClassReader;

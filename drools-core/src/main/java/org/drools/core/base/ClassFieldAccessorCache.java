@@ -23,7 +23,6 @@ import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.drools.core.util.asm.ClassFieldInspector;
 import org.drools.reflective.ComponentsFactory;
 import org.drools.reflective.util.ByteArrayClassLoader;
 
@@ -153,12 +152,12 @@ public class ClassFieldAccessorCache {
 
     public static class CacheEntry {
         private final ByteArrayClassLoader byteArrayClassLoader;
-        private final ConcurrentMap<AccessorKey, BaseClassFieldReader>   readCache   = new ConcurrentHashMap<AccessorKey, BaseClassFieldReader>();
-        private final ConcurrentMap<AccessorKey, BaseClassFieldWriter>   writeCache  = new ConcurrentHashMap<AccessorKey, BaseClassFieldWriter>();
+        private final ConcurrentMap<AccessorKey, BaseClassFieldReader>   readCache   = new ConcurrentHashMap<>();
+        private final ConcurrentMap<AccessorKey, BaseClassFieldWriter>   writeCache  = new ConcurrentHashMap<>();
 
-        private final ConcurrentMap<Class< ? >, ClassFieldInspector>     inspectors  = new ConcurrentHashMap<Class< ? >, ClassFieldInspector>();
+        private final ConcurrentMap<Class< ? >, ClassFieldInspector>     inspectors  = new ConcurrentHashMap<>();
 
-        private final ConcurrentMap<ClassObjectTypeKey, ClassObjectType> objectTypes = new ConcurrentHashMap<ClassObjectTypeKey, ClassObjectType>();
+        private final ConcurrentMap<ClassObjectTypeKey, ClassObjectType> objectTypes = new ConcurrentHashMap<>();
 
         public CacheEntry(ClassLoader parentClassLoader) {
             if ( parentClassLoader == null ) {

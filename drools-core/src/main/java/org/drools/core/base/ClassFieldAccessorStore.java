@@ -35,7 +35,6 @@ import org.drools.core.spi.AcceptsReadAccessor;
 import org.drools.core.spi.ClassWireable;
 import org.drools.core.spi.InternalReadAccessor;
 import org.drools.core.spi.ObjectType;
-import org.drools.core.util.asm.ClassFieldInspector;
 import org.kie.api.definition.type.FactField;
 import org.kie.internal.builder.KnowledgeBuilderResult;
 
@@ -296,7 +295,7 @@ public class ClassFieldAccessorStore
         Map<Class< ? >, ClassFieldInspector> inspectors = cache.getInspectors();
         ClassFieldInspector inspector = inspectors.get( clazz );
         if ( inspector == null ) {
-            inspector = new ClassFieldInspector( clazz );
+            inspector = CoreComponentsBuilder.get().createClassFieldInspector( clazz );
             inspectors.put( clazz, inspector );
         }
         return inspector;

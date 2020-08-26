@@ -14,20 +14,28 @@
 
 package org.drools.core.base;
 
+import java.io.IOException;
+
 import org.drools.core.rule.DialectRuntimeData;
 import org.drools.core.spi.InternalReadAccessor;
 import org.kie.api.internal.utils.ServiceRegistry;
 
 public interface CoreComponentsBuilder {
     class Holder {
-        private static final CoreComponentsBuilder cBuilder = ServiceRegistry.getInstance().get(CoreComponentsBuilder.class);
+        private static final CoreComponentsBuilder cBuilder = ServiceRegistry.getInstance().get( CoreComponentsBuilder.class );
     }
 
     static CoreComponentsBuilder get() {
         return Holder.cBuilder;
     }
 
-    InternalReadAccessor getReadAcessor( String className, String expr, boolean typesafe, Class<?> returnType);
+    InternalReadAccessor getReadAcessor( String className, String expr, boolean typesafe, Class<?> returnType );
 
-    Object evaluateMvelExpression(DialectRuntimeData data, ClassLoader classLoader, String expr);
+    Object evaluateMvelExpression( DialectRuntimeData data, ClassLoader classLoader, String expr );
+
+    default ClassFieldInspector createClassFieldInspector( final Class<?> classUnderInspection ) throws IOException {
+        return createClassFieldInspector( classUnderInspection, true );
+    }
+
+    ClassFieldInspector createClassFieldInspector( Class<?> classUnderInspection, boolean includeFinalMethods ) throws IOException;
 }

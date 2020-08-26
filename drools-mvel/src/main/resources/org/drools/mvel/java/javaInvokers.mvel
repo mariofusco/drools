@@ -10,7 +10,7 @@
         if ( object == null || !(object instanceof  org.drools.core.spi.CompiledInvoker) ) {
             return false;
         }
-        return org.drools.core.util.asm.MethodComparator.compareBytecode( getMethodBytecode(), (( org.drools.core.spi.CompiledInvoker ) object).getMethodBytecode() );
+        return org.drools.mvel.asm.MethodComparator.compareBytecode( getMethodBytecode(), (( org.drools.core.spi.CompiledInvoker ) object).getMethodBytecode() );
     }
 @end{}
 

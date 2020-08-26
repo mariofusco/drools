@@ -33,7 +33,6 @@ import org.drools.core.rule.builder.dialect.asm.InvokerDataProvider;
 import org.drools.core.rule.builder.dialect.asm.InvokerStub;
 import org.drools.core.spi.CompiledInvoker;
 import org.drools.core.spi.Tuple;
-import org.drools.core.util.asm.MethodComparator;
 import org.mvel2.asm.Label;
 import org.mvel2.asm.MethodVisitor;
 

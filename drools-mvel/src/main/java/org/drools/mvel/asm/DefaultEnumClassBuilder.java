@@ -164,7 +164,7 @@ public class DefaultEnumClassBuilder implements Opcodes, EnumClassBuilder, Seria
                                 "(Ljava/lang/String;I)V" );
             for ( FieldDefinition fld : classDef.getFieldsDefinitions() ) {
                 mv.visitVarInsn( ALOAD, 0 );
-                mv.visitVarInsn( BuildUtils.varType( fld.getTypeName() ), ofs );
+                mv.visitVarInsn( AsmUtil.varType( fld.getTypeName() ), ofs );
                 mv.visitFieldInsn( PUTFIELD,
                                    BuildUtils.getInternalType( classDef.getName() ),
                                    fld.getName(),
@@ -196,7 +196,7 @@ public class DefaultEnumClassBuilder implements Opcodes, EnumClassBuilder, Seria
                 EnumLiteralDefinition lit = classDef.getEnumLiterals().get( j );
                 mv.visitInsn( DUP );
                 mv.visitLdcInsn( lit.getName() );
-                BuildUtils.pushInt( mv, j );
+                AsmUtil.pushInt( mv, j );
 
                 List<String> args = lit.getConstructorArgs();
                 for ( int k = 0; k < args.size(); k++ ) {
@@ -233,13 +233,13 @@ public class DefaultEnumClassBuilder implements Opcodes, EnumClassBuilder, Seria
             }
 
 
-            BuildUtils.pushInt( mv, N );
+            AsmUtil.pushInt( mv, N );
             mv.visitTypeInsn( ANEWARRAY, BuildUtils.getInternalType( classDef.getClassName() ));
 
             for ( int j = 0; j < N; j++ ) {
                 EnumLiteralDefinition lit = classDef.getEnumLiterals().get( j );
                 mv.visitInsn(DUP);
-                BuildUtils.pushInt( mv, j );
+                AsmUtil.pushInt( mv, j );
                 mv.visitFieldInsn( GETSTATIC,
                                    BuildUtils.getInternalType( classDef.getClassName() ),
                                    lit.getName(),
@@ -320,7 +320,7 @@ public class DefaultEnumClassBuilder implements Opcodes, EnumClassBuilder, Seria
                                BuildUtils.getInternalType( classDef.getName() ),
                                fld.getName(),
                                BuildUtils.getTypeDescriptor( fld.getTypeName() ) );
-            mv.visitInsn( BuildUtils.returnType( fld.getTypeName() ) );
+            mv.visitInsn( AsmUtil.returnType( fld.getTypeName() ) );
             mv.visitMaxs( BuildUtils.sizeOf( fld.getTypeName() ), 1 );
             mv.visitEnd();
 
