@@ -43,20 +43,11 @@ import org.drools.compiler.rule.builder.SalienceBuilder;
 import org.drools.core.addon.TypeResolver;
 import org.drools.core.definitions.InternalKnowledgePackage;
 import org.drools.core.rule.JavaDialectRuntimeData;
-import org.drools.core.rule.builder.dialect.asm.ClassLevel;
 import org.kie.api.io.Resource;
 import org.kie.internal.builder.KnowledgeBuilderResult;
+import org.kie.internal.utils.ChainedProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.mvel2.asm.Opcodes.V10;
-import static org.mvel2.asm.Opcodes.V11;
-import static org.mvel2.asm.Opcodes.V12;
-import static org.mvel2.asm.Opcodes.V1_5;
-import static org.mvel2.asm.Opcodes.V1_6;
-import static org.mvel2.asm.Opcodes.V1_7;
-import static org.mvel2.asm.Opcodes.V1_8;
-import static org.mvel2.asm.Opcodes.V9;
 
 /**
  * 
@@ -85,7 +76,8 @@ public class JavaConfiguration
 
     protected static final transient Logger logger = LoggerFactory.getLogger( JavaConfiguration.class);
 
-    public static final String          JAVA_COMPILER_PROPERTY = "drools.dialect.java.compiler";
+    public static final String JAVA_COMPILER_PROPERTY = "drools.dialect.java.compiler";
+    public static final String JAVA_LANG_LEVEL_PROPERTY = "drools.dialect.java.compiler.lnglevel";
 
     public enum CompilerType {
         ECLIPSE, JANINO, NATIVE
@@ -108,7 +100,32 @@ public class JavaConfiguration
 
         setCompiler( getDefaultCompiler() );
         
-        setJavaLanguageLevel( getDefaultLanguageLevel() );
+        setJavaLanguageLevel( findJavaVersion(conf.getChainedProperties()) );
+    }
+
+    public static String findJavaVersion( ChainedProperties chainedProperties) {
+        String level = chainedProperties.getProperty(JAVA_LANG_LEVEL_PROPERTY,
+                System.getProperty("java.version"));
+
+        if ( level.startsWith( "1.5" ) ) {
+            return "1.5";
+        } else if ( level.startsWith( "1.6" ) ) {
+            return "1.6";
+        } else if ( level.startsWith( "1.7" ) ) {
+            return "1.7";
+        } else if ( level.startsWith( "1.8" ) ) {
+            return "1.8";
+        } else if ( level.startsWith( "9" ) ) {
+            return "9";
+        } else if ( level.startsWith( "10" ) ) {
+            return "10";
+        } else if ( level.startsWith( "11" ) ) {
+            return "11";
+        } else if ( level.startsWith( "12" ) ) {
+            return "11";
+        } else {
+            return "1.8";
+        }
     }
 
     public KnowledgeBuilderConfigurationImpl getPackageBuilderConfiguration() {
@@ -196,29 +213,6 @@ public class JavaConfiguration
         } catch ( final SecurityException e ) {
             logger.error( "Drools config: unable to read the drools.compiler property. Using default.", e);
             return CompilerType.ECLIPSE;
-        }
-    }
-
-    private String getDefaultLanguageLevel() {
-        switch (ClassLevel.findJavaVersion(this.conf.getChainedProperties())) {
-            case V1_5:
-                return "1.5";
-            case V1_6:
-                return "1.6";
-            case V1_7:
-                return "1.7";
-            case V1_8:
-                return "1.8";
-            case V9:
-                return "9";
-            case V10:
-                return "10";
-            case V11:
-                return "11";
-            case V12:
-              return "12";
-            default:
-                return "1.8";
         }
     }
 

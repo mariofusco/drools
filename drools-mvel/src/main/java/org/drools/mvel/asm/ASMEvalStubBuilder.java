@@ -19,8 +19,6 @@ import java.util.Map;
 import org.drools.compiler.rule.builder.RuleBuildContext;
 import org.drools.core.WorkingMemory;
 import org.drools.core.rule.Declaration;
-import org.drools.core.rule.builder.dialect.asm.ClassGenerator;
-import org.drools.core.rule.builder.dialect.asm.EvalGenerator;
 import org.drools.core.rule.builder.dialect.asm.EvalStub;
 import org.drools.core.rule.builder.dialect.asm.InvokerDataProvider;
 import org.drools.core.spi.CompiledInvoker;

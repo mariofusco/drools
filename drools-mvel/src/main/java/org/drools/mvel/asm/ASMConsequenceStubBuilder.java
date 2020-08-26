@@ -17,8 +17,6 @@ package org.drools.mvel.asm;
 import org.drools.core.WorkingMemory;
 import org.drools.core.rule.GroupElement;
 import org.drools.compiler.rule.builder.RuleBuildContext;
-import org.drools.core.rule.builder.dialect.asm.ClassGenerator;
-import org.drools.core.rule.builder.dialect.asm.ConsequenceGenerator;
 import org.drools.core.rule.builder.dialect.asm.ConsequenceStub;
 import org.drools.core.rule.builder.dialect.asm.InvokerDataProvider;
 import org.drools.core.spi.CompiledInvoker;

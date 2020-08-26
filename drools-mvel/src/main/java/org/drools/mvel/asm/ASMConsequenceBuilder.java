@@ -21,8 +21,6 @@ import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.reteoo.RuleTerminalNode;
 import org.drools.core.reteoo.Sink;
 import org.drools.core.rule.Declaration;
-import org.drools.core.rule.builder.dialect.asm.ClassGenerator;
-import org.drools.core.rule.builder.dialect.asm.GeneratorHelper;
 import org.drools.core.rule.builder.dialect.asm.InvokerDataProvider;
 import org.drools.core.spi.Activation;
 import org.drools.core.spi.CompiledInvoker;

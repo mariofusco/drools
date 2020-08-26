@@ -49,7 +49,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static org.drools.core.rule.builder.dialect.asm.ClassGenerator.createClassWriter;
+import static org.drools.mvel.asm.ClassGenerator.createClassWriter;
 
 public class TraitCoreWrapperClassBuilderImpl implements TraitCoreWrapperClassBuilder, Serializable {
 

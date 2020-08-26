@@ -1,10 +1,9 @@
 /*
- * Copyright 2015 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,7 +12,7 @@
  * limitations under the License.
  */
 
-package org.drools.core.rule.builder.dialect.asm;
+package org.drools.mvel.asm;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -31,6 +30,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.drools.core.addon.TypeResolver;
+import org.drools.core.factmodel.ClassBuilderFactory;
 import org.drools.core.util.ClassUtils;
 import org.drools.reflective.util.ByteArrayClassLoader;
 import org.mvel2.asm.ClassWriter;
@@ -92,8 +92,6 @@ import static org.mvel2.asm.Opcodes.T_LONG;
 import static org.mvel2.asm.Opcodes.T_SHORT;
 
 public class ClassGenerator {
-
-    public static final boolean DUMP_GENERATED_CLASSES = false;
 
     private final String className;
     private final TypeResolver typeResolver;
@@ -164,7 +162,7 @@ public class ClassGenerator {
             }
             cw.visitEnd();
             bytecode = cw.toByteArray();
-            if (DUMP_GENERATED_CLASSES) {
+            if (ClassBuilderFactory.DUMP_GENERATED_CLASSES) {
                 dumpGeneratedClass(bytecode);
             }
         }
@@ -190,7 +188,7 @@ public class ClassGenerator {
     }
 
     public void dumpGeneratedClass() {
-        if (!DUMP_GENERATED_CLASSES) {
+        if (!ClassBuilderFactory.DUMP_GENERATED_CLASSES) {
             dumpGeneratedClass(generateBytecode());
         }
     }

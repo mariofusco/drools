@@ -63,7 +63,7 @@ import org.mvel2.asm.Opcodes;
 import org.mvel2.asm.Type;
 
 import static org.drools.core.base.ClassFieldAccessorStore.getClassFieldInspector;
-import static org.drools.core.rule.builder.dialect.asm.ClassGenerator.createClassWriter;
+import static org.drools.mvel.asm.ClassGenerator.createClassWriter;
 
 /**
  * This generates subclasses of BaseClassFieldExtractor to provide field extractors.

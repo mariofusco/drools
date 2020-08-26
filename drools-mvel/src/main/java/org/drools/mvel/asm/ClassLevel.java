@@ -1,26 +1,32 @@
 /*
- * Copyright 2015 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
-package org.drools.core.rule.builder.dialect.asm;
-
-import static org.mvel2.asm.Opcodes.*;
+package org.drools.mvel.asm;
 
 import org.kie.internal.utils.ChainedProperties;
 
+import static org.drools.compiler.compiler.JavaConfiguration.JAVA_LANG_LEVEL_PROPERTY;
+import static org.mvel2.asm.Opcodes.V10;
+import static org.mvel2.asm.Opcodes.V11;
+import static org.mvel2.asm.Opcodes.V12;
+import static org.mvel2.asm.Opcodes.V1_5;
+import static org.mvel2.asm.Opcodes.V1_6;
+import static org.mvel2.asm.Opcodes.V1_7;
+import static org.mvel2.asm.Opcodes.V1_8;
+import static org.mvel2.asm.Opcodes.V9;
+
 public class ClassLevel {
-    public static final String JAVA_LANG_LEVEL_PROPERTY = "drools.dialect.java.compiler.lnglevel";
 
     private static volatile int javaVersion = -1;
 

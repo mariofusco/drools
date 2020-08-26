@@ -1,9 +1,7 @@
 /*
- * Copyright 2011 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
  *       http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -14,19 +12,25 @@
  * limitations under the License.
  */
 
-package org.drools.core.factmodel;
+package org.drools.mvel.asm;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
+import org.drools.core.factmodel.BuildUtils;
+import org.drools.core.factmodel.ClassDefinition;
+import org.drools.core.factmodel.EnumClassBuilder;
+import org.drools.core.factmodel.EnumClassDefinition;
+import org.drools.core.factmodel.EnumLiteralDefinition;
+import org.drools.core.factmodel.FieldDefinition;
 import org.mvel2.asm.ClassWriter;
 import org.mvel2.asm.FieldVisitor;
 import org.mvel2.asm.MethodVisitor;
 import org.mvel2.asm.Opcodes;
 import org.mvel2.asm.Type;
 
-import static org.drools.core.rule.builder.dialect.asm.ClassGenerator.createClassWriter;
+import static org.drools.mvel.asm.ClassGenerator.createClassWriter;
 
 /**
  * A builder to dynamically build simple Javabean(TM) classes
@@ -51,7 +55,7 @@ public class DefaultEnumClassBuilder implements Opcodes, EnumClassBuilder, Seria
             IllegalArgumentException,
             ClassNotFoundException {
 
-        if ( ! ( classDef instanceof EnumClassDefinition ) ) {
+        if ( ! ( classDef instanceof EnumClassDefinition) ) {
             throw new RuntimeException( "FATAL : Trying to create an enum out of a bean class definition  " + classDef );
         }
 

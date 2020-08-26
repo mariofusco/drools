@@ -15,7 +15,7 @@
 
 package org.drools.mvel.compiler.rule.builder.dialect.asm;
 
-import org.drools.core.rule.builder.dialect.asm.ClassGenerator;
+import org.drools.mvel.asm.ClassGenerator;
 import org.junit.*;
 import org.mvel2.asm.*;
 

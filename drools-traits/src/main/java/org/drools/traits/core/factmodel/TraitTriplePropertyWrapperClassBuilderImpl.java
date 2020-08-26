@@ -39,7 +39,7 @@ import org.mvel2.asm.Label;
 import org.mvel2.asm.MethodVisitor;
 import org.mvel2.asm.Type;
 
-import static org.drools.core.rule.builder.dialect.asm.ClassGenerator.createClassWriter;
+import static org.drools.mvel.asm.ClassGenerator.createClassWriter;
 
 public class TraitTriplePropertyWrapperClassBuilderImpl extends AbstractPropertyWrapperClassBuilderImpl implements TraitPropertyWrapperClassBuilder, Serializable {
 

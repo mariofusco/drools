@@ -1,9 +1,7 @@
 /*
- * Copyright 2020 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
  *       http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -14,28 +12,27 @@
  * limitations under the License.
  */
 
-package org.drools.core.factmodel;
+package org.drools.mvel.asm;
 
 import java.io.Serializable;
 
+import org.drools.core.factmodel.BeanClassBuilder;
+import org.drools.core.factmodel.ClassBuilder;
+import org.drools.core.factmodel.ClassBuilderFactory;
+import org.drools.core.factmodel.EnumClassBuilder;
 import org.drools.core.rule.TypeDeclaration;
 
-public class DefaultClassBuilderFactory implements Serializable,
-                                                   ClassBuilderFactory {
-
-    static ClassBuilder getDefaultBeanClassBuilder() {
-        return new DefaultBeanClassBuilder(true);
-    }
+public class DefaultClassBuilderFactory implements Serializable, ClassBuilderFactory {
 
     // Generic beans
-    private  BeanClassBuilder beanClassBuilder = new DefaultBeanClassBuilder(true);
+    private BeanClassBuilder beanClassBuilder = new DefaultBeanClassBuilder(true);
 
     @Override
     public ClassBuilder getBeanClassBuilder() {
         return beanClassBuilder;
     }
 
-    private  EnumClassBuilder enumClassBuilder = new DefaultEnumClassBuilder();
+    private EnumClassBuilder enumClassBuilder = new DefaultEnumClassBuilder();
 
     @Override
     public EnumClassBuilder getEnumClassBuilder() {

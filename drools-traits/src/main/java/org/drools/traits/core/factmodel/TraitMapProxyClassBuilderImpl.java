@@ -43,10 +43,10 @@ import org.mvel2.asm.Label;
 import org.mvel2.asm.MethodVisitor;
 import org.mvel2.asm.Type;
 
+import static org.drools.mvel.asm.ClassGenerator.createClassWriter;
 import static org.drools.traits.core.factmodel.TraitBuilderUtil.buildMixinMethods;
 import static org.drools.traits.core.factmodel.TraitBuilderUtil.findMixinInfo;
 import static org.drools.traits.core.factmodel.TraitBuilderUtil.getMixinName;
-import static org.drools.core.rule.builder.dialect.asm.ClassGenerator.createClassWriter;
 
 public class TraitMapProxyClassBuilderImpl extends AbstractProxyClassBuilderImpl implements TraitProxyClassBuilder, Serializable {
 

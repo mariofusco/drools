@@ -1,11 +1,9 @@
 /*
- * Copyright 2008 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,7 +12,7 @@
  * limitations under the License.
  */
 
-package org.drools.core.factmodel;
+package org.drools.mvel.asm;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -27,6 +25,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.drools.core.factmodel.AnnotationDefinition;
+import org.drools.core.factmodel.BeanClassBuilder;
+import org.drools.core.factmodel.BuildUtils;
+import org.drools.core.factmodel.ClassDefinition;
+import org.drools.core.factmodel.FieldDefinition;
+import org.drools.core.factmodel.GeneratedFact;
 import org.drools.core.factmodel.traits.Thing;
 import org.drools.core.factmodel.traits.TraitFieldTMS;
 import org.drools.core.factmodel.traits.TraitTypeMapConstants;
@@ -42,7 +46,7 @@ import org.mvel2.asm.MethodVisitor;
 import org.mvel2.asm.Opcodes;
 import org.mvel2.asm.Type;
 
-import static org.drools.core.rule.builder.dialect.asm.ClassGenerator.createClassWriter;
+import static org.drools.mvel.asm.ClassGenerator.createClassWriter;
 
 /**
  * A builder to dynamically build simple Javabean(TM) classes
