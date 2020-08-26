@@ -20,6 +20,7 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.io.UncheckedIOException;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Collections;
@@ -276,7 +277,29 @@ public class ClassFieldAccessorStore
     }
 
     public Class<?> getFieldType(Class<?> clazz, String fieldName) {
-        return ClassFieldAccessorFactory.getFieldType( clazz, fieldName, cache.getCacheEntry(clazz) );
+        ClassFieldAccessorCache.CacheEntry cache = this.cache.getCacheEntry(clazz);
+        ClassFieldInspector inspector;
+        try {
+            inspector = getClassFieldInspector(clazz, cache);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+        Class<?> fieldType = inspector.getFieldType(fieldName);
+        if (fieldType == null && fieldName.length() > 1 && Character.isLowerCase(fieldName.charAt(0)) && Character.isUpperCase(fieldName.charAt(1))) {
+            String altFieldName = Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
+            fieldType = inspector.getFieldType(altFieldName);
+        }
+        return fieldType;
+    }
+
+    public static ClassFieldInspector getClassFieldInspector( final Class<?> clazz, ClassFieldAccessorCache.CacheEntry cache ) throws IOException {
+        Map<Class< ? >, ClassFieldInspector> inspectors = cache.getInspectors();
+        ClassFieldInspector inspector = inspectors.get( clazz );
+        if ( inspector == null ) {
+            inspector = new ClassFieldInspector( clazz );
+            inspectors.put( clazz, inspector );
+        }
+        return inspector;
     }
 
     public BaseClassFieldWriter wire(ClassFieldWriter writer) {

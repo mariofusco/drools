@@ -177,7 +177,7 @@ public class ClassFieldAccessorCache {
                                                     Class cls) {
             BaseClassFieldReader reader = this.readCache.get( key );
             if ( reader == null ) {
-                reader = ClassFieldAccessorFactory.getClassFieldReader( cls,
+                reader = FieldAccessorFactory.get().getClassFieldReader( cls,
                                                                         key.getFieldName(),
                                                                         this );
                 if ( reader != null ) {
@@ -201,7 +201,7 @@ public class ClassFieldAccessorCache {
                                                      Class cls) {
             BaseClassFieldWriter writer = this.writeCache.get( key );
             if ( writer == null ) {
-                writer = ClassFieldAccessorFactory.getClassFieldWriter( cls,
+                writer = FieldAccessorFactory.get().getClassFieldWriter( cls,
                                                                         key.getFieldName(),
                                                                         this );
                 if ( writer != null ) {

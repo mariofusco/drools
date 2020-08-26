@@ -1,11 +1,9 @@
 /*
- * Copyright 2005 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,10 +12,8 @@
  * limitations under the License.
  */
 
-package org.drools.core.base;
+package org.drools.mvel.asm;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.lang.reflect.Method;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
@@ -28,7 +24,11 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Map;
 
+import org.drools.core.base.BaseClassFieldReader;
+import org.drools.core.base.BaseClassFieldWriter;
 import org.drools.core.base.ClassFieldAccessorCache.CacheEntry;
+import org.drools.core.base.FieldAccessorFactory;
+import org.drools.core.base.ValueType;
 import org.drools.core.base.extractors.BaseBooleanClassFieldReader;
 import org.drools.core.base.extractors.BaseBooleanClassFieldWriter;
 import org.drools.core.base.extractors.BaseByteClassFieldReader;
@@ -62,6 +62,7 @@ import org.mvel2.asm.MethodVisitor;
 import org.mvel2.asm.Opcodes;
 import org.mvel2.asm.Type;
 
+import static org.drools.core.base.ClassFieldAccessorStore.getClassFieldInspector;
 import static org.drools.core.rule.builder.dialect.asm.ClassGenerator.createClassWriter;
 
 /**
@@ -70,7 +71,7 @@ import static org.drools.core.rule.builder.dialect.asm.ClassGenerator.createClas
  * all nicely serializable).
  */
 
-public class ClassFieldAccessorFactory {
+public class ClassFieldAccessorFactory implements FieldAccessorFactory {
 
     private static final String                        BASE_PACKAGE         = "org/drools/base";
 
@@ -81,8 +82,9 @@ public class ClassFieldAccessorFactory {
     static {
         PROTECTION_DOMAIN = AccessController.doPrivileged((PrivilegedAction<ProtectionDomain>) ClassFieldAccessorFactory.class::getProtectionDomain);
     }
-    
-    public static BaseClassFieldReader getClassFieldReader(Class< ? > clazz, String fieldName, CacheEntry cache) {
+
+    @Override
+    public BaseClassFieldReader getClassFieldReader( Class< ? > clazz, String fieldName, CacheEntry cache) {
         try {
             // if it is a self reference
             if ( SELF_REFERENCE_FIELD.equals( fieldName ) ) {
@@ -135,32 +137,8 @@ public class ClassFieldAccessorFactory {
         }
     }
 
-    public static Class<?> getFieldType(Class<?> clazz, String fieldName, CacheEntry cache) {
-        ClassFieldInspector inspector;
-        try {
-            inspector = getClassFieldInspector(clazz, cache);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-        Class<?> fieldType = inspector.getFieldType(fieldName);
-        if (fieldType == null && fieldName.length() > 1 && Character.isLowerCase(fieldName.charAt(0)) && Character.isUpperCase(fieldName.charAt(1))) {
-            String altFieldName = Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
-            fieldType = inspector.getFieldType(altFieldName);
-        }
-        return fieldType;
-    }
-
-    private static ClassFieldInspector getClassFieldInspector( final Class<?> clazz, CacheEntry cache ) throws IOException {
-        Map<Class< ? >, ClassFieldInspector> inspectors = cache.getInspectors();
-        ClassFieldInspector inspector = inspectors.get( clazz );
-        if ( inspector == null ) {
-            inspector = new ClassFieldInspector( clazz );
-            inspectors.put( clazz, inspector );
-        }
-        return inspector;
-    }
-
-    public static BaseClassFieldWriter getClassFieldWriter(Class< ? > clazz, String fieldName, CacheEntry cache) {
+    @Override
+    public BaseClassFieldWriter getClassFieldWriter( Class< ? > clazz, String fieldName, CacheEntry cache) {
         ByteArrayClassLoader byteArrayClassLoader = cache.getByteArrayClassLoader();
         Map<Class< ? >, ClassFieldInspector> inspectors = cache.getInspectors();
         
