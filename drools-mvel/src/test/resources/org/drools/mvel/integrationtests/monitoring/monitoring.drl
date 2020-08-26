@@ -1,4 +1,4 @@
-package org.drools.mvel.compiler.integrationtests.monitoring;
+package org.drools.mvel.integrationtests.monitoring;
 
 rule "just a rule"
 when

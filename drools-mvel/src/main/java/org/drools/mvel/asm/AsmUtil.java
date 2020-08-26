@@ -289,7 +289,6 @@ public final class AsmUtil {
         TypeDeclaration typeDeclaration = typeClass == null ? null : context.getKnowledgeBuilder().getTypeDeclaration(typeClass);
         boolean isPropertyReactive = typeDeclaration != null && typeDeclaration.isPropertyReactive();
         if (isPropertyReactive) {
-            typeDeclaration.setTypeClass(typeClass);
             settableProperties = typeDeclaration.getAccessibleProperties();
         }
 
@@ -353,7 +352,6 @@ public final class AsmUtil {
             boolean isPropertyReactive = typeDeclaration.isPropertyReactive();
             List<String> settableProperties = null;
             if (isPropertyReactive) {
-                typeDeclaration.setTypeClass(typeClass);
                 settableProperties = typeDeclaration.getAccessibleProperties();
                 modificationMask = getEmptyPropertyReactiveMask(settableProperties.size());
             }

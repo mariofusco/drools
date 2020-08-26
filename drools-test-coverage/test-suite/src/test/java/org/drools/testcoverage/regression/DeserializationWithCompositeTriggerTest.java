@@ -47,7 +47,7 @@ public class DeserializationWithCompositeTriggerTest {
 
     private static final String DRL =
             "package org.drools.test;\n" +
-            "import org.drools.compiler.StockTick;\n" +
+            "import org.drools.mvel.compiler.StockTick;\n" +
             "global java.util.List list;\n" +
             "\n" +
             "declare StockTick\n" +

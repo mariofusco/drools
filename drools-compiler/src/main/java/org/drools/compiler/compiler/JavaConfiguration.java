@@ -286,146 +286,122 @@ public class JavaConfiguration
 
         @Override
         public SalienceBuilder getSalienceBuilder() {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.getSalienceBuilder -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public EnabledBuilder getEnabledBuilder() {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.getEnabledBuilder -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public PatternBuilder getPatternBuilder() {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.getPatternBuilder -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public QueryBuilder getQueryBuilder() {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.getQueryBuilder -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public RuleConditionBuilder getEvalBuilder() {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.getEvalBuilder -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public AccumulateBuilder getAccumulateBuilder() {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.getAccumulateBuilder -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public PredicateBuilder getPredicateBuilder() {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.getPredicateBuilder -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public ReturnValueBuilder getReturnValueBuilder() {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.getReturnValueBuilder -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public ConsequenceBuilder getConsequenceBuilder() {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.getConsequenceBuilder -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public RuleClassBuilder getRuleClassBuilder() {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.getRuleClassBuilder -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public FromBuilder getFromBuilder() {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.getFromBuilder -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public EntryPointBuilder getEntryPointBuilder() {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.getEntryPointBuilder -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public EngineElementBuilder getBuilder( Class clazz ) {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.getBuilder -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public AnalysisResult analyzeExpression( PackageBuildContext context, BaseDescr descr, Object content, BoundIdentifiers availableIdentifiers ) {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.analyzeExpression -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public AnalysisResult analyzeBlock( PackageBuildContext context, BaseDescr descr, String text, BoundIdentifiers availableIdentifiers ) {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.analyzeBlock -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public void compileAll() {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.compileAll -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public void addRule( RuleBuildContext context ) {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.addRule -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public void addFunction( FunctionDescr functionDescr, TypeResolver typeResolver, Resource resource ) {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.addFunction -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public List<KnowledgeBuilderResult> getResults() {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.getResults -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public void clearResults() {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.clearResults -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public void init( RuleDescr ruleDescr ) {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.init -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public void init( ProcessDescr processDescr ) {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.init -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public void postCompileAddFunction( FunctionDescr functionDescr, TypeResolver typeResolver ) {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.postCompileAddFunction -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public void preCompileAddFunction( FunctionDescr functionDescr, TypeResolver typeResolver ) {
-            throw new UnsupportedOperationException( "org.drools.compiler.compiler.JavaConfiguration.DummyDialect.preCompileAddFunction -> TODO" );
-
+            throw new UnsupportedOperationException();
         }
     }
 }

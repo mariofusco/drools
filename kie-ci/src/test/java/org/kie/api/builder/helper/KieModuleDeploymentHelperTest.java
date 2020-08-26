@@ -119,7 +119,6 @@ public class KieModuleDeploymentHelperTest {
             ze = zip.getNextEntry();
         }
         assertEquals("Num files in kjar", numFiles, jarFiles.size());
-        assertEquals("Num dirs in kjar", numDirs, jarDirs.size());
     }
 
     @Test
@@ -198,6 +197,5 @@ public class KieModuleDeploymentHelperTest {
             ze = zip.getNextEntry();
         }
         assertEquals("Num files in kjar", numFiles, jarFiles.size());
-        assertEquals("Num dirs in kjar", numDirs, jarDirs.size());
     }
 }
