@@ -39,7 +39,7 @@ import org.drools.core.factmodel.AnnotationDefinition;
 import org.drools.core.rule.Behavior;
 import org.kie.internal.ruleunit.RuleUnitDescription;
 import org.drools.core.time.TimeUtils;
-import org.drools.core.util.MVELSafeHelper;
+import org.drools.mvel.MVELSafeHelper;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;

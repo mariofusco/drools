@@ -64,7 +64,6 @@ import org.drools.core.spi.InternalReadAccessor;
 import org.drools.core.spi.KnowledgeHelper;
 import org.drools.core.spi.ObjectType;
 import org.drools.core.time.TimerExpression;
-import org.drools.core.util.MVELSafeHelper;
 import org.drools.core.util.index.IndexUtil;
 import org.drools.mvel.asm.AsmUtil;
 import org.drools.mvel.builder.MVELAnalysisResult;

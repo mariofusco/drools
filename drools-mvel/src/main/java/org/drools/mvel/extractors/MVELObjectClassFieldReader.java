@@ -22,7 +22,7 @@ import org.drools.core.base.ValueType;
 import org.drools.core.base.extractors.BaseObjectClassFieldReader;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.definitions.rule.impl.RuleImpl;
-import org.drools.core.util.MVELSafeHelper;
+import org.drools.mvel.MVELSafeHelper;
 import org.drools.mvel.MVELDialectRuntimeData;
 import org.drools.mvel.expr.MVELCompileable;
 import org.mvel2.MVEL;

@@ -18,6 +18,7 @@ import java.io.IOException;
 
 import org.drools.core.rule.DialectRuntimeData;
 import org.drools.core.spi.InternalReadAccessor;
+import org.drools.core.util.MVELExecutor;
 import org.kie.api.internal.utils.ServiceRegistry;
 
 public interface CoreComponentsBuilder {
@@ -38,4 +39,6 @@ public interface CoreComponentsBuilder {
     }
 
     ClassFieldInspector createClassFieldInspector( Class<?> classUnderInspection, boolean includeFinalMethods ) throws IOException;
+
+    MVELExecutor getMVELExecutor();
 }

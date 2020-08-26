@@ -1,9 +1,7 @@
 /*
- * Copyright (C) 2017 Red Hat, Inc. and/or its affiliates.
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
  *       http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -13,18 +11,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.drools.cdi;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
-import org.drools.mvel.MVELSafeHelper;
-import org.kie.soup.project.datamodel.commons.util.MVELEvaluator;
+package org.drools.mvel;
 
-@Dependent
-public class CDIProducer {
+import org.drools.core.util.MVELExecutor;
+import org.kie.soup.project.datamodel.commons.util.RawMVELEvaluator;
 
-    @Produces
-    public MVELEvaluator getEvaluator() {
-        return MVELSafeHelper.getEvaluator();
-    }
+public class UnsafeMVELEvaluator extends RawMVELEvaluator implements MVELExecutor {
 }

@@ -33,7 +33,7 @@ import org.drools.core.definitions.rule.impl.RuleImpl;
 import org.drools.core.rule.Declaration;
 import org.drools.core.spi.MvelAccumulator;
 import org.drools.core.spi.Tuple;
-import org.drools.core.util.MVELSafeHelper;
+import org.drools.mvel.MVELSafeHelper;
 import org.drools.mvel.MVELDialectRuntimeData;
 import org.drools.mvel.expr.MVELCompilationUnit.DroolsVarFactory;
 import org.mvel2.integration.VariableResolverFactory;

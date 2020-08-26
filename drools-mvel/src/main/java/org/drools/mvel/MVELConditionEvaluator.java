@@ -24,7 +24,6 @@ import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.rule.Declaration;
 import org.drools.core.rule.constraint.ConditionEvaluator;
 import org.drools.core.spi.Tuple;
-import org.drools.core.util.MVELSafeHelper;
 import org.mvel2.MVEL;
 import org.mvel2.ParserConfiguration;
 import org.mvel2.ParserContext;

@@ -29,7 +29,7 @@ import org.drools.core.rule.Declaration;
 import org.drools.core.spi.FieldValue;
 import org.drools.core.spi.ReturnValueExpression;
 import org.drools.core.spi.Tuple;
-import org.drools.core.util.MVELSafeHelper;
+import org.drools.mvel.MVELSafeHelper;
 import org.drools.mvel.MVELDialectRuntimeData;
 import org.mvel2.integration.VariableResolverFactory;
 

@@ -38,6 +38,7 @@ import org.drools.compiler.lang.descr.EntryPointDescr;
 import org.drools.compiler.lang.descr.PatternDescr;
 import org.drools.compiler.lang.descr.QueryDescr;
 import org.drools.compiler.lang.descr.RuleDescr;
+import org.drools.core.base.CoreComponentsBuilder;
 import org.drools.core.base.EnabledBoolean;
 import org.drools.core.base.SalienceInteger;
 import org.drools.core.definitions.rule.impl.RuleImpl;
@@ -54,7 +55,6 @@ import org.drools.core.time.impl.ExpressionIntervalTimer;
 import org.drools.core.time.impl.IntervalTimer;
 import org.drools.core.time.impl.Timer;
 import org.drools.core.util.DateUtils;
-import org.drools.core.util.MVELSafeHelper;
 import org.drools.core.util.StringUtils;
 import org.kie.api.definition.rule.ActivationListener;
 import org.kie.api.definition.rule.All;
@@ -187,7 +187,7 @@ public class RuleBuilder {
         Object result = value;
         // try to resolve as an expression:
         try {
-            result = MVELSafeHelper.getEvaluator().eval( value );
+            result = CoreComponentsBuilder.get().getMVELExecutor().eval( value );
         } catch ( Exception e ) {
             // do nothing
         }
@@ -290,7 +290,7 @@ public class RuleBuilder {
         try {
             ActivationListener activationListener = ruleDescr.getTypedAnnotation(ActivationListener.class);
             if (activationListener != null) {
-                rule.setActivationListener(MVELSafeHelper.getEvaluator().evalToString(activationListener.value()));
+                rule.setActivationListener(CoreComponentsBuilder.get().getMVELExecutor().evalToString(activationListener.value()));
             }
 
             if (enforceEager) {
@@ -370,7 +370,7 @@ public class RuleBuilder {
     private static void buildCalendars(RuleImpl rule, String calendarsString, RuleBuildContext context) {
         Object val = null;
         try {
-            val = MVELSafeHelper.getEvaluator().eval( calendarsString );
+            val = CoreComponentsBuilder.get().getMVELExecutor().eval( calendarsString );
             String[] calNames = null;
             if ( val instanceof List ) {
                 calNames = ( String[] ) ((List)val).toArray( new String[ ((List)val).size() ] );
