@@ -23,7 +23,7 @@ import org.drools.core.SessionConfiguration;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
 import org.drools.core.util.debug.SessionInspector;
-import org.drools.core.util.debug.SessionReporter;
+import org.drools.mvel.SessionReporter;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.api.KieBase;

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.impl.KnowledgeBaseFactory;
 import org.drools.core.util.debug.SessionInspector;
-import org.drools.core.util.debug.SessionReporter;
+import org.drools.mvel.SessionReporter;
 import org.drools.core.util.debug.StatefulKnowledgeSessionInfo;
 import org.drools.mvel.CommonTestMethodBase;
 import org.drools.mvel.compiler.Cheese;

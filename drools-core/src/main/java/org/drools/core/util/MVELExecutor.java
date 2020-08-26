@@ -48,4 +48,6 @@ public interface MVELExecutor {
     <T> T executeExpression(Object var1, Map var2, Class<T> var3);
 
     <T> T executeExpression(Object var1, Object var2, Class<T> var3);
+
+    String soundex(String s);
 }

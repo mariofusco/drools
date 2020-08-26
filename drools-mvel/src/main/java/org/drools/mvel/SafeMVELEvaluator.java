@@ -23,6 +23,7 @@ import org.kie.soup.project.datamodel.commons.util.MVELEvaluator;
 import org.mvel2.MVEL;
 import org.mvel2.compiler.CompiledExpression;
 import org.mvel2.integration.VariableResolverFactory;
+import org.mvel2.util.Soundex;
 
 public class SafeMVELEvaluator implements MVELEvaluator, MVELExecutor {
 
@@ -334,6 +335,17 @@ public class SafeMVELEvaluator implements MVELEvaluator, MVELExecutor {
             public Object run() {
                 MVEL.executeExpression(compiledExpression, ctx, vars);
                 return null;
+            }
+        }, KiePolicyHelper.getAccessContext());
+    }
+
+    @Override
+    public String soundex( String s ) {
+        return AccessController.doPrivileged(new PrivilegedAction<String>() {
+
+            @Override
+            public String run() {
+                return Soundex.soundex(s);
             }
         }, KiePolicyHelper.getAccessContext());
     }
