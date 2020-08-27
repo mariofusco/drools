@@ -89,7 +89,7 @@ public class PackageBuildContext {
         this.parentDescr = parentDescr;
         this.dialectRegistry = dialectRegistry;
         this.dialect = (component != null && component.getDialect() != null) ? this.dialectRegistry.getDialect( component.getDialect() ) : defaultDialect;
-        this.typesafe = dialectRegistry.getDialect( "mvel" ).isStrictMode();
+        this.typesafe = isStrictMode( dialectRegistry );
 
         if ( dialect == null && (component != null && component.getDialect() != null) ) {
             this.errors.add( new DescrBuildError( null,
@@ -99,6 +99,10 @@ public class PackageBuildContext {
             // dialect is null, but fall back to default dialect so we can attempt to compile rest of rule.
             this.dialect = defaultDialect;
         }
+    }
+
+    private boolean isStrictMode( DialectCompiletimeRegistry dialectRegistry ) {
+        return dialectRegistry.getDialect( "mvel" ) == null || dialectRegistry.getDialect( "mvel" ).isStrictMode();
     }
 
     public BaseDescr getParentDescr() {

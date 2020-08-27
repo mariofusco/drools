@@ -21,6 +21,8 @@ import org.drools.core.base.CoreComponentsBuilder;
 import org.drools.core.util.ClassUtils;
 import org.drools.model.functions.Function1;
 
+import static org.drools.core.util.Drools.hasMvel;
+
 public class LambdaFieldReader implements Function1 {
 
     private final Method accessor;
@@ -39,6 +41,9 @@ public class LambdaFieldReader implements Function1 {
             }
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException( e );
+        }
+        if (!hasMvel()) {
+            throw new RuntimeException("Complex timestamp expressions can be used only with drools-mvel on classpath");
         }
         return CoreComponentsBuilder.get().getMVELExecutor().eval( field, o );
     }

@@ -43,6 +43,7 @@ import org.drools.modelcompiler.builder.PackageModel;
 import org.drools.modelcompiler.builder.errors.InvalidExpressionErrorResult;
 import org.drools.modelcompiler.builder.generator.declaredtype.generator.GeneratedClassDeclaration;
 
+import static org.drools.core.util.Drools.hasMvel;
 import static org.drools.modelcompiler.builder.JavaParserCompiler.compileAll;
 import static org.drools.modelcompiler.builder.generator.DslMethodNames.ADD_ANNOTATION_CALL;
 import static org.drools.modelcompiler.builder.generator.DslMethodNames.ANNOTATION_VALUE_CALL;
@@ -141,7 +142,7 @@ public class POJOGenerator {
                 MethodCallExpr annotationValueCall = new MethodCallExpr(null, ANNOTATION_VALUE_CALL);
                 annotationValueCall.addArgument(new StringLiteralExpr(entry.getKey()));
                 String expr = entry.getValue().toString();
-                if (exprAnnotations.contains(ann.getName()) && ConstraintBuilder.get().analyzeExpression(type, expr) == null) {
+                if (hasMvel() && exprAnnotations.contains(ann.getName()) && ConstraintBuilder.get().analyzeExpression(type, expr) == null) {
                     builder.addBuilderResult(new InvalidExpressionErrorResult("Unable to analyze expression '" + expr + "' for " + ann.getName() + " attribute"));
                 }
                 annotationValueCall.addArgument(quote(expr));

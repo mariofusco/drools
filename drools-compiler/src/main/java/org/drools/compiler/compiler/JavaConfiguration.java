@@ -21,8 +21,10 @@ import java.util.Map;
 
 import org.drools.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
 import org.drools.compiler.lang.descr.BaseDescr;
+import org.drools.compiler.lang.descr.EntryPointDescr;
 import org.drools.compiler.lang.descr.FunctionDescr;
 import org.drools.compiler.lang.descr.ImportDescr;
+import org.drools.compiler.lang.descr.PatternDescr;
 import org.drools.compiler.lang.descr.ProcessDescr;
 import org.drools.compiler.lang.descr.RuleDescr;
 import org.drools.compiler.rule.builder.AccumulateBuilder;
@@ -264,6 +266,37 @@ public class JavaConfiguration
         }
 
         @Override
+        public void init( RuleDescr ruleDescr ) {
+            // we don't need to do anything here
+        }
+
+        @Override
+        public void init( ProcessDescr processDescr ) {
+            // we don't need to do anything here
+        }
+
+        @Override
+        public EngineElementBuilder getBuilder( Class clazz ) {
+            if (clazz == PatternDescr.class) {
+                return getPatternBuilder();
+            }
+            if (clazz == EntryPointDescr.class) {
+                return getEntryPointBuilder();
+            }
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public PatternBuilder getPatternBuilder() {
+            return new PatternBuilder();
+        }
+
+        @Override
+        public EntryPointBuilder getEntryPointBuilder() {
+            return new EntryPointBuilder();
+        }
+
+        @Override
         public TypeResolver getTypeResolver() {
             return this.packageRegistry.getTypeResolver();
         }
@@ -285,11 +318,6 @@ public class JavaConfiguration
 
         @Override
         public EnabledBuilder getEnabledBuilder() {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public PatternBuilder getPatternBuilder() {
             throw new UnsupportedOperationException();
         }
 
@@ -334,16 +362,6 @@ public class JavaConfiguration
         }
 
         @Override
-        public EntryPointBuilder getEntryPointBuilder() {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public EngineElementBuilder getBuilder( Class clazz ) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
         public AnalysisResult analyzeExpression( PackageBuildContext context, BaseDescr descr, Object content, BoundIdentifiers availableIdentifiers ) {
             throw new UnsupportedOperationException();
         }
@@ -375,16 +393,6 @@ public class JavaConfiguration
 
         @Override
         public void clearResults() {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void init( RuleDescr ruleDescr ) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void init( ProcessDescr processDescr ) {
             throw new UnsupportedOperationException();
         }
 

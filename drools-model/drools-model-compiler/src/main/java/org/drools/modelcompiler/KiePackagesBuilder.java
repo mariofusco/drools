@@ -145,6 +145,7 @@ import static java.util.stream.Collectors.toList;
 import static org.drools.compiler.rule.builder.RuleBuilder.buildTimer;
 import static org.drools.core.rule.GroupElement.AND;
 import static org.drools.core.rule.Pattern.getReadAcessor;
+import static org.drools.core.util.Drools.hasMvel;
 import static org.drools.model.FlowDSL.declarationOf;
 import static org.drools.model.FlowDSL.entryPoint;
 import static org.drools.model.bitmask.BitMaskUtil.calculatePatternMask;
@@ -322,6 +323,9 @@ public class KiePackagesBuilder {
     }
 
     private org.drools.core.time.impl.Timer parseTimer( RuleImpl ruleImpl, String timerExpr, RuleContext ctx ) {
+        if (!hasMvel()) {
+            throw new RuntimeException("Timers can be used only with drools-mvel on classpath");
+        }
         return buildTimer(ruleImpl, timerExpr, null, expr -> ConstraintBuilder.get().buildTimerExpression( expr, ctx.getClassLoader(), ctx.getDeclarations() ), null);
     }
 

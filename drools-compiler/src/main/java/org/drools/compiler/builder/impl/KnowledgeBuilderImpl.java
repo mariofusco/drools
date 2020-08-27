@@ -1638,14 +1638,14 @@ public class KnowledgeBuilderImpl implements InternalKnowledgeBuilder {
         normalizeRuleAnnotations(packageDescr, pkgRegistry.getTypeResolver());
     }
 
-    void processOtherDeclarations(PackageRegistry pkgRegistry, PackageDescr packageDescr) {
+    protected void processOtherDeclarations(PackageRegistry pkgRegistry, PackageDescr packageDescr) {
         processAccumulateFunctions(pkgRegistry, packageDescr);
         processWindowDeclarations(pkgRegistry, packageDescr);
         processFunctions(pkgRegistry, packageDescr);
         processGlobals(pkgRegistry, packageDescr);
     }
 
-    private void processGlobals(PackageRegistry pkgRegistry, PackageDescr packageDescr) {
+    protected void processGlobals(PackageRegistry pkgRegistry, PackageDescr packageDescr) {
         InternalKnowledgePackage pkg = pkgRegistry.getPackage();
         Set<String> existingGlobals = new HashSet<>(pkg.getGlobals().keySet());
 
@@ -1686,7 +1686,7 @@ public class KnowledgeBuilderImpl implements InternalKnowledgeBuilder {
         }
     }
 
-    private void processAccumulateFunctions(PackageRegistry pkgRegistry,
+    protected void processAccumulateFunctions(PackageRegistry pkgRegistry,
                                             PackageDescr packageDescr) {
         for (final AccumulateImportDescr aid : packageDescr.getAccumulateImports()) {
             AccumulateFunction af = loadAccumulateFunction(pkgRegistry,
@@ -1715,7 +1715,7 @@ public class KnowledgeBuilderImpl implements InternalKnowledgeBuilder {
         }
     }
 
-    private void processFunctions(PackageRegistry pkgRegistry,
+    protected void processFunctions(PackageRegistry pkgRegistry,
                                   PackageDescr packageDescr) {
         for (FunctionDescr function : packageDescr.getFunctions()) {
             Function existingFunc = pkgRegistry.getPackage().getFunctions().get(function.getName());
@@ -1753,7 +1753,7 @@ public class KnowledgeBuilderImpl implements InternalKnowledgeBuilder {
         }
     }
 
-    private void processWindowDeclarations(PackageRegistry pkgRegistry,
+    protected void processWindowDeclarations(PackageRegistry pkgRegistry,
                                            PackageDescr packageDescr) {
         for (WindowDeclarationDescr wd : packageDescr.getWindowDeclarations()) {
             WindowDeclaration window = new WindowDeclaration(wd.getName(), packageDescr.getName());
