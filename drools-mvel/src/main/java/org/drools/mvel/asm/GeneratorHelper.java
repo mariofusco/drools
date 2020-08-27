@@ -26,7 +26,6 @@ import org.drools.core.addon.TypeResolver;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.definitions.InternalKnowledgePackage;
-import org.drools.core.definitions.rule.impl.RuleImpl;
 import org.drools.core.rule.Declaration;
 import org.drools.core.rule.Pattern;
 import org.drools.core.rule.builder.dialect.asm.InvokerDataProvider;
@@ -166,7 +165,7 @@ public final class GeneratorHelper {
             push(data.getPackageName());
             push(data.getMethodName());
             push(data.getInternalRuleClassName() + ".class");
-            invokeStatic(RuleImpl.class, "getMethodBytecode", String.class, Class.class, String.class, String.class, String.class, String.class);
+            invokeStatic(MethodComparator.class, "getMethodBytecode", String.class, Class.class, String.class, String.class, String.class, String.class);
             mv.visitInsn(ARETURN);
         }
     }

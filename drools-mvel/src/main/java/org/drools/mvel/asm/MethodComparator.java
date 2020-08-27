@@ -14,6 +14,8 @@
 
 package org.drools.mvel.asm;
 
+import java.io.InputStream;
+
 import org.mvel2.asm.AnnotationVisitor;
 import org.mvel2.asm.Attribute;
 import org.mvel2.asm.ClassReader;
@@ -21,6 +23,8 @@ import org.mvel2.asm.ClassVisitor;
 import org.mvel2.asm.FieldVisitor;
 import org.mvel2.asm.MethodVisitor;
 import org.mvel2.asm.Opcodes;
+
+import static org.drools.core.util.IoUtils.readBytesFromInputStream;
 
 /**
  * The purpose of this utility it to check if 2 method implementations are equivalent, by comparing the bytecode.
@@ -175,5 +179,16 @@ public class MethodComparator {
                               final String value) {
         }
 
+    }
+
+    public static String getMethodBytecode( Class cls, String ruleClassName, String packageName, String methodName, String resource ) {
+        try (InputStream is = cls.getClassLoader().getResourceAsStream(resource)) {
+            byte[] data = readBytesFromInputStream( is );
+            MethodComparator.Tracer visit = new MethodComparator.Tracer(methodName);
+            new org.mvel2.asm.ClassReader( data ).accept( visit, org.mvel2.asm.ClassReader.SKIP_DEBUG  );
+            return visit.getText();
+        } catch ( java.io.IOException e ) {
+            throw new RuntimeException("Unable getResourceAsStream for Class '" + ruleClassName+ "' ");
+        }
     }
 }

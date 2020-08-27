@@ -1,6 +1,6 @@
 @declare{"getMethodBytecode"}
     public String getMethodBytecode() {
-        return org.drools.core.definitions.rule.impl.RuleImpl.getMethodBytecode(getClass(), "@{ruleClassName}", "@{package}", "@{methodName}", "@{ (package + '.' + ruleClassName).replace( '.', '/' ) + '.class' }" );
+        return org.drools.mvel.asm.MethodComparator.getMethodBytecode(getClass(), "@{ruleClassName}", "@{package}", "@{methodName}", "@{ (package + '.' + ruleClassName).replace( '.', '/' ) + '.class' }" );
     }
 @end{}
 
