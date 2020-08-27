@@ -26,7 +26,7 @@ import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.drools.compiler.builder.impl.KnowledgeBuilderImpl;
-import org.drools.compiler.lang.DrlDumper;
+import org.drools.mvel.DrlDumper;
 import org.drools.compiler.lang.api.DescrFactory;
 import org.drools.compiler.lang.api.PackageDescrBuilder;
 import org.drools.compiler.lang.descr.AttributeDescr;

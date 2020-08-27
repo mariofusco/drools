@@ -33,6 +33,8 @@ import org.drools.compiler.compiler.BoundIdentifiers;
 import org.drools.compiler.compiler.DescrBuildError;
 import org.drools.compiler.compiler.Dialect;
 import org.drools.compiler.compiler.DialectConfiguration;
+import org.drools.compiler.kie.util.BeanCreator;
+import org.drools.mvel.builder.MVELBeanCreator;
 import org.drools.compiler.lang.descr.BaseDescr;
 import org.drools.compiler.lang.descr.BindingDescr;
 import org.drools.compiler.lang.descr.LiteralRestrictionDescr;
@@ -813,6 +815,11 @@ public class MVELConstraintBuilder implements ConstraintBuilder {
     @Override
     public QueryArgument buildExpressionQueryArgument(RuleBuildContext context, List<Declaration> declarations, String expression) {
         return new Expression( declarations, expression, getParserContext(context) );
+    }
+
+    @Override
+    public BeanCreator createMVELBeanCreator( Map<String, Object> parameters) {
+        return new MVELBeanCreator(parameters);
     }
 
     private ParserContext getParserContext(RuleBuildContext context) {

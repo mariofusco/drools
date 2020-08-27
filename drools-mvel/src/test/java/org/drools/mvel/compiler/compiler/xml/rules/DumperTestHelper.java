@@ -24,7 +24,7 @@ import org.drools.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
 import org.drools.compiler.compiler.DrlParser;
 import org.drools.compiler.compiler.xml.XmlDumper;
 import org.drools.compiler.compiler.xml.XmlPackageReader;
-import org.drools.compiler.lang.DrlDumper;
+import org.drools.mvel.DrlDumper;
 import org.drools.compiler.lang.descr.PackageDescr;
 import org.kie.internal.builder.conf.LanguageLevelOption;
 

@@ -21,7 +21,7 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.drools.compiler.builder.impl.KnowledgeBuilderConfigurationImpl;
 import org.drools.compiler.compiler.xml.XmlPackageReader;
-import org.drools.compiler.lang.DrlDumper;
+import org.drools.mvel.DrlDumper;
 import org.drools.compiler.lang.descr.AccumulateDescr;
 import org.drools.compiler.lang.descr.AndDescr;
 import org.drools.compiler.lang.descr.ExistsDescr;

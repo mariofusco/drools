@@ -22,6 +22,7 @@ import java.util.Map;
 import org.drools.compiler.compiler.AnalysisResult;
 import org.drools.compiler.compiler.DialectConfiguration;
 import org.drools.compiler.compiler.JavaConfiguration;
+import org.drools.compiler.kie.util.BeanCreator;
 import org.drools.compiler.lang.descr.BaseDescr;
 import org.drools.compiler.lang.descr.LiteralRestrictionDescr;
 import org.drools.compiler.lang.descr.OperatorDescr;
@@ -136,6 +137,8 @@ public interface ConstraintBuilder {
 
     QueryArgument buildExpressionQueryArgument(RuleBuildContext context, List<Declaration> declarations, String expression);
 
+    BeanCreator createMVELBeanCreator(Map<String, Object> parameters);
+
     enum DummyConstraintBuilder implements ConstraintBuilder {
         INSTANCE;
 
@@ -221,6 +224,11 @@ public interface ConstraintBuilder {
 
         @Override
         public QueryArgument buildExpressionQueryArgument(RuleBuildContext context, List<Declaration> declarations, String expression) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public BeanCreator createMVELBeanCreator( Map<String, Object> parameters) {
             throw new UnsupportedOperationException();
         }
     }
