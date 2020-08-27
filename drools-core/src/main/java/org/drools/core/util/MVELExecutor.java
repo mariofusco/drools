@@ -17,37 +17,37 @@ package org.drools.core.util;
 import java.util.Map;
 
 public interface MVELExecutor {
-    Object eval(String var1);
+    Object eval(String expression);
 
-    Object eval(String var1, Object var2);
+    Object eval(String expression, Object ctx);
 
-    Object eval(String var1, Map<String, Object> var2);
+    Object eval(String expression, Map<String, Object> vars);
 
-    Object eval(String var1, Object var2, Map<String, Object> var3);
+    Object eval(String expression, Object ctx, Map<String, Object> vars);
 
-    <T> T eval(String var1, Class<T> var2);
+    <T> T eval(String expression, Class<T> toType);
 
-    <T> T eval(String var1, Object var2, Class<T> var3);
+    <T> T eval(String expression, Object ctx, Class<T> toType);
 
-    <T> T eval(String var1, Map<String, Object> var2, Class<T> var3);
+    <T> T eval(String expression, Map<String, Object> vars, Class<T> toType);
 
-    <T> T eval(String var1, Object var2, Map<String, Object> var3, Class<T> var4);
+    <T> T eval(String expression, Object ctx, Map<String, Object> vars, Class<T> toType);
 
-    String evalToString(String var1);
+    String evalToString(String singleValue);
 
-    Object executeExpression(Object var1);
+    Object executeExpression(Object compiledExpression);
 
-    Object executeExpression(Object var1, Object var2, Map var3);
+    Object executeExpression(final Object compiledExpression, final Object ctx, final Map vars);
 
-    Object executeExpression(Object var1, Object var2);
+    Object executeExpression(final Object compiledExpression, final Object ctx);
 
-    Object executeExpression(Object var1, Map var2);
+    Object executeExpression(final Object compiledExpression, final Map vars);
 
-    <T> T executeExpression(Object var1, Object var2, Map var3, Class<T> var4);
+    <T> T executeExpression(final Object compiledExpression, final Object ctx, final Map vars, Class<T> toType);
 
-    <T> T executeExpression(Object var1, Map var2, Class<T> var3);
+    <T> T executeExpression(final Object compiledExpression, Map vars, Class<T> toType);
 
-    <T> T executeExpression(Object var1, Object var2, Class<T> var3);
+    <T> T executeExpression(final Object compiledExpression, final Object ctx, Class<T> toType);
 
     String soundex(String s);
 }

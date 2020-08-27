@@ -26,20 +26,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.drools.compiler.builder.impl.KnowledgeBuilderImpl;
-import org.drools.compiler.lang.descr.AndDescr;
-import org.drools.compiler.lang.descr.AnnotationDescr;
-import org.drools.compiler.lang.descr.AttributeDescr;
-import org.drools.compiler.lang.descr.BehaviorDescr;
-import org.drools.compiler.lang.descr.PackageDescr;
-import org.drools.compiler.lang.descr.QueryDescr;
-import org.drools.compiler.lang.descr.RuleDescr;
-import org.drools.core.definitions.InternalKnowledgePackage;
-import org.drools.core.factmodel.AnnotationDefinition;
-import org.drools.core.rule.Behavior;
-import org.kie.internal.ruleunit.RuleUnitDescription;
-import org.drools.core.time.TimeUtils;
-import org.drools.mvel.MVELSafeHelper;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -54,6 +40,20 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
+import org.drools.compiler.builder.impl.KnowledgeBuilderImpl;
+import org.drools.compiler.lang.descr.AndDescr;
+import org.drools.compiler.lang.descr.AnnotationDescr;
+import org.drools.compiler.lang.descr.AttributeDescr;
+import org.drools.compiler.lang.descr.BehaviorDescr;
+import org.drools.compiler.lang.descr.PackageDescr;
+import org.drools.compiler.lang.descr.QueryDescr;
+import org.drools.compiler.lang.descr.RuleDescr;
+import org.drools.core.addon.TypeResolver;
+import org.drools.core.base.CoreComponentsBuilder;
+import org.drools.core.definitions.InternalKnowledgePackage;
+import org.drools.core.factmodel.AnnotationDefinition;
+import org.drools.core.rule.Behavior;
+import org.drools.core.time.TimeUtils;
 import org.drools.model.Rule;
 import org.drools.model.UnitData;
 import org.drools.model.Variable;
@@ -63,17 +63,17 @@ import org.drools.modelcompiler.builder.errors.UnknownDeclarationError;
 import org.drools.modelcompiler.builder.generator.expressiontyper.ExpressionTyper;
 import org.drools.modelcompiler.builder.generator.expressiontyper.ExpressionTyperContext;
 import org.drools.modelcompiler.builder.generator.visitor.ModelGeneratorVisitor;
-import org.drools.core.addon.TypeResolver;
+import org.kie.internal.ruleunit.RuleUnitDescription;
 import org.kie.internal.ruleunit.RuleUnitVariable;
 
 import static java.util.stream.Collectors.toList;
+
 import static com.github.javaparser.StaticJavaParser.parseExpression;
 import static org.drools.core.impl.StatefulKnowledgeSessionImpl.DEFAULT_RULE_UNIT;
-import static org.drools.modelcompiler.builder.generator.DrlxParseUtil.classNameToReferenceType;
-import static org.kie.internal.ruleunit.RuleUnitUtil.isLegacyRuleUnit;
 import static org.drools.modelcompiler.builder.PackageModel.DATE_TIME_FORMATTER_FIELD;
 import static org.drools.modelcompiler.builder.PackageModel.DOMAIN_CLASSESS_METADATA_FILE_NAME;
 import static org.drools.modelcompiler.builder.PackageModel.DOMAIN_CLASS_METADATA_INSTANCE;
+import static org.drools.modelcompiler.builder.generator.DrlxParseUtil.classNameToReferenceType;
 import static org.drools.modelcompiler.builder.generator.DrlxParseUtil.classToReferenceType;
 import static org.drools.modelcompiler.builder.generator.DrlxParseUtil.generateLambdaWithoutParameters;
 import static org.drools.modelcompiler.builder.generator.DrlxParseUtil.toClassOrInterfaceType;
@@ -89,6 +89,7 @@ import static org.drools.modelcompiler.builder.generator.DslMethodNames.UNIT_DAT
 import static org.drools.modelcompiler.builder.generator.DslMethodNames.WINDOW_CALL;
 import static org.drools.modelcompiler.util.ClassUtil.asJavaSourceName;
 import static org.drools.modelcompiler.util.StringUtil.toId;
+import static org.kie.internal.ruleunit.RuleUnitUtil.isLegacyRuleUnit;
 
 public class ModelGenerator {
 
@@ -383,7 +384,7 @@ public class ModelGenerator {
         Object result = value;
         // try to resolve as an expression:
         try {
-            result = MVELSafeHelper.getEvaluator().eval(value);
+            result = CoreComponentsBuilder.get().getMVELExecutor().eval(value);
         } catch (Exception e) {
             // do nothing
         }

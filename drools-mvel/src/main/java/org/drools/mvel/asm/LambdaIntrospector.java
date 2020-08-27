@@ -1,11 +1,9 @@
 /*
- * Copyright 2005 JBoss Inc
- *
+ * Copyright (c) 2020. Red Hat, Inc. and/or its affiliates.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,7 +12,7 @@
  * limitations under the License.
  */
 
-package org.drools.modelcompiler.util;
+package org.drools.mvel.asm;
 
 import java.io.InputStream;
 import java.io.Serializable;
@@ -25,16 +23,15 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-import org.drools.mvel.asm.DumpMethodVisitor;
-import org.drools.model.functions.IntrospectableLambda;
-import org.drools.model.functions.LambdaPrinter;
 import org.mvel2.asm.ClassReader;
 import org.mvel2.asm.ClassVisitor;
 import org.mvel2.asm.MethodVisitor;
 import org.mvel2.asm.Opcodes;
 
-public class LambdaIntrospector implements LambdaPrinter {
+public class LambdaIntrospector implements Function<Object, String> {
 
     public static final String LAMBDA_INTROSPECTOR_CACHE_SIZE = "drools.lambda.introspector.cache.size";
     private static final int CACHE_SIZE = Integer.parseInt(System.getProperty(LAMBDA_INTROSPECTOR_CACHE_SIZE, "32"));
@@ -46,13 +43,13 @@ public class LambdaIntrospector implements LambdaPrinter {
     }
 
     @Override
-    public String getLambdaFingerprint(Object lambda) {
-        if(lambda.toString().equals("INSTANCE")) { // Materialized lambda
+    public String apply(Object lambda) {
+        if (lambda.toString().equals("INSTANCE")) { // Materialized lambda
             return getExpressionHash(lambda);
         }
 
-        if (lambda instanceof IntrospectableLambda ) {
-            lambda = (( IntrospectableLambda ) lambda).getLambda();
+        if (lambda instanceof Supplier) {
+            lambda = (( Supplier ) lambda).get();
         }
         SerializedLambda extracted = extractLambda( (Serializable) lambda );
         String result = getFingerprintsForClass( lambda, extracted ).get( extracted.getImplMethodName() );
@@ -67,7 +64,7 @@ public class LambdaIntrospector implements LambdaPrinter {
         return result;
     }
 
-    private String getExpressionHash(Object lambda) {
+    private static String getExpressionHash(Object lambda) {
         Field expressionHash;
         try {
             expressionHash = lambda.getClass().getDeclaredField("EXPRESSION_HASH");
