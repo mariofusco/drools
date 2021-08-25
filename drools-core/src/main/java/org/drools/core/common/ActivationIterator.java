@@ -30,7 +30,7 @@ public class ActivationIterator
     Iterator {
     private InternalWorkingMemory wm;
 
-    private Iterator              nodeIter;
+    private Iterator<TerminalNode> nodeIter;
 
     private TerminalNode          node;
     
@@ -49,7 +49,7 @@ public class ActivationIterator
         nodeIter = TerminalNodeIterator.iterator( kbase );
 
         // Find the first node with Activations an set it.
-        while ( currentTuple == null && (node = (TerminalNode) nodeIter.next()) != null ) {
+        while ( currentTuple == null && (node = nodeIter.next()) != null ) {
             if ( !(node instanceof RuleTerminalNode) ) {
                 continue;
             }
@@ -78,7 +78,7 @@ public class ActivationIterator
             acc = obj == Boolean.TRUE ? null : (Activation)obj;
             currentTuple = leftTupleIter.next();
 
-            while ( currentTuple == null && (node = (TerminalNode) nodeIter.next()) != null ) {
+            while ( currentTuple == null && (node = nodeIter.next()) != null ) {
                 if ( !(node instanceof RuleTerminalNode) ) {
                     continue;
                 }                    

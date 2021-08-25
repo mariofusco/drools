@@ -144,7 +144,7 @@ public interface InternalKnowledgeBase extends KieBase {
 	String getContainerId();
 	void setContainerId(String containerId);
     void setKieContainer( InternalKieContainer kieContainer );
-	void initMBeans();
+	void initialize();
 
     RuleUnitDescriptionRegistry getRuleUnitDescriptionRegistry();
     boolean hasUnits();

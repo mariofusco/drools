@@ -27,6 +27,7 @@ public interface PathEndNode extends LeftTupleSinkNode {
     void setPathEndNodes(PathEndNode[] pathEndNodes);
     PathEndNode[] getPathEndNodes();
 
+    void initPathMemSpec();
     PathMemSpec getPathMemSpec();
     void resetPathMemSpec(TerminalNode removingTN);
 

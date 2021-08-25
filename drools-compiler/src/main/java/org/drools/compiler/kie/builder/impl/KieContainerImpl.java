@@ -481,7 +481,7 @@ public class KieContainerImpl
         kBase.setResolvedReleaseId(containerReleaseId);
         kBase.setContainerId(containerId);
         kBase.setKieContainer(this);
-        kBase.initMBeans();
+        kBase.initialize();
 
         if (log.isInfoEnabled()) {
             log.info( "End creation of KieBase: " + kBaseModel.getName() );

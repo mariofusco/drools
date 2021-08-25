@@ -82,10 +82,14 @@ public abstract class AbstractTerminalNode extends BaseNode implements TerminalN
 
     @Override
     public PathMemSpec getPathMemSpec() {
-        if (pathMemSpec == null) {
-            pathMemSpec = calculatePathMemSpec( null );
-        }
         return pathMemSpec;
+    }
+
+    @Override
+    public void initPathMemSpec() {
+        if (pathMemSpec == null) {
+            pathMemSpec = calculatePathMemSpec(null);
+        }
     }
 
     @Override

@@ -68,11 +68,14 @@ import org.drools.core.reteoo.LeftTupleSource;
 import org.drools.core.reteoo.ObjectSinkPropagator;
 import org.drools.core.reteoo.ObjectSource;
 import org.drools.core.reteoo.ObjectTypeNode;
+import org.drools.core.reteoo.PathEndNode;
 import org.drools.core.reteoo.Rete;
+import org.drools.core.reteoo.ReteIterator;
 import org.drools.core.reteoo.ReteooBuilder;
 import org.drools.core.reteoo.RightInputAdapterNode;
 import org.drools.core.reteoo.SegmentMemory;
 import org.drools.core.reteoo.Sink;
+import org.drools.core.reteoo.TerminalNode;
 import org.drools.core.reteoo.builder.BuildContext;
 import org.drools.core.reteoo.builder.NodeFactory;
 import org.drools.core.rule.DialectRuntimeRegistry;
@@ -228,7 +231,20 @@ public class KnowledgeBaseImpl
     }
 
     @Override
-    public void initMBeans() {
+    public void initialize() {
+        initMBeans();
+        initPathMemSpec();
+    }
+
+    private void initPathMemSpec() {
+        ReteIterator.traverseRete(rete, node -> {
+            if (node instanceof PathEndNode) {
+                ((PathEndNode) node).initPathMemSpec();
+            }
+        });
+    }
+
+    private void initMBeans() {
         if (config != null && config.isMBeansEnabled() && mbeanRegistered.compareAndSet(false, true)) {
             // no further synch enforced at this point, even if other threads might not immediately see (yet) the MBean registered on JMX.
             DroolsManagementAgent.getInstance().registerKnowledgeBase(this);
@@ -1506,6 +1522,12 @@ public class KnowledgeBaseImpl
 
     @Override
     public void afterIncrementalUpdate(KieBaseUpdate kieBaseUpdate) {
+        for (RuleImpl addedRule : kieBaseUpdate.getRulesToBeAdded()) {
+            for (TerminalNode terminalNode : reteooBuilder.getTerminalNodes(addedRule)) {
+                // TODO this is not initializing RIANs
+                terminalNode.initPathMemSpec();
+            }
+        }
     }
 
     public void addRules(Collection<RuleImpl> rules ) throws InvalidPatternException {

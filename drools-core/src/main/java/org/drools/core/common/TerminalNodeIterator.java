@@ -20,12 +20,10 @@ import java.util.Map;
 import org.drools.core.impl.InternalKnowledgeBase;
 import org.drools.core.reteoo.TerminalNode;
 import org.drools.core.util.Iterator;
-import org.drools.core.impl.KnowledgeBaseImpl;
 import org.kie.api.KieBase;
 
-public class TerminalNodeIterator
-    implements
-    Iterator {
+public class TerminalNodeIterator implements Iterator<TerminalNode> {
+
     private InternalKnowledgeBase kBase;
     private TerminalNode[][]      nodes;
 
@@ -42,11 +40,11 @@ public class TerminalNodeIterator
         nodes = rules.values().toArray( new TerminalNode[rules.size()][] );
     }
     
-    public static Iterator iterator(KieBase kBase) {
+    public static Iterator<TerminalNode> iterator(KieBase kBase) {
         return new TerminalNodeIterator(kBase);
     }
 
-    public Object next() {
+    public TerminalNode next() {
         if ( i >= nodes.length ) {
             return null;
         }

@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.drools.core.common.TerminalNodeIterator;
-import org.drools.core.reteoo.RuleTerminalNode;
 import org.drools.core.reteoo.TerminalNode;
 import org.drools.core.util.Iterator;
 import org.drools.testcoverage.common.util.KieBaseTestConfiguration;
@@ -75,9 +74,9 @@ public class TerminalNodeIteratorTest {
         KieBase kbase = KieBaseUtil.getKieBaseFromKieModuleFromDrl("test", kieBaseTestConfiguration, str);
 
         List<String> nodes = new ArrayList<String>();
-        Iterator it = TerminalNodeIterator.iterator(kbase);
-        for ( TerminalNode node = (TerminalNode) it.next(); node != null; node = (TerminalNode) it.next() ) {
-            nodes.add( ((RuleTerminalNode) node).getRule().getName() );
+        Iterator<TerminalNode> it = TerminalNodeIterator.iterator(kbase);
+        for ( TerminalNode node = it.next(); node != null; node = it.next() ) {
+            nodes.add( node.getRule().getName() );
         }
 
         assertEquals( 6,
