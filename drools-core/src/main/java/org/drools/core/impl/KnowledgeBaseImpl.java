@@ -1524,8 +1524,9 @@ public class KnowledgeBaseImpl
     public void afterIncrementalUpdate(KieBaseUpdate kieBaseUpdate) {
         for (RuleImpl addedRule : kieBaseUpdate.getRulesToBeAdded()) {
             for (TerminalNode terminalNode : reteooBuilder.getTerminalNodes(addedRule)) {
-                // TODO this is not initializing RIANs
-                terminalNode.initPathMemSpec();
+                for (PathEndNode pathEndNode : terminalNode.getPathEndNodes()) {
+                    pathEndNode.initPathMemSpec();
+                }
             }
         }
     }
