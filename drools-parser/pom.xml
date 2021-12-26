@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.kie</groupId>
+    <artifactId>drools-build-parent</artifactId>
+    <version>8.16.0-SNAPSHOT</version>
+    <relativePath>../build-parent/pom.xml</relativePath>
+  </parent>
+
+  <groupId>org.drools</groupId>
+  <artifactId>drools-parser</artifactId>
+
+  <name>Drools :: Parser</name>
+
+  <properties>
+    <java.module.name>org.drools.parser</java.module.name>
+    <surefire.forkCount>2</surefire.forkCount>
+    <enforcer.skip>true</enforcer.skip>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-drl-ast</artifactId>
+    </dependency>
+
+    <!-- External dependencies -->
+    <dependency>
+      <groupId>org.antlr</groupId>
+      <artifactId>antlr4-runtime</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.antlr</groupId>
+      <artifactId>antlr4</artifactId>
+      <version>${version.org.antlr4}</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.glassfish</groupId>
+          <artifactId>javax.json</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!-- Logging -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency><!-- For unit test logging: configure in src/test/resources/logback-test.xml -->
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Tests -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-library</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr4-maven-plugin</artifactId>
+        <version>${version.org.antlr4}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>antlr4</goal>
+            </goals>
+            <configuration>
+              <visitor>true</visitor>
+              <listener>false</listener>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>
