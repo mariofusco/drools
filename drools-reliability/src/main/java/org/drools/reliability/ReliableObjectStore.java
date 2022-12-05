@@ -12,13 +12,15 @@
  * limitations under the License.
  */
 
-package org.drools.core.common;
+package org.drools.reliability;
 
-import java.util.IdentityHashMap;
+import org.drools.core.common.InternalFactHandle;
+import org.drools.core.common.MapObjectStore;
+import org.infinispan.Cache;
 
-public class IdentityObjectStore extends MapObjectStore {
+public class ReliableObjectStore extends MapObjectStore {
 
-    public IdentityObjectStore() {
-        super(new IdentityHashMap<>());
+    public ReliableObjectStore(Cache<Object, InternalFactHandle> fhCache) {
+        super(fhCache);
     }
 }

@@ -18,9 +18,10 @@ package org.drools.core.common;
 
 import java.util.Iterator;
 
+import org.kie.api.internal.utils.KieService;
 import org.kie.api.runtime.ObjectFilter;
 
-public interface ObjectStore {
+public interface ObjectStore extends KieService {
 
     int size();
 
@@ -34,8 +35,6 @@ public interface ObjectStore {
 
     InternalFactHandle getHandleForObject(Object object);
     
-    InternalFactHandle getHandleForObjectIdentity(Object object);
-
     void updateHandle(InternalFactHandle handle, Object object);
 
     void addHandle(InternalFactHandle handle, Object object);

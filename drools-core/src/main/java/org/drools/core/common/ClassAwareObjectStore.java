@@ -150,11 +150,6 @@ public class ClassAwareObjectStore implements Externalizable, ObjectStore {
     }
 
     @Override
-    public InternalFactHandle getHandleForObjectIdentity(Object object) {
-        return getOrCreateConcreteClassStore(object).getIdentityMap().get(object);
-    }
-
-    @Override
     public void updateHandle(InternalFactHandle handle, Object object) {
         removeHandle(handle);
         handle.setObject(object);

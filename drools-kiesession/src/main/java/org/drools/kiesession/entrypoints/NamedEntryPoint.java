@@ -36,9 +36,11 @@ import org.drools.core.common.EventFactHandle;
 import org.drools.core.common.IdentityObjectStore;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.common.InternalWorkingMemoryEntryPoint;
+import org.drools.core.common.Lockable;
 import org.drools.core.common.ObjectStore;
 import org.drools.core.common.ObjectStoreWrapper;
 import org.drools.core.common.ObjectTypeConfigurationRegistry;
+import org.drools.core.common.PropagationContext;
 import org.drools.core.common.PropagationContextFactory;
 import org.drools.core.common.ReteEvaluator;
 import org.drools.core.common.TruthMaintenanceSystemFactory;
@@ -52,9 +54,8 @@ import org.drools.core.reteoo.RuntimeComponentFactory;
 import org.drools.core.reteoo.TerminalNode;
 import org.drools.core.rule.EntryPointId;
 import org.drools.core.rule.TypeDeclaration;
-import org.drools.core.rule.consequence.Activation;
 import org.drools.core.rule.accessor.FactHandleFactory;
-import org.drools.core.common.PropagationContext;
+import org.drools.core.rule.consequence.Activation;
 import org.drools.core.util.bitmask.AllSetBitMask;
 import org.drools.core.util.bitmask.BitMask;
 import org.kie.api.runtime.rule.FactHandle;
@@ -65,7 +66,7 @@ import static java.util.Arrays.asList;
 import static org.drools.core.reteoo.PropertySpecificUtil.allSetBitMask;
 import static org.drools.core.reteoo.PropertySpecificUtil.calculatePositiveMask;
 
-public class NamedEntryPoint implements InternalWorkingMemoryEntryPoint, PropertyChangeListener  {
+public class NamedEntryPoint implements InternalWorkingMemoryEntryPoint, PropertyChangeListener, Lockable {
 
     protected static final transient Logger log = LoggerFactory.getLogger(NamedEntryPoint.class);
 
@@ -115,12 +116,14 @@ public class NamedEntryPoint implements InternalWorkingMemoryEntryPoint, Propert
                 new IdentityObjectStore();
     }
 
+    @Override
     public void lock() {
         if (lock != null) {
             lock.lock();
         }
     }
 
+    @Override
     public void unlock() {
         if (lock != null) {
             lock.unlock();
