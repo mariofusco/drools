@@ -15,7 +15,10 @@
 
 package org.drools.core.phreak;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.util.concurrent.CountDownLatch;
 
 import org.drools.core.base.DroolsQuery;
@@ -66,7 +69,7 @@ public interface PropagationEntry {
     boolean defersExpiration();
 
     abstract class AbstractPropagationEntry implements PropagationEntry {
-        private PropagationEntry next;
+        protected PropagationEntry next;
 
         public void setNext(PropagationEntry next) {
             this.next = next;
@@ -196,14 +199,16 @@ public interface PropagationEntry {
         }
     }
 
-    class Insert extends AbstractPropagationEntry implements Serializable {
+    class Insert extends AbstractPropagationEntry implements Externalizable {
         private static final ObjectTypeNode.ExpireJob job = new ObjectTypeNode.ExpireJob();
 
-        private final InternalFactHandle handle;
-        private final PropagationContext context;
-        private final ObjectTypeConf objectTypeConf;
+        private InternalFactHandle handle;
+        private PropagationContext context;
+        private ObjectTypeConf objectTypeConf;
 
-        public Insert( InternalFactHandle handle, PropagationContext context, ReteEvaluator reteEvaluator, ObjectTypeConf objectTypeConf) {
+        public Insert() { }
+
+        public Insert( InternalFactHandle handle, PropagationContext context, ReteEvaluator reteEvaluator, ObjectTypeConf objectTypeConf ) {
             this.handle = handle;
             this.context = context;
             this.objectTypeConf = objectTypeConf;
@@ -284,6 +289,22 @@ public interface PropagationEntry {
 
         public InternalFactHandle getHandle() {
             return handle;
+        }
+
+        @Override
+        public void writeExternal(ObjectOutput out) throws IOException {
+            out.writeObject(next);
+            out.writeObject(handle);
+            out.writeObject(context);
+            out.writeObject(objectTypeConf);
+        }
+
+        @Override
+        public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+            this.next = (PropagationEntry) in.readObject();
+            this.handle = (InternalFactHandle) in.readObject();
+            this.context = (PropagationContext) in.readObject();
+            this.objectTypeConf = (ObjectTypeConf) in.readObject();
         }
     }
 

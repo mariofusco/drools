@@ -240,8 +240,7 @@ class ReliabilityTest extends ReliabilityTestBasics {
         reliablePropagationListPropList = (ReliablePropagationList) componentsCache.get("PropagationList");
         assertThat(reliablePropagationListPropList.isEmpty()).isFalse();
 
-        //restoreSession(BASIC_RULE, strategy);
-        //assertThat(session.fireAllRules()).isEqualTo(1);
-        
+        restoreSession(BASIC_RULE, strategy);
+        assertThat(session.fireAllRules()).isEqualTo(1);
     }
 }

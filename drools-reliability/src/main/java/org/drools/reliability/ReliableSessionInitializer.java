@@ -15,22 +15,23 @@
 
 package org.drools.reliability;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.drools.core.SessionConfiguration;
 import org.drools.core.WorkingMemoryEntryPoint;
 import org.drools.core.common.InternalFactHandle;
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.common.InternalWorkingMemoryEntryPoint;
 import org.drools.core.phreak.PropagationEntry;
+import org.infinispan.commons.api.BasicCache;
 import org.kie.api.event.rule.ObjectDeletedEvent;
 import org.kie.api.event.rule.ObjectInsertedEvent;
 import org.kie.api.event.rule.ObjectUpdatedEvent;
 import org.kie.api.event.rule.RuleRuntimeEventListener;
 import org.kie.api.runtime.conf.PersistedSessionOption;
 import org.kie.api.runtime.rule.EntryPoint;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ReliableSessionInitializer {
 
@@ -107,44 +108,32 @@ public class ReliableSessionInitializer {
 
         @Override
         public InternalWorkingMemory init(InternalWorkingMemory session, PersistedSessionOption persistedSessionOption) {
-            if (!persistedSessionOption.isNewSession()) {
-                // re-propagate objects from the cache to the new session
-                populateSessionFromCache(session);
-            }
-
             //session.setWorkingMemoryActionListener(entry -> onWorkingMemoryAction(session, entry));
             session.getRuleRuntimeEventSupport().addEventListener(new FullReliableSessionInitializer.FullStoreRuntimeEventListener(session));
 
             return session;
         }
 
-        private void populateSessionFromCache(InternalWorkingMemory session) {
-            Map<InternalWorkingMemoryEntryPoint, List<StoredObject>> notPropagatedByEntryPoint = new HashMap<>();
-
-            for (EntryPoint ep : session.getEntryPoints()) {
-                FullReliableObjectStore store = (FullReliableObjectStore) ((WorkingMemoryEntryPoint) ep).getObjectStore();
-                notPropagatedByEntryPoint.put((InternalWorkingMemoryEntryPoint) ep, store.reInit(session, (InternalWorkingMemoryEntryPoint) ep));
-            }
-
-            notPropagatedByEntryPoint.forEach((ep, objects) -> objects.forEach(obj -> obj.repropagate(ep)));
-        }
-
         static class FullStoreRuntimeEventListener implements RuleRuntimeEventListener {
 
-            private final InternalWorkingMemory session;
+            private final BasicCache<String, Object> componentsCache;
+            private final ReliablePropagationList propagationList;
 
             FullStoreRuntimeEventListener(InternalWorkingMemory session) {
-                this.session = session;
+                this.componentsCache = CacheManagerFactory.INSTANCE.getCacheManager().getOrCreateCacheForSession(session, "components");
+                this.propagationList = (ReliablePropagationList) ((ReliableAgenda) session.getAgenda()).getPropagationList();
             }
 
             public void objectInserted(ObjectInsertedEvent ev) {
+                componentsCache.put("PropagationList", propagationList);
             }
 
             public void objectDeleted(ObjectDeletedEvent ev) {
+                componentsCache.put("PropagationList", propagationList);
             }
 
             public void objectUpdated(ObjectUpdatedEvent ev) {
-
+                componentsCache.put("PropagationList", propagationList);
             }
         }
     }
